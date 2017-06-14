@@ -1,0 +1,64 @@
+doctype html
+<!-- [if IE 8]><html class="ie8"><![endif] -->
+<!-- [if IE 9]><html class="ie9"><![endif] -->
+<!-- [if IE 9]><html class="ie9"><![endif] -->
+<!-- [if IE]><html class="ie"><![endif] -->
+head
+    meta(charset="utf-8")
+    title learning jade
+    style.
+        body{color:#f60;}
+body
+    h2 注释
+    h3 单行注释
+    // 这里就是注释文本
+    h3 非缓冲注释
+    //- 啦啦啦啦啦啦
+    h3 块注释
+    //- 
+        p 哈哈哈哈
+        p 哈哈哈哈
+        p 哈哈哈哈
+
+    h1.title#title 学习jade模板引擎
+    h2.title2.title2 学习jade模板引擎
+    h2.title2.title22#title2 学习jade模板引擎
+    h3#title3.title3 学习jade模板引擎
+    duv#id.class
+    #id1.class
+    div#id2.class3.class2
+    div#id5.class4
+    div(id="title", class="title")
+        a(href="#",data-id="1",title="douinwan") 这里就是链接
+        input(type="text",value="1")
+        input(type="checkbox")
+        input(type="checkbox",checked)
+        input(type="radio")
+        input(type="radio",checked)
+    div
+        label
+            input(type="checkbox")
+            复选1
+        label
+            input(type="checkbox")
+            复选2
+    div
+        span 性别：
+        label
+            input(type="radio",name="sex")
+            | 中性
+        label
+            input(type="radio",name="sex",checked="checked")
+            span 男
+        label
+            input(type="radio",name="sex")
+            span 女
+    p 12.3 4231321 3
+    p
+        | 1.aaa
+        | 2.bbb
+    p.
+        dsdasdasdas
+        dsdasdasdas
+        dsdasdasdas
+</html>
