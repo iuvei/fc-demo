@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="common/css/reset.css">
+	<link rel="stylesheet" href="common/css/nice-select.css">
+	<style>
+		#demo{
+			width: 200px;
+		}
+		select {
+			display: none;
+		}
+	</style>
+</head>
+<body>
+	<div id="demo">
+		<select>
+			<option data-display="请选择">111</option>
+			<option value="1">222</option>
+			<option value="2">3333</option>
+			<option value="3" disabled>4444</option>
+			<option value="4">5555</option>
+		</select>
+	</div>
+
+
+	<script src="common/js/jquery.min.js"></script>
+	<script src="common/js/jquery.nice-select.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			$('select').niceSelect();
+		});
+	</script>
+</body>
+</html>

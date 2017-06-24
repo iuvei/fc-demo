@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="common/css/reset.css">
+	<link rel="stylesheet" href="common/css/jquery-ui.min.css">
+	<link rel="stylesheet" href="common/css/style.css">
+</head>
+<body>
+	<p>选择时间区间</p>
+	<input type="hidden" id="startDay">
+	<input type="text" class="startDay">
+	<span>到</span>
+	<input type="hidden" id="endDay">
+	<input type="text" class="endDay">
+	<br>
+	<br>
+	<br>
+	<p>截至今天之前的时间</p>
+	<input type="text" class="beforeToday">
+	<br>
+	<br>
+	<br>
+	<p>今天之后的时间</p>
+	<input type="text" class="afterToday">
+	<br>
+	<br>
+	<br>
+	<p>选择单独的一个</p>
+	<input type="text" class="agentDay">
+
+
+	<script src="common/js/jquery.min.js"></script>
+	<script src="common/js/jquery-ui.min.js"></script>
+	<script src="common/js/GLOBAL.js"></script>
+	<script>
+		GLOBAL.DATEPICKER.init();
+	</script>
+</body>
+</html>
