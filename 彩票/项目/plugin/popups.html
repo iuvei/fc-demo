@@ -1,0 +1,2500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>弹出框</title>
+	<link rel="stylesheet" href="common/css/reset.css">
+	<link rel="stylesheet" href="common/css/nice-select.css">
+	<link rel="stylesheet" href="common/css/left_menu.css">
+	<link rel="stylesheet" href="common/css/style.css">
+	<style>
+		.J_icons{
+			width: 100px;
+			height: 40px;
+			line-height: 40px;
+			background-color: green;
+			text-align: center;
+			color: #fff;
+			font-size: 20px;
+			font-weight: bold;
+			margin: 10px;
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+	
+	<div class="J_icons sb-icons" data-modal="deposit">充值</div>
+	<div class="J_icons sb-icons" data-modal="withdrawal">提款</div>
+	<div class="J_icons sb-icons" data-modal="personal">个人</div>
+	<div class="J_icons sb-icons" data-modal="agent">代理</div>
+	<div class="J_icons sb-icons" data-modal="">讯息</div>
+	<div class="J_icons sb-icons" data-modal="">客服</div>
+	<div class="J_icons sb-icons" data-modal="">帮助</div>
+
+
+
+
+	<div id="mask"></div>
+	<div id="pop">
+	    <div id="popup_close"></div>
+	    <div class="menu-list">
+	        <div class="icon deposit_icon left-menu-icon" data-modal2="deposit">
+	            充值
+	        </div>
+	        <div class="icon withdraw_icon left-menu-icon" data-modal2="withdrawal">
+	        	提款
+	        </div>
+	        <div class="icon member_icon left-menu-icon"  data-modal2="personal" id="person_Info">
+	        	个人
+	        </div>
+	        <div class="icon agent_icon left-menu-icon" data-modal2="agent" id="agent_info">
+	        	代理
+	        </div>
+	        <div class="icon email_icon left-menu-icon not-allowed gray" data-modal2="message/inbox" disabled="disabled">
+	            讯息
+	        </div>
+	        <div class="icon service_icon left-menu-icon not-allowed gray" data-modal2="customerservice" disabled="disabled">
+	        	客服
+	        </div>
+	        <div class="icon help_icon left-menu-icon not-allowed gray" data-modal2="help" disabled="disabled">
+	        	帮助
+	        </div>
+	    </div>
+	    <div class="content">
+	        <div class="child_menus">
+	            <h1>充值</h1>
+	            <ul>
+	                <li class="child_menus_li child_menus_acrive">线上支付</li>
+	                <li class="child_menus_li" onclick="">网银转账</li>
+	                <li class="child_menus_li">微信转账</li>
+	                <li class="child_menus_li">支付宝转账</li>
+	                <li class="child_menus_li">充值记录</li>
+	            </ul>
+	        </div>
+	        <!-- 快捷充值 -->
+	        <div class="info">
+	        <div class="model_child_content">
+	        <dl class="onPayment-leftcontent dfx inline-block">
+	        <span class="mem-icon profileMember">&nbsp;</span>
+	        <span class="userName" data-userinfo="username">test</span>
+	        <div class="amountUser mem-icon"><span class="sm-label">余额:</span><span data-walletbalance="ALL" class="UserAmount">2082.0000</span></div>
+	        <dl class="OpLeftContnt">
+	        <dd class="OpLeftContnt-wrp">
+	        <p>贴心小提示：</p>
+	        <p class="content_side_cx">
+	        快捷支付单笔最低充值金额为1元，单笔最高充值金额为50,000元，易操作，到账快。<br><br> 提交充值申请后请您在弹出页面完成存款操作。
+	        </p>
+	        </dd>
+	        </dl>
+	        </dl>
+	        <dl class="onPayment-Rtcontent-wrp inline-block">
+	        <dl class="onPayment-Rtcontent">
+	        <form id="onlinePaymentForm" novalidate="" autocomplete="off">
+	        <dl class="wallet-sel-con jk-fix">
+	        <dt class="inline-block addMarginLeft20"><span>充值金额：</span></dt>
+	        <dt class="inline-block txt-input-longAmount mem-icon form-group">
+	        <input type="text" name="amount" required="" data-valid="amount" class="form-control ch-input" id="bank-recharge" value="0">
+	        </dt>
+	        <div class="personal_wrp_slider convert-funds-slider po-middle ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content" id="onlinePaymentSlider">
+	        <input class="ghostButton v-fix-btn0" data-value="0" id="ghostButton0" type="button">
+	        <input class="ghostButton v-fix-btn1" data-value="1000" id="ghostButton1000" type="button">
+	        <input class="ghostButton v-fix-btn2" data-value="5000" id="ghostButton5000" type="button">
+	        <input class="ghostButton v-fix-btn3" data-value="10000" id="ghostButton10000" type="button">
+	        <input class="ghostButton v-fix-btn4" data-value="50000" id="ghostButton50000" type="button">
+	        <div class="slider-personal-5 ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content" id="ghostSlider">
+	        <!-- <span class="ui-slider-handle ui-corner-all ui-state-default" style="left: 0%;" tabindex="0">
+	        </span> -->
+	        </div>
+	        <div class="slider-personal-5 ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content" id="ghostSlider">
+	        <span class="ui-slider-handle ui-corner-all ui-state-default" style="left: 0%;" tabindex="0"></span>
+	        </div>
+	        <div class="slider-personal-5"></div>
+	        <ul class="sliderLegend v-fix-ul">
+	        <li class="selected v-fix-li0">0</li>
+	        <li class="v-fix-li1">1000</li>
+	        <li class="v-fix-li2">5000</li>
+	        <li class="v-fix-li3">10000</li>
+	        <li class="v-fix-li4">50000</li>
+	        </ul>
+	        </div>
+	        </dl>
+	        <dl class="pick-a-boo">
+	        <dl id="accordionTab" class="pick-a-boo-wrp">
+	        <dd class="OpTab1 ">
+	        </dd>
+	        <dt class="opTab-title" style="display: none;">选择优惠:
+	        <!--<dd class="hide tabContent winningsList-OpTab" id="opTab1">
+	        <ul></ul>
+	        </dd>-->
+	        <div class="hide winningsList-OpTab slect-box-custom-large mem-icon po-middle form-group" id="opTab1" style="pointer-events: none;">
+	        <select name="promotions" class="form-control ctSelect ch-overyd" data-placeholder="暂无可选择的活动" style="display: none;"><option class="opTab-content promotion-item promotion-no-result" data-mindeposit="-1" value="0">暂无可选择的活动</option></select><div class="nice-select form-control ctSelect ch-overyd" tabindex="0"><span class="current">暂无可选择的活动</span><ul class="list"><li data-value="0" class="option selected">暂无可选择的活动</li></ul></div>
+	        <div class="chosen-container chosen-container-single chosen-container-single-nosearch" style="width: 100%;" title=""><a class="chosen-single chosen-default"><span>暂无可选择的活动</span><div><b></b></div></a>
+	        <div class="chosen-drop">
+	        <div class="chosen-search"><input type="text" autocomplete="off" readonly=""></div>
+	        <ul class="chosen-results"></ul>
+	        </div>
+	        </div>
+	        <!-- <select name="promotions" class="form-control ctSelect ch-overyd"  data-placeholder='可选择参加活动'></select> -->
+	        </div>
+	        <br>
+	        </dt>
+	        <dl class="OpTab2">
+	        <dt class="opTab-title">选择银行：</dt>
+	        <dd class="mainTab2-wrp-content tabContent" id="opTab2">
+	        <ul class="bankList-OpTab">
+	        <li class="opTab-content inline-block form-group bank-ICBC">
+	        <input data-mindeposit="20" data-maxdeposit="50000" value="0102" class="bank-list" type="radio" name="bankName">
+	        <span class="bankRadioBtn mem-icon crcl-ch inline-block">&nbsp;</span>
+	        <img class="inline-block" src="common/images/bank/0102.png">
+	        </li>
+	        <li class="opTab-content inline-block form-group">
+	        <input data-mindeposit="20" data-maxdeposit="50000" value="0105" class="bank-list" type="radio" name="bankName">
+	        <span class="bankRadioBtn mem-icon crcl-ch inline-block">&nbsp;</span>
+	        <img class="inline-block" src="common/images/bank/0105.png">
+	        </li>
+	        <li class="opTab-content inline-block form-group">
+	        <input data-mindeposit="20" data-maxdeposit="50000" value="0103" class="bank-list" type="radio" name="bankName">
+	        <span class="bankRadioBtn mem-icon crcl-ch inline-block">&nbsp;</span>
+	        <img class="inline-block" src="common/images/bank/0103.png">
+	        </li>
+	        <li class="opTab-content inline-block form-group">
+	        <input data-mindeposit="20" data-maxdeposit="50000" value="0110" class="bank-list" type="radio" name="bankName">
+	        <span class="bankRadioBtn mem-icon crcl-ch inline-block">&nbsp;</span>
+	        <img class="inline-block" src="common/images/bank/0110.png">
+	        </li>
+	        <li class="opTab-content inline-block form-group">
+	        <input data-mindeposit="20" data-maxdeposit="50000" value="0118" class="bank-list" type="radio" name="bankName">
+	        <span class="bankRadioBtn mem-icon crcl-ch inline-block">&nbsp;</span>
+	        <img class="inline-block" src="common/images/bank/0118.png">
+	        </li>
+	        <li class="opTab-content inline-block form-group">
+	        <input data-mindeposit="20" data-maxdeposit="50000" value="0117" class="bank-list" type="radio" name="bankName">
+	        <span class="bankRadioBtn mem-icon crcl-ch inline-block">&nbsp;</span>
+	        <img class="inline-block" src="common/images/bank/0117.png">
+	        </li>
+	        </ul>
+	        </dd>
+	        </dl>
+	        <div class="mem-icon red-border-bh">
+	        <input class="form-reset hide" type="reset" value="Reset Form">
+	        <input class="ch-overyd form-submit" type="button" value="确认提交充值申请" id="recharge">
+	        </div>
+	        </dl>
+	        </dl>
+	        </form>
+	        </dl>
+	        </dl>
+	        </div>
+	        </div>
+	         <!--线下转账-->
+	        <div class="info" style="display: none;">
+	            <div class="left">
+	                <div class="mem-icon profileMember inline-block">&nbsp;</div>
+	                <span class="userName inline-block" data-userinfo="username">test</span>
+	                <div class="amountUser mem-icon"><span class="sm-label">余额:</span>
+	                    <span data-walletbalance="ALL" class="UserAmount">2082.0000</span></div>
+	                <div class="OpLeftContnt">
+	                    <div class="OpLeftContnt-wrp">
+	                        <p>贴心小提示：</p>
+	                        <p class="content_side_cx">
+	                            网银支付单笔存款额度为1 - 50，000元，获取充值信息后请您在15分钟内完成操作。
+	                            <br><br> 充值时，附言栏请复制正确的附言信息，如在附言栏填写其他信息会导致您的资金无法到账。
+	                            <br><br> 每次充值时，请点击获取最新的充值卡号，切勿保存平台旧的充值卡号进行充值。
+	                        </p>
+	                    </div>
+	                </div>
+	            </div>
+	            <div class="right quickPaymentDeposit">
+	                <div class="inline-block top-contner">
+	                    <span class="watchLogo"><span style="width: 118px;height: 36px;display: block;font-size: 18px;font-weight: bold;line-height: 30px;">网银转账</span></span>
+	                </div>
+	                <div class="form-list right-bank-list">
+	                    <div class="alignleft prsnl-row-2 box mt">
+	                        <div class="input-list list2">
+	                            <label>充值金额</label>
+	                            <input type="text" class="p-input cardNum" value="">
+	                        </div>
+	                        <div class="input-list list2">
+	                            <label>选择优惠</label>
+	                            <select class="bank-discount" disabled="disabled" style="display: none;">
+	                                <option value="">暂无优惠</option>
+	                            </select><div class="nice-select bank-discount disabled"><span class="current">暂无优惠</span><ul class="list"><li data-value="" class="option selected">暂无优惠</li></ul></div>
+	                        </div>
+	                        <div class="bank-ul">
+	                            <label>选择银行：</label>
+	                            <ul class="bankList-OpTab-wrp long-list form-group">
+	                                <li class="opTab-content inline-block form-group account_bank">
+	                                    <input data-mindeposit="20" data-maxdeposit="50000" value="0004" class="bank-list" type="radio" name="bankName">
+	                                    <span class="bankRadioBtn mem-icon crcl-ch inline-block selected-red">&nbsp;</span>
+	                                    <span id="bankImg" class="account_id" bank-id="1"><img class="inline-block" src="common/images/bank/0001.png"></span>
+	                                </li>
+	                                
+	                            </ul>
+	                        </div>
+
+	                        <div class="QuickPayment-Rltcontent row-3 inline-block rs-qckpymnt enable" style="margin-left: 6px;margin-top: -50px;display: none;">
+	                            <div class="inline-block top-contner"><div class="tab-tile-sub-ch">确认充值信息</div></div>
+	                            <div class="QPayment-content clearfix">
+	                                <div class="qpText">收款银行: <span id="copyBankName">工商银行</span></div>
+	                                <div class="rowTwo-wrp">
+	                                    <div class="inline-block po-middle">
+	                                        <div class="inline-block po-middle">收款帐户名:</div>
+	                                        <div class="inline-block po-middle mg-fix1"><input class="ch-overyd copyAccountName" type="text" value="" readonly="" id="accountName"></div>
+	                                    </div>
+	                                    <div class="inline-block po-middle">
+	                                        <input class="mem-icon ctie-btn po-middle copy_account_name copyLink" type="button" value="复制">
+	                                    </div>
+	                                </div>
+	                                <div class="rowTwo-wrp">
+	                                    <div class="po-middle"><div class="inline-block po-middle">收款卡号:</div>
+	                                        <div class="inline-block po-middlec mg-fix1"><input class="ch-overyd copyEmail" type="text" value="" readonly=""></div></div>
+	                                        <div class="inline-block po-middle"><input class="mem-icon ctie-btn po-middle copy_email copyLink" type="button" value="复制"></div>
+	                                </div>
+	                                <div class="rowTwo-wrp">
+	                                    <div class="po-middle"><div class="inline-block po-middle">开户行地址:</div>
+	                                        <div class="inline-block po-middlec mg-fix1"><input class="ch-overyd copyBankBranch" type="text" value="" readonly=""></div></div>
+	                                        <div class="inline-block po-middle"><input class="mem-icon ctie-btn po-middle copy_branch copyLink" type="button" value="复制"></div>
+	                                </div>
+	                                <div class="rowThree-wrp">
+	                                    <div class="po-middle">	充值金额:</div>
+	                                    <div class="po-middle mem-icon qpAmount"><input class="ch-overyd qpAmount-input copyAmount" type="text" value="" readonly=""></div>
+	                                    <div class="inline-block po-middle"><input class="mem-icon ctie-btn po-middle copy_amount copyLink" type="button" value="复制"></div>
+	                                </div>
+	                            </div>
+	                            <div class="mem-icon red-border-bh btn mem-icon subMit-btn rs-ov-btn" style="display: none;">
+	                                <input class="form-reset hide" type="reset" value="Reset Form">
+	                                <input class="ch-overyd form-submit openBankUrl" type="button" value="网银转账">
+	                            </div>
+	                            <input class="ch-overyd goBackToForm" type="button" value="返回">
+	                        </div>
+	                    </div>
+	                </div>
+	                <input class="form-submit btn mem-icon ch-overydBtn subMit-btn" type="button" value="提交" id="transactionAccounts" onclick="rechargeAdd(this,'bank-id','bank') ">
+
+	            </div>
+	        </div>
+	        <!--微信转账-->
+	        <div class="info" style="display: none;">
+	            <div class="left">
+	                <div class="mem-icon profileMember inline-block">&nbsp;</div>
+	                <span class="userName inline-block	" data-userinfo="username">test</span>
+	                <div class="amountUser mem-icon"><span class="sm-label">余额:</span>
+	                    <span data-walletbalance="ALL" class="UserAmount">2082.0000</span></div>
+	                <div class="OpLeftContnt">
+	                    <div class="OpLeftContnt-wrp">
+	                        <p>贴心小提示：</p>
+	                        <p class="content_side_cx">
+	                            网银支付单笔存款额度为1 - 50，000元，获取充值信息后请您在15分钟内完成操作。
+	                            <br><br> 充值时，附言栏请复制正确的附言信息，如在附言栏填写其他信息会导致您的资金无法到账。
+	                            <br><br> 每次充值时，请点击获取最新的充值卡号，切勿保存平台旧的充值卡号进行充值。
+	                        </p>
+	                    </div>
+	                </div>
+	            </div>
+	            <div class="right quickPaymentDeposit">
+	                <div class="inline-block top-contner">
+				<span class="watchLogo"><img src="common/images/watch-logo.png" alt="logo"></span>
+			</div>
+	                <div class="form-list right-bank-list">
+	                    <div class="alignleft prsnl-row-2 box mt">
+	                        <div class="input-list list2">
+	                            <label>充值金额</label>
+	                            <input type="text" class="p-input cardNum" value="">
+	                        </div>
+	                        <div class="input-list list2">
+	                            <label>选择优惠</label>
+	                            <select class="bank-discount" disabled="disabled" style="display: none;">
+	                                <option value="">暂无优惠</option>
+	                            </select><div class="nice-select bank-discount disabled"><span class="current">暂无优惠</span><ul class="list"><li data-value="" class="option selected">暂无优惠</li></ul></div>
+	                        </div>
+	                        
+							<div class="bank-ul">
+	                            <label></label>
+	                            <ul class="bankList-OpTab-wrp long-list form-group" id="bankList">
+	                               <li><span id="weixinId" class="account_id" weixin-id="3"></span></li>
+	                            </ul>
+	                        </div>
+	                        <div class="QuickPayment-Rltcontent row-3 inline-block rs-qckpymnt enable" style="margin-left: 6px;margin-top: -50px;display: none;">
+	                            <div class="inline-block top-contner"><div class="tab-tile-sub-ch">确认充值信息</div></div>
+	                            <div class="QPayment-content clearfix">
+	                               
+	                                <div class="rowTwo-wrp">
+	                                    <div class="inline-block po-middle">
+	                                        <div class="inline-block po-middle">收款帐户名:</div>
+	                                        <div class="inline-block po-middle mg-fix1"><input class="ch-overyd copyAccountName" type="text" value="" readonly=""></div>
+	                                    </div>
+	                                    <div class="inline-block po-middle">
+	                                        <input class="mem-icon ctie-btn po-middle copy_account_name copyLink" type="button" value="复制">
+	                                    </div>
+	                                </div>
+	                                <div class="rowTwo-wrp">
+	                                    <div class="po-middle"><div class="inline-block po-middle">收款账号:</div>
+	                                        <div class="inline-block po-middlec mg-fix1"><input class="ch-overyd copyEmail" type="text" value="" readonly=""></div></div>
+	                                    <div class="inline-block po-middle"><input data-clipboard="" class="mem-icon ctie-btn po-middle copy_email copyLink" type="button" value="复制"></div>
+	                                </div>
+	                                
+	                                <div class="rowThree-wrp">
+	                                    <div class="po-middle">	充值金额:</div>
+	                                    <div class="po-middle mem-icon qpAmount"><input class="ch-overyd qpAmount-input copyAmount" type="text" value="" readonly=""></div>
+	                                    <div class="inline-block po-middle"><input data-clipboard="" class="mem-icon ctie-btn po-middle copy_amount copyLink" type="button" value="复制"></div>
+	                                </div>
+	                            </div>
+	                            <div class="mem-icon red-border-bh btn mem-icon subMit-btn rs-ov-btn" style="display: none;">
+	                                <input class="form-reset hide" type="reset" value="Reset Form">
+	                                <input class="ch-overyd form-submit openBankUrl" type="button" value="微信转帐">
+
+	                            </div>
+
+	                            <input class="ch-overyd goBackToForm" type="button" value="返回">
+	                        </div>
+	                    </div>
+	                </div>
+	                <input class="form-submit btn mem-icon ch-overydBtn subMit-btn" type="button" value="提交" onclick="rechargeAdd(this,'weixin-id','weixin')">
+
+	            </div>
+	        </div>
+	        <!--支付宝转账-->
+	        <div class="info" style="display: none;">
+	            <div class="left">
+	                <div class="mem-icon profileMember inline-block">&nbsp;</div>
+	                <span class="userName inline-block	" data-userinfo="username">test</span>
+	                <div class="amountUser mem-icon"><span class="sm-label">余额:</span>
+	                    <span data-walletbalance="ALL" class="UserAmount">2082.0000</span></div>
+	                <div class="OpLeftContnt">
+	                    <div class="OpLeftContnt-wrp">
+	                        <p>贴心小提示：</p>
+	                        <p class="content_side_cx">
+	                            网银支付单笔存款额度为1 - 50，000元，获取充值信息后请您在15分钟内完成操作。
+	                            <br><br> 充值时，附言栏请复制正确的附言信息，如在附言栏填写其他信息会导致您的资金无法到账。
+	                            <br><br> 每次充值时，请点击获取最新的充值卡号，切勿保存平台旧的充值卡号进行充值。
+	                        </p>
+	                    </div>
+	                </div>
+	            </div>
+	            <div class="right quickPaymentDeposit">
+	                <div class="inline-block top-contner">
+				<span class="watchLogo"><img src="common/images/alipay.jpg" alt="logo"></span>
+			</div>
+	                <div class="form-list right-bank-list">
+	                    <div class="alignleft prsnl-row-2 box mt">
+	                        <div class="input-list list2">
+	                            <label>充值金额</label>
+	                            <input type="text" class="p-input cardNum" value="">
+	                        </div>
+	                        <div class="input-list list2">
+	                            <label>选择优惠</label>
+	                            <select class="bank-discount" disabled="disabled" style="display: none;">
+	                                <option value="">暂无优惠</option>
+	                            </select><div class="nice-select bank-discount disabled"><span class="current">暂无优惠</span><ul class="list"><li data-value="" class="option selected">暂无优惠</li></ul></div>
+	                        </div>
+	                        <div class="bank-ul">
+	                            <label></label>
+	                            <ul class="bankList-OpTab-wrp long-list form-group">
+	                                <li><span id="alipayId" class="account_id" alipay-id="2"></span></li>
+	                              
+	                            </ul>
+	                        </div>
+	                        <div class="QuickPayment-Rltcontent row-3 inline-block rs-qckpymnt enable" style="margin-left: 6px;margin-top: -50px;display: none;">
+	                            <div class="inline-block top-contner"><div class="tab-tile-sub-ch">确认充值信息</div></div>
+	                            <div class="QPayment-content clearfix">
+	                               
+	                                <div class="rowTwo-wrp">
+	                                    <div class="inline-block po-middle">
+	                                        <div class="inline-block po-middle">收款帐户名:</div>
+	                                        <div class="inline-block po-middle mg-fix1"><input class="ch-overyd copyAccountName" type="text" value="" readonly=""></div>
+	                                    </div>
+	                                    <div class="inline-block po-middle">
+	                                        <input class="mem-icon ctie-btn po-middle copy_account_name copyLink" type="button" value="复制">
+	                                    </div>
+	                                </div>
+	                                <div class="rowTwo-wrp">
+	                                    <div class="po-middle"><div class="inline-block po-middle">收款账号:</div>
+	                                        <div class="inline-block po-middlec mg-fix1"><input class="ch-overyd copyEmail" type="text" value="" readonly=""></div></div>
+	                                        <div class="inline-block po-middle"><input class="mem-icon ctie-btn po-middle copy_email copyLink" type="button" value="复制"></div>
+	                                </div>
+	                
+	                                <div class="rowThree-wrp">
+	                                    <div class="po-middle">	充值金额:</div>
+	                                    <div class="po-middle mem-icon qpAmount"><input class="ch-overyd qpAmount-input copyAmount" type="text" value="" readonly=""></div>
+	                                    <div class="inline-block po-middle"><input class="mem-icon ctie-btn po-middle copy_amount copyLink" type="button" value="复制"></div>
+	                                </div>
+	                            </div>
+	                            <div class="mem-icon red-border-bh btn mem-icon subMit-btn rs-ov-btn" style="display: none;">
+	                                <input class="form-reset hide" type="reset" value="Reset Form">
+	                                <input class="ch-overyd form-submit openBankUrl" type="button" value="支付宝转帐">
+
+	                            </div>
+
+	                            <input class="ch-overyd goBackToForm" type="button" value="返回">
+	                        </div>
+	                    </div>
+	                </div>
+	                <input class="form-submit btn mem-icon ch-overydBtn subMit-btn" type="button" value="提交" onclick="rechargeAdd(this,'alipay-id','alipay')">
+
+	            </div>
+	        </div>
+	        <!-- 充值记录 -->
+	        <div class="info" style="display: none;">
+	            <div class="top" style="height: 62px;border-bottom: 1px solid #efefef;width: 100%"></div>
+	            <div class="search-box">
+	                <ul class="search-list">
+	                    <li>
+	                        <label>日期：</label>
+	                        <div class="mem-icon chDatePicker po-middle">
+	                            <input type="hidden" value="" class="start_Day">
+	                            <input type="text" class="startDay hasDatepicker" value="" id="dp1498355156717">
+	                        </div>
+	                    </li>
+	                    <li>
+	                        <label>到：</label>
+	                        <div class="mem-icon chDatePicker po-middle">
+	                            <input type="hidden" value="" class="end_Day">
+	                            <input type="text" class="startDay hasDatepicker" value="" id="dp1498355156718">
+	                        </div>
+	                    </li>
+	                    <li>
+	                        <label>状态：</label>
+	                        <div class="slect-box-custom po-middle" id="recharge-record">
+	                            <select class="select-award-type" style="display: none;">
+	                                <option value="">全部</option>
+	                                <option value="">待确认</option>
+	                                <option value="">充值成功</option>
+	                                <option value="">充值失败</option>
+	                            </select><div class="nice-select select-award-type" tabindex="0"><span class="current">全部</span><ul class="list"><li data-value="" class="option selected">全部</li><li data-value="" class="option">待确认</li><li data-value="" class="option">充值成功</li><li data-value="" class="option">充值失败</li></ul></div>
+	                        </div>
+	                    </li>
+	                    <!--<li>-->
+	                        <!--<label>方式：</label>-->
+	                        <!--<div class="slect-box-custom-large po-middle">-->
+	                            <!--<select class="select-ball-type">-->
+	                                <!--<option value="">全部</option>-->
+	                                <!--<option value="">网银支付</option>-->
+	                                <!--<option value="">支付宝支付</option>-->
+	                                <!--<option value="">微信支付</option>-->
+	                            <!--</select>-->
+	                        <!--</div>-->
+	                    <!--</li>-->
+	                    <li>
+	                        <div class="mem-icon abs-right-red po-middle" onclick="rechargeRecord(1)">查询</div>
+	                    </li>
+	                </ul>
+
+	            </div>
+	            <div class="tip-list">
+	                <ul class="his_list his_recharge_list">
+	                    <li>充值编号</li>
+	                    <li>充值金额</li>
+	                    <li>充值方式</li>
+	                    <li>充值时间</li>
+	                    <li>渠道</li>
+	                    <li>状态</li>
+	                    <li>备注</li>
+	                </ul>
+	            </div>
+	            <div class="result" id="rechargeList">
+	            </div>
+	            <div class="page">
+	                <div class="pag-arr-left game-icons pag-bnt his_recharge_prev">
+	                </div>
+	                <div class="pag-arr-right game-icons pag-bnt his_recharge_next">
+	                </div>
+	                <div class="pag-search game-icons">
+	                    <span id="his_recharge_currentPage">0</span>
+	                    <span>/</span>
+	                    <span id="his_recharge_totalPage">0</span>
+	                </div>
+	                <input class="game-icons switch-dete" type="button" name="goToPage" value="确定">
+	            </div>
+	        </div>
+	    </div>
+	    <div class="content">
+	        <div class="child_menus">
+	            <h1>提款</h1>
+	            <ul>
+	                <li class="child_menus_li child_menus_acrive">提款记录</li>
+	                <li class="child_menus_li" onclick="bindCardInfo();">提款申请</li>
+	                <li class="child_menus_li" id="bind_card" onclick="bindCardInfo();userInfo()">绑定银行卡</li>
+	            </ul>
+	        </div>
+	        <div class="info" style="display: block;">
+	            <div class="top" style="height: 62px;border-bottom: 1px solid #efefef;width: 100%"></div>
+	            <div class="search-box">
+	                <ul class="search-list">
+	                    <li>
+	                        <label>日期：</label>
+	                        <div class="mem-icon chDatePicker po-middle">
+	                            <input type="hidden" value="" class="start_Day">
+	                            <input type="text" class="startDay hasDatepicker" value="" id="dp1498355156719">
+	                        </div>
+	                    </li>
+	                    <li>
+	                        <label>到：</label>
+	                        <div class="mem-icon chDatePicker po-middle">
+	                            <input type="hidden" value="" class="end_Day">
+	                            <input type="text" class="startDay hasDatepicker" value="" id="dp1498355156720">
+	                        </div>
+	                    </li>
+	                    <li>
+	                        <label>状态：</label>
+	                        <div class="slect-box-custom po-middle" id="drawingStatus">
+	                            <select class="select-award-type" style="display: none;">
+	                                <option value="">全部</option>
+	                                <option value="">待确认</option>
+	                                <option value="">提现成功</option>
+	                                <option value="">提现失败</option>
+	                            </select><div class="nice-select select-award-type" tabindex="0"><span class="current">全部</span><ul class="list"><li data-value="" class="option selected">全部</li><li data-value="" class="option">待确认</li><li data-value="" class="option">提现成功</li><li data-value="" class="option">提现失败</li></ul></div>
+	                        </div>
+	                    </li>
+	                    <li>
+	                        <div class="mem-icon abs-right-red po-middle" onclick="drawingHistory(1)">查询</div>
+	                    </li>
+	                </ul>
+
+	            </div>
+	            <div class="tip-list">
+	                <ul class="his_list his_drawing_list">
+	                    <li>提款编号</li>
+	                    <li>提款金额</li>
+	                    <li>银行名称</li>
+	                    <li>提款时间</li>
+	                    <li>状态</li>
+	                    <li>备注</li>
+	                </ul>
+	            </div>
+	            <div class="result" id="drawingList">
+	            </div>
+	            <div class="page">
+	                <div class="pag-arr-left game-icons pag-bnt his_tk_prev">
+	                </div>
+	                <div class="pag-arr-right game-icons pag-bnt his_tk_next">
+	                </div>
+	                <div class="pag-search game-icons">
+	                    <span id="his_tk_currentPage">0</span>
+	                    <span>/</span>
+	                    <span id="his_tk_totalPage">0</span>
+	                </div>
+	                <input class="game-icons switch-dete" type="button" name="goToPage" value="确定">
+	            </div>
+	        </div>
+	        <div class="info" style="display: none;">
+	            <div class="left">
+	                <div class="mem-icon profileMember inline-block">&nbsp;</div>
+	                <span class="userName inline-block	" data-userinfo="username">test</span>
+	                <div class="amountUser mem-icon"><span class="sm-label">余额:</span><span data-walletbalance="ALL" class="UserAmount">2082.0000</span>
+	                </div>
+	                <div class="OpLeftContnt">
+	                    <div class="OpLeftContnt-wrp">
+	                        <p>贴心小提示：</p>
+	                        <p class="content_side_cx">
+	                            一个账号可以绑定多张银行卡，但每张银行卡只能绑定一个账号。<br><br> 单笔最低提款金额为100元，单笔最高提款金额为200,000元，每天可提款5次。
+	                            <br><br> 提现时间为9:00至次日凌晨2:00
+	                            <br><br>
+	                            <span class="al_pay_link"> 充值金额需在彩票游戏中消费30%，即可发起提款申请。</span>
+	                        </p>
+	                    </div>
+	                </div>
+	            </div>
+	            <div class="right">
+	                <div class="withdrawRequest-Rltcontent row-3 inline-block">
+	                    <form id="requestWithdrawForm" novalidate="" class="" autocomplete="off">
+	                        <div class="top-LContent inline-block left-50">
+	                            <div class="po-middle cx-mov">选择银行卡：</div>
+	                            <!--<div class="po-middle bx-mov">今日剩余提款次数： <span class="red remainingWithdrawTimes">5</span></div>-->
+	                            <div class="card-holder dataLoaded withdrawalRequest">
+	                                <div class="main-wrp-card bindCardList"><div class="banks z-i1 z-i no-slected" data-bankid="2" data-bankcardholder="李*" data-bankprovince="北京市" data-bankname="中国工商银行" data-bankcardno="*************7891">
+	                                    <span class="bankLogo-Card bank-1"></span>
+	                                    <span class="det-01">*************7891</span>
+	                                    <span class="det-02">卡号</span>
+	                                    <span class="det-03">*************7891</span>
+	                                    <span class="det-04">提款人姓名 </span>
+	                                    <span class="det-05">李*</span>
+	                                    <span class="det-06">绑卡日期</span>
+	                                    <span class="det-07">2017-06-16</span>
+	                                </div><div class="banks z-i2 z-i no-slected" data-bankid="3" data-bankcardholder="李*" data-bankprovince="北京市" data-bankname="中国工商银行" data-bankcardno="*************7890">
+	                                    <span class="bankLogo-Card bank-1"></span>
+	                                    <span class="det-01">*************7890</span>
+	                                    <span class="det-02">卡号</span>
+	                                    <span class="det-03">*************7890</span>
+	                                    <span class="det-04">提款人姓名 </span>
+	                                    <span class="det-05">李*</span>
+	                                    <span class="det-06">绑卡日期</span>
+	                                    <span class="det-07">2017-06-16</span>
+	                                </div><div class="banks z-i3 z-i no-slected" data-bankid="4" data-bankcardholder="李*" data-bankprovince="浙江省" data-bankname="中国工商银行" data-bankcardno="*************7892">
+	                                    <span class="bankLogo-Card bank-1"></span>
+	                                    <span class="det-01">*************7892</span>
+	                                    <span class="det-02">卡号</span>
+	                                    <span class="det-03">*************7892</span>
+	                                    <span class="det-04">提款人姓名 </span>
+	                                    <span class="det-05">李*</span>
+	                                    <span class="det-06">绑卡日期</span>
+	                                    <span class="det-07">2017-06-16</span>
+	                                </div><div class="banks z-i4 z-i no-slected" data-bankid="5" data-bankcardholder="李*" data-bankprovince="青海省" data-bankname="招商银行" data-bankcardno="*************7893">
+	                                    <span class="bankLogo-Card bank-4"></span>
+	                                    <span class="det-01">*************7893</span>
+	                                    <span class="det-02">卡号</span>
+	                                    <span class="det-03">*************7893</span>
+	                                    <span class="det-04">提款人姓名 </span>
+	                                    <span class="det-05">李*</span>
+	                                    <span class="det-06">绑卡日期</span>
+	                                    <span class="det-07">2017-06-16</span>
+	                                </div><div class="banks z-i5 z-i no-slected" data-bankid="6" data-bankcardholder="李*" data-bankprovince="湖南省" data-bankname="华夏银行" data-bankcardno="*************7894">
+	                                    <span class="bankLogo-Card bank-7"></span>
+	                                    <span class="det-01">*************7894</span>
+	                                    <span class="det-02">卡号</span>
+	                                    <span class="det-03">*************7894</span>
+	                                    <span class="det-04">提款人姓名 </span>
+	                                    <span class="det-05">李*</span>
+	                                    <span class="det-06">绑卡日期</span>
+	                                    <span class="det-07">2017-06-16</span>
+	                                </div></div>
+	                            </div>
+	                        </div>
+	                        <div class="top-RContent inline-block left-50" id="bankInfo">
+	                            <div class="inline-block">银行卡资讯：</div>
+	                            <div class="block-border noBankCard"></div>
+	                            <div class="block-border bankCardHolder">持卡人:</div>
+	                            <div class="block-border bankProvince">省份：</div>
+	                            <div class="block-border bankName">开户银行：</div>
+	                            <div class="block-border bankCardNo">银行卡号：</div>
+	                            <div class="yelow-glow mem-icon">
+	                                <input class="ch-overyd" type="button" name="addBankCard" id="goToBindCard" value="新增银行卡">
+	                            </div>
+	                        </div>
+
+	                        <div class="aftr-cntent-3">
+
+	                            <div style="opacity:0; height:0; width:0">
+	                                <input type="text">
+	                                <input type="password" autocomplete="new-password">
+	                            </div>
+	                            <div class="cover-foter">
+	                                <div class="po-middle ch-label">提款金额：</div>
+	                                <div class="po-middle txt-input-longAmount mem-icon form-group">
+	                                    <input class="form-control ch-input cardNum" type="text" data-valid="amount" required="" name="amount" id="drawingNum">
+	                                </div>
+	                                <div class="po-middle brnFix">
+	                                    中心钱包余额 : <span data-walletbalance="MAIN_WALLET" class="UserAmount">2082.0000</span>
+	                                </div>
+	                            </div>
+
+	                            <div class="cover-foter">
+	                                <div class="po-middle ch-label">资金密码：</div>
+	                                <div class="po-middle txt-input-longAmount mem-icon form-group">
+	                                    <input class="form-control ch-input" type="password" autocomplete="new-password" required="" name="withdrawalPass" id="pass">
+	                                </div>
+	                            </div>
+
+	                        </div>
+	                        <div class="mem-icon red-border-bh">
+	                            <input class="ch-overyd form-reset hide" type="reset" value="Reset Form">
+	                            <input class="ch-overyd form-submit drawingBtn" type="button" value="确认提款">
+	                        </div>
+	                    </form>
+	                </div>
+	            </div>
+	        </div>
+	        <!-- 绑定银行卡 -->
+	        <div class="info" style="display: none;">
+	            <div class="bindCard-wrp">
+	                <div class="inline-block  bindCard-content">
+	                    <form id="bindCardForm">
+	                        <div class="bindcard-content">
+
+	                            <div class="input-bind-wrp">
+	                                <div class="label-name po-middle">提款人姓名</div>
+	                                <div class="long-white mem-icon po-middle  form-group in-rel rs258 dark">
+	                                    <input name="withdrawName" class="form-control ch-overyd qpAmount-input disabled" type="text" id="card-user-name" data-card="userName" readonly="readonly">
+	                                </div>
+	                                <em class="red" style="top: 6px;left: -94px;">*</em>
+
+	                            </div>
+	                            <div class="input-bind-wrp">
+	                                <div class="label-name po-middle">安全邮箱</div>
+	                                <div class="long-white mem-icon po-middle  form-group in-rel rs258 dark">
+	                                    <input name="" class="form-control ch-overyd qpAmount-input disabled" type="text" id="card-email" data-card="card-email" readonly="readonly">
+	                                </div>
+	                                <em class="red" style="top: 6px;left: -94px;">*</em>
+
+	                            </div>
+	                            <div class="input-bind-wrp">
+	                                <div class="label-name po-middle">银行</div>
+	                                <div class="long-white po-middle  form-group in-rel dark" id="bank_List">
+	                                    <select class="long-white mem-icon po-middle  form-group in-rel rs258 dark chosen-bank" id="bank-name" name="bank" style="display: none;">
+	                                        <option value="">选择银行</option>
+	                                    </select><div class="nice-select long-white mem-icon po-middle form-group in-rel rs258 dark chosen-bank" tabindex="0"><span class="current">选择银行</span><ul class="list"><li data-value="" class="option" data-b=" 1 ">中国工商银行</li><li data-value="" class="option" data-b=" 2 ">中国农业银行</li><li data-value="" class="option" data-b=" 3 ">中国建设银行</li><li data-value="" class="option" data-b=" 4 ">招商银行</li><li data-value="" class="option" data-b=" 5 ">交通銀行</li><li data-value="" class="option" data-b=" 6 ">广发银行</li><li data-value="" class="option" data-b=" 7 ">华夏银行</li><li data-value="" class="option" data-b=" 8 ">浦发银行</li><li data-value="" class="option" data-b=" 9 ">兴业银行</li><li data-value="" class="option" data-b=" 10 ">中国光大银行</li><li data-value="" class="option" data-b=" 11 ">中国民生银行</li><li data-value="" class="option" data-b=" 12 ">中国银行</li><li data-value="" class="option" data-b=" 13 ">中国邮政储蓄银行</li><li data-value="" class="option" data-b=" 14 ">中信银行</li><li data-value="" class="option" data-b=" 15 ">平安银行</li></ul></div>
+	                                </div>
+	                                <em class="red" style="top: 6px;left: -94px;">*</em>
+
+	                            </div>
+	                            <div class="input-bind-wrp">
+	                                <div class="label-name po-middle">银行卡号</div>
+	                                <div class="long-white mem-icon po-middle  form-group in-rel rs258 dark">
+	                                    <input name="cardNum" class="form-control ch-overyd qpAmount-input cardNum" type="text" data-card="cardNum" id="card-num" maxlength="19">
+	                                </div>
+	                                <em class="red" style="top: 6px;left: -94px;">*</em>
+
+	                            </div>
+	                            <div class="input-bind-wrp">
+	                                <div class="label-name po-middle">确认卡号</div>
+	                                <div class="long-white mem-icon po-middle  form-group in-rel rs258 dark">
+	                                    <input name="confirmCardNum" class="form-control ch-overyd qpAmount-input cardNum" type="text" data-card="confirmCardNum" id="card-confim-num" maxlength="19">
+	                                </div>
+	                                <em class="red" style="top: 6px;left: -94px;">*</em>
+
+	                            </div>
+	                            <div class="input-bind-wrp" data-toggle="distpicker">
+	                                <div class="label-name po-middle">银行所在省市</div>
+	                                <div class="long-white mem-icon po-middle  form-group in-rel dark address-bank rs258" id="province">
+	                                    <select class="form-control" id="province7" name="province" style="display: none;">
+	                                        <option value="">省</option>
+	                                    </select><div class="nice-select form-control" tabindex="0"><span class="current">省</span><ul class="list"><li data-value="" class="option" data-p=" 1 ">北京市</li><li data-value="" class="option" data-p=" 2 ">天津市</li><li data-value="" class="option" data-p=" 3 ">河北省</li><li data-value="" class="option" data-p=" 4 ">山西省</li><li data-value="" class="option" data-p=" 5 ">内蒙古自治区</li><li data-value="" class="option" data-p=" 6 ">辽宁省</li><li data-value="" class="option" data-p=" 7 ">吉林省</li><li data-value="" class="option" data-p=" 8 ">黑龙江省</li><li data-value="" class="option" data-p=" 9 ">上海市</li><li data-value="" class="option" data-p=" 10 ">江苏省</li><li data-value="" class="option" data-p=" 11 ">浙江省</li><li data-value="" class="option" data-p=" 12 ">安徽省</li><li data-value="" class="option" data-p=" 13 ">福建省</li><li data-value="" class="option" data-p=" 14 ">江西省</li><li data-value="" class="option" data-p=" 15 ">山东省</li><li data-value="" class="option" data-p=" 16 ">河南省</li><li data-value="" class="option" data-p=" 17 ">湖北省</li><li data-value="" class="option" data-p=" 18 ">湖南省</li><li data-value="" class="option" data-p=" 19 ">广东省</li><li data-value="" class="option" data-p=" 20 ">广西壮族自治区</li><li data-value="" class="option" data-p=" 21 ">海南省</li><li data-value="" class="option" data-p=" 22 ">重庆市</li><li data-value="" class="option" data-p=" 23 ">四川省</li><li data-value="" class="option" data-p=" 24 ">贵州省</li><li data-value="" class="option" data-p=" 25 ">云南省</li><li data-value="" class="option" data-p=" 26 ">西藏自治区</li><li data-value="" class="option" data-p=" 27 ">陕西省</li><li data-value="" class="option" data-p=" 28 ">甘肃省</li><li data-value="" class="option" data-p=" 29 ">青海省</li><li data-value="" class="option" data-p=" 30 ">宁夏回族自治区</li><li data-value="" class="option" data-p=" 31 ">新疆维吾尔自治区</li></ul></div>
+	                                </div>
+	                                <div class="long-white mem-icon po-middle  form-group in-rel dark address-bank rs258" id="city">
+	                                    <select class="form-control" id="city7" name="city" style="display: none;">
+	                                        <option value="">市</option>
+	                                    </select><div class="nice-select form-control" tabindex="0"><span class="current">市</span><ul class="list"><li data-value="" class="option selected">市</li></ul></div>
+	                                </div>
+	                                <em class="red" style="top: 6px;left: -94px;">*</em>
+
+	                            </div>
+	                            <div class="input-bind-wrp">
+	                                <div class="label-name po-middle">银行分行</div>
+	                                <div class="long-white mem-icon po-middle  form-group in-rel rs258 dark">
+	                                    <input name="withdrawName" class="form-control ch-overyd qpAmount-input" type="text" id="card-address" data-card="card-address">
+	                                </div>
+	                                <em class="red" style="top: 6px;left: -94px;">*</em>
+
+	                            </div>
+	                            <div class="above-footer">
+	                                <div class="mem-icon abs-right-red po-middle above-footer-btn not-allowed gray">
+	                                    <input type="reset" class="form-reset hide above-footer-btn not-allowed" value="Reset Form">
+	                                    <input class="form-submit ch-overyd submitTable newAddCard above-footer-btn not-allowed" type="button" value="新增">
+	                                </div>
+	                                <div id="cardLimitReminder" class="po-middle left-text-onRed hide">最多可绑定<span class="bankCardCount">5</span> 张提款银行卡
+	                                </div>
+	                                <div id="cardLimitMessage" class="align-left tip red">
+	                                    您已绑定5张提款银行卡<br>如需修改或删除，请联系<span class="blueText">在线客服。</span></div>
+	                                <div id="cardLimit" class="align-left tip red hide">请先<span class="blueText" id="goToPersonInfo">&nbsp;完善个人信息&nbsp;</span>再绑定银行卡
+	                                </div>
+	                            </div>
+
+	                        </div>
+	                    </form>
+	                </div>
+	                <div class="inline-block cardBind-content" style="position: relative;right: 150px;">
+	                    <div class="bindcard-content">
+	                        <div class="all-list">
+	                            <div class="card-holder dataLoaded">
+	                                <div class="main-wrp-card bindCardList"><div class="banks z-i1 z-i no-slected" data-bankid="2" data-bankcardholder="李*" data-bankprovince="北京市" data-bankname="中国工商银行" data-bankcardno="*************7891">
+	                                    <span class="bankLogo-Card bank-1"></span>
+	                                    <span class="det-01">*************7891</span>
+	                                    <span class="det-02">卡号</span>
+	                                    <span class="det-03">*************7891</span>
+	                                    <span class="det-04">提款人姓名 </span>
+	                                    <span class="det-05">李*</span>
+	                                    <span class="det-06">绑卡日期</span>
+	                                    <span class="det-07">2017-06-16</span>
+	                                </div><div class="banks z-i2 z-i no-slected" data-bankid="3" data-bankcardholder="李*" data-bankprovince="北京市" data-bankname="中国工商银行" data-bankcardno="*************7890">
+	                                    <span class="bankLogo-Card bank-1"></span>
+	                                    <span class="det-01">*************7890</span>
+	                                    <span class="det-02">卡号</span>
+	                                    <span class="det-03">*************7890</span>
+	                                    <span class="det-04">提款人姓名 </span>
+	                                    <span class="det-05">李*</span>
+	                                    <span class="det-06">绑卡日期</span>
+	                                    <span class="det-07">2017-06-16</span>
+	                                </div><div class="banks z-i3 z-i no-slected" data-bankid="4" data-bankcardholder="李*" data-bankprovince="浙江省" data-bankname="中国工商银行" data-bankcardno="*************7892">
+	                                    <span class="bankLogo-Card bank-1"></span>
+	                                    <span class="det-01">*************7892</span>
+	                                    <span class="det-02">卡号</span>
+	                                    <span class="det-03">*************7892</span>
+	                                    <span class="det-04">提款人姓名 </span>
+	                                    <span class="det-05">李*</span>
+	                                    <span class="det-06">绑卡日期</span>
+	                                    <span class="det-07">2017-06-16</span>
+	                                </div><div class="banks z-i4 z-i no-slected" data-bankid="5" data-bankcardholder="李*" data-bankprovince="青海省" data-bankname="招商银行" data-bankcardno="*************7893">
+	                                    <span class="bankLogo-Card bank-4"></span>
+	                                    <span class="det-01">*************7893</span>
+	                                    <span class="det-02">卡号</span>
+	                                    <span class="det-03">*************7893</span>
+	                                    <span class="det-04">提款人姓名 </span>
+	                                    <span class="det-05">李*</span>
+	                                    <span class="det-06">绑卡日期</span>
+	                                    <span class="det-07">2017-06-16</span>
+	                                </div><div class="banks z-i5 z-i no-slected" data-bankid="6" data-bankcardholder="李*" data-bankprovince="湖南省" data-bankname="华夏银行" data-bankcardno="*************7894">
+	                                    <span class="bankLogo-Card bank-7"></span>
+	                                    <span class="det-01">*************7894</span>
+	                                    <span class="det-02">卡号</span>
+	                                    <span class="det-03">*************7894</span>
+	                                    <span class="det-04">提款人姓名 </span>
+	                                    <span class="det-05">李*</span>
+	                                    <span class="det-06">绑卡日期</span>
+	                                    <span class="det-07">2017-06-16</span>
+	                                </div></div>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+
+
+	        </div>
+	    </div>
+	    <div class="content">
+	        <div class="child_menus">
+	            <h1>个人</h1>
+	            <ul>
+	                <li class="child_menus_li child_menus_acrive">我的资料</li>
+	                <li class="child_menus_li">资金详情</li>
+	                <li class="child_menus_li" onclick="the_day()" id="hisBuy">购彩记录</li>
+	                <li class="child_menus_li" onclick="the_day()" id="buyHis">账变明细</li>
+	                <li class="child_menus_li">登录密码</li>
+	                <li class="child_menus_li">资金密码</li>
+	            </ul>
+	        </div>
+	        <div class="info">
+	            <div class="left">
+	                <div class="mem-icon profileMember inline-block">&nbsp;</div>
+	                <span class="userName inline-block	" data-userinfo="username">test</span>
+	                <div class="title-centered"><span class="sm-label" data-userinfo="nickname" id="l-nickname"></span>
+	                </div>
+	                <div class="OpLeftContnt">
+	                    <div class="OpLeftContnt-wrp OLC-personal">
+	                        <p>贴心小提示 ：</p>
+	                        <p>您可以通过 &nbsp;“个人资料”&nbsp; 页面设<br> 置您的昵称、取款人姓名、资金
+	                            <br> 密码、邮箱等。
+	                        </p>
+	                        <p>邮箱是您找回登录密码的唯一途<br> 径，请务必填写真实有效的邮箱
+	                        </p>
+	                        <p>为保障您的帐户安全，设置取款<br> 人姓名必须与绑定的银行卡开户
+	                            <br> 人姓名一致，并且只能设置一次
+	                            <br> ，如果需要修改，请
+	                            <span class="customer_service_btn">联系客服</span>。</p>
+	                        <p><span class="red">*</span>为必填项。</p>
+	                    </div>
+	                </div>
+	            </div>
+	            <div class="right">
+	                <h1 class="title">完善个人信息</h1>
+	                <span class="zh">账号:<span id="user_name">test</span></span>
+	                <div class="form-list">
+	                    <div class="alignleft box p-info" style="margin-left: 20px;">
+	                        <div class="input-list">
+	                            <label>提款人姓名：</label>
+	                            <span class="user-info">李四</span>
+	                        </div>
+	                        <em class="red">*</em>
+	                        <div class="input-list">
+	                            <label>输入资金密码：</label>
+	                            <span class="password-info">********</span>
+	                        </div>
+	                        <em class="red">*</em>
+	                        <div class="input-list">
+	                            <label>确认资金密码：</label>
+	                            <span class="password-info">********</span>
+
+	                        </div>
+	                        <em class="red">*</em>
+	                        <div class="input-list">
+	                            <label>安全邮箱：</label>
+	                            <span class="email-info">a123456@qq.com</span>
+	                        </div>
+	                        <em class="red">*</em>
+	                    </div>
+	                    <div class="alignleft prsnl-row-2 box p-info">
+	                        <div class="input-list">
+	                            <label class="pl">昵称：</label>
+	                            <span class="nickname-info"><input id="nickname" name="nickname" value="" class="p-input"></span>
+
+	                        </div>
+	                        <div class="input-list">
+	                            <label class="pl">手机号码：</label>
+	                            <span class="phone-info"><input type="text" value="" name="phone" id="phone" class="p-input"></span>
+	                        </div>
+	                        <div class="input-list">
+	                            <label class="pl">QQ号码：</label>
+	                            <span class="qq-info"><input type="text" value="" name="qq" id="qq" class="p-input"></span>
+	                        </div>
+	                    </div>
+
+	                </div>
+	                <input class="form-submit btn mem-icon ch-overydBtn subMit-btn" type="button" value="提交" onclick="userInfo2()">
+	            </div>
+	        </div>
+	        <div class="info" style="display: none;">
+	            <div class="top" style="height: 62px;border-bottom: 1px solid #efefef;width: 100%"></div>
+	            <div class="tab-content" id="tab-content1" style="display: block;">
+	                <table class="onel-table-tab2">
+	                    <tbody>
+	                    <tr style="height: 53px;">
+	                        <td colspan="5">当前奖金组 <span class="big-num max-series" id="highest_rebate_SSC1">1956</span></td>
+	                    </tr>
+	                    <tr style="height: 54px;" id="bonusDetails_SSC1">
+	                        <td style="width: 100px;">玩法组</td>
+	                        <td>玩法</td>
+	                        <td style="width: 130px;">奖级</td>
+	                        <td style="width: 423px;">奖金</td>
+	                        <td style="width: 130px;">返点</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td rowspan="24">五星</td>
+	                        <td rowspan="1">五星直选</td>
+	                        <td></td>
+	                        <td>195,600.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td rowspan="1">五星直选(单式)</td>
+	                        <td></td>
+	                        <td>195,600.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td rowspan="3">五星通选</td>
+	                        <td>一等奖</td>
+	                        <td>39,120.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td>二等奖</td>
+	                        <td>391.<span class="tblDec">2000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td>三等奖</td>
+	                        <td>39.<span class="tblDec">1200</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td rowspan="3">五星通选(单式)</td>
+	                        <td>一等奖</td>
+	                        <td>39,120.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td>二等奖</td>
+	                        <td>391.<span class="tblDec">2000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td>三等奖</td>
+	                        <td>39.<span class="tblDec">1200</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td rowspan="5">五星连选</td>
+	                        <td>二等奖</td>
+	                        <td>19,560.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td>三等奖</td>
+	                        <td>1,956.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td>四等奖</td>
+	                        <td>195.<span class="tblDec">6000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td>五等奖</td>
+	                        <td>19.<span class="tblDec">5600</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td>一等奖</td>
+	                        <td>195,600.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td rowspan="5">五星连选(单式)</td>
+	                        <td>一等奖</td>
+	                        <td>195,600.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td>二等奖</td>
+	                        <td>19,560.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td>四等奖</td>
+	                        <td>195.<span class="tblDec">6000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td>五等奖</td>
+	                        <td>19.<span class="tblDec">5600</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td>三等奖</td>
+	                        <td>1,956.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td rowspan="1">五星组选120</td>
+	                        <td></td>
+	                        <td>1,629.<span class="tblDec">9999</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td rowspan="1">五星组选60</td>
+	                        <td></td>
+	                        <td>3,260.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td rowspan="1">五星组选30</td>
+	                        <td></td>
+	                        <td>6,519.<span class="tblDec">9999</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td rowspan="1">五星组选20</td>
+	                        <td></td>
+	                        <td>9,780.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td rowspan="1">五星组选10</td>
+	                        <td></td>
+	                        <td>19,560.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td rowspan="1">五星组选5</td>
+	                        <td></td>
+	                        <td>39,120.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="14">前四</td>
+	                        <td rowspan="1">前四直选</td>
+	                        <td></td>
+	                        <td>19,560.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="1">前四直选(单式)</td>
+	                        <td></td>
+	                        <td>19,560.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="4">前四连选</td>
+	                        <td>一等奖</td>
+	                        <td>19,560.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td>二等奖</td>
+	                        <td>1,956.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td>三等奖</td>
+	                        <td>195.<span class="tblDec">6000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td>四等奖</td>
+	                        <td>19.<span class="tblDec">5600</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="4">前四连选(单式)</td>
+	                        <td>一等奖</td>
+	                        <td>19,560.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td>二等奖</td>
+	                        <td>1,956.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td>三等奖</td>
+	                        <td>195.<span class="tblDec">6000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td>四等奖</td>
+	                        <td>19.<span class="tblDec">5600</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="1">前四组选24</td>
+	                        <td></td>
+	                        <td>815.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="1">前四组选12</td>
+	                        <td></td>
+	                        <td>1,629.<span class="tblDec">9999</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="1">前四组选6</td>
+	                        <td></td>
+	                        <td>3,260.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="1">前四组选4</td>
+	                        <td></td>
+	                        <td>4,890.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td rowspan="14">后四</td>
+	                        <td rowspan="1">后四直选</td>
+	                        <td></td>
+	                        <td>19,560.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td rowspan="1">后四直选(单式)</td>
+	                        <td></td>
+	                        <td>19,560.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td rowspan="4">后四连选</td>
+	                        <td>一等奖</td>
+	                        <td>19,560.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td>二等奖</td>
+	                        <td>1,956.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td>三等奖</td>
+	                        <td>195.<span class="tblDec">6000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td>四等奖</td>
+	                        <td>19.<span class="tblDec">5600</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td rowspan="4">后四连选(单式)</td>
+	                        <td>一等奖</td>
+	                        <td>19,560.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td>二等奖</td>
+	                        <td>1,956.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td>四等奖</td>
+	                        <td>19.<span class="tblDec">5600</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td>三等奖</td>
+	                        <td>195.<span class="tblDec">6000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td rowspan="1">后四组选24</td>
+	                        <td></td>
+	                        <td>815.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td rowspan="1">后四组选12</td>
+	                        <td></td>
+	                        <td>1,629.<span class="tblDec">9999</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td rowspan="1">后四组选6</td>
+	                        <td></td>
+	                        <td>3,260.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td rowspan="1">后四组选4</td>
+	                        <td></td>
+	                        <td>4,890.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="14">前三</td>
+	                        <td rowspan="1">前三直选</td>
+	                        <td></td>
+	                        <td>1,956.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="1">前三直选(单式)</td>
+	                        <td></td>
+	                        <td>1,956.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="3">前三连选</td>
+	                        <td>一等奖</td>
+	                        <td>1,956.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td>二等奖</td>
+	                        <td>195.<span class="tblDec">6000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td>三等奖</td>
+	                        <td>19.<span class="tblDec">5600</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="3">前三连选(单式)</td>
+	                        <td>一等奖</td>
+	                        <td>1,956.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td>二等奖</td>
+	                        <td>195.<span class="tblDec">6000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td>三等奖</td>
+	                        <td>19.<span class="tblDec">5600</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="1">前三直选组合</td>
+	                        <td></td>
+	                        <td>1,956.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="1">前三和值</td>
+	                        <td></td>
+	                        <td>1,956.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="1">前三组三</td>
+	                        <td></td>
+	                        <td>652.<span class="tblDec">0001</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="1">前三组六</td>
+	                        <td></td>
+	                        <td>326.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="2">前三混合组选</td>
+	                        <td>组三</td>
+	                        <td>652.<span class="tblDec">0001</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td>组六</td>
+	                        <td>326.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td rowspan="14">中三</td>
+	                        <td rowspan="1">中三直选</td>
+	                        <td></td>
+	                        <td>1,956.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td rowspan="1">中三直选(单式)</td>
+	                        <td></td>
+	                        <td>1,956.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td rowspan="3">中三连选</td>
+	                        <td>三等奖</td>
+	                        <td>19.<span class="tblDec">5600</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td>一等奖</td>
+	                        <td>1,956.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td>二等奖</td>
+	                        <td>195.<span class="tblDec">6000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td rowspan="3">中三连选(单式)</td>
+	                        <td>三等奖</td>
+	                        <td>19.<span class="tblDec">5600</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td>一等奖</td>
+	                        <td>1,956.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td>二等奖</td>
+	                        <td>195.<span class="tblDec">6000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td rowspan="1">中三直选组合</td>
+	                        <td></td>
+	                        <td>1,956.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td rowspan="1">中三和值</td>
+	                        <td></td>
+	                        <td>1,956.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td rowspan="1">中三组三</td>
+	                        <td></td>
+	                        <td>652.<span class="tblDec">0001</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td rowspan="1">中三组六</td>
+	                        <td></td>
+	                        <td>326.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td rowspan="2">中三混合组选</td>
+	                        <td>组六</td>
+	                        <td>326.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td>组三</td>
+	                        <td>652.<span class="tblDec">0001</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="14">后三</td>
+	                        <td rowspan="1">后三直选</td>
+	                        <td></td>
+	                        <td>1,956.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="1">后三直选(单式)</td>
+	                        <td></td>
+	                        <td>1,956.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="3">后三连选</td>
+	                        <td>一等奖</td>
+	                        <td>1,956.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td>二等奖</td>
+	                        <td>195.<span class="tblDec">6000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td>三等奖</td>
+	                        <td>19.<span class="tblDec">5600</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="3">后三连选(单式)</td>
+	                        <td>一等奖</td>
+	                        <td>1,956.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td>二等奖</td>
+	                        <td>195.<span class="tblDec">6000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td>三等奖</td>
+	                        <td>19.<span class="tblDec">5600</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="1">后三直选组合</td>
+	                        <td></td>
+	                        <td>1,956.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="1">后三和值</td>
+	                        <td></td>
+	                        <td>1,956.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="1">后三组三</td>
+	                        <td></td>
+	                        <td>652.<span class="tblDec">0001</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="1">后三组六</td>
+	                        <td></td>
+	                        <td>326.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="2">后三混合组选</td>
+	                        <td>组三</td>
+	                        <td>652.<span class="tblDec">0001</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td>组六</td>
+	                        <td>326.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td rowspan="8">前二</td>
+	                        <td rowspan="1">前二直选</td>
+	                        <td></td>
+	                        <td>195.<span class="tblDec">6000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td rowspan="1">前二直选(单式)</td>
+	                        <td></td>
+	                        <td>195.<span class="tblDec">6000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td rowspan="2">前二连选</td>
+	                        <td>二等奖</td>
+	                        <td>19.<span class="tblDec">5600</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td>一等奖</td>
+	                        <td>195.<span class="tblDec">6000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td rowspan="2">前二连选(单式)</td>
+	                        <td>一等奖</td>
+	                        <td>195.<span class="tblDec">6000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td>二等奖</td>
+	                        <td>19.<span class="tblDec">5600</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td rowspan="1">前二和值</td>
+	                        <td></td>
+	                        <td>195.<span class="tblDec">6000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td rowspan="1">前二组选</td>
+	                        <td></td>
+	                        <td>97.<span class="tblDec">8000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="8">后二</td>
+	                        <td rowspan="1">后二直选</td>
+	                        <td></td>
+	                        <td>195.<span class="tblDec">6000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="1">后二直选(单式)</td>
+	                        <td></td>
+	                        <td>195.<span class="tblDec">6000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="2">后二连选</td>
+	                        <td>一等奖</td>
+	                        <td>195.<span class="tblDec">6000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td>二等奖</td>
+	                        <td>19.<span class="tblDec">5600</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="2">后二连选(单式)</td>
+	                        <td>一等奖</td>
+	                        <td>195.<span class="tblDec">6000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td>二等奖</td>
+	                        <td>19.<span class="tblDec">5600</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="1">后二和值</td>
+	                        <td></td>
+	                        <td>195.<span class="tblDec">6000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="1">后二组选</td>
+	                        <td></td>
+	                        <td>97.<span class="tblDec">8000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td rowspan="6">一星</td>
+	                        <td rowspan="5">一星定位胆</td>
+	                        <td></td>
+	                        <td>19.<span class="tblDec">5600</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td></td>
+	                        <td>19.<span class="tblDec">5600</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td></td>
+	                        <td>19.<span class="tblDec">5600</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td></td>
+	                        <td>19.<span class="tblDec">5600</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td></td>
+	                        <td>19.<span class="tblDec">5600</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td rowspan="1">一星直选</td>
+	                        <td></td>
+	                        <td>19.<span class="tblDec">5600</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="30">不定位</td>
+	                        <td rowspan="1">前三直选一码</td>
+	                        <td></td>
+	                        <td>7.<span class="tblDec">2176</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="1">前三直选二码</td>
+	                        <td></td>
+	                        <td>36.<span class="tblDec">2221</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="1">中三直选一码</td>
+	                        <td></td>
+	                        <td>7.<span class="tblDec">2176</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="1">中三直选二码</td>
+	                        <td></td>
+	                        <td>36.<span class="tblDec">2221</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="1">后三直选一码</td>
+	                        <td></td>
+	                        <td>7.<span class="tblDec">2176</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="1">后三直选二码</td>
+	                        <td></td>
+	                        <td>36.<span class="tblDec">2221</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="1">前二直选</td>
+	                        <td></td>
+	                        <td>10.<span class="tblDec">2948</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="1">后二直选</td>
+	                        <td></td>
+	                        <td>10.<span class="tblDec">2948</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="3">前三组选一码</td>
+	                        <td>组六</td>
+	                        <td>326.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td>豹子</td>
+	                        <td>1,956.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td>组三</td>
+	                        <td>652.<span class="tblDec">0001</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="3">前三组选二码</td>
+	                        <td>组六</td>
+	                        <td>326.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td>豹子</td>
+	                        <td>1,956.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td>组三</td>
+	                        <td>652.<span class="tblDec">0001</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="3">中三组选一码</td>
+	                        <td>豹子</td>
+	                        <td>1,956.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td>组三</td>
+	                        <td>652.<span class="tblDec">0001</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td>组六</td>
+	                        <td>326.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="3">中三组选二码</td>
+	                        <td>豹子</td>
+	                        <td>1,956.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td>组三</td>
+	                        <td>652.<span class="tblDec">0001</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td>组六</td>
+	                        <td>326.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="3">后三组选一码</td>
+	                        <td>组六</td>
+	                        <td>326.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td>组三</td>
+	                        <td>652.<span class="tblDec">0001</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td>豹子</td>
+	                        <td>1,956.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="3">后三组选二码</td>
+	                        <td>组三</td>
+	                        <td>652.<span class="tblDec">0001</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td>豹子</td>
+	                        <td>1,956.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td>组六</td>
+	                        <td>326.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="2">前二组选</td>
+	                        <td>非对子</td>
+	                        <td>97.<span class="tblDec">8000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td>对子</td>
+	                        <td>195.<span class="tblDec">6000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="2">后二组选</td>
+	                        <td>对子</td>
+	                        <td>195.<span class="tblDec">6000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td>非对子</td>
+	                        <td>97.<span class="tblDec">8000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td rowspan="6">趣味</td>
+	                        <td rowspan="1">前二大小单双</td>
+	                        <td></td>
+	                        <td>7.<span class="tblDec">8240</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td rowspan="1">后二大小单双</td>
+	                        <td></td>
+	                        <td>7.<span class="tblDec">8240</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td rowspan="1">一帆风顺</td>
+	                        <td></td>
+	                        <td>4.<span class="tblDec">7763</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td rowspan="1">好事成双</td>
+	                        <td></td>
+	                        <td>24.<span class="tblDec">0118</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td rowspan="1">三星报喜</td>
+	                        <td></td>
+	                        <td>228.<span class="tblDec">5046</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="yellow-bg">
+	                        <td rowspan="1">四季发财</td>
+	                        <td></td>
+	                        <td>4,252.<span class="tblDec">1738</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="20">任选</td>
+	                        <td rowspan="1">任一直选</td>
+	                        <td></td>
+	                        <td>19.<span class="tblDec">5600</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="1">任二直选</td>
+	                        <td></td>
+	                        <td>195.<span class="tblDec">6000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="1">任二直选（单式）</td>
+	                        <td></td>
+	                        <td>195.<span class="tblDec">6000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="1">任三直选</td>
+	                        <td></td>
+	                        <td>1,956.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="1">任三直选（单式）</td>
+	                        <td></td>
+	                        <td>1,956.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="1">任四直选</td>
+	                        <td></td>
+	                        <td>19,560.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="1">任四直选（单式）</td>
+	                        <td></td>
+	                        <td>19,560.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="1">任二组选</td>
+	                        <td></td>
+	                        <td>97.<span class="tblDec">8000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="1">任二组选（单式）</td>
+	                        <td></td>
+	                        <td>97.<span class="tblDec">8000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="1">任二组选和值</td>
+	                        <td></td>
+	                        <td>97.<span class="tblDec">8000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="2">任三组选和值</td>
+	                        <td>组六</td>
+	                        <td>326.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td>组三</td>
+	                        <td>651.<span class="tblDec">9999</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="1">任三组三</td>
+	                        <td></td>
+	                        <td>651.<span class="tblDec">9999</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="1">任三组六</td>
+	                        <td></td>
+	                        <td>326.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="2">任三混合组选</td>
+	                        <td>组六</td>
+	                        <td>326.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td>组三</td>
+	                        <td>651.<span class="tblDec">9999</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="1">任四组选24</td>
+	                        <td></td>
+	                        <td>815.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="1">任四组选12</td>
+	                        <td></td>
+	                        <td>1,629.<span class="tblDec">9999</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="1">任四组选6</td>
+	                        <td></td>
+	                        <td>3,260.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    <tr class="">
+	                        <td rowspan="1">任四组选4</td>
+	                        <td></td>
+	                        <td>4,890.<span class="tblDec">0000</span></td>
+	                        <td>0%</td>
+	                    </tr>
+	                    </tbody>
+	                </table>
+	            </div>
+	            <div class="bottom" style="height: 68px;border-top: 1px solid #efefef;width: 100%;position: absolute;bottom: 0;"></div>
+	        </div>
+	        <div class="info" style="display: none;">
+	            <div class="top" style="height: 62px;border-bottom: 1px solid #efefef;width: 100%"></div>
+	            <div class="search-box">
+	                <ul class="search-list">
+	                    <li>
+	                        <label>日期：</label>
+	                        <div class="mem-icon chDatePicker po-middle">
+	                            <input type="hidden" value="" class="start_Day">
+	                            <input type="text" class="startDay hasDatepicker" value="" id="dp1498355156721">
+	                        </div>
+	                    </li>
+	                    <li>
+	                        <label>到：</label>
+	                        <div class="mem-icon chDatePicker po-middle">
+	                            <input type="hidden" value="" class="end_Day">
+	                            <input type="text" class="endDay hasDatepicker" value="" id="dp1498355156711">
+	                        </div>
+	                    </li>
+	                    <li>
+	                        <label>状态：</label>
+	                        <div class="slect-box-custom po-middle" id="awards-status">
+	                            <select class="select-award-type" style="display: none;">
+	                                <option value="">全部</option>
+	                                <option value="">待支付</option>
+	                                <option value="">已支付</option>
+	                                <option value="">过期</option>
+	                                <option value="">撤销</option>
+	                                <option value="">未中奖</option>
+	                                <option value="">中奖</option>
+	                            </select><div class="nice-select select-award-type" tabindex="0"><span class="current">全部</span><ul class="list"><li data-value="" class="option selected">全部</li><li data-value="" class="option">待支付</li><li data-value="" class="option">已支付</li><li data-value="" class="option">过期</li><li data-value="" class="option">撤销</li><li data-value="" class="option">未中奖</li><li data-value="" class="option">中奖</li></ul></div>
+	                        </div>
+	                    </li>
+	                    <li>
+	                        <label>游戏：</label>
+	                        <div class="slect-box-custom-large po-middle" id="balls-type">
+	                            <select class="select-ball-type" style="display: none;">
+	                                <option value="">全部</option>
+	                                <option value="">重庆时时彩</option>
+	                                <option value="">腾讯分分彩</option>
+	                                <option value="">北京五分彩</option>
+	                            </select><div class="nice-select select-ball-type" tabindex="0"><span class="current">全部</span><ul class="list"><li data-value="" class="option selected">全部</li><li data-value="" class="option">重庆时时彩</li><li data-value="" class="option">腾讯分分彩</li><li data-value="" class="option">北京五分彩</li></ul></div>
+	                        </div>
+	                    </li>
+	                    <li>
+	                        <div class="mem-icon abs-right-red po-middle" onclick="history(1);">查询</div>
+	                    </li>
+	                </ul>
+
+	            </div>
+	            <div class="tip-list">
+	                <ul class="his_list">
+	                    <li>游戏类型</li>
+	                    <li>订单编号</li>
+	                    <li>投注时间</li>
+	                    <li>游戏奖期</li>
+	                    <li>开奖号码</li>
+	                    <li>投注金额(元)</li>
+	                    <li>中奖金额(元)</li>
+	                    <li>状态</li>
+	                </ul>
+	            </div>
+	            <div class="result" id="historyDetailedBox">
+	                <!--<ul>-->
+	                <!--<li class="historyDetailed-type">2017-05-26</li> &lt;!&ndash;备注说明 &ndash;&gt;-->
+	                <!--<li class="historyDetailed-id">2017-05-26</li>   &lt;!&ndash;唯一编号 &ndash;&gt;-->
+	                <!--<li class="historyDetailed-time">2017-05-26 </li>  &lt;!&ndash;投注时间 &ndash;&gt;-->
+	                <!--<li class="historyDetailed-date">2017-05-26</li>   &lt;!&ndash;游戏奖期 &ndash;&gt;-->
+	                <!--<li class="searchDetailed-num">2017-05-26</li>   &lt;!&ndash;开奖号码 &ndash;&gt;-->
+	                <!--<li class="searchDetailed-price">2017-05-26</li>   &lt;!&ndash;投注金额 &ndash;&gt;-->
+	                <!--<li class="searchDetailed-award">2017-05-26</li>   &lt;!&ndash;中奖金额 &ndash;&gt;-->
+	                <!--<li class="searchDetailed-status">2017-05-26</li>   &lt;!&ndash;状态 &ndash;&gt;-->
+	                <!--</ul>-->
+	            </div>
+	            <!--<div class="total">-->
+	            <!--<ul>-->
+	            <!--<li>有效投注金额合计:<span id="all_tz_num">0</span></li>-->
+	            <!--<li>中奖金额合计:<span id="all_zj_nun">0</span></li>-->
+	            <!--</ul>-->
+	            <!--</div>-->
+	            <div class="page">
+	                <div class="pag-arr-left game-icons pag-bnt his_page_prev">
+	                </div>
+	                <div class="pag-arr-right game-icons pag-bnt his_page_next">
+	                </div>
+	                <div class="pag-search game-icons">
+	                    <span id="his_currentPage">0</span>
+	                    <span>/</span>
+	                    <span id="his_totalPage">0</span>
+	                </div>
+	                <input class="game-icons switch-dete" type="button" name="goToPage" value="确定">
+	            </div>
+	        </div>
+	        <div class="info" style="display: none;">
+	            <div class="top" style="height: 62px;border-bottom: 1px solid #efefef;width: 100%"></div>
+	            <div class="search-box">
+	                <ul class="search-list">
+	                    <li>
+	                        <label>日期：</label>
+	                        <div class="mem-icon chDatePicker po-middle">
+	                            <input type="text" class="startDay hasDatepicker" value="" id="dp1498355156722">
+	                        </div>
+	                    </li>
+	                    <li>
+	                        <label>到：</label>
+	                        <div class="mem-icon chDatePicker po-middle">
+	                            <input type="hidden" value="" class="end_Day">
+	                            <input type="text" class="endDay hasDatepicker" value="" id="dp1498355156712">
+	                        </div>
+	                    </li>
+	                    <li>
+	                        <label>类型：</label>
+	                        <div class="slect-box-custom po-middle">
+	                            <select class="select-account-type" style="display: none;">
+	                                <option value="">全部</option>
+	                                <option value="">支付</option>
+	                                <option value="">中奖</option>
+	                            </select><div class="nice-select select-account-type" tabindex="0"><span class="current">全部</span><ul class="list"><li data-value="" class="option selected">全部</li><li data-value="" class="option">支付</li><li data-value="" class="option">中奖</li></ul></div>
+	                        </div>
+	                    </li>
+	                    <!--<li>-->
+	                    <!--<label>账户：</label>-->
+	                    <!--<div class="slect-box-custom-large mem-icon po-middle">中心钱包</div>-->
+	                    <!--</li>-->
+	                    <li>
+	                        <div class="mem-icon abs-right-red po-middle" id="searchDetailed" onclick="accountInfo(1)">查询
+	                        </div>
+	                    </li>
+	                </ul>
+
+	            </div>
+	            <div class="tip-list">
+	                <ul class="account_list">
+	                    <li>备注</li>
+	                    <li>编号</li>
+	                    <li>时间</li>
+	                    <li>金额</li>
+	                    <li>状态</li>
+	                </ul>
+	            </div>
+	            <div class="result" id="searchDetailedBox">
+	                <!--<ul class="searchDetailedList">-->
+	                <!--<li class="searchDetailed-type">支付投注彩票</li>-->
+	                <!--<li class="searchDetailed-id">7</li>-->
+	                <!--<li class="searchDetailed-time">2017-05-26 20:03:09</li>-->
+	                <!--<li class="searchDetailed-num">-4.00</li>-->
+	                <!--<li class="searchDetailed-from">expend</li>-->
+	                <!--</ul>-->
+	                <!--<ul class="searchDetailedList">-->
+	                <!--<li class="searchDetailed-type">支付投注彩票</li>-->
+	                <!--<li class="searchDetailed-id">8</li>-->
+	                <!--<li class="searchDetailed-time">2017-05-26 20:37:30</li>-->
+	                <!--<li class="searchDetailed-num">-2.00</li>-->
+	                <!--<li class="searchDetailed-from">expend</li>-->
+	                <!--</ul>-->
+	            </div>
+	            <div class="total">
+	                <!--<ul>-->
+	                <!--<li>当前余额:<span id="surplus">0</span></li>-->
+	                <!--</ul>-->
+	            </div>
+	            <div class="page">
+	                <div class="pag-arr-left game-icons pag-bnt account_page_prev">
+	                </div>
+	                <div class="pag-arr-right game-icons pag-bnt account_page_next">
+	                </div>
+	                <div class="pag-search game-icons">
+	                    <span id="account_currentPage">0</span>
+	                    <span>/</span>
+	                    <span id="account_totalPage">0</span>
+	                </div>
+	                <input class="game-icons switch-dete" type="button" name="goToPage" value="确定">
+	            </div>
+	        </div>
+	        <div class="info" style="display: none;">
+	            <div class="left">
+	                <div class="mem-icon profileMember inline-block">&nbsp;</div>
+	                <span class="userName inline-block	" data-userinfo="username">test</span>
+	                <div class="title-centered"><span class="sm-label" data-userinfo="nickname">张小二</span></div>
+	                <div class="OpLeftContnt-wrp OLC-personal">
+	                    <p>贴心小提示:</p>
+	                    <p>为了您的帐户安全，请定期更换您的密码。<br><br> 密码由6到16位数字或字母组成，不能使用特殊字符 。<br><br> 资金密码不能和登录密码相同 。<br><br>
+	                    </p>
+	                </div>
+	            </div>
+	            <div class="right">
+	                <h1 class="title">修改登录密码</h1>
+	                <div class="form-list" style="min-height: 436px;">
+	                    <div class="alignleft prsnl-row-2 box" style="margin-top: 20px;">
+	                        <div class="input-list">
+	                            <label class="pl">旧密码：</label>
+	                            <input type="password" class="oldPassword p-input">
+	                        </div>
+	                        <div class="input-list">
+	                            <label class="pl">新密码：</label>
+	                            <input type="password" class="newPassword p-input">
+	                        </div>
+	                        <div class="input-list">
+	                            <label class="pl">确认密码：</label>
+	                            <input type="password" class="conPassword p-input">
+	                        </div>
+	                    </div>
+
+	                </div>
+	                <input class="form-submit btn mem-icon ch-overydBtn subMit-btn modify-password" type="button" value="提交" data-password="login">
+	            </div>
+	        </div>
+	        <div class="info" style="display: none;">
+	            <div class="left">
+	                <div class="mem-icon profileMember inline-block">&nbsp;</div>
+	                <span class="userName inline-block	" data-userinfo="username">test</span>
+	                <div class="title-centered"><span class="sm-label" data-userinfo="nickname">张小二</span></div>
+	                <div class="OpLeftContnt">
+	                    <div class="OpLeftContnt-wrp OLC-personal">
+	                        <p>贴心小提示:</p>
+	                        <p>为了您的帐户安全，请定期更换您的密码。<br><br> 密码由6到16位数字或字母组成，不能使用特殊字符 。<br><br> 登录密码不能和资金密码相同 。<br><br>
+	                        </p>
+	                    </div>
+	                </div>
+	            </div>
+	            <div class="right">
+	                <h1 class="title">修改资金密码</h1>
+	                <div class="form-list" style="min-height: 436px;">
+	                    <div class="alignleft prsnl-row-2 box" style="margin-top: 20px;">
+	                        <div class="input-list">
+	                            <label class="pl">旧密码：</label>
+	                            <input type="password" class="oldPassword p-input">
+	                        </div>
+	                        <div class="input-list">
+	                            <label class="pl">新密码：</label>
+	                            <input type="password" class="newPassword p-input">
+	                        </div>
+	                        <div class="input-list">
+	                            <label class="pl">确认密码：</label>
+	                            <input type="password" class="conPassword p-input">
+	                        </div>
+	                    </div>
+
+	                </div>
+	                <input class="form-submit btn mem-icon ch-overydBtn subMit-btn modify-password" type="button" value="提交" data-password="fund">
+	            </div>
+	        </div>
+	    </div>
+	    <div class="content">
+	        <div class="child_menus">
+	            <h1>代理</h1>
+	            <ul>
+	                <li class="child_menus_li child_menus_acrive">链接注册</li>
+	                <li class="child_menus_li">链接管理</li>
+	                <li class="child_menus_li" id="agentList">下级管理</li>
+	                <li class="child_menus_li" id="bbList">报表管理</li>
+	                <li class="child_menus_li">团队投注</li>
+	            </ul>
+	        </div>
+	        <div class="info" style="display: block;">
+	            <div class="model_child_content" style="width: 100%;">
+	                <form id="generateAffiliateUrlForm" novalidate="" autocomplete="off">
+	                    <div class="registerDL agentGAU in-rel">
+	                        <div class="top-con ">
+	                            <span class="po-middle">注册类型:</span>
+	                            <div class="new-switch-con po-middle">
+	                                <div class="po-middle new-switch-a" id="dira-regtype-proxy" data-val="1">代理</div>
+	                                <!--<div class="po-middle new-switch-b hide" id="dira-regtype-member" data-val="0">会员</div>-->
+	                            </div>
+	                            <span class="po-middle">截止日期:</span>
+	                            <div class="mem-icon chDatePicker po-middle">
+	                                <input type="text" class="agentDay hasDatepicker" value="" id="dp1498355156727">
+	                            </div>
+	                        </div>
+	                        <div class="mid-con border-bot">
+	                            <span class="po-middle">推广渠道:</span>
+	                            <div class="slect-box-custom po-middle" id="channelType">
+	                                <select class="select-agent-channel" style="display: none;">
+	                                    <option value="">选择渠道</option>
+	                                    <option value="">论坛</option>
+	                                    <option value="">QQ群</option>
+	                                    <option value="">自定义</option>
+	                                </select><div class="nice-select select-agent-channel" tabindex="0"><span class="current">选择渠道</span><ul class="list"><li data-value="" class="option selected focus">选择渠道</li><li data-value="" class="option">论坛</li><li data-value="" class="option">QQ群</li><li data-value="" class="option">自定义</li></ul></div>
+	                            </div>
+
+	                        </div>
+	                        <div class="footer-con">
+	                            <div class="red-bnt-new" id="agentLink">
+	                                <input type="button" value="生成链接" class="form-submit">
+	                            </div>
+	                        </div>
+	                        <div>
+	                        </div>
+	                    </div>
+	                </form>
+	            </div>
+	        </div>
+	        <div class="info" style="display: none;">
+	            <div class="top" style="height: 62px;border-bottom: 1px solid #efefef;width: 100%"></div>
+	            <div class="search-box">
+	                <ul class="search-list">
+	                    <li>
+	                        <label>日期：</label>
+	                        <div class="mem-icon chDatePicker po-middle">
+	                            <input type="text" class="startDay hasDatepicker" value="" id="dp1498355156723">
+	                        </div>
+	                    </li>
+	                    <li>
+	                        <label>到：</label>
+	                        <div class="mem-icon chDatePicker po-middle">
+	                            <input type="hidden" value="" class="end_Day">
+	                            <input type="text" class="endDay hasDatepicker" value="" id="dp1498355156713">
+	                        </div>
+	                    </li>
+	                    <li>
+	                        <label>状态：</label>
+	                        <div class="slect-box-custom po-middle" id="agentLinkStatus">
+	                            <select class="select-account-type" style="display: none;">
+	                                <option value="">全部</option>
+	                                <option value="">正常</option>
+	                                <option value="">取消</option>
+	                            </select><div class="nice-select select-account-type" tabindex="0"><span class="current">全部</span><ul class="list"><li data-value="" class="option selected">全部</li><li data-value="" class="option">正常</li><li data-value="" class="option">取消</li></ul></div>
+	                        </div>
+	                    </li>
+	                    <li>
+	                        <div class="mem-icon abs-right-red po-middle" onclick="agentLink(1);">查询</div>
+	                    </li>
+	                </ul>
+
+	            </div>
+	            <div class="tip-list">
+	                <ul class="agent_link_list">
+	                    <li>编号</li>
+	                    <li>点击复制</li>
+	                    <li>类型</li>
+	                    <li>使用渠道</li>
+	                    <li>状态</li>
+	                    <li>截止日期</li>
+	                    <li>注册人数</li>
+	                    <li>生成日期</li>
+	                    <li>取消</li>
+	                </ul>
+	            </div>
+	            <div class="result" id="agentLinkList">
+
+	            </div>
+	            <div class="page">
+	                <div class="pag-arr-left game-icons pag-bnt agent_prev">
+	                </div>
+	                <div class="pag-arr-right game-icons pag-bnt agent_next">
+	                </div>
+	                <div class="pag-search game-icons">
+	                    <span id="agent_currentPage">0</span>
+	                    <span>/</span>
+	                    <span id="agent_totalPage">0</span>
+	                </div>
+	                <input class="game-icons switch-dete" type="button" name="goToPage" value="确定">
+	            </div>
+	        </div>
+	        <div class="info" style="display: none;">
+	            <div class="top" style="height: 62px;border-bottom: 1px solid #efefef;width: 100%"></div>
+	            <div class="search-box">
+	                <ul class="search-list">
+	                    <li>
+	                        <label>日期：</label>
+	                        <div class="mem-icon chDatePicker po-middle">
+	                            <input type="text" class="startDay hasDatepicker" value="" id="dp1498355156724">
+	                        </div>
+	                    </li>
+	                    <li>
+	                        <label>到：</label>
+	                        <div class="mem-icon chDatePicker po-middle">
+	                            <input type="hidden" value="" class="end_Day">
+	                            <input type="text" class="endDay hasDatepicker" value="" id="dp1498355156714">
+	                        </div>
+	                    </li>
+	                    <li>
+	                        <label>状态：</label>
+	                        <div class="slect-box-custom po-middle" id="agentRange">
+	                            <select class="select-account-type" style="display: none;">
+	                                <option value="">所有下线</option>
+	                                <option value="">当前下线</option>
+	                            </select><div class="nice-select select-account-type" tabindex="0"><span class="current">所有下线</span><ul class="list"><li data-value="" class="option selected">所有下线</li><li data-value="" class="option">当前下线</li></ul></div>
+	                        </div>
+	                    </li>
+	                    <li>
+	                        <div class="mem-icon abs-right-red po-middle" onclick="agentMember(1);">查询</div>
+	                    </li>
+	                </ul>
+
+	            </div>
+	            <div class="tip-list">
+	                <ul class="his_list">
+	                    <li>编号</li>
+	                    <li>用户名</li>
+	                    <li>当前余额</li>
+	                    <li>下线总数</li>
+	                    <li>不活跃天数</li>
+	                    <li>注册时间</li>
+	                </ul>
+	            </div>
+	            <div class="result" id="agentUser">
+
+	            </div>
+	            <div class="page">
+	                <div class="pag-arr-left game-icons pag-bnt agent_user_prev">
+	                </div>
+	                <div class="pag-arr-right game-icons pag-bnt agent_user_next">
+	                </div>
+	                <div class="pag-search game-icons">
+	                    <span id="agent_user_currentPage">0</span>
+	                    <span>/</span>
+	                    <span id="agent_user_totalPage">0</span>
+	                </div>
+	                <input class="game-icons switch-dete" type="button" name="goToPage" value="确定">
+	            </div>
+	        </div>
+	        <div class="info" style="display: none;">
+	            <div class="top" style="height: 62px;border-bottom: 1px solid #efefef;width: 100%"></div>
+	            <div class="search-box">
+	                <ul class="search-list">
+	                    <li>
+	                        <label>日期：</label>
+	                        <div class="mem-icon chDatePicker po-middle">
+	                            <input type="text" class="startDay hasDatepicker" value="" id="dp1498355156725">
+	                        </div>
+	                    </li>
+	                    <li>
+	                        <label>到：</label>
+	                        <div class="mem-icon chDatePicker po-middle">
+	                            <input type="hidden" value="" class="end_Day">
+	                            <input type="text" class="endDay hasDatepicker" value="" id="dp1498355156715">
+	                        </div>
+	                    </li>
+	                    <li>
+	                        <div class="mem-icon abs-right-red po-middle" onclick="profitList(1);">查询</div>
+	                    </li>
+	                </ul>
+
+	            </div>
+	            <div class="tip-list">
+	                <ul class="his_list">
+	                    <li>用户名</li>
+	                    <li>用户ID</li>
+	                    <li>投注总额</li>
+	                    <li>充值总额</li>
+	                    <li>提现总额</li>
+	                    <li>中奖总额</li>
+	                    <li>收益总额</li>
+	                    <li>团队投注总额</li>
+	                    <li>团队充值总额</li>
+	                    <li>团队提现总额</li>
+	                    <li>团队中奖总额</li>
+	                    <li>团队收益总额</li>
+	                </ul>
+	            </div>
+	            <div class="result" id="profit_list">
+
+	            </div>
+	            <div class="page">
+	                <div class="pag-arr-left game-icons pag-bnt profit_prev">
+	                </div>
+	                <div class="pag-arr-right game-icons pag-bnt profit_next">
+	                </div>
+	                <div class="pag-search game-icons">
+	                    <span id="profit_currentPage">0</span>
+	                    <span>/</span>
+	                    <span id="profit_totalPage">0</span>
+	                </div>
+	                <input class="game-icons switch-dete" type="button" name="goToPage" value="确定">
+	            </div>
+	        </div>
+	        <div class="info" style="display: none;">
+	            <div class="top" style="height: 62px;border-bottom: 1px solid #efefef;width: 100%"></div>
+	            <div class="search-box">
+	                <ul class="search-list">
+
+	                    <li>
+	                        <label>日期：</label>
+	                        <div class="mem-icon chDatePicker po-middle">
+	                            <input type="text" class="startDay hasDatepicker" value="" id="dp1498355156726">
+	                        </div>
+	                    </li>
+	                    <li>
+	                        <label>到：</label>
+	                        <div class="mem-icon chDatePicker po-middle">
+	                            <input type="hidden" value="" class="end_Day">
+	                            <input type="text" class="endDay hasDatepicker" value="" id="dp1498355156716">
+	                        </div>
+	                    </li>
+	                    <li>
+	                        <div class="mem-icon abs-right-red po-middle" onclick="agentBetList(1);">查询</div>
+	                    </li>
+	                </ul>
+
+	            </div>
+	            <div class="tip-list">
+	                <ul class="his_list">
+	                    <li>游戏类型</li>
+	                    <li>订单编号</li>
+	                    <li>用户名</li>
+	                    <li>投注时间</li>
+	                    <li>游戏奖期</li>
+	                    <li>开奖号码</li>
+	                    <li>投注金额(元)</li>
+	                    <li>中奖金额(元)</li>
+	                    <li>状态</li>
+	                </ul>
+	            </div>
+	            <div class="result" id="agentBet"><div style="text-align: center;position: relative;right: 204px;top: 73px;">无投注记录</div></div>
+	            <div class="page">
+	                <div class="pag-arr-left game-icons pag-bnt agentBet_prev">
+	                </div>
+	                <div class="pag-arr-right game-icons pag-bnt agentBet_next">
+	                </div>
+	                <div class="pag-search game-icons">
+	                    <span id="agentBet_currentPage">0</span>
+	                    <span>/</span>
+	                    <span id="agentBet_totalPage">0</span>
+	                </div>
+	                <input class="game-icons switch-dete" type="button" name="goToPage" value="确定">
+	            </div>
+	        </div>
+	    </div>
+	    <div class="content">
+	        <div class="child_menus">
+	            <h1>讯息</h1>
+	            <ul>
+	                <li class="child_menus_li child_menus_acrive">编写讯息</li>
+	                <li class="child_menus_li">已收讯息</li>
+	                <li class="child_menus_li">已发讯息</li>
+	            </ul>
+	        </div>
+	        <div class="info">内容1</div>
+	        <div class="info" style="display: none;">内容2</div>
+	        <div class="info" style="display: none;">内容3</div>
+	    </div>
+	    <div class="content">
+	        <div class="child_menus">
+	            <h1>客服</h1>
+	            <ul>
+	                <li class="child_menus_li child_menus_acrive">客服</li>
+	            </ul>
+	        </div>
+	        <div class="info">客服</div>
+	    </div>
+	    <div class="content">
+	        <div class="child_menus">
+	            <h1>帮助</h1>
+	            <ul>
+	                <li class="child_menus_li child_menus_acrive">玩法奖金</li>
+	                <li class="child_menus_li">充值相关</li>
+	                <li class="child_menus_li">提款相关</li>
+	                <li class="child_menus_li">账号相关</li>
+	                <li class="child_menus_li">常见问题</li>
+	                <li class="child_menus_li">安装帮助</li>
+	                <li class="child_menus_li">关于我们</li>
+	            </ul>
+	        </div>
+	        <div class="info"></div>
+	        <div class="info" style="display: none;"></div>
+	        <div class="info" style="display: none;"></div>
+	        <div class="info" style="display: none;"></div>
+	        <div class="info" style="display: none;"></div>
+	        <div class="info" style="display: none;"></div>
+	        <div class="info" style="display: none;"></div>
+	    </div>
+	</div>
+
+	<script src="common/js/jquery.min.js"></script>
+	<script src="common/js/jquery.nice-select.min.js"></script>
+	<script src="common/js/POP.js"></script>
+
+	<script>
+		$(function(){
+			POP.init();
+			$('select').niceSelect();
+		});
+	</script>
+</body>
+</html>
