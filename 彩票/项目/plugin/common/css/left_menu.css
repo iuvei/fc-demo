@@ -148,22 +148,20 @@ span.unchecked {
 	display: block;
 	position: absolute;
 	left: 329px;
-	z-index: 1
+	z-index: 1;
 }
 #pop {
 	width: 1274px;
 	height: 600px;
 	background-color: #fff;
 	overflow: hidden;
-	/*border-top-left-radius: 10px;*/
-	/*border-bottom-left-radius: 10px;*/
 	border-radius: 10px;
 	position: absolute;
 	z-index: 9999;
-	left: 10%;
-	top: 10%;
+	left: 50%;
+	top: 50%;
+	margin: -300px 0 0  -637px;
 	display: none;
-
 }
 #pop .menu-list {
 	position: relative;
