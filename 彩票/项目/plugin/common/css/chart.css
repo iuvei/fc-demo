@@ -175,3 +175,76 @@ ul {
 .greenCheck {
 	background: url("../images/chart-sprite.png") repeat scroll 294px -1px;
 }
+
+
+/* =========================================================== */
+/* ==================  11选5 =============================== */
+/* =========================================================== */
+.my11X5 .firstTwo-wrp.po-middle {
+	width: 191px;
+}
+.my11X5 .sm-ch.po-middle {
+	left: -15px;
+	position: relative;
+}
+.my11X5 .ch-chart.chart1 li {
+	margin: 0 3px 0 2px;
+}
+.my11X5 .firstdatail .po-middle {
+	float: left;
+}
+.numCount-wrp.po-middle .po-middle.game-11X5 {
+	margin-right: 0px;
+}
+.my11X5 .winning-Num.po-middle li {
+	float: left;
+}
+.my11X5 .firstdatail.po-middle {
+	padding-top: 5px;
+}
+.my11X5 .numCount-wrp.po-middle {
+	padding-top: 3px;
+}
+.my11X5 .ch-chart {
+	float: left;
+}
+.my11X5 .winning-1.po-middle li {
+	margin: 0 1px;
+}
+.chart-below-cntent .ch-chart li {
+	display: inline-block;
+	font-size: 12px;
+	left: -9px;
+	margin: 0 -1.5px 0 0.8px;
+	position: relative;
+	width: 17px;
+}
+#chartBody .game-11X5 li {
+	box-sizing: border-box;
+	height: 26px;
+	line-height: 26px;
+	margin: 0 3px;
+	width: 35px;
+}
+.box-green, .box-vlt, .box-yellow {
+	color: #fff;
+	visibility: visible !important;
+}
+.box-vlt {
+	background: url(../images/chart-sprite.png) no-repeat scroll -176px -1px;
+}
+.box-green {
+	background: url(../images/chart-sprite.png) no-repeat scroll -221px -1px;
+}
+.box-yellow {
+	background: url(../images/chart-sprite.png) no-repeat scroll -266px -1px;
+}
+.chart-below-cntent .top-title {
+	border: 0 none;
+}
+.top-title.my11X5 .chart1 {
+	margin-right: 15px;
+}
+.my11X5 .numCount-wrp.po-middle .winning-1 {
+	margin-right: 15px;
+}

@@ -6,19 +6,20 @@ var CHART = {
 	init: function(options) {
 		options = options || {};
 		options.length = options.length || 5; //默认5列有折线
+		options.hasDiscounted = (options.hasDiscounted != undefined) ? options.hasDiscounted : true; //是否有折现
 
 		for (var i = options.length - 1; i >= 0; i--) {
 			CHART.holder.winningNumber[i] = '';
 		}
 
-		CHART.bindEvent();
+		CHART.bindEvent(options);
 
-		if(!CHART.lessThenIE8()){
-			// 折线
+		if(!CHART.lessThenIE8() && options.hasDiscounted){
+			// 绘制折线
 			CHART.draw(CHART.holder.winningNumber);
 		}
 	},
-	bindEvent: function() {
+	bindEvent: function(options) {
 		// 遗漏
 		$('.hrt-btn1').click(function() {
 			if ($(this).hasClass('checked')) {
@@ -30,18 +31,20 @@ var CHART = {
 			}
 		});
 
-		if (!CHART.lessThenIE8()) {
-			$('.chrt-btn2').click(function() {
-				if ($(this).hasClass('checked')) {
-					$(this).removeClass('checked');
-					$("canvas").hide();
-				} else {
-					$(this).addClass('checked');
-					$("canvas").show();
-				}
-			});
-		} else {
-			$('.chrt-btn2').hide();
+		if (options.hasDiscounted) {
+			if (!CHART.lessThenIE8()) {
+				$('.chrt-btn2').click(function() {
+					if ($(this).hasClass('checked')) {
+						$(this).removeClass('checked');
+						$("canvas").hide();
+					} else {
+						$(this).addClass('checked');
+						$("canvas").show();
+					}
+				});
+			} else {
+				$('.chrt-btn2').hide();
+			}
 		}
 	},
 	draw: function(a) {
