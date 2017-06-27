@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>弹出层</title>
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../js/layer/skin/default/layer.css">
+    <link rel="stylesheet" href="../css/skin/default.css" id="J_skinCss">
+    <style>
+        body{
+            padding: 100px;
+        }
+        div.btn{
+            width: 100px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            background-color: #fc0;
+            color: #fff;
+            font-weight: bold;
+            font-size: 20px;
+            cursor: pointer;
+            float: left;
+            margin-right: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="btn" id="demo1">成功</div>
+    <div class="btn" id="demo2">失败</div>
+    <div class="btn" id="demo3">警告</div>
+
+    <script src="../js/jquery-1.11.1.min.js"></script>
+    <script src="../js/layer/layer.js"></script>
+    <script>
+        $(function() {
+            // 成功
+            $('#demo1').click(function() {
+                layer.alert('加了个图标', {
+                    icon: 1
+                });
+            });
+
+            // 失败
+            $('#demo2').click(function() {
+                layer.alert('加了个图标', {
+                    icon: 2
+                });
+            });
+
+            // 警告
+            $('#demo3').click(function() {
+                // layer.alert('加了个图标', {
+                //     icon: 2,
+                // });
+                layer.confirm('该链接的具体信息如下，是否立即生产链接？', {
+                    icon: 2,
+                    closeBtn : 0,
+                    maxWidth: '520px'
+                }, function(index) {
+                    console.log(12);
+                    layer.close(index);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
