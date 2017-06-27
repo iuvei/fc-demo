@@ -4,3 +4,16 @@
 .light-color{
 	background-color: #008698;
 }
+.below-line{
+    height: 1px;
+    background-color: #008698;
+}
+.text-l-color{
+    color: #008395;
+}
+.text-d-color{
+    color: #00515d;
+}
+.chart-check i.active{
+    background-color: #00515d;
+}
