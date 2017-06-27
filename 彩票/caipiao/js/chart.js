@@ -22,11 +22,11 @@ var CHART = {
 	bindEvent: function(options) {
 		// 遗漏
 		$('.J_missBtn').click(function() {
-			if ($(this).hasClass('active')) {
-				$(this).removeClass('active');
+			if ($(this).find('i').hasClass('active')) {
+				$(this).find('i').removeClass('active');
 				$(".ch-row-contner .numCount-wrp ul").addClass("noNumber")
 			} else {
-				$(this).addClass('active');
+				$(this).find('i').addClass('active');
 				$(".ch-row-contner .numCount-wrp ul").removeClass("noNumber")
 			}
 		});
@@ -34,11 +34,11 @@ var CHART = {
 		if (options.hasDiscounted) {
 			if (!CHART.lessThenIE8()) {
 				$('.J_polyline').click(function() {
-					if ($(this).hasClass('active')) {
-						$(this).removeClass('active');
+					if ($(this).find('i').hasClass('active')) {
+						$(this).find('i').removeClass('active');
 						$("canvas").hide();
 					} else {
-						$(this).addClass('active');
+						$(this).find('i').addClass('active');
 						$("canvas").show();
 					}
 				});
