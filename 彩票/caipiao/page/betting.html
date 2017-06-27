@@ -4,10 +4,23 @@
     <meta charset="UTF-8">
     <title>投注</title>
     <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/nice-select.css">
     <link rel="stylesheet" href="../css/betting.css">
     <link rel="stylesheet" href="../css/skin/default.css" id="J_skinCss">
 </head>
 <body>
+
+<input type="hidden" value="" id="zhushu">
+<input type="hidden" value="" id="nums">
+<input type="hidden" value="" id="price">
+<input type="hidden" value="" id="tzNum">
+<input type="hidden" value="" id="enable">
+<input type="hidden" value="" id="orderId">
+<input type="hidden" value="" id="ballType">
+<input type="hidden" value="" id="allPages">
+<input type="hidden" value="" id="ballId">
+
+
     <!-- 顶部 -->
     <div id="header" class="header dark-color">
         <div class="w1200 clearfix rel">
@@ -18,15 +31,15 @@
             <div class="fr header-user">
                 <p class="fl">您好，<span id="J_headerUserName">asdasda</span></p>
                 <b class="fl">|</b>
-                <div class="fl"><span>余额已隐藏</span><span class="cup" id="J_cutoverBalance">显示</span></div>
+                <div class="fl"><span id="J_totalBalance">总余额 ￥<i class="J_balance"></i></span><span class="cup show" id="J_cutoverBalance" data-balance="">显示</span></div>
                 <b class="fl">|</b>
                 <span class="fl cup">充值</span>
                 <span class="fl cup">提款</span>
-                <em class="fl icon icon-signout cup"></em>
+                <em class="fl icon icon-signout cup" id="J_signOut"></em>
                 <em class="fl icon icon-refresh cup" id="J_refresh"></em>
             </div>
 
-            <div class="skin">
+            <div class="skin" id="J_skin">
                 <span>皮肤</span>
                 <em></em>
                 <ul>
@@ -47,44 +60,37 @@
         <div class="below-count fl">
             <div class="fl below-phase">
                 <p>剩余投注时间</p>
-                <p>第<span class="text-l-color">20170620-058</span>期</p>
+                <p>第<span class="text-l-color" id="J_betTimer"></span>期</p>
             </div>
-            <div class="fl below-count-num">
-                <em>0</em>
-                <em>0</em>
-                <span>:</span>
-                <em>0</em>
-                <em>4</em>
-                <span>:</span>
-                <em>2</em>
-                <em>0</em>
+            <div class="fl below-count-num" id="J_countDownNum">
+                <em>0</em><em>0</em><span>:</span><em>0</em><em>0</em><span>:</span><em>0</em><em>0</em>
             </div>
         </div>
         <div class="below-num fl">
             <div class="fl below-phase">
                 <p>开奖号码</p>
-                <p>第<span class="text-l-color">20170620-058</span>期</p>
+                <p>第<span class="text-l-color" id="J_dataNum">20170620-058</span>期</p>
             </div>
-            <div class="fl below-prize-num">
-                <em>2</em>
+            <div class="fl below-prize-num" id="J_drawResult">
+                <!-- <em>2</em>
                 <em>3</em>
                 <em>1</em>
                 <em>4</em>
-                <em>6</em>
+                <em>6</em> -->
             </div>
         </div>
         <div class="below-history fl">
-            <dl class="history-issue fl">
+            <dl class="history-issue fl" id="J_lastThreeDrawResult1">
                 <dt>开奖期号</dt>
+                <!-- <dd>20170621-052</dd>
                 <dd>20170621-052</dd>
-                <dd>20170621-052</dd>
-                <dd>20170621-052</dd>
+                <dd>20170621-052</dd> -->
             </dl>
-            <dl class="history-trend fr">
-                <dt class="cup"><em class="icon fl"></em>走势图</dt>
+            <dl class="history-trend fr" id="J_lastThreeDrawResult2">
+                <dt class="cup" id="J_trendChart"><em class="icon fl"></em>走势图</dt>
+                <!-- <dd>25466</dd>
                 <dd>25466</dd>
-                <dd>25466</dd>
-                <dd>25466</dd>
+                <dd>25466</dd> -->
             </dl>
         </div>
     </div>
@@ -299,42 +305,42 @@
                         <p class="t7">操作</p>
                     </div>
                     <div class="bet-list-con" style="">
-                        <ul>
-                            <li>
+                        <ul id="J_betList">
+                            <li class="clearfix">
                                 <div class="t1">后三直选</div>
-                                <div class="t2">8|7|6...</div>
+                                <div class="t2">8 | 7 | 6... <span class="cm_number hide">56789|56789|56789|56789|56789</span></div>
                                 <div class="t3">元</div>
                                 <div class="t4">1</div>
                                 <div class="t5">1</div>
                                 <div class="t6">2.0000</div>
-                                <div class="t7"><em class="icon icon-del"></em></div>
+                                <div class="t7"><em class="icon icon-del J_delNums"></em></div>
                             </li>
-                            <li>
+                            <li class="clearfix">
                                 <div class="t1">后三直选</div>
-                                <div class="t2">8|7|6...</div>
+                                <div class="t2">8 | 7 | 6... <span class="cm_number hide">56789|56789|56789|56789|56789</span></div>
                                 <div class="t3">元</div>
                                 <div class="t4">1</div>
                                 <div class="t5">1</div>
                                 <div class="t6">2.0000</div>
-                                <div class="t7"><em class="icon icon-del"></em></div>
+                                <div class="t7"><em class="icon icon-del J_delNums"></em></div>
                             </li>
-                            <li>
+                            <li class="clearfix">
                                 <div class="t1">后三直选</div>
-                                <div class="t2">8|7|6...</div>
+                                <div class="t2">8 | 7 | 6... <span class="cm_number hide">56789|56789|56789|56789|56789</span></div>
                                 <div class="t3">元</div>
                                 <div class="t4">1</div>
                                 <div class="t5">1</div>
                                 <div class="t6">2.0000</div>
-                                <div class="t7"><em class="icon icon-del"></em></div>
+                                <div class="t7"><em class="icon icon-del J_delNums"></em></div>
                             </li>
-                            <li>
+                            <li class="clearfix">
                                 <div class="t1">后三直选</div>
-                                <div class="t2">8|7|6...</div>
+                                <div class="t2">8 | 7 | 6... <span class="cm_number hide">56789|56789|56789|56789|56789</span></div>
                                 <div class="t3">元</div>
                                 <div class="t4">1</div>
                                 <div class="t5">1</div>
                                 <div class="t6">2.0000</div>
-                                <div class="t7"><em class="icon icon-del"></em></div>
+                                <div class="t7"><em class="icon icon-del J_delNums"></em></div>
                             </li>
                         </ul>
                     </div>
@@ -359,6 +365,11 @@
     </div>
 
     <script src="../js/jquery-1.11.1.min.js"></script>
+    <script src="../js/jquery.cookie.js"></script>
+    <script src="../js/jquery-nice-select.js"></script>
+    <script src="../js/layer/layer.js"></script>
+    <script src="../js/GLOBAL.js"></script>
+    <script src="../js/common.js"></script>
     <script src="../js/betting.js"></script>
 </body>
 </html>

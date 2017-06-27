@@ -10,84 +10,77 @@
 <body id="chartBody" class="chart-page">
 	<!-- 顶部 -->
 	<div id="header" class="header dark-color">
-		<div class="w1200 clearfix rel">
-			<div class="fl header-post">
-				<em class="icon fl"></em>
-				<div class="fl">暂时没有滚动通告</div>
-			</div>
-			<div class="fr header-user">
-				<p class="fl">您好，<span id="J_headerUserName">asdasda</span></p>
-				<b class="fl">|</b>
-				<div class="fl"><span>余额已隐藏</span><span class="cup" id="J_cutoverBalance">显示</span></div>
-				<b class="fl">|</b>
-				<span class="fl cup">充值</span>
-				<span class="fl cup">提款</span>
-				<em class="fl icon icon-signout cup"></em>
-				<em class="fl icon icon-refresh cup" id="J_refresh"></em>
-			</div>
+        <div class="w1200 clearfix rel">
+            <div class="fl header-post">
+                <em class="icon fl"></em>
+                <div class="fl">暂时没有滚动通告</div>
+            </div>
+            <div class="fr header-user">
+                <p class="fl">您好，<span id="J_headerUserName">asdasda</span></p>
+                <b class="fl">|</b>
+                <div class="fl"><span id="J_totalBalance">总余额 ￥<i class="J_balance"></i></span><span class="cup show" id="J_cutoverBalance" data-balance="">显示</span></div>
+                <b class="fl">|</b>
+                <span class="fl cup">充值</span>
+                <span class="fl cup">提款</span>
+                <em class="fl icon icon-signout cup" id="J_signOut"></em>
+                <em class="fl icon icon-refresh cup" id="J_refresh"></em>
+            </div>
 
-			<!-- <div class="skin">
-				<span>皮肤</span>
-				<em></em>
-				<ul>
-					<li class="J_setSkin skin-default" data-skin="default"></li>
-					<li class="J_setSkin skin-blue" data-skin="blue"></li>
-					<li class="J_setSkin skin-red" data-skin="red"></li>
-					<li class="J_setSkin skin-black" data-skin="black"></li>
-				</ul>
-			</div> -->
-		</div>
-	</div>
+            <!-- <div class="skin" id="J_skin">
+                <span>皮肤</span>
+                <em></em>
+                <ul>
+                    <li class="J_setSkin skin-default" data-skin="default"></li>
+                    <li class="J_setSkin skin-blue" data-skin="blue"></li>
+                    <li class="J_setSkin skin-red" data-skin="red"></li>
+                    <li class="J_setSkin skin-black" data-skin="black"></li>
+                </ul>
+            </div> -->
+        </div>
+    </div>
 
 	<!-- below-header -->
 	<div class="below-header w1200 clearfix">
-		<div class="below-logo fl">
-			<img src="../images/logo/cqssc.png" alt="">
-		</div>
-		<div class="below-count fl">
-			<div class="fl below-phase">
-				<p>剩余投注时间</p>
-				<p>第<span class="text-l-color">20170620-058</span>期</p>
-			</div>
-			<div class="fl below-count-num">
-				<em>0</em>
-				<em>0</em>
-				<span>:</span>
-				<em>0</em>
-				<em>4</em>
-				<span>:</span>
-				<em>2</em>
-				<em>0</em>
-			</div>
-		</div>
-		<div class="below-num fl">
-			<div class="fl below-phase">
-				<p>开奖号码</p>
-				<p>第<span class="text-l-color">20170620-058</span>期</p>
-			</div>
-			<div class="fl below-prize-num">
-				<em>2</em>
-				<em>3</em>
-				<em>1</em>
-				<em>4</em>
-				<em>6</em>
-			</div>
-		</div>
-		<div class="below-history fl">
-			<dl class="history-issue fl">
-				<dt>开奖期号</dt>
-				<dd>20170621-052</dd>
-				<dd>20170621-052</dd>
-				<dd>20170621-052</dd>
-			</dl>
-			<dl class="history-trend fr">
-				<dt class="cup"><em class="icon fl"></em>走势图</dt>
-				<dd>25466</dd>
-				<dd>25466</dd>
-				<dd>25466</dd>
-			</dl>
-		</div>
-	</div>
+        <div class="below-logo fl">
+            <img src="../images/logo/cqssc.png" alt="">
+        </div>
+        <div class="below-count fl">
+            <div class="fl below-phase">
+                <p>剩余投注时间</p>
+                <p>第<span class="text-l-color" id="J_betTimer"></span>期</p>
+            </div>
+            <div class="fl below-count-num" id="J_countDownNum">
+                <em>0</em><em>0</em><span>:</span><em>0</em><em>0</em><span>:</span><em>0</em><em>0</em>
+            </div>
+        </div>
+        <div class="below-num fl">
+            <div class="fl below-phase">
+                <p>开奖号码</p>
+                <p>第<span class="text-l-color" id="J_dataNum">20170620-058</span>期</p>
+            </div>
+            <div class="fl below-prize-num" id="J_drawResult">
+                <!-- <em>2</em>
+                <em>3</em>
+                <em>1</em>
+                <em>4</em>
+                <em>6</em> -->
+            </div>
+        </div>
+        <div class="below-history fl">
+            <dl class="history-issue fl" id="J_lastThreeDrawResult1">
+                <dt>开奖期号</dt>
+                <!-- <dd>20170621-052</dd>
+                <dd>20170621-052</dd>
+                <dd>20170621-052</dd> -->
+            </dl>
+            <dl class="history-trend fr" id="J_lastThreeDrawResult2">
+                <dt class="cup" id="J_trendChart"><em class="icon fl"></em>走势图</dt>
+                <!-- <dd>25466</dd>
+                <dd>25466</dd>
+                <dd>25466</dd> -->
+            </dl>
+        </div>
+    </div>
 	<div class="below-line"></div>
 	
 	<!-- chart -->
@@ -2821,7 +2814,10 @@
 	</div>
 
 	<script src="../js/jquery-1.11.1.min.js"></script>
-	<script src="../js/trend.js"></script>
+    <script src="../js/jquery.cookie.js"></script>
+    <script src="../js/layer/layer.js"></script>
+    <script src="../js/GLOBAL.js"></script>
+    <script src="../js/common.js"></script>
 	<script src="../js/chart.js"></script>
 	<script>
 		$(function(){

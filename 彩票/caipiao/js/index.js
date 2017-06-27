@@ -1,5 +1,4 @@
 $(function() {
-
 	// banner
 	var Banner = {
 		i: 0,
@@ -58,28 +57,4 @@ $(function() {
 	};
 
 	Banner.init();
-
-	// 刷新
-	$('#J_refresh').click(function() {
-		console.log('刷新');
-	});
-
-	// 显示、隐藏余额
-	$('#J_cutoverBalance').click(function(){
-		console.log('显示、隐藏余额');
-	});
-
-	// 公告滚动
-	
-	// 设置皮肤
-	$('.J_setSkin').click(function(){
-		var _skin = $(this).data('skin');
-		var _href = $('#J_skinCss').attr('href');
-		$('#J_skinCss').attr('href', _href.split('skin/')[0] + 'skin/' + _skin + '.css');
-
-		// TODO: 将应用皮肤存在cookie中
-	});
-
-
-
 });

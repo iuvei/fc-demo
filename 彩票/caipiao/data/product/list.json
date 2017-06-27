@@ -1,0 +1,58 @@
+{
+	"status": "success",
+	"message": {
+		"total": 3,
+		"per_page": 12,
+		"current_page": 1,
+		"last_page": 1,
+		"data": [{
+			"id": 1,
+			"name": "\u91cd\u5e86\u65f6\u65f6\u5f69",
+			"code": "chong_qing_shi_shi",
+			"logo": "",
+			"periods": {
+				"id": 47757,
+				"date": "20170627",
+				"num": 105,
+				"lottery_surplus": 230
+			},
+			"prev_periods": {
+				"date": "20170625",
+				"num": "10",
+				"lottery_num": "09381"
+			}
+		}, {
+			"id": 2,
+			"name": "\u817e\u8baf\u5206\u5206\u5f69",
+			"code": "qq_fen_fen",
+			"logo": "",
+			"periods": {
+				"id": 47756,
+				"date": "20170627",
+				"num": "1362",
+				"lottery_surplus": 50
+			},
+			"prev_periods": {
+				"date": "20170627",
+				"num": "1361",
+				"lottery_num": "04968"
+			}
+		}, {
+			"id": 3,
+			"name": "\u5317\u4eac5\u5206\u5f69",
+			"code": "bei_ji_fen_fen",
+			"logo": "",
+			"periods": {
+				"id": 47755,
+				"date": "20170627",
+				"num": "273",
+				"lottery_surplus": 230
+			},
+			"prev_periods": {
+				"date": "20170627",
+				"num": "272",
+				"lottery_num": "94375"
+			}
+		}]
+	}
+}

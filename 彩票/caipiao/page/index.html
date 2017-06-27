@@ -18,15 +18,15 @@
 			<div class="fr header-user">
 				<p class="fl">您好，<span id="J_headerUserName">asdasda</span></p>
 				<b class="fl">|</b>
-				<div class="fl"><span>余额已隐藏</span><span class="cup" id="J_cutoverBalance">显示</span></div>
+				<div class="fl"><span id="J_totalBalance">总余额 ￥<i class="J_balance"></i></span><span class="cup show" id="J_cutoverBalance" data-balance="">显示</span></div>
 				<b class="fl">|</b>
 				<span class="fl cup">充值</span>
 				<span class="fl cup">提款</span>
-				<em class="fl icon icon-signout cup"></em>
+				<em class="fl icon icon-signout cup" id="J_signOut"></em>
 				<em class="fl icon icon-refresh cup" id="J_refresh"></em>
 			</div>
 
-			<div class="skin">
+			<div class="skin" id="J_skin">
 				<span>皮肤</span>
 				<em></em>
 				<ul>
@@ -103,8 +103,8 @@
 			<!-- 用户 -->
 			<div class="banner-user">
 				<div class="user-avatar"><img src="../images/default-avatar.png" alt=""></div>
-				<p class="user-name">用户名称</p>
-				<p class="user-balance">余额：<span>000.00</span></p>
+				<p class="user-name J_userName">&nbsp;</p>
+				<p class="user-balance">余额：<span class="J_balance"></span></p>
 				<a href="javascript:;" class="user-recharge">立即充值</a>
 				<div class="user-q clearfix">
 					<a href="javascript:;" class="fl">提款须知</a>
@@ -118,43 +118,49 @@
 				<div id="lottery" class="lottery fl">
 					<ul class="lottery-list">
 						<li class="kind1">
-							<div class="cutdown">00:02:12</div>
-							<p>距离第<span>20170503-065</span>期开奖</p>
+							<div class="cutdown">
+								<span id="J_hourShow1">00</span>:<span id="J_minuteShow1">02</span>:<span id="J_secondShow1">12</span>
+							</div>
+							<p>距离第<span id="J_betTimer1"></span>期开奖</p>
 							<a href="javascript:;">立即投注</a>
 						</li>
 						<li class="kind2">
-							<div class="cutdown">00:02:12</div>
-							<p>距离第<span>20170503-065</span>期开奖</p>
+							<div class="cutdown">
+								<span id="J_hourShow2">00</span>:<span id="J_minuteShow2">02</span>:<span id="J_secondShow2">12</span>
+							</div>
+							<p>距离第<span id="J_betTimer2"></span>期开奖</p>
 							<a href="javascript:;">立即投注</a>
 						</li>
 						<li class="kind3">
-							<div class="cutdown">00:02:12</div>
-							<p>距离第<span>20170503-065</span>期开奖</p>
-							<a href="javascript:;">立即投注</a>
+							<div class="cutdown">
+								<span id="J_hourShow3">00</span>:<span id="J_minuteShow3">02</span>:<span id="J_secondShow3">12</span>
+							</div>
+							<p>距离第<span id="J_betTimer3"></span>期开奖</p>
+							<a href="/caipiao/page/betting.html?name=qq_fen_fen" target="_blank">立即投注</a>
 						</li>
 						<li class="kind4">
 							<div class="cutdown">00:02:12</div>
-							<p>距离第<span>20170503-065</span>期开奖</p>
+							<p>距离第<span id="J_betTimer4">20170503-065</span>期开奖</p>
 							<a href="javascript:;">立即投注</a>
 						</li>
 						<li class="kind5">
 							<div class="cutdown">00:02:12</div>
-							<p>距离第<span>20170503-065</span>期开奖</p>
+							<p>距离第<span id="J_betTimer5">20170503-065</span>期开奖</p>
 							<a href="javascript:;">立即投注</a>
 						</li>
 						<li class="kind6">
 							<div class="cutdown">00:02:12</div>
-							<p>距离第<span>20170503-065</span>期开奖</p>
+							<p>距离第<span id="J_betTimer6">20170503-065</span>期开奖</p>
 							<a href="javascript:;">立即投注</a>
 						</li>
 						<li class="kind7">
 							<div class="cutdown">00:02:12</div>
-							<p>距离第<span>20170503-065</span>期开奖</p>
+							<p>距离第<span id="J_betTimer7">20170503-065</span>期开奖</p>
 							<a href="javascript:;">立即投注</a>
 						</li>
 						<li class="kind8">
 							<div class="cutdown">00:02:12</div>
-							<p>距离第<span>20170503-065</span>期开奖</p>
+							<p>距离第<span id="J_betTimer8">20170503-065</span>期开奖</p>
 							<a href="javascript:;">立即投注</a>
 						</li>
 					</ul>
@@ -188,6 +194,10 @@
 	</div>
 
 	<script src="../js/jquery-1.11.1.min.js"></script>
+	<script src="../js/jquery.cookie.js"></script>
+	<script src="../js/layer/layer.js"></script>
+	<script src="../js/GLOBAL.js"></script>
+	<script src="../js/common.js"></script>
 	<script src="../js/index.js"></script>
 </body>
 </html>
