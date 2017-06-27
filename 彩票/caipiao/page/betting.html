@@ -8,7 +8,355 @@
     <link rel="stylesheet" href="../css/skin/default.css" id="J_skinCss">
 </head>
 <body>
+    <!-- 顶部 -->
+    <div id="header" class="header dark-color">
+        <div class="w1200 clearfix rel">
+            <div class="fl header-post">
+                <em class="icon fl"></em>
+                <div class="fl">暂时没有滚动通告</div>
+            </div>
+            <div class="fr header-user">
+                <p class="fl">您好，<span id="J_headerUserName">asdasda</span></p>
+                <b class="fl">|</b>
+                <div class="fl"><span>余额已隐藏</span><span class="cup" id="J_cutoverBalance">显示</span></div>
+                <b class="fl">|</b>
+                <span class="fl cup">充值</span>
+                <span class="fl cup">提款</span>
+                <em class="fl icon icon-signout cup"></em>
+                <em class="fl icon icon-refresh cup" id="J_refresh"></em>
+            </div>
+
+            <div class="skin">
+                <span>皮肤</span>
+                <em></em>
+                <ul>
+                    <li class="J_setSkin skin-default" data-skin="default"></li>
+                    <li class="J_setSkin skin-blue" data-skin="blue"></li>
+                    <li class="J_setSkin skin-red" data-skin="red"></li>
+                    <li class="J_setSkin skin-black" data-skin="black"></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- below-header -->
+    <div class="below-header w1200 clearfix">
+        <div class="below-logo fl">
+            <img src="../images/logo/cqssc.png" alt="">
+        </div>
+        <div class="below-count fl">
+            <div class="fl below-phase">
+                <p>剩余投注时间</p>
+                <p>第<span class="text-l-color">20170620-058</span>期</p>
+            </div>
+            <div class="fl below-count-num">
+                <em>0</em>
+                <em>0</em>
+                <span>:</span>
+                <em>0</em>
+                <em>4</em>
+                <span>:</span>
+                <em>2</em>
+                <em>0</em>
+            </div>
+        </div>
+        <div class="below-num fl">
+            <div class="fl below-phase">
+                <p>开奖号码</p>
+                <p>第<span class="text-l-color">20170620-058</span>期</p>
+            </div>
+            <div class="fl below-prize-num">
+                <em>2</em>
+                <em>3</em>
+                <em>1</em>
+                <em>4</em>
+                <em>6</em>
+            </div>
+        </div>
+        <div class="below-history fl">
+            <dl class="history-issue fl">
+                <dt>开奖期号</dt>
+                <dd>20170621-052</dd>
+                <dd>20170621-052</dd>
+                <dd>20170621-052</dd>
+            </dl>
+            <dl class="history-trend fr">
+                <dt class="cup"><em class="icon fl"></em>走势图</dt>
+                <dd>25466</dd>
+                <dd>25466</dd>
+                <dd>25466</dd>
+            </dl>
+        </div>
+    </div>
     
+    <!-- betting -->
+    <div class="betting w1200">
+        <div class="betting-menu light-color">
+            <span class="active">五星</span>
+            <span>前四</span>
+            <span>后四</span>
+            <span>前三</span>
+            <span>中三</span>
+            <span>后三</span>
+            <span>前二</span>
+            <span>后二</span>
+            <span>一星</span>
+            <span>不定位</span>
+            <span>趣味</span>
+            <span>任选</span>
+        </div>
+        
+        <div class="betting-sub-menu active">
+            <dl>
+                <dt>直选：</dt>
+                <dd class="active">五星直选</dd>
+                <dd>五星直选（单式）</dd>
+                <dd>五星通选</dd>
+                <dd>五星通选（单式）</dd>
+                <dd>五星连选</dd>
+                <dd>五星连选（单式）</dd>
+            </dl>
+            <dl>
+                <dt>组选：</dt>
+                <dd>五星组选120</dd>
+                <dd>五星组选60</dd>
+                <dd>五星组选30</dd>
+                <dd>五星组选20</dd>
+                <dd>五星组选10</dd>
+                <dd>五星组选5</dd>
+            </dl>
+        </div>
+
+        <div class="betting-rule">
+            <div class="betting-rule-box rel">
+                <span class="dark-color">玩法说明</span>
+                <p>最高奖金：<em>1700.00</em>元</p>
+                <div class="abs border-l-color">从百位、十位、个位分别选择1个或多个号码投注，号码和顺序都相同，即为中奖。 如：百位选择1，十位选择2，个位选择3，开奖号码为是"**123"，即为中奖。</div>
+            </div>
+        </div>
+
+        <div class="betting-box">
+            <ul class="bet-row">
+                <li>
+                    <div class="icon fl row-tt">万位</div>
+                    <ul class="row-num fl">
+                        <li class="active">0</li>
+                        <li>1</li>
+                        <li>2</li>
+                        <li>3</li>
+                        <li>4</li>
+                        <li>5</li>
+                        <li>6</li>
+                        <li>7</li>
+                        <li>8</li>
+                        <li class="last">9</li>
+                    </ul>
+                    <ul class="row-text fr">
+                        <li class="active">全</li>
+                        <li>大</li>
+                        <li>小</li>
+                        <li>基</li>
+                        <li>偶</li>
+                        <li>清</li>
+                    </ul>
+                </li>
+                <li>
+                    <div class="icon fl row-tt">千位</div>
+                    <ul class="row-num fl">
+                        <li class="active">0</li>
+                        <li>1</li>
+                        <li>2</li>
+                        <li>3</li>
+                        <li>4</li>
+                        <li>5</li>
+                        <li>6</li>
+                        <li>7</li>
+                        <li>8</li>
+                        <li class="last">9</li>
+                    </ul>
+                    <ul class="row-text fr">
+                        <li class="active">全</li>
+                        <li>大</li>
+                        <li>小</li>
+                        <li>基</li>
+                        <li>偶</li>
+                        <li>清</li>
+                    </ul>
+                </li>
+                <li>
+                    <div class="icon fl row-tt">百位</div>
+                    <ul class="row-num fl">
+                        <li class="active">0</li>
+                        <li>1</li>
+                        <li>2</li>
+                        <li>3</li>
+                        <li>4</li>
+                        <li>5</li>
+                        <li>6</li>
+                        <li>7</li>
+                        <li>8</li>
+                        <li class="last">9</li>
+                    </ul>
+                    <ul class="row-text fr">
+                        <li class="active">全</li>
+                        <li>大</li>
+                        <li>小</li>
+                        <li>基</li>
+                        <li>偶</li>
+                        <li>清</li>
+                    </ul>
+                </li>
+                <li>
+                    <div class="icon fl row-tt">十位</div>
+                    <ul class="row-num fl">
+                        <li class="active">0</li>
+                        <li>1</li>
+                        <li>2</li>
+                        <li>3</li>
+                        <li>4</li>
+                        <li>5</li>
+                        <li>6</li>
+                        <li>7</li>
+                        <li>8</li>
+                        <li class="last">9</li>
+                    </ul>
+                    <ul class="row-text fr">
+                        <li class="active">全</li>
+                        <li>大</li>
+                        <li>小</li>
+                        <li>基</li>
+                        <li>偶</li>
+                        <li>清</li>
+                    </ul>
+                </li>
+                <li>
+                    <div class="icon fl row-tt">个位</div>
+                    <ul class="row-num fl">
+                        <li class="active">0</li>
+                        <li>1</li>
+                        <li>2</li>
+                        <li>3</li>
+                        <li>4</li>
+                        <li>5</li>
+                        <li>6</li>
+                        <li>7</li>
+                        <li>8</li>
+                        <li class="last">9</li>
+                    </ul>
+                    <ul class="row-text fr">
+                        <li class="active">全</li>
+                        <li>大</li>
+                        <li>小</li>
+                        <li>基</li>
+                        <li>偶</li>
+                        <li>清</li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="bet-wrp clearfix">
+                <p class="ber-wrp-num fl">您选择了<i>0</i>注</p>
+                <div class="bet-wrp-multiple fl">
+                    <em class="fl cut">-</em>
+                    <input type="text" class="fl" value="1">
+                    <em class="fl add">+</em>
+                    <span class="fl">倍</span>
+                </div>
+                <div class="bet-wrp-unit fl">
+                    <select name="" id="" class="fl">
+                        <option value="">元</option>
+                        <option value="">角</option>
+                        <option value="">分</option>
+                    </select>
+                    <p class="fl">共<span>6.000</span>元</p>
+                </div>
+                <div class="bet-wrp-rebate fl">
+                    <p class="fl">奖金返点</p>
+                    <select name="" id="">
+                        <option value="">1700/0.00%</option>
+                    </select>
+                </div>
+                <div class="bet-wrp-btn fr">
+                    <span class="fl btn-d-color mr10 bet-btn ">添加选号</span>
+                    <span class="fl btn-d-color bet-btn disabled">一键投注</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="bet-list clearfix">
+            <div class="bet-list-switch">
+                <span class="active">当前投注</span>
+                <span>投注历史</span>
+            </div>
+            <div class="bet-list-box clearfix">
+                <div class="fl rel">
+                    <div class="bet-list-tt">
+                        <p class="t1">玩法类型</p>
+                        <p class="t2">投注号码</p>
+                        <p class="t3">模式</p>
+                        <p class="t4">注数</p>
+                        <p class="t5">倍数</p>
+                        <p class="t6">投注金额（元）</p>
+                        <p class="t7">操作</p>
+                    </div>
+                    <div class="bet-list-con" style="">
+                        <ul>
+                            <li>
+                                <div class="t1">后三直选</div>
+                                <div class="t2">8|7|6...</div>
+                                <div class="t3">元</div>
+                                <div class="t4">1</div>
+                                <div class="t5">1</div>
+                                <div class="t6">2.0000</div>
+                                <div class="t7"><em class="icon icon-del"></em></div>
+                            </li>
+                            <li>
+                                <div class="t1">后三直选</div>
+                                <div class="t2">8|7|6...</div>
+                                <div class="t3">元</div>
+                                <div class="t4">1</div>
+                                <div class="t5">1</div>
+                                <div class="t6">2.0000</div>
+                                <div class="t7"><em class="icon icon-del"></em></div>
+                            </li>
+                            <li>
+                                <div class="t1">后三直选</div>
+                                <div class="t2">8|7|6...</div>
+                                <div class="t3">元</div>
+                                <div class="t4">1</div>
+                                <div class="t5">1</div>
+                                <div class="t6">2.0000</div>
+                                <div class="t7"><em class="icon icon-del"></em></div>
+                            </li>
+                            <li>
+                                <div class="t1">后三直选</div>
+                                <div class="t2">8|7|6...</div>
+                                <div class="t3">元</div>
+                                <div class="t4">1</div>
+                                <div class="t5">1</div>
+                                <div class="t6">2.0000</div>
+                                <div class="t7"><em class="icon icon-del"></em></div>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bet-betting">
+                        <span class="bet-btn fr btn-red">确认投注</span>
+                        <span class="bet-btn fr btn-add-num mr10">我要追号</span>
+                        <p class="fr">已选<span>0</span>注&nbsp;&nbsp;&nbsp;&nbsp;金额￥<span>0.00</span>元</p>
+                    </div>
+                </div>
+                <div class="fr bet-btns">
+                    <span class="bet-btn">机选5注</span>
+                    <span class="bet-btn">一键清空</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部 -->
+    <div id="footer" class="footer dark-color">
+        <div class="w1200">© 大圣彩版权所有 |  创新博弈，成功从大圣彩开始</div>
+    </div>
 
     <script src="../js/jquery-1.11.1.min.js"></script>
     <script src="../js/betting.js"></script>

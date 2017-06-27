@@ -27,6 +27,37 @@
 // .chart-wrap {
 // 	padding-top: 30px;
 // }
+
+
+
+/* chart */
+.chart-top{
+    height: 63px;
+    line-height: 63px;
+
+}
+.chart-issue{margin-right: 20px;}
+.chart-issue-c{
+    margin-right: 30px;
+}
+.chart-switch{}
+.chart-check{
+    margin-right: 15px;
+}
+.chart-check i{
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 2px;
+    cursor: pointer;
+    background-color: #cdcdcd;
+    float: left;
+    margin: 21px 2px 0 0;
+}
+.chart-box{
+    background-color: #fff;
+    margin-bottom: 23px;
+}
 .chart-wrp {
 	border: 1px solid #ddd;
 	border-radius: 6px;

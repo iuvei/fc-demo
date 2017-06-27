@@ -8,12 +8,58 @@
     height: 1px;
     background-color: #008698;
 }
-.text-l-color{
-    color: #008395;
+.text-l-color,
+.betting-sub-menu dd:hover,
+.betting-sub-menu dd.active{
+    color: #008698;
 }
 .text-d-color{
     color: #00515d;
 }
-.chart-check i.active{
+.btn-add-num,
+.chart-check i.active,
+.bet-btns span:hover{
+    background-color: #00515d;
+}
+.betting-menu span:hover,
+.betting-menu span.active{
+    background-color: #fff;
+    color: #008698;
+}
+.border-l-color{
+    border-color: #008698;
+}
+.btn-d-color{
+    background-color: #00515d;
+}
+.btn-l-color{
+    background-color: #008698;
+}
+.btn-d-color.disabled,
+.btn-l-color.disabled{
+    color: #fff;
+    background-color: #9f9f9f;
+}
+
+
+
+/* 详情页选择 */
+.row-num li.active,
+.row-num li:hover{
+    color: #fff;
+    background-position: -250px -150px;
+}
+.row-text li.active,
+.row-text li:hover{
+    color: #fff;
+    background-color: #008698;
+    border-color: #008698;
+}
+.bet-list-switch span{
+    border: 1px solid #008698;
+}
+.bet-list-switch span.active{
+    color: #fff;
+    border-color: #00515d;
     background-color: #00515d;
 }
