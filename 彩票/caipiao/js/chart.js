@@ -21,29 +21,29 @@ var CHART = {
 	},
 	bindEvent: function(options) {
 		// 遗漏
-		$('.hrt-btn1').click(function() {
-			if ($(this).hasClass('checked')) {
-				$(this).removeClass('checked');
+		$('.J_missBtn').click(function() {
+			if ($(this).find('i').hasClass('active')) {
+				$(this).find('i').removeClass('active');
 				$(".ch-row-contner .numCount-wrp ul").addClass("noNumber")
 			} else {
-				$(this).addClass('checked');
+				$(this).find('i').addClass('active');
 				$(".ch-row-contner .numCount-wrp ul").removeClass("noNumber")
 			}
 		});
 
 		if (options.hasDiscounted) {
 			if (!CHART.lessThenIE8()) {
-				$('.chrt-btn2').click(function() {
-					if ($(this).hasClass('checked')) {
-						$(this).removeClass('checked');
+				$('.J_polyline').click(function() {
+					if ($(this).find('i').hasClass('active')) {
+						$(this).find('i').removeClass('active');
 						$("canvas").hide();
 					} else {
-						$(this).addClass('checked');
+						$(this).find('i').addClass('active');
 						$("canvas").show();
 					}
 				});
 			} else {
-				$('.chrt-btn2').hide();
+				$('.J_polyline').hide();
 			}
 		}
 	},
@@ -83,7 +83,7 @@ var CHART = {
 	},
 	canvasProperties: function(a, b, c, d) {
 		var e = {};
-		switch (e.id = d, e.provideClass = a.color, e.height = 23, c) {
+		switch (e.id = d, e.provideClass = a.color, e.height = 41, c) {
 			case "right":
 				e.style = "position: absolute; visibility: visible; top: " + (a.offset.top + 11) + "px; left: " + (a.offset.left + 11) + "px;", e.width = Math.abs(a.offset.left - b.offset.left);
 				break;

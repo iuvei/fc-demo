@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <div id="demo"></div>
+
+    <script src="common/js/jquery.min.js"></script>
+    <script src="common/js/template.js"></script>
+    <script>
+        $(function(){
+            var defer = $.Deferred();
+            // var template = require('template');
+            var templateUrl = 'template';
+            templateUrl = /.html$/g.test(templateUrl) ? templateUrl : templateUrl + '.html';
+            templateUrl = /^pages/g.test(templateUrl) ? templateUrl : 'pages/componentTpl/' + templateUrl;
+console.log(templateUrl);
+            $.ajax({
+                url: templateUrl,
+                dataType: 'text',
+                async: true
+            }).done(function (data) {
+                console.log(data);
+                // if (information) {
+                //     defer.resolve(template.compile(data)(information));
+                // } else {
+                    defer.resolve(template.compile(data));
+                // }
+
+            }).fail(function (err) {
+                defer.reject(err);
+            }).always(function () {
+                // MaskUtil.unmask();
+            });
+
+            // var _html = template('');
+            // console.log(_html);
+            // $('#demo').html(_html);
+        });
+    </script>
+</body>
+</html>
