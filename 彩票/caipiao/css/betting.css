@@ -354,3 +354,17 @@
 .btn-red{
     background-color: #ff4747;
 }
+
+#J_selectArea textarea {
+    width: 865px;
+    border: 1px solid #d3d4d4;
+    border-radius: 6px;
+    box-shadow: -1px 3px 2px -1px #dedede inset;
+    color: #888888;
+    height: 180px;
+    letter-spacing: normal !important;
+    padding: 10px;
+    resize: none;
+    text-align: left;
+    margin-bottom: 20px;
+}

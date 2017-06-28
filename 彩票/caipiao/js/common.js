@@ -191,11 +191,11 @@ $(function() {
 						val.num = COMMON.fillLenght(val.num, 3, '0');
 						if (k < 3) {
 							// three.append(`<li><div class="alignleft">${val.date}-${val.num}</div><div class="alignright"><ul><li>${val.lottery_num[0]}</li><li>${val.lottery_num[1]}</li><li>${val.lottery_num[2]}</li><li>${val.lottery_num[3]}</li><li>${val.lottery_num[4]}</li></ul></div></li>`);
-							three.append(`<dd>${val.date}-${val.num}</dd>`);
-							three2.append(`<dd>${val.lottery_num[0]}${val.lottery_num[1]}${val.lottery_num[2]}${val.lottery_num[3]}${val.lottery_num[4]}</dd>`);
+							three.append('<dd>'+ val.date +'-'+ val.num +'</dd>');
+							three2.append('<dd>' + val.lottery_num[0] + val.lottery_num[1] + val.lottery_num[2] + val.lottery_num[3] + val.lottery_num[4] + '</dd>');
 
 						}
-						// seven.append(`<li class="draw_date">${val.date}-${val.num}</li><li class="draw_winning"><ul><li>${val.lottery_num[0]}</li><li>${val.lottery_num[1]}</li><li>${val.lottery_num[2]}</li><li>${val.lottery_num[3]}</li><li>${val.lottery_num[4]}</li></ul></li>`);
+						// seven.append('<li class="draw_date">${val.date}-${val.num}</li><li class="draw_winning"><ul><li>${val.lottery_num[0]}</li><li>${val.lottery_num[1]}</li><li>${val.lottery_num[2]}</li><li>${val.lottery_num[3]}</li><li>${val.lottery_num[4]}</li></ul></li>');
 					});
 				});
 			}

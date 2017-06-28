@@ -14,7 +14,7 @@ var CHART = {
 
 		CHART.bindEvent(options);
 
-		if(!CHART.lessThenIE8() && options.hasDiscounted){
+		if(!GLOBAL.lessThenIE8() && options.hasDiscounted){
 			// 绘制折线
 			CHART.draw(CHART.holder.winningNumber);
 		}
@@ -32,7 +32,7 @@ var CHART = {
 		});
 
 		if (options.hasDiscounted) {
-			if (!CHART.lessThenIE8()) {
+			if (!GLOBAL.lessThenIE8()) {
 				$('.J_polyline').click(function() {
 					if ($(this).find('i').hasClass('active')) {
 						$(this).find('i').removeClass('active');
@@ -118,11 +118,5 @@ var CHART = {
 		var h = document.getElementById(a.id);
 		var i = h.getContext("2d");
 		i.beginPath(), i.moveTo(d, e), i.lineTo(f, g), i.lineWidth = 2, i.strokeStyle = c, i.stroke()
-	},
-	lessThenIE8: function() {
-		var UA = navigator.userAgent,
-			isIE = UA.indexOf('MSIE') > -1,
-			v = isIE ? /\d+/.exec(UA.split(';')[1]) : 'no ie';
-		return v <= 8;
 	}
 }

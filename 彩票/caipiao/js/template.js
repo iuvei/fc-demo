@@ -7,10 +7,13 @@
  *
  * @opt : 显示配置
  * haveCheckbox ：是否有复选框
+ * defaultCheck 默认选中个数
  * haveTextarea ：是否有上传文本域
  * numList ：是否有号码列表(0-9)
  * numNameList ：号码对应的名称
  * quickFast ：是否有快捷选号(全、大、小、奇、偶、清)
+ * multipleChoice ：一行是否可以选择多个号码
+ * hasNoAllFastBtn : 没有 全 选快捷按钮，默认是有的（值为：undefined/false）。取值为true时表示不需要
  * 
  */
 var SSC_TEMPLATE = {
@@ -23,59 +26,81 @@ var SSC_TEMPLATE = {
         var _opt = {
             haveCheckbox: false,
             haveTextarea: false,
-            numList: [0,1,2,3,4,5,6,7,8,9],
+            placeholder: '',
+            numList: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
             numNameList: ['万位', '千位', '百位', '十位', '个位'],
-            quickFast: true
+            quickFast: true,
+            multipleChoice: true
         };
 
         var _maxBonus = '170000.0000';
-        switch(options.type){
+        switch (options.type) {
             case 'All5Straight':
                 _rule = '从万位、千位、百位、十位、个位中分别选择1个或多个号码投注，号码和顺序都相同，即为中奖。 如：万位选择1，千位选择2，百位选择3，十位选择4，个位选择5，开奖号码为12345，即为中奖。';
-            break;
+                break;
             case 'All5Straight_Single':
                 _rule = '"手动输入一个5位数号码组成一注，所选号码的万位、千位、百位、十位、个位与开奖号码相同，且顺序一致，即为中奖。如：选择12345，开奖号码为12345，即为中奖。"';
-            break;
+                _opt.haveTextarea = true;
+                _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、空格、逗号[,]或者分号[;]隔开\n支持格式如下:\n12345 67890\n12345,67890\n12345;67890\n';
+                _opt.numList = [];
+                _opt.numNameList = [];
+                break;
             case 'All5All':
                 _maxBonus = '34000.0000';
                 _rule = '从万位、千位、百位、十位、个位中各选一个号码投注，若所选号码与开奖号码数字全部相同且顺序一致，即中一等奖；若所选号码与开奖号码的前三或后三号码相同且顺序一致，即中二等奖；若所选号码与开奖号码的前二或后二号码相同且顺序一致，即中三等奖。 如：选择54321，开奖号码为54321，即中一等奖，开奖号码为543**、**321，即中二等奖，开奖号码为54***、***21，即中三等奖。';
-            break;
+                _opt.quickFast = false;
+                _opt.multipleChoice = false;
+                break;
             case 'All5All_Single':
                 _maxBonus = '34000.0000';
                 _rule = '"手动输入一个5位数号码组成一注，所选号码与开奖号码数字全部相同且顺序一致，即中一等奖；前三或后三号码相同且顺序一致，即中二等奖；前二或后二号码相同且顺序一致，即中三等奖。如：选择54321，开奖号码为54321，即中一等奖，开奖号码为543**、**321，即中二等奖，开奖号码为54***、***21，即中三等奖。"';
-            break;
+                _opt.haveTextarea = true;
+                _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、空格、逗号[,]或者分号[;]隔开\n支持格式如下:\n12345 67890\n12345,67890\n12345;67890\n';
+                _opt.numList = [];
+                _opt.numNameList = [];
+                break;
             case 'All5Join':
                 _rule = '从万位、千位、百位、十位、个位中分别选择1个或多个号码投注，所选号码与开奖号码数字全部相同且顺序一致，即中一等奖；所选号码千位、百位、十位、个位与开奖号码相同，即中二等奖；所选号码百位、十位、个位与开奖号码相同，即中三等奖；所选号码十位、个位与开奖号码相同，即中四等奖；所选号码个位与开奖号码相同，即中五等奖。 如：万位选择1，千位选择2，百位选择3，十位选择4，个位选择5，开奖号码为12345，即中一等奖，开奖号码为*2345，即中二等奖，开奖号码为**345，即中三等奖，开奖号码为***45即中四等奖，开奖号码为****5即中五等奖。';
-            break;
+                break;
             case 'All5Join_Single':
                 _rule = '"手动输入一个5位数号码组成一注，所选号码与开奖号码数字全部相同且顺序一致，即中一等奖；所选号码千位、百位、十位、个位与开奖号码相同，即中二等奖，依次类推。如：选择12345，开奖号码为12345即中一等奖，开奖号码为*2345即中二等奖，依次类推。"';
-            break;
+                _opt.haveTextarea = true;
+                _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、空格、逗号[,]或者分号[;]隔开\n支持格式如下:\n12345 67890\n12345,67890\n12345;67890\n';
+                _opt.numList = [];
+                _opt.numNameList = [];
+                break;
             case 'AllCom120':
                 _maxBonus = '1416.6666';
                 _rule = '从0-9中任意选择5个号码组成一注，所选号码与开奖号码的万、千、百、十、个位相同，顺序不限，即为中奖。例：投注方案：10568开奖号码：10568（顺序不限）即为中奖。';
-            break;
+                _opt.numNameList = ['组选'];
+                break;
             case 'AllCom60':
                 _maxBonus = '2833.3334';
                 _rule = '选择1个二重号码和3个单号号码组成一注，所选的单号号码与开奖号码相同，且所选二重号码在开奖号码中出现了2次，即为中奖。例：投注方案：二重号8，单号016开奖号码：01688（顺序不限）即为中奖。';
-            break;
+                _opt.numNameList = ['二重号', '单号'];
+                break;
             case 'AllCom30':
                 _maxBonus = '5666.6666';
                 _rule = '选择2个二重号和1个单号号码组成一注，所选的单号号码与开奖号码相同，且所选的2个二重号吗分别在开奖号码中出现了2次，即为中奖。例：投注方案：二重号68，单号0开奖号码：06688（顺序不限）';
-            break;
+                _opt.numNameList = ['二重号', '单号'];
+                break;
             case 'AllCom20':
                 _maxBonus = '8500.0000';
                 _rule = '选择1个三重号码和2个单号号码组成一注，所选的单号号码与开奖号码相同，且所选三重号码在开奖号码中出现了3次，即为中奖。例：投注方案：三重号8，单号01开奖号码：01888（顺序不限）即为中奖。';
-            break;
+                _opt.numNameList = ['三重号', '单号'];
+                break;
             case 'AllCom10':
                 _rule = '选择1个三重号吗和1个二重号吗，所选三重号码在开奖号码中出现3次，并且所选二重号吗在开奖号码中出现了2次，即为中奖。例：投注方案：三重号8，二重号1开奖号码：11888（顺序不限）即为中奖。';
-            break;
+                _opt.numNameList = ['三重号', '二重号'];
+                break;
             case 'AllCom5':
                 _maxBonus = '34000.0000';
                 _rule = '选择1个四重号码和1个单号号码组成一注，所选的单号存在与开奖号码中，且所选四重号码在开奖号码中出现了4次，即为中奖。例：投注方案：四重号8，单号1开奖号码：18888（顺序不限）即为中奖。';
-            break;
+                _opt.numNameList = ['四重号', '单号'];
+                break;
         }
 
-        var _str = '';  //subNav DOM结构
+        var _str = ''; //subNav DOM结构
         _str += '<dl>';
         _str += '    <dt>直选：</dt>';
         _str += '    <dd id="J_All5Straight" class="J_subMenu active" data-info="31#All5Straight#2">五星直选</dd>';
@@ -108,7 +133,14 @@ var SSC_TEMPLATE = {
         options.type = options.type || 'First4Straight';
 
         var _rule = '';
-        var _opt = {};
+        var _opt = {
+            haveCheckbox: false,
+            haveTextarea: false,
+            placeholder: '',
+            numList: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+            numNameList: ['万位', '千位', '百位', '十位'],
+            quickFast: true
+        };
         var _maxBonus = '17000.0000';
         switch (options.type) {
             case 'First4Straight':
@@ -116,28 +148,40 @@ var SSC_TEMPLATE = {
                 break;
             case 'First4Straight_Single':
                 _rule = '"手动输入一个4位数号码组成一注，所选号码的万位、千位、百位、十位与开奖号码相同，且顺序一致，即为中奖。如：选择1234，开 奖号码为1234*，即为中奖。"';
+                _opt.haveTextarea = true;
+                _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、空格、逗号[,]或者分号[;]隔开\n支持格式如下:\n1234 5678\n1234,5678\n1234;5678\n';
+                _opt.numList = [];
+                _opt.numNameList = [];
                 break;
             case 'First4Join':
                 _rule = '从万位、千位、百位、十位中分别选择1个或多个号码投注，若所选号码万位、千位、百位、十位与开奖号码相同，即中一等奖；若所选号码千位、百位、十位与开奖号码相同，即中二等奖；若所选号码百位、十位与开奖号码相同，即中三等奖；若所选号码十位与开奖号码相同，即中四等奖。 如：万位选择1，千位选择2，百位选择3，十位选择4，开奖号码为1234*，即中一等奖，开奖号码为*234*，即中二等奖，开奖号码为**34*，即中三等奖，开奖号码为***4*即中四等奖。';
                 break;
             case 'First4Join_Single':
                 _rule = '"手动输入一个4位数号码组成一注，所选号码万位、千位、百位、十位与开奖号码相同，即中一等奖；若所选号码千位、百位、十位与开奖号码相同，即中二等奖，依次类推。如：选择1234，开奖号码为1234*，即中一等奖，开奖号码为*234*，即中二等奖，开奖号码为**34*，即中三等奖，开奖号码为***4*即中四等奖。"';
+                _opt.haveTextarea = true;
+                _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、空格、逗号[,]或者分号[;]隔开\n支持格式如下:\n1234 5678\n1234,5678\n1234;5678\n';
+                _opt.numList = [];
+                _opt.numNameList = [];
                 break;
             case 'F4Com24':
                 _maxBonus = '708.3334';
                 _rule = '至少选择4个号码投注，竞猜开奖号码的前4位，号码一致顺序不限，即为中奖。例：投注方案：0568开奖号码：0568*（顺序不限）即为中奖。';
+                _opt.numNameList = ['组选'];
                 break;
             case 'F4Com12':
                 _maxBonus = '1416.6666';
                 _rule = '至少选择1个二重号码和2个单号号码，竞猜开奖号码的前四位，号码一致顺序不限，即为中奖。例：投注方案：二重号8，单号06开奖号码：8806*（顺序不限）';
+                _opt.numNameList = ['二重号', '单号'];
                 break;
             case 'F4Com6':
                 _maxBonus = '2833.3334';
                 _rule = '至少选择2个二重号码，竞猜开奖号码的前四位，号码一致顺序不限，即为中奖。例：投注方案：二重号28开奖号码：2288*（顺序不限）';
+                _opt.numNameList = ['二重号'];
                 break;
             case 'F4Com4':
                 _maxBonus = '4250.0000';
                 _rule = '至少选择1个三重号码和1个单号号码，竞猜开奖号码的前四位，号码一致顺序不限，即为中奖。例：投注方案：三重号8，单号2中奖号码：8882*（顺序不限）';
+                _opt.numNameList = ['三重号', '单号'];
                 break;
         }
 
@@ -169,7 +213,14 @@ var SSC_TEMPLATE = {
         options.type = options.type || 'Last4Straight';
 
         var _rule = '';
-        var _opt = {};
+        var _opt = {
+            haveCheckbox: false,
+            haveTextarea: false,
+            placeholder: '',
+            numList: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+            numNameList: ['千位', '百位', '十位', '个位'],
+            quickFast: true
+        };
         var _maxBonus = '17000.0000';
         switch (options.type) {
             case 'Last4Straight':
@@ -177,28 +228,40 @@ var SSC_TEMPLATE = {
                 break;
             case 'Last4Straight_Single':
                 _rule = '"手动输入一个4位数号码组成一注，所选号码的千位、百位、十位、个位与开奖号码相同，且顺序一致，即为中奖。如：选择1234，开奖号码为*1234""，即为中奖。"""';
+                _opt.haveTextarea = true;
+                _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、空格、逗号[,]或者分号[;]隔开\n支持格式如下:\n1234 5678\n1234,5678\n1234;5678\n';
+                _opt.numList = [];
+                _opt.numNameList = [];
                 break;
             case 'Last4Join':
                 _rule = '从千位、百位、十位、个位中分别选择1个或多个号码投注，若所选号码千位、百位、十位、个位与开奖号码相同，即中一等奖；若所选号码百位、十位、个位与开奖号码相同，即中二等奖；若所选号码十位、个位与开奖号码相同，即中三等奖；若所选号码个位与开奖号码相同，即中四等奖。 如：千位选择1，百位选择2，十位选择3，个位选择4，开奖号码为*1234，即中一等奖，开奖号码为**234，即中二等奖，开奖号码为***34，即中三等奖，开奖号码为****4即中四等奖。';
                 break;
             case 'Last4Join_Single':
                 _rule = '"手动输入一个4位数号码组成一注，所选号码千位、百位、十位、个位与开奖号码相同，即中一等奖；若所选号码百位、十位、个位与开奖号码相同，即中二等奖，依次类推。如：选择1234，开奖号码为*1234，即中一等奖，开奖号码为**234，即中二等奖，开奖号码为***34，即中三等奖，开奖号码为****4即中四等奖。"';
+                _opt.haveTextarea = true;
+                _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、空格、逗号[,]或者分号[;]隔开\n支持格式如下:\n1234 5678\n1234,5678\n1234;5678\n';
+                _opt.numList = [];
+                _opt.numNameList = [];
                 break;
             case 'L4Com24':
                 _maxBonus = '708.3334';
                 _rule = '至少选择4个号码投注，竞猜开奖号码的后4位，号码一致顺序不限，即为中奖。例：投注方案：0568开奖号码：*0568（顺序不限）即为中奖。';
+                _opt.numNameList = ['组选'];
                 break;
             case 'L4Com12':
                 _maxBonus = '1416.6666';
                 _rule = '至少选择1个二重号码和2个单号号码，竞猜开奖号码的后四位，号码一致顺序不限，即为中奖。例：投注方案：二重号8，单号06开奖号码：*8806（顺序不限）';
+                _opt.numNameList = ['二重号', '单号'];
                 break;
             case 'L4Com6':
                 _maxBonus = '2833.3334';
                 _rule = '至少选择2个二重号码，竞猜开奖号码的后四位，号码一致顺序不限，即为中奖。例：投注方案：二重号28开奖号码：*2288（顺序不限）';
+                _opt.numNameList = ['二重号'];
                 break;
             case 'L4Com4':
                 _maxBonus = '4250.0000';
                 _rule = '至少选择1个三重号码和1个单号号码，竞猜开奖号码的后四位，号码一致顺序不限，即为中奖。例：投注方案：三重号8，单号2中奖号码：*8882（顺序不限）';
+                _opt.numNameList = ['三重号', '单号'];
                 break;
         }
 
@@ -230,7 +293,14 @@ var SSC_TEMPLATE = {
         options.type = options.type || 'First3Straight';
 
         var _rule = '';
-        var _opt = {};
+        var _opt = {
+            haveCheckbox: false,
+            haveTextarea: false,
+            placeholder: '',
+            numList: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+            numNameList: ['万位', '千位', '百位'],
+            quickFast: true
+        };
         var _maxBonus = '1700.0000';
         switch (options.type) {
             case 'First3Straight':
@@ -238,30 +308,48 @@ var SSC_TEMPLATE = {
                 break;
             case 'First3Straight_Single':
                 _rule = '"手动输入一个3位数号码组成一注，所选号码的万位、千位、百位与开奖号码相同，且顺序一致，即为中奖。如：选择123，开奖号码为123**，即为中奖。"';
+                _opt.haveTextarea = true;
+                _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、空格、逗号[,]或者分号[;]隔开\n支持格式如下:\n123 456\n123,456\n123;456\n';
+                _opt.numList = [];
+                _opt.numNameList = [];
                 break;
             case 'First3Join':
                 _rule = '从万位、千位、百位中分别选择1个或多个号码投注，若所选号码万位、千位、百位与开奖号码相同，即中一等奖；若所选号码千位、百位与开奖号码相同，即中二等奖；若所选号码百位与开奖号码相同，即中三等奖。 如：万位选择3，千位选择4，百位选择5，开奖号码为345**，即中一等奖，开奖号码为*45**，即中二等奖，开奖号码为**5**，即中三等奖。';
                 break;
             case 'First3Join_Single':
                 _rule = '"手动输入一个3位数号码组成一注，所选号码万位、千位、百位与开奖号码相同，即中一等奖；若所选号码千位、百位与开奖号码相同，即中二等奖；若所选号码百位与开奖号码相同，即中三等奖。如：选择345，开奖号码为345**，即中一等奖，开奖号码为*45**，即中二等奖，开奖号码为**5**，即中三等奖。"';
+                _opt.haveTextarea = true;
+                _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、空格、逗号[,]或者分号[;]隔开\n支持格式如下:\n123 456\n123,456\n123;456\n';
+                _opt.numList = [];
+                _opt.numNameList = [];
                 break;
             case 'First3StraightCom':
                 _rule = '从0-9中选择3个或以上号码投注，开奖号码为组六形态即中奖。 如：选择2、3、4；开奖号码为234**、243**、324**、342**、432**、423**，即中一注奖。';
+                _opt.numNameList = ['直组'];
                 break;
             case 'First3Sum':
                 _rule = '从0-27中选择1个或多个号码投注，所选数值为开奖号码前三位的数字相加之和相同，即为中奖。 如：选择和值1；开奖号码为001**、010**、100**，即中前三和值。';
+                _opt.numList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27];
+                _opt.numNameList = ['和值'];
+                _opt.quickFast = false;
                 break;
             case 'First3Com3':
                 _maxBonus = '566.6668';
                 _rule = '从0-9中选择2个或多个号码投注，所选号码与开奖号码的前三位相同，顺序不限，即为中奖。 如：选择1、2，开奖号码为122**、212**、221** 、 112**、121**、211**，即为中奖。';
+                _opt.numNameList = ['组三'];
                 break;
             case 'First3Com6':
                 _maxBonus = '283.3334';
                 _rule = '从0-9中选择3个或多个号码投注，所选号码与开奖号码的前三位相同，顺序不限，即为中奖。 如：选择1、2、3，开奖号码为123**、132**、231** 、 213**、312**、321**，即为中奖。';
+                _opt.numNameList = ['组六'];
                 break;
             case 'First3Com':
                 _maxBonus = '566.6668';
                 _rule = '输入购买号码，3个数字为一注，所选号码与开奖号码的前三位相同，顺序不限，即为中奖。 如：手动输入123、455，开奖号码为321**即中组六奖，开奖号码为545**即中组三奖。';
+                _opt.haveTextarea = true;
+                _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、空格、逗号[,]或者分号[;]隔开\n支持格式如下:\n122 123 211\n123,241,212\n122;221\n';
+                _opt.numList = [];
+                _opt.numNameList = [];
                 break;
         }
 
@@ -294,7 +382,14 @@ var SSC_TEMPLATE = {
         options.type = options.type || 'Middle3Straight';
 
         var _rule = '';
-        var _opt = {};
+        var _opt = {
+            haveCheckbox: false,
+            haveTextarea: false,
+            placeholder: '',
+            numList: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+            numNameList: ['千位', '百位', '十位'],
+            quickFast: true
+        };
         var _maxBonus = '1700.0000';
         switch (options.type) {
             case 'Middle3Straight':
@@ -302,30 +397,48 @@ var SSC_TEMPLATE = {
                 break;
             case 'Middle3Straight_Single':
                 _rule = '"手动输入一个3位数号码组成一注，所选号码的千位、百位、十位与开奖号码相同，且顺序一致，即为中奖。如：选择123，开奖号码为*123*，即为中奖。"';
+                _opt.haveTextarea = true;
+                _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、空格、逗号[,]或者分号[;]隔开\n支持格式如下:\n123 456\n123,456\n123;456\n';
+                _opt.numList = [];
+                _opt.numNameList = [];
                 break;
             case 'Middle3Join':
                 _rule = '从千位、百位、十位中分别选择1个或多个号码投注，若所选号码千位、百位、十位与开奖号码相同，即中一等奖；若所选号码百位、十位与开奖号码相同，即中二等奖；若所选号码十位与开奖号码相同，即中三等奖。 如：千位选择2，百位选择3，十位选择4，开奖号码为*234*，即中一等奖，开奖号码为**34*，即中二等奖，开奖号码为***4*，即中三等奖。';
                 break;
             case 'Middle3Join_Single':
                 _rule = '"手动输入一个3位数号码组成一注，若所选号码千位、百位、十位与开奖号码相同，即中一等奖；若所选号码百位、十位与开奖号码相同，即中二等奖；若所选号码十位与开奖号码相同，即中三等奖。如：选择234，开奖号码为*234*，即中一等奖，开奖号码为**34*，即中二等奖，开奖号码为***4*，即中三等奖。"';
+                _opt.haveTextarea = true;
+                _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、空格、逗号[,]或者分号[;]隔开\n支持格式如下:\n123 456\n123,456\n123;456\n';
+                _opt.numList = [];
+                _opt.numNameList = [];
                 break;
             case 'Middle3StraightCom':
                 _rule = '从0-9中选择3个或以上号码投注，开奖号码为组六形态即中奖。 如：选择2、3、4；开奖号码为*234*、*243*、*324*、*342*、*432*、*423*，即中一注奖。';
+                _opt.numNameList = ['直组'];
                 break;
             case 'Middle3Sum':
                 _rule = '从0-27中选择1个或多个号码投注，所选数值为开奖号码中三位的数字相加之和相同，即为中奖。 如：选择和值1；开奖号码为*001*、*010*、*100*，即中中三和值。';
+                _opt.numList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27];
+                _opt.numNameList = ['和值'];
+                _opt.quickFast = false;
                 break;
             case 'Middle3Com3':
                 _maxBonus = '566.6668';
                 _rule = '从0-9中选择2个或多个号码投注，所选号码与开奖号码的中三位相同，顺序不限，即为中奖。 如：选择1、2，开奖号码为*122*、*212*、*221* 、 *112*、*121*、*211*，即为中奖。';
+                _opt.numNameList = ['组三'];
                 break;
             case 'Middle3Com6':
                 _maxBonus = '283.3334';
                 _rule = '从0-9中选择3个或多个号码投注，所选号码与开奖号码的中三位相同，顺序不限，即为中奖。 如：选择1、2、3，开奖号码为*123*、*132*、*231*、 *213*、*312*、*321*，即为中奖。';
+                _opt.numNameList = ['组六'];
                 break;
             case 'Middle3Com':
                 _maxBonus = '566.6668';
                 _rule = '输入购买号码，3个数字为一注，所选号码与开奖号码的中三位相同，顺序不限，即为中奖。 如：手动输入123、455，开奖号码为*321*即中组六奖， 开奖号码为*545*即中组三奖。';
+                _opt.haveTextarea = true;
+                _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、空格、逗号[,]或者分号[;]隔开\n支持格式如下:\n122 123 211\n123,241,212\n122;221\n';
+                _opt.numList = [];
+                _opt.numNameList = [];
                 break;
         }
 
@@ -358,7 +471,14 @@ var SSC_TEMPLATE = {
         options.type = options.type || 'Last3Straight';
 
         var _rule = '';
-        var _opt = {};
+        var _opt = {
+            haveCheckbox: false,
+            haveTextarea: false,
+            placeholder: '',
+            numList: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+            numNameList: ['百位', '十位', '个位'],
+            quickFast: true
+        };
         var _maxBonus = '1700.0000';
         switch (options.type) {
             case 'Last3Straight':
@@ -366,30 +486,48 @@ var SSC_TEMPLATE = {
                 break;
             case 'Last3Straight_Single':
                 _rule = '"手动输入一个3位数号码组成一注，所选号码的百位、十位、个位与开奖号码相同，且顺序一致，即为中奖。如：选择123，开奖号码为**123，即为中奖。"';
+                _opt.haveTextarea = true;
+                _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、空格、逗号[,]或者分号[;]隔开\n支持格式如下:\n123 456\n123,456\n123;456\n';
+                _opt.numList = [];
+                _opt.numNameList = [];
                 break;
             case 'Last3Join':
                 _rule = '从百位、十位、个位选择1个或多个号码投注，若所选号码百位、十位、个位与开奖号码相同，即中一等奖；若所选号码十位、个位与开奖号码相同，即中二等奖；若所选号码个位与开奖号码相同，即中三等奖。 如：百位选择3，十位选择4，个位选择5，开奖号码为**345，即中一等奖，开奖号码为***45，即中二等奖，开奖号码为****5，即中三等奖。';
                 break;
             case 'Last3Join_Single':
                 _rule = '"手动输入一个3位数号码组成一注，所选号码百位、十位、个位与开奖号码相同，即中一等奖；若所选号码十位、个位与开奖号码相同，即中二等奖；若所选号码个位与开奖号码相同，即中三等奖。如：选择345，开奖号码为**345，即中一等奖，开奖号码为***45，即中二等奖，开奖号码为****5，即中三等奖。"';
+                _opt.haveTextarea = true;
+                _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、空格、逗号[,]或者分号[;]隔开\n支持格式如下:\n123 456\n123,456\n123;456\n';
+                _opt.numList = [];
+                _opt.numNameList = [];
                 break;
             case 'Last3StraightCom':
                 _rule = '从0-9中选择3个或以上号码投注，开奖号码为组六形态即中奖。 如：选择2、3、4；开奖号码为**234、**243、**324、**342、**432、**423，即中一注奖。';
+                _opt.numNameList = ['直组'];
                 break;
             case 'Last3Sum':
                 _rule = '从0-27中选择1个或多个号码投注，所选数值为开奖号码后三位的数字相加之和相同，即为中奖。 如：选择和值1；开奖号码为**001、**010、**100，即中后三和值。';
+                _opt.numList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27];
+                _opt.numNameList = ['和值'];
+                _opt.quickFast = false;
                 break;
             case 'Last3Com3':
                 _maxBonus = '566.6668';
                 _rule = '从0-9中选择2个或多个号码投注，所选号码与开奖号码的后三位相同，顺序不限，即为中奖 如：选择1、2，开奖号码为**122、**212、**221 、 **112、**121、**211，即为中奖。';
+                _opt.numNameList = ['组三'];
                 break;
             case 'Last3Com6':
                 _maxBonus = '283.3334';
                 _rule = '从0-9中选择3个或多个号码投注，所选号码与开奖号码的后三位相同，顺序不限，即为中奖。 如：选择1、2、3，开奖号码为**123，**132，**231，**213，**312，**321，即为中奖。';
+                _opt.numNameList = ['组六'];
                 break;
             case 'Last3Com':
                 _maxBonus = '566.6668';
                 _rule = '输入购买号码，3个数字为一注，所选号码与开奖号码的后三位相同，顺序不限，即为中奖。 如：手动输入123、455，开奖号码为**321即中组六奖，开奖号码为**545即中组三奖。';
+                _opt.haveTextarea = true;
+                _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、空格、逗号[,]或者分号[;]隔开\n支持格式如下:\n122 123 211\n123,241,212\n122;221\n';
+                _opt.numList = [];
+                _opt.numNameList = [];
                 break;
         }
 
@@ -422,7 +560,15 @@ var SSC_TEMPLATE = {
         options.type = options.type || 'First2Straight';
 
         var _rule = '';
-        var _opt = {};
+        var _opt = {
+            haveCheckbox: false,
+            haveTextarea: false,
+            placeholder: '',
+            numList: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+            numNameList: ['万位', '千位'],
+            quickFast: true,
+            hasNoAllFastBtn: false
+        };
         var _maxBonus = '170.0000';
         switch (options.type) {
             case 'First2Straight':
@@ -430,19 +576,32 @@ var SSC_TEMPLATE = {
                 break;
             case 'First2Straight_Single':
                 _rule = '"手动输入一个2位数号码组成一注，所选号码的万位、千位与开奖号码相同，且顺序一致，即为中奖。如：选择34，开奖号码为34***，即为中奖。"';
+                _opt.haveTextarea = true;
+                _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、空格、逗号[,]或者分号[;]隔开\n支持格式如下:\n12 34\n12,34\n12;34\n';
+                _opt.numList = [];
+                _opt.numNameList = [];
                 break;
             case 'First2Join':
                 _rule = '从万位和千位选择1个或多个号码投注，若所选号码万位、千位与开奖号码相同，即中一等奖；若所选号码千位与开奖号码相同，即中二等奖。 如：万位选择5，千位选择4，开奖号码为54***，即中一等奖，开奖号码为*4***，即中二等奖。';
                 break;
             case 'First2Join_Single':
                 _rule = '"手动输入一个2位数号码组成一注，所选号码万位、千位与开奖号码相同，即中一等奖；若所选号码千位与开奖号码相同，即中二等奖。如：选择54，开奖号码为54***，即中一等奖，开奖号码为*4***，即为中奖。"';
+                _opt.haveTextarea = true;
+                _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、空格、逗号[,]或者分号[;]隔开\n支持格式如下:\n12 34\n12,34\n12;34\n';
+                _opt.numList = [];
+                _opt.numNameList = [];
                 break;
             case 'First2Sum':
                 _rule = '从0-18中选择1个或多个号码投注，所选数值为开奖号码前二位的数字相加之和相同，即为中奖。 如：选择1，开奖号码为10***或01***，即为中奖。';
+                _opt.numList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
+                _opt.numNameList = ['和值'];
+                _opt.quickFast = false;
                 break;
             case 'First2Com':
                 _maxBonus = '85.0000';
                 _rule = '从0-9中选择2个或多个号码投注，所选号码与开奖号码的前二位相同，顺序不限，即为中奖。 如：选择7、8，开奖号码78***或87***即为中奖。';
+                _opt.numNameList = ['组选'];
+                _opt.hasNoAllFastBtn = true;
                 break;
         }
 
@@ -472,7 +631,14 @@ var SSC_TEMPLATE = {
         options.type = options.type || 'Last2Straight';
 
         var _rule = '';
-        var _opt = {};
+        var _opt = {
+            haveCheckbox: false,
+            haveTextarea: false,
+            placeholder: '',
+            numList: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+            numNameList: ['十位', '个位'],
+            quickFast: true
+        };
         var _maxBonus = '170.0000';
         switch (options.type) {
             case 'Last2Straight':
@@ -480,19 +646,32 @@ var SSC_TEMPLATE = {
                 break;
             case 'Last2Straight_Single':
                 _rule = '"手动输入一个2位数号码组成一注，所选号码的十位、个位与开奖号码相同，且顺序一致，即为中奖。如：选择34，开奖号码为***34""，即为中奖。"""';
+                _opt.haveTextarea = true;
+                _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、空格、逗号[,]或者分号[;]隔开\n支持格式如下:\n12 34\n12,34\n12;34\n';
+                _opt.numList = [];
+                _opt.numNameList = [];
                 break;
             case 'Last2Join':
                 _rule = '从十位、个位分别选择1个或多个号码投注，若所选号码十位、个位与开奖号码相同，即中一等奖；若所选号码个位与开奖号码相同，即中二等奖。 如：十位选择4，个位选择5，开奖号码为***45，即中一等奖，开奖号码为****5，即中二等奖。';
                 break;
             case 'Last2Join_Single':
                 _rule = '"手动输入一个2位数号码组成一注，所选号码十位、个位与开奖号码相同，即中一等奖；若所选号码个位与开奖号码相同，即中二等奖。如：选择45，开奖号码为***45，即中一等奖，开奖号码为****5，即中二等奖。"';
+                _opt.haveTextarea = true;
+                _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、空格、逗号[,]或者分号[;]隔开\n支持格式如下:\n12 34\n12,34\n12;34\n';
+                _opt.numList = [];
+                _opt.numNameList = [];
                 break;
             case 'Last2Sum':
                 _rule = '从0-18中选择1个或多个号码投注，所选数值为开奖号码后二位的数字相加之和相同，即为中奖。 如：选择1，开奖号码为***10或***01即为中奖。';
+                _opt.numList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
+                _opt.numNameList = ['和值'];
+                _opt.quickFast = false;
                 break;
             case 'Last2Com':
                 _maxBonus = '85.0000';
                 _rule = '从0-9中选择2个或多个号码投注，所选号码与开奖号码的后二位相同，顺序不限，即为中奖。 如：选择7、8，开奖号码***78或***87，即为中奖。';
+                _opt.numNameList = ['组选'];
+                _opt.hasNoAllFastBtn = true;
                 break;
         }
 
@@ -522,7 +701,14 @@ var SSC_TEMPLATE = {
         options.type = options.type || 'FixedPlace';
 
         var _rule = '';
-        var _opt = {};
+        var _opt = {
+            haveCheckbox: false,
+            haveTextarea: false,
+            placeholder: '',
+            numList: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+            numNameList: ['万位', '千位', '百位', '十位', '个位'],
+            quickFast: true
+        };
         var _maxBonus = '17.0000';
         switch (options.type) {
             case 'FixedPlace':
@@ -530,6 +716,7 @@ var SSC_TEMPLATE = {
                 break;
             case 'Last1Straight':
                 _rule = '从个位选择1个或多个号码投注，所选号码与开奖号码一致，即为中奖。 如：个位选择3，开奖号码为****3，即为中奖。';
+                _opt.numNameList = ['个位'];
                 break;
         }
 
@@ -552,7 +739,15 @@ var SSC_TEMPLATE = {
         options.type = options.type || 'First3StraightAnyCode1';
 
         var _rule = '';
-        var _opt = {};
+        var _opt = {
+            haveCheckbox: false,
+            haveTextarea: false,
+            placeholder: '',
+            numList: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+            numNameList: ['胆码'],
+            quickFast: false,
+            multipleChoice: false
+        };
         var _maxBonus = '1700.0000';
         switch (options.type) {
             case 'First3StraightAnyCode1':
@@ -562,6 +757,7 @@ var SSC_TEMPLATE = {
             case 'First3StraightAnyCode2':
                 _maxBonus = '31.4815';
                 _rule = '从一码、二码中分别选择1个号码投注，每注由2个号码组成，只要开奖号码的万位、千位、百位中包含所选号码，即为中奖。 如：选择14，开奖号码为14***， 1*4**， 4*1**， *41**， 41***， *14**，即为中奖。';
+                _opt.numNameList = ['一胆', '二胆'];
                 break;
             case 'Middle3StraightAnyCode1':
                 _maxBonus = '6.2730';
@@ -570,6 +766,7 @@ var SSC_TEMPLATE = {
             case 'Middle3StraightAnyCode2':
                 _maxBonus = '31.4815';
                 _rule = '从一码、二码中分别选择1个号码投注，每注由2个号码组成，只要开奖号码的千位、百位、十位中包含所选号码，即为中奖。 如：选择14，开奖号码为**14*， *1*4*， *4*1*， **41*，*14** ，*41**，即为中奖。';
+                _opt.numNameList = ['一胆', '二胆'];
                 break;
             case 'Last3StraightAnyCode1':
                 _maxBonus = '6.2730';
@@ -578,40 +775,52 @@ var SSC_TEMPLATE = {
             case 'Last3StraightAnyCode2':
                 _maxBonus = '31.4815';
                 _rule = '从一码、二码中分别选择1个号码投注，每注由2个号码组成，只要开奖号码的百位、十位、个位中包含所选号码，即为中奖。 如：选择14，开奖号码为***14， **1*4， **4*1， ***41，**14* ，**41*，即为中奖。';
+                _opt.numNameList = ['一胆', '二胆'];
                 break;
             case 'First2StraightAnyCode':
                 _maxBonus = '8.9474';
                 _rule = '从0-9中选择1个或多个号码投注投注，只要开奖号码的万位、千位中包含所选号码，即为中奖。 如：选择2，开奖号码为2****， *2***，即为中奖。';
+                _opt.quickFast = true;
+                _opt.multipleChoice = true;
                 break;
             case 'Last2StraightAnyCode':
                 _maxBonus = '8.9474';
                 _rule = '从0-9中选择1个或多个号码投注，只要开奖号码的十位、个位中包含所选号码，即为中奖。 如：选择2，开奖号码为***2*， ****2，即为中奖。';
+                _opt.quickFast = true;
+                _opt.multipleChoice = true;
                 break;
             case 'First3ComAnyCode1':
                 _rule = '从0-9中选择1个或多个号码投注，只要开奖号码的万位、千位、百位中包含所选号码，即为中奖(含对子、豹子号)。 如：选择2，开奖号码为222**即中豹子形态；开奖号码为322**即中组三形态；开奖号码为321**即中组六形态。';
                 break;
             case 'First3ComAnyCode2':
                 _rule = '从一码、二码中分别选择1个或多个号码投注，只要开奖号码的万位、千位、百位中包含所选号码，即为中奖(含对子、豹子号)。 如：选择22，开奖号码为222**即中豹子形态；选择21，开奖号码为122**即中组三形态；开奖号码为321**即中组六形态。';
+                _opt.numNameList = ['一胆', '二胆'];
                 break;
             case 'Middle3ComAnyCode1':
                 _rule = '从0-9中选择1个或多个号码投注，只要开奖号码的千位、百位、十位中包含所选号码，即为中奖(含对子、豹子号)。 如：选择2，开奖号码为*222*即中豹子形态；开奖号码为*322*即中组三形态；开奖号码为*321*即中组六形态。';
                 break;
             case 'Middle3ComAnyCode2':
                 _rule = '从一码、二码中分别选择1个或多个号码投注，只要开奖号码的千位、百位、十位中包含所选号码，即为中奖(含对子、豹子号)。 如：选择22，开奖号码为*222*即中豹子形态；选择21，开奖号码*122*即中组三形态，开奖号码*321*即中组六形态。';
+                _opt.numNameList = ['一胆', '二胆'];
                 break;
             case 'Last3ComAnyCode1':
                 _rule = '从0-9中选择1个或多个号码投注，只要开奖号码的百位、十位、个位中包含所选号码，即为中奖(含对子、豹子号)。 如：选择2，开奖号码为**222即中豹子形态；开奖号码为**322即中组三形态；开奖号码为**321即中组六形态。';
                 break;
             case 'Last3ComAnyCode2':
                 _rule = '从一码、二码中分别选择1个或多个号码投注，只要开奖号码的百位、十位、个位中包含所选号码，即为中奖(含对子、豹子号)。 如：选择22，开奖号码为**222即中豹子形态；选择21，开奖号码**122即中组三形态，开奖号码**321即中组六形态。';
+                _opt.numNameList = ['一胆', '二胆'];
                 break;
             case 'First2ComAnyCode':
                 _maxBonus = '170.0000';
                 _rule = '从0-9中选择1个或多个号码投注投注，只要开奖号码的万位、千位中包含所选号码，即为中奖(含对子号)。 如：选择2，开奖号码为22***即中对子；开奖号码为21***即中非对子。';
+                _opt.quickFast = true;
+                _opt.multipleChoice = true;
                 break;
             case 'Last2ComAnyCode':
                 _maxBonus = '170.0000';
                 _rule = '从0-9中选择1个或多个号码投注，只要开奖号码的十位、个位中包含所选号码，即为中奖(含对子号)。 如：选择2，开奖号码为***22即中对子；开奖号码为***21即中非对子。';
+                _opt.quickFast = true;
+                _opt.multipleChoice = true;
                 break;
         }
 
@@ -651,14 +860,29 @@ var SSC_TEMPLATE = {
         options.type = options.type || 'First2BSOE';
 
         var _rule = '';
-        var _opt = {};
+        var _opt = {
+            haveCheckbox: false,
+            haveTextarea: false,
+            placeholder: '',
+            numList: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+            numNameList: ['特殊'],
+            quickFast: true
+        };
         var _maxBonus = '6.8000';
         switch (options.type) {
             case 'First2BSOE':
                 _rule = '从万位、千位中的“大、小、单、双”至少各选一个组成一注，所选号码与开奖号码相同，且顺序一致，即为中奖。 如：万位选择小，千位选择双，开奖号码为12***，即为中奖。';
+                _opt.numList = ['大', '小', '单', '双'];
+                _opt.numNameList = ['万位', '千位'];
+                _opt.quickFast = false;
+                _opt.multipleChoice = false;
                 break;
             case 'Last2BSOE':
                 _rule = '从十位、个位中的“大、小、单、双”至少各选一个组成一注，所选号码与开奖号码相同，且顺序一致，即为中奖。 如：十位选择大，个位选择单，开奖号码为***63，即为中奖。';
+                _opt.numList = ['大', '小', '单', '双'];
+                _opt.numNameList = ['十位', '个位'];
+                _opt.quickFast = false;
+                _opt.multipleChoice = false;
                 break;
             case 'AnyShow1_SSC':
                 _maxBonus = '4.1512';
@@ -704,7 +928,15 @@ var SSC_TEMPLATE = {
         options.type = options.type || 'Any1';
 
         var _rule = '';
-        var _opt = {};
+        var _opt = {
+            haveCheckbox: false,
+            defaultCheck: 2,
+            haveTextarea: false,
+            placeholder: '',
+            numList: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+            numNameList: ['万位', '千位', '百位', '十位', '个位'],
+            quickFast: true
+        };
         var _maxBonus = '17.0000';
         switch (options.type) {
             case 'Any1':
@@ -718,6 +950,11 @@ var SSC_TEMPLATE = {
             case 'Any2_Single':
                 _maxBonus = '170.0000';
                 _rule = '"从万位、千位、百位、十位、个位中任意勾选两个位置，手动输入一个两位数号码组成一注，所选两个位置和输入的号码都与开奖号码相同，且顺序一致，即为中奖。如：勾选位置千位、个位，输入号码12； 开奖号码：*1**2，即为中奖。"';
+                _opt.haveCheckbox = true;
+                _opt.haveTextarea = true;
+                _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、空格、逗号[,]或者分号[;]隔开\n支持格式如下:\n12 34\n12,34\n12;34\n';
+                _opt.numList = [];
+                _opt.numNameList = [];
                 break;
             case 'Any3':
                 _maxBonus = '1700.0000';
@@ -726,6 +963,12 @@ var SSC_TEMPLATE = {
             case 'Any3_Single':
                 _maxBonus = '1700.0000';
                 _rule = '"从万位、千位、百位、十位、个位中任意勾选三个位置，在这三个位上至少各选1个号码组成一注，所选三个位置上的开奖号码与所选号码完全相同，且顺序一致，即为中奖。如：勾选位置万位、千位、十位，输入号码152；开奖号码：15*2*，即为中奖。"';
+                _opt.haveCheckbox = true;
+                _opt.defaultCheck = 3;
+                _opt.haveTextarea = true;
+                _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、空格、逗号[,]或者分号[;]隔开\n支持格式如下:\n123 456\n123,456\n123;456\n';
+                _opt.numList = [];
+                _opt.numNameList = [];
                 break;
             case 'Any4':
                 _maxBonus = '17000.0000';
@@ -734,50 +977,95 @@ var SSC_TEMPLATE = {
             case 'Any4_Single':
                 _maxBonus = '17000.0000';
                 _rule = '"从万位、千位、百位、十位、个位中任意勾选四个位置，在这四个位上至少各选1个号码组成一注，所选四个位置上的开奖号码与所选号码完全相同，且顺序一致，即为中奖。如：勾选位置万位、千位、百位、十位，输入号码1502；开奖号码：1502*，即为中奖。"';
+                _opt.haveCheckbox = true;
+                _opt.defaultCheck = 4;
+                _opt.haveTextarea = true;
+                _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、空格、逗号[,]或者分号[;]隔开\n支持格式如下:\n1234 5678\n1234,5678\n1234;5678\n';
+                _opt.numList = [];
+                _opt.numNameList = [];
                 break;
             case 'Any2Com_SSC':
                 _maxBonus = '85.0000';
                 _rule = '从万位、千位、百位、十位、个位中任意勾选两个位置，然后从0-9中选择两个号码组成一注，所选2个位置的开奖号码与所选号码一致，顺序不限，即为中奖。中奖举例：勾选位置万位、个位，选择号码79； 开奖号码：9***7 或 7***9，均中任二组选。';
+                _opt.haveCheckbox = true;
+                _opt.numNameList = ['组选'];
                 break;
             case 'Any2Com_SSC_Single':
                 _maxBonus = '85.0000';
                 _rule = '从万位、千位、百位、十位、个位中任意勾选两个位置，然后输入两个号码组成一注，所选2个位置的开奖号码与输入号码一致，顺序不限，即为中奖。中奖举例：勾选位置万位、个位，选择号码79； 开奖号码：9***7 或 7***9，均中任二组选单式。';
+                _opt.haveCheckbox = true;
+                _opt.haveTextarea = true;
+                _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、空格、逗号[,]或者分号[;]隔开\n支持格式如下:\n12 34\n12,34\n12;34\n';
+                _opt.numList = [];
+                _opt.numNameList = [];
                 break;
             case 'Any2Sum_SSC':
                 _maxBonus = '85.0000';
                 _rule = '从万位、千位、百位、十位、个位中任意勾选两个位置，然后选择一个和值，所选2个位置的开奖号码相加之和与所选和值一致，顺序不限，即为中奖。中奖举例：勾选位置千位、个位，选择和值6； 开奖号码：*4**2 或 *2**4，均中任二组选和值。';
+                _opt.haveCheckbox = true;
+                _opt.numList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17];
+                _opt.numNameList = ['和值'];
+                _opt.quickFast = false;
                 break;
             case 'Any3Sum_SSC':
                 _maxBonus = '566.6666';
                 _rule = '"从万位、千位、百位、十位、个位中任意勾选三个位置，然后选择一个和值，所选3个位置的开奖号码相加之和与所选和值一致，顺序不限，即为中奖。中奖举例：勾选位置万位、千位、个位；选择和值8；开奖号码：13**4 顺序不限，即中任三组选和值。"';
+                _opt.haveCheckbox = true;
+                _opt.defaultCheck = 3;
+                _opt.numList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26];
+                _opt.numNameList = ['和值'];
+                _opt.quickFast = false;
                 break;
             case 'Any3Com3_SSC':
                 _maxBonus = '566.6666';
                 _rule = '从万位、千位、百位、十位、个位中任意勾选三个位置，然后从0-9中选择两个号码组成一注，所选3个位置的开奖号码与所选号码一致，顺序不限，即为中奖。中奖举例：勾选位置万位、千位、个位，选择号码18； 开奖号码：11**8 或 18**1，均中任三组三复式';
+                _opt.haveCheckbox = true;
+                _opt.defaultCheck = 3;
+                _opt.numNameList = ['组三'];
                 break;
             case 'Any3Com6_SSC':
                 _maxBonus = '283.3334';
                 _rule = '从万位、千位、百位、十位、个位中任意勾选三个位置，然后从0-9中选择三个号码组成一注，所选3个位置的开奖号码与所选号码一致，顺序不限，即为中奖。中奖举例：勾选位置万位、百位、个位，选择号码159； 开奖号码：1*5*9 或 9*1*5，均中任三组六复式。';
+                _opt.haveCheckbox = true;
+                _opt.defaultCheck = 3;
+                _opt.numNameList = ['组六'];
                 break;
             case 'Any3Com_SSC':
                 _maxBonus = '566.6666';
                 _rule = '从万位、千位、百位、十位、个位中任意勾选三个位置，然后输入三个号码组成一注，所选3个位置的开奖号码与输入号码一致，顺序不限，即为中奖。中奖举例：勾选位置千位、百位、个位，分別投注(0,0,1),以及(1,2,3)，开奖号码：*00*1，顺序不限，均中任三混合组选。';
+                _opt.haveCheckbox = true;
+                _opt.haveTextarea = true;
+                _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、空格、逗号[,]或者分号[;]隔开\n支持格式如下:\n122 123 211\n123,241,212\n122;221\n';
+                _opt.numList = [];
+                _opt.numNameList = [];
                 break;
             case 'Any4Com24_SSC':
                 _maxBonus = '708.3334';
                 _rule = '从万位、千位、百位、十位、个位中任意勾选四个位置，然后从0-9中选择四个号码组成一注，所选4个位置的开奖号码与所选号码一致，顺序不限，即为中奖。中奖举例：勾选位置万位、千位、十位、个位，选择号码1234； 开奖号码：12*34 或 13*24，均中任四组选24.';
+                _opt.haveCheckbox = true;
+                _opt.defaultCheck = 4;
+                _opt.numNameList = ['组选'];
                 break;
             case 'Any4Com12_SSC':
                 _maxBonus = '1416.6666';
                 _rule = '从万位、千位、百位、十位、个位中任意勾选四个位置，然后选择1个二重号码和2个单号号码组成一注，所选4个位置的开奖号码中包含与所选号码，且所选二重号码在所选4个位置的开奖号码中出现了2次，即为中奖。中奖举例：勾选位置万位、千位、十位、个位，选择二重号：8，单号：0、6； 开奖号码：88*06 或08*68 均中任四组选12.';
+                _opt.haveCheckbox = true;
+                _opt.defaultCheck = 4;
+                _opt.numNameList = ['二重号', '单号'];
                 break;
             case 'Any4Com6_SSC':
                 _maxBonus = '2833.3334';
                 _rule = '"从万位、千位、百位、十位、个位中任意勾选四个位置，然后从0-9中选择2个二重号组成一注，所选4个位置的开奖号码与所选号码一致，并且所选的2个二重号码在所选4个位置的开奖号码中分别出现了2次，顺序不限，即为中奖。中奖举例：勾选位置万位、千位、十位、个位，选择二重号：6、8； 开奖号码：66*88 或 68*68 均中任四组选6."';
+                _opt.haveCheckbox = true;
+                _opt.defaultCheck = 4;
+                _opt.numNameList = ['二重号'];
                 break;
             case 'Any4Com4_SSC':
                 _maxBonus = '4250.0000';
                 _rule = '"从万位、千位、百位、十位、个位中任意勾选四个位置，然后从0-9中选择1个三重号和1个单号组成一注，所选4个位置的开奖号码与所选号码一致，并且所选三重号码在所选4个位置的开奖号码中出现了3次，顺序不限，即为中奖。中奖举例：勾选位置万位、千位、十位、个位，选择三重号：8，单号：0； 开奖号码：88*80 或 80*88 均中任四组选4."';
+                _opt.haveCheckbox = true;
+                _opt.defaultCheck = 4;
+                _opt.numNameList = ['三重号', '单号'];
                 break;
         }
 

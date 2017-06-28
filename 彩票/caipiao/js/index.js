@@ -57,4 +57,10 @@ $(function() {
 	};
 
 	Banner.init();
+
+	GLOBAL.getAjaxData({
+		url: 'bet/buy'
+	}, function(data) {
+		alert(data);
+	});
 });

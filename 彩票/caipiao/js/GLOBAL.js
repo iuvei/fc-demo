@@ -16,6 +16,8 @@ var GLOBAL = {
 		options.loading = (options.loading != undefined) ? options.loading : true; // 是否需要添加loading
 
 		$.ajax({
+			// TODO: 去掉api
+			// url: '/api/' + options.url,
 			url: options.url,
 			async: options.async,
 			data: JSON.stringify(options.data),
@@ -41,6 +43,7 @@ var GLOBAL = {
 					}
 				} else if (d.status == 'ban_guest') {
 					// TODO: 未登录，此接口要求登录
+					console.log('跳转到登录页面');
 					// GLOBAL.USER.relogin({}, true);
 				} else {
 					if (error_func) {
@@ -100,5 +103,11 @@ var GLOBAL = {
 			}
 		}
 		return theRequest;
+	},
+	lessThenIE8: function() {
+		var UA = navigator.userAgent,
+			isIE = UA.indexOf('MSIE') > -1,
+			v = isIE ? /\d+/.exec(UA.split(';')[1]) : 'no ie';
+		return v <= 8;
 	}
 };

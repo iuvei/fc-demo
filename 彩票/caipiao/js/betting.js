@@ -1,6 +1,6 @@
 $(function() {
     var Betting = {
-        bet_action : 'all5',
+        bet_action: 'all5',
         init: function() {
             $('select').niceSelect();
             Betting.bindEvent();
@@ -17,7 +17,7 @@ $(function() {
                 // if (_this.hasClass('active')) {
                 //     return;
                 // } else {
-                    _this.addClass('active').siblings('span').removeClass('active');
+                _this.addClass('active').siblings('span').removeClass('active');
                 // }
 
                 var _mainNav = _info.split('#');
@@ -35,33 +35,33 @@ $(function() {
                 // if (_this.hasClass('active')) {
                 //     return;
                 // } else {
-                    _this.parents('#J_subMenuList').find('dd').removeClass('active')
-                    _this.addClass('active');
+                _this.parents('#J_subMenuList').find('dd').removeClass('active')
+                _this.addClass('active');
                 // }
-                
+
                 var _mainNav = $('.J_withChild.active').data('info').split('#');
                 var _subNav = _info.split('#');
-                
+
                 Betting.renderBettingRule(_mainNav[1], _subNav[1]);
                 Betting.renderMaxBonus(_mainNav[1], _subNav[1]);
 
-                console.log(_mainNav[1], _subNav[1]);
-
-                Betting.setSelectArea({
-                    mainType : _mainNav[1],
-                    subType : _subNav[1]
-                });
+                // console.log(_mainNav[1], _subNav[1]);
+                Betting.renderSelectArea();
             });
         },
         renderSelectArea: function() {
             var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
             var _subNav = $('.J_subMenu.active').data('info').split('#')[1];
-            var _data = SSC_TEMPLATE[_mainNav]({type : _subNav});
+            var _data = SSC_TEMPLATE[_mainNav]({
+                type: _subNav
+            });
             var options = _data.opt;
 
-            console.log(options);
-            // return;
             // console.log(options);
+            // console.log(options.multipleChoice);
+
+            // return;
+            // console.log(options`);
             // options.numNameList = ['万位', '千位'];
             // options.numList = ['大','小','单','双'];
 
@@ -70,17 +70,27 @@ $(function() {
             // options.quickFast = false;
 
             var _str = '';
-            if(options.numNameList.length) {
+
+            // 复选框
+            if (options.haveCheckbox) {
+                // options.defaultCheck //默认选中个数
+                _str += '<div><input type="checkbox" name="" id=""><p>提示：至少选2个位置,您已选了2个位置，系统将自动生成1个方案。</p></div>';
+            }
+
+            //号码
+            if (options.numNameList.length) {
                 _str += '<ul class="bet-row">';
                 $.each(options.numNameList, function(i, v) {
                     _str += '<li>';
-                    _str += '<div class="icon fl row-tt">'+ v +'</div>';
+                    _str += '<div class="icon fl row-tt">' + v + '</div>';
                     if (options.numList.length) {
-                        _str += _getNumList(options.numList);
+                        _str += _getNumList(options.numList, options.multipleChoice);
                     }
                     if (options.quickFast) {
                         _str += '<ul class="row-text fr">';
-                        _str += '<li class="J_all">全</li>';
+                        if (!options.hasNoAllFastBtn) {
+                            _str += '<li class="J_all">全</li>';
+                        }
                         _str += '<li class="J_big">大</li>';
                         _str += '<li class="J_small">小</li>';
                         _str += '<li class="J_ji">奇</li>';
@@ -92,15 +102,15 @@ $(function() {
                 });
 
                 _str += '</ul>';
-                
-                function _getNumList(numList) {
-                    var _numlist = '<ul class="row-num fl">';
+
+                function _getNumList(numList, multipleChoice) {
+                    var _numlist = '<ul class="row-num fl '+ ((multipleChoice == undefined || multipleChoice) ? 'J_multipleChoice' : '') +'">';
                     var _len = numList.length - 1;
                     $.each(numList, function(a, b) {
                         if (a == _len) {
-                            _numlist += '<li class="J_numWrp last">'+ b +'</li>';
+                            _numlist += '<li class="J_numWrp last">' + b + '</li>';
                         } else {
-                            _numlist += '<li class="J_numWrp">'+ b +'</li>';
+                            _numlist += '<li class="J_numWrp">' + b + '</li>';
                         }
                     });
                     _numlist += '</ul>';
@@ -108,13 +118,28 @@ $(function() {
                 }
             }
 
+            // 文本域
+            if (options.haveTextarea) {
+                _str += '<textarea cols="40" rows="6" id="ballInputArea" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" placeholder="' + options.placeholder + '"></textarea>';
+            }
+
             $('#J_selectArea').html(_str);
-        },
-        setSelectArea: function(options) {
-            options = options || {};
-            
-            // TODO : 制定一份标准
-            Betting.renderSelectArea();
+
+            if (options.haveTextarea) {
+                $('textarea').placeholder();
+                if (GLOBAL.lessThenIE8()) {
+                    $('textarea').on({
+                        focus: function() {
+                            $(this).val('');
+                        },
+                        blur: function() {
+                            if (!$(this).val()) {
+                                $(this).val($(this).attr('placeholder'))
+                            }
+                        }
+                    });
+                }
+            }
         },
         bettingEvent: function() {
             // 删除已选号码
@@ -146,16 +171,22 @@ $(function() {
                 Betting.quicklySelect(this, ':lt(5)', ':gt(4)');
             });
             // 单独选择投注号码
-            $('#J_bettingBox').on('click', '.J_numWrp', function(){
+            $('#J_bettingBox').on('click', '.J_numWrp', function() {
                 var _this = $(this);
-                if (_this.hasClass('active')){
+                var _canmany = _this.parent('ul').hasClass('J_multipleChoice');    //是否可以选择多个
+
+                if (_this.hasClass('active')) {
                     _this.removeClass('active');
                 } else {
-                    _this.addClass('active');
+                    if (_canmany) {
+                        _this.addClass('active');
+                    } else {
+                        _this.addClass('active').siblings('li').removeClass('active');
+                    }
                 }
             });
             // 减少倍数
-            $('#J_beishuCut').click(function(){
+            $('#J_beishuCut').click(function() {
                 var _val = $('#J_beishu').val();
                 if (_val <= 1) {
                     return;
@@ -165,7 +196,7 @@ $(function() {
             });
 
             // 增加倍数
-            $('#J_beishuAdd').click(function(){
+            $('#J_beishuAdd').click(function() {
                 var _val = $('#J_beishu').val();
                 $('#J_beishu').val(Number(_val) + 1);
             });
@@ -197,28 +228,27 @@ $(function() {
             });
 
             // 奖金返点
-            $('#J_rebate').next('.nice-select').find('li').click(function(e) {
-                var val = $(this).text();
-                var dataVal = $(this).attr("data-value");
-                $('[name="nice-select"] ul').hide();
-                $('#J_rebate').data({
-                    val: val,
-                    txt: dataVal
-                });
-                // console.log($('#J_rebate').data());
-            });
+            // $('#J_rebate').next('.nice-select').find('li').click(function(e) {
+            //     var val = $(this).text();
+            //     var dataVal = $(this).attr("data-value");
+            //     $('[name="nice-select"] ul').hide();
+            //     $('#J_rebate').data({
+            //         val: val,
+            //         txt: dataVal
+            //     });
+            // });
         },
         renderMaxBonus: function(mainNavType, subNavType) {
             // 渲染最高奖金
             var _data = SSC_TEMPLATE[mainNavType]({
-                type : subNavType
+                type: subNavType
             });
             $('#J_maxBonus').html(_data.maxBonus);
         },
         renderBettingRule: function(mainNavType, subNavType) {
             // 渲染玩法说明
             var _data = SSC_TEMPLATE[mainNavType]({
-                type : subNavType
+                type: subNavType
             });
             $('#J_bettingRule').html(_data.rule);
         },
@@ -244,15 +274,6 @@ $(function() {
             }
             // Betting.touzhu();
         },
-        
-
-
-
-
-
-
-
-
 
 
 
@@ -275,11 +296,11 @@ $(function() {
             var num = {},
                 sum = 0,
                 li;
-            
+
             // all5 : 五星直选
             // varied5 : 五星通选
             // group5 : 五星组选
-            
+
             if (/^(all|varied)\d$/.test(bet_action)) { //直选通选处理
                 sum = 1;
                 li = $('#select-' + bet_action + ' dl').each(function() {

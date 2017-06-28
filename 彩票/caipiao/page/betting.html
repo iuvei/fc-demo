@@ -10,16 +10,16 @@
 </head>
 <body>
 
-<input type="hidden" value="" id="zhushu">
+<!-- <input type="hidden" value="" id="zhushu">
 <input type="hidden" value="" id="nums">
 <input type="hidden" value="" id="price">
 <input type="hidden" value="" id="tzNum">
 <input type="hidden" value="" id="enable">
-<input type="hidden" value="" id="orderId">
 <input type="hidden" value="" id="ballType">
 <input type="hidden" value="" id="allPages">
-<input type="hidden" value="" id="ballId">
+<input type="hidden" value="" id="ballId"> -->
 
+<input type="hidden" value="" id="orderId">
 
     <!-- 顶部 -->
     <div id="header" class="header dark-color">
@@ -274,16 +274,17 @@
                         <option value="yuan">元</option>
                         <option value="jiao">角</option>
                         <option value="fen">分</option>
+                        <option value="li">厘</option>
                     </select>
                     <p class="fl">共<span id="J_totalPrice">0.000</span>元</p>
                 </div>
-                <div class="bet-wrp-rebate fl">
+                <!-- <div class="bet-wrp-rebate fl">
                     <p class="fl">奖金返点</p>
                     <select id="J_rebate" data-val="1700" data-txt="1700/0.00%">
                         <option value="1700">1700/0.00%</option>
                         <option value="170">170/0.00%</option>
                     </select>
-                </div>
+                </div> -->
                 <div class="bet-wrp-btn fr">
                     <span class="fl btn-d-color mr10 bet-btn disabled">添加选号</span>
                     <span class="fl btn-d-color bet-btn disabled">一键投注</span>
@@ -370,6 +371,7 @@
 
     <script src="../js/jquery-1.11.1.min.js"></script>
     <script src="../js/jquery.cookie.js"></script>
+    <script src="../js/jquery.placeholder.min.js"></script>
     <script src="../js/jquery-nice-select.js"></script>
     <script src="../js/layer/layer.js"></script>
     <script src="../js/GLOBAL.js"></script>
