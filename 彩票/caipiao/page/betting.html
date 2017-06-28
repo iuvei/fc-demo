@@ -136,153 +136,156 @@
         <div class="betting-rule">
             <div class="betting-rule-box rel">
                 <span class="dark-color">玩法说明</span>
-                <p>最高奖金：<em>1700.00</em>元</p>
-                <div class="abs border-l-color">从百位、十位、个位分别选择1个或多个号码投注，号码和顺序都相同，即为中奖。 如：百位选择1，十位选择2，个位选择3，开奖号码为是"**123"，即为中奖。</div>
+                <p>最高奖金：<em id="J_maxBonus">1700.00</em>元</p>
+                <div class="abs border-l-color" id="J_bettingRule">从万位、千位、百位、十位、个位中分别选择1个或多个号码投注，号码和顺序都相同，即为中奖。 如：万位选择1，千位选择2，百位选择3，十位选择4，个位选择5，开奖号码为12345，即为中奖。</div>
             </div>
         </div>
 
-        <div class="betting-box">
-            <ul class="bet-row">
-                <li>
-                    <div class="icon fl row-tt">万位</div>
-                    <ul class="row-num fl">
-                        <li class="num-wrp">0</li>
-                        <li class="num-wrp">1</li>
-                        <li class="num-wrp">2</li>
-                        <li class="num-wrp">3</li>
-                        <li class="num-wrp">4</li>
-                        <li class="num-wrp">5</li>
-                        <li class="num-wrp">6</li>
-                        <li class="num-wrp">7</li>
-                        <li class="num-wrp">8</li>
-                        <li class="num-wrp last">9</li>
-                    </ul>
-                    <ul class="row-text fr">
-                        <li class="J_all">全</li>
-                        <li class="J_big">大</li>
-                        <li class="J_small">小</li>
-                        <li class="J_ji">基</li>
-                        <li class="J_ou">偶</li>
-                        <li class="J_clear">清</li>
-                    </ul>
-                </li>
-                <li>
-                    <div class="icon fl row-tt">千位</div>
-                    <ul class="row-num fl">
-                        <li class="num-wrp">0</li>
-                        <li class="num-wrp">1</li>
-                        <li class="num-wrp">2</li>
-                        <li class="num-wrp">3</li>
-                        <li class="num-wrp">4</li>
-                        <li class="num-wrp">5</li>
-                        <li class="num-wrp">6</li>
-                        <li class="num-wrp">7</li>
-                        <li class="num-wrp">8</li>
-                        <li class="num-wrp last">9</li>
-                    </ul>
-                    <ul class="row-text fr">
-                        <li class="J_all">全</li>
-                        <li class="J_big">大</li>
-                        <li class="J_small">小</li>
-                        <li class="J_ji">基</li>
-                        <li class="J_ou">偶</li>
-                        <li class="J_clear">清</li>
-                    </ul>
-                </li>
-                <li>
-                    <div class="icon fl row-tt">百位</div>
-                    <ul class="row-num fl">
-                        <li class="num-wrp">0</li>
-                        <li class="num-wrp">1</li>
-                        <li class="num-wrp">2</li>
-                        <li class="num-wrp">3</li>
-                        <li class="num-wrp">4</li>
-                        <li class="num-wrp">5</li>
-                        <li class="num-wrp">6</li>
-                        <li class="num-wrp">7</li>
-                        <li class="num-wrp">8</li>
-                        <li class="num-wrp last">9</li>
-                    </ul>
-                    <ul class="row-text fr">
-                        <li class="J_all">全</li>
-                        <li class="J_big">大</li>
-                        <li class="J_small">小</li>
-                        <li class="J_ji">基</li>
-                        <li class="J_ou">偶</li>
-                        <li class="J_clear">清</li>
-                    </ul>
-                </li>
-                <li>
-                    <div class="icon fl row-tt">十位</div>
-                    <ul class="row-num fl">
-                        <li class="num-wrp">0</li>
-                        <li class="num-wrp">1</li>
-                        <li class="num-wrp">2</li>
-                        <li class="num-wrp">3</li>
-                        <li class="num-wrp">4</li>
-                        <li class="num-wrp">5</li>
-                        <li class="num-wrp">6</li>
-                        <li class="num-wrp">7</li>
-                        <li class="num-wrp">8</li>
-                        <li class="num-wrp last">9</li>
-                    </ul>
-                    <ul class="row-text fr">
-                        <li class="J_all">全</li>
-                        <li class="J_big">大</li>
-                        <li class="J_small">小</li>
-                        <li class="J_ji">基</li>
-                        <li class="J_ou">偶</li>
-                        <li class="J_clear">清</li>
-                    </ul>
-                </li>
-                <li>
-                    <div class="icon fl row-tt">个位</div>
-                    <ul class="row-num fl">
-                        <li class="num-wrp">0</li>
-                        <li class="num-wrp">1</li>
-                        <li class="num-wrp">2</li>
-                        <li class="num-wrp">3</li>
-                        <li class="num-wrp">4</li>
-                        <li class="num-wrp">5</li>
-                        <li class="num-wrp">6</li>
-                        <li class="num-wrp">7</li>
-                        <li class="num-wrp">8</li>
-                        <li class="num-wrp last">9</li>
-                    </ul>
-                    <ul class="row-text fr">
-                        <li class="J_all">全</li>
-                        <li class="J_big">大</li>
-                        <li class="J_small">小</li>
-                        <li class="J_ji">基</li>
-                        <li class="J_ou">偶</li>
-                        <li class="J_clear">清</li>
-                    </ul>
-                </li>
-            </ul>
+        <div class="betting-box" id="J_bettingBox">
+            <div id="J_selectArea">
+                <!-- <ul class="bet-row">
+                    <li>
+                        <div class="icon fl row-tt">万位</div>
+                        <ul class="row-num fl">
+                            <li class="J_numWrp">0</li>
+                            <li class="J_numWrp">1</li>
+                            <li class="J_numWrp">2</li>
+                            <li class="J_numWrp">3</li>
+                            <li class="J_numWrp">4</li>
+                            <li class="J_numWrp">5</li>
+                            <li class="J_numWrp">6</li>
+                            <li class="J_numWrp">7</li>
+                            <li class="J_numWrp">8</li>
+                            <li class="J_numWrp last">9</li>
+                        </ul>
+                        <ul class="row-text fr">
+                            <li class="J_all">全</li>
+                            <li class="J_big">大</li>
+                            <li class="J_small">小</li>
+                            <li class="J_ji">奇</li>
+                            <li class="J_ou">偶</li>
+                            <li class="J_clear">清</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <div class="icon fl row-tt">千位</div>
+                        <ul class="row-num fl">
+                            <li class="J_numWrp">0</li>
+                            <li class="J_numWrp">1</li>
+                            <li class="J_numWrp">2</li>
+                            <li class="J_numWrp">3</li>
+                            <li class="J_numWrp">4</li>
+                            <li class="J_numWrp">5</li>
+                            <li class="J_numWrp">6</li>
+                            <li class="J_numWrp">7</li>
+                            <li class="J_numWrp">8</li>
+                            <li class="J_numWrp last">9</li>
+                        </ul>
+                        <ul class="row-text fr">
+                            <li class="J_all">全</li>
+                            <li class="J_big">大</li>
+                            <li class="J_small">小</li>
+                            <li class="J_ji">奇</li>
+                            <li class="J_ou">偶</li>
+                            <li class="J_clear">清</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <div class="icon fl row-tt">百位</div>
+                        <ul class="row-num fl">
+                            <li class="J_numWrp">0</li>
+                            <li class="J_numWrp">1</li>
+                            <li class="J_numWrp">2</li>
+                            <li class="J_numWrp">3</li>
+                            <li class="J_numWrp">4</li>
+                            <li class="J_numWrp">5</li>
+                            <li class="J_numWrp">6</li>
+                            <li class="J_numWrp">7</li>
+                            <li class="J_numWrp">8</li>
+                            <li class="J_numWrp last">9</li>
+                        </ul>
+                        <ul class="row-text fr">
+                            <li class="J_all">全</li>
+                            <li class="J_big">大</li>
+                            <li class="J_small">小</li>
+                            <li class="J_ji">奇</li>
+                            <li class="J_ou">偶</li>
+                            <li class="J_clear">清</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <div class="icon fl row-tt">十位</div>
+                        <ul class="row-num fl">
+                            <li class="J_numWrp">0</li>
+                            <li class="J_numWrp">1</li>
+                            <li class="J_numWrp">2</li>
+                            <li class="J_numWrp">3</li>
+                            <li class="J_numWrp">4</li>
+                            <li class="J_numWrp">5</li>
+                            <li class="J_numWrp">6</li>
+                            <li class="J_numWrp">7</li>
+                            <li class="J_numWrp">8</li>
+                            <li class="J_numWrp last">9</li>
+                        </ul>
+                        <ul class="row-text fr">
+                            <li class="J_all">全</li>
+                            <li class="J_big">大</li>
+                            <li class="J_small">小</li>
+                            <li class="J_ji">奇</li>
+                            <li class="J_ou">偶</li>
+                            <li class="J_clear">清</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <div class="icon fl row-tt">个位</div>
+                        <ul class="row-num fl">
+                            <li class="J_numWrp">0</li>
+                            <li class="J_numWrp">1</li>
+                            <li class="J_numWrp">2</li>
+                            <li class="J_numWrp">3</li>
+                            <li class="J_numWrp">4</li>
+                            <li class="J_numWrp">5</li>
+                            <li class="J_numWrp">6</li>
+                            <li class="J_numWrp">7</li>
+                            <li class="J_numWrp">8</li>
+                            <li class="J_numWrp last">9</li>
+                        </ul>
+                        <ul class="row-text fr">
+                            <li class="J_all">全</li>
+                            <li class="J_big">大</li>
+                            <li class="J_small">小</li>
+                            <li class="J_ji">奇</li>
+                            <li class="J_ou">偶</li>
+                            <li class="J_clear">清</li>
+                        </ul>
+                    </li>
+                </ul> -->
+            </div>
             <div class="bet-wrp clearfix">
                 <p class="ber-wrp-num fl">您选择了<i>0</i>注</p>
                 <div class="bet-wrp-multiple fl">
-                    <em class="fl cut">-</em>
+                    <em class="fl cut noselect" id="J_beishuCut">-</em>
                     <input type="text" class="fl" value="1" id="J_beishu">
-                    <em class="fl add">+</em>
+                    <em class="fl add noselect" id="J_beishuAdd">+</em>
                     <span class="fl">倍</span>
                 </div>
                 <div class="bet-wrp-unit fl">
-                    <select name="" id="" class="fl">
-                        <option value="">元</option>
-                        <option value="">角</option>
-                        <option value="">分</option>
+                    <select id="J_unit" class="fl" data-val="yuan" data-txt="元">
+                        <option value="yuan">元</option>
+                        <option value="jiao">角</option>
+                        <option value="fen">分</option>
                     </select>
-                    <p class="fl">共<span>6.000</span>元</p>
+                    <p class="fl">共<span id="J_totalPrice">0.000</span>元</p>
                 </div>
                 <div class="bet-wrp-rebate fl">
                     <p class="fl">奖金返点</p>
-                    <select name="" id="">
-                        <option value="">1700/0.00%</option>
+                    <select id="J_rebate" data-val="1700" data-txt="1700/0.00%">
+                        <option value="1700">1700/0.00%</option>
+                        <option value="170">170/0.00%</option>
                     </select>
                 </div>
                 <div class="bet-wrp-btn fr">
-                    <span class="fl btn-d-color mr10 bet-btn ">添加选号</span>
+                    <span class="fl btn-d-color mr10 bet-btn disabled">添加选号</span>
                     <span class="fl btn-d-color bet-btn disabled">一键投注</span>
                 </div>
             </div>

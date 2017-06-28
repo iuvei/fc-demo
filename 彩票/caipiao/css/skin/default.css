@@ -39,6 +39,7 @@
 .btn-l-color.disabled{
     color: #fff;
     background-color: #9f9f9f;
+    cursor: no-drop;
 }
 
 /* 详情页选择 */

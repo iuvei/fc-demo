@@ -2,79 +2,236 @@ $(function() {
     var Betting = {
         bet_action : 'all5',
         init: function() {
+            $('select').niceSelect();
             Betting.bindEvent();
+            Betting.bettingEvent();
+            Betting.renderSelectArea();
         },
         bindEvent: function() {
-            // 删除已选号码
-            $('.J_delNums').click(function() {
-                $(this).parents('li').remove();
-            });
-            $('select').niceSelect();
-
-            //清除下注按钮
-            $('.J_clear').bind('click', function() {
-                Betting.quicklySelect(this, false);
-            });
-            //奇注
-            $('.J_ji').bind('click', function() {
-                Betting.quicklySelect(this, ':odd', ':even');
-            });
-            //偶注
-            $('.J_ou').bind('click', function() {
-                Betting.quicklySelect(this, ':even', ':odd');
-            });
-            //全注
-            $('.J_all').bind('click', function() {
-                Betting.quicklySelect(this);
-            });
-            //大
-            $('.J_big').bind('click', function() {
-                Betting.quicklySelect(this, ':gt(4)', ':lt(5)');
-            });
-            //小
-            $('.J_small').bind('click', function() {
-                Betting.quicklySelect(this, ':lt(5)', ':gt(4)');
-            });
-
             // 主导航栏选择大类型
             $('.J_withChild').click(function() {
                 var _this = $(this);
                 var _info = _this.data('info');
 
-                if (_this.hasClass('active')) {
-                    return;
-                } else {
+                // TODO: 点击当前不改变
+                // if (_this.hasClass('active')) {
+                //     return;
+                // } else {
                     _this.addClass('active').siblings('span').removeClass('active');
-                }
+                // }
 
-                // console.log(_info);
-                var x = _info.split('#');
-                console.log(x);
-                // console.log(x[1]);
-                Betting.renderSubMenu(x[1]);
+                var _mainNav = _info.split('#');
+                Betting.renderSubMenu(_mainNav[1]);
+
+                // console.log(_mainNav[1]);
             });
 
             // 次级导航选择投注方式
             $('#J_subMenuList').on('click', '.J_subMenu', function() {
                 var _this = $(this);
                 var _info = _this.data('info');
-                if (_this.hasClass('active')) {
-                    return;
-                } else {
-                    _this.addClass('active').siblings('dd').removeClass('active');
-                }
 
-                console.log(_info);
+                // TODO: 点击当前不改变
+                // if (_this.hasClass('active')) {
+                //     return;
+                // } else {
+                    _this.parents('#J_subMenuList').find('dd').removeClass('active')
+                    _this.addClass('active');
+                // }
+                
+                var _mainNav = $('.J_withChild.active').data('info').split('#');
+                var _subNav = _info.split('#');
+                
+                Betting.renderBettingRule(_mainNav[1], _subNav[1]);
+                Betting.renderMaxBonus(_mainNav[1], _subNav[1]);
+
+                console.log(_mainNav[1], _subNav[1]);
+
+                Betting.setSelectArea({
+                    mainType : _mainNav[1],
+                    subType : _subNav[1]
+                });
             });
         },
-        renderSubMenu: function(type) {
-            var _html = SSC_TEMPLATE[type]().dom;
-            $('#J_subMenuList').html(_html);
+        renderSelectArea: function() {
+            var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
+            var _subNav = $('.J_subMenu.active').data('info').split('#')[1];
+            var _data = SSC_TEMPLATE[_mainNav]({type : _subNav});
+            var options = _data.opt;
 
+            console.log(options);
+            // return;
+            // console.log(options);
+            // options.numNameList = ['万位', '千位'];
+            // options.numList = ['大','小','单','双'];
+
+            // options.numNameList = ['和值'];
+            // options.numList = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17];
+            // options.quickFast = false;
+
+            var _str = '';
+            if(options.numNameList.length) {
+                _str += '<ul class="bet-row">';
+                $.each(options.numNameList, function(i, v) {
+                    _str += '<li>';
+                    _str += '<div class="icon fl row-tt">'+ v +'</div>';
+                    if (options.numList.length) {
+                        _str += _getNumList(options.numList);
+                    }
+                    if (options.quickFast) {
+                        _str += '<ul class="row-text fr">';
+                        _str += '<li class="J_all">全</li>';
+                        _str += '<li class="J_big">大</li>';
+                        _str += '<li class="J_small">小</li>';
+                        _str += '<li class="J_ji">奇</li>';
+                        _str += '<li class="J_ou">偶</li>';
+                        _str += '<li class="J_clear">清</li>';
+                        _str += '</ul>';
+                    }
+                    _str += '</li>';
+                });
+
+                _str += '</ul>';
+                
+                function _getNumList(numList) {
+                    var _numlist = '<ul class="row-num fl">';
+                    var _len = numList.length - 1;
+                    $.each(numList, function(a, b) {
+                        if (a == _len) {
+                            _numlist += '<li class="J_numWrp last">'+ b +'</li>';
+                        } else {
+                            _numlist += '<li class="J_numWrp">'+ b +'</li>';
+                        }
+                    });
+                    _numlist += '</ul>';
+                    return _numlist;
+                }
+            }
+
+            $('#J_selectArea').html(_str);
+        },
+        setSelectArea: function(options) {
+            options = options || {};
             
+            // TODO : 制定一份标准
+            Betting.renderSelectArea();
+        },
+        bettingEvent: function() {
+            // 删除已选号码
+            $('.J_delNums').click(function() {
+                $(this).parents('li').remove();
+            });
+            //清除下注按钮
+            $('#J_bettingBox').on('click', '.J_clear', function() {
+                Betting.quicklySelect(this, false);
+            });
+            //奇注
+            $('#J_bettingBox').on('click', '.J_ji', function() {
+                Betting.quicklySelect(this, ':odd', ':even');
+            });
+            //偶注
+            $('#J_bettingBox').on('click', '.J_ou', function() {
+                Betting.quicklySelect(this, ':even', ':odd');
+            });
+            //全注
+            $('#J_bettingBox').on('click', '.J_all', function() {
+                Betting.quicklySelect(this);
+            });
+            //大
+            $('#J_bettingBox').on('click', '.J_big', function() {
+                Betting.quicklySelect(this, ':gt(4)', ':lt(5)');
+            });
+            //小
+            $('#J_bettingBox').on('click', '.J_small', function() {
+                Betting.quicklySelect(this, ':lt(5)', ':gt(4)');
+            });
+            // 单独选择投注号码
+            $('#J_bettingBox').on('click', '.J_numWrp', function(){
+                var _this = $(this);
+                if (_this.hasClass('active')){
+                    _this.removeClass('active');
+                } else {
+                    _this.addClass('active');
+                }
+            });
+            // 减少倍数
+            $('#J_beishuCut').click(function(){
+                var _val = $('#J_beishu').val();
+                if (_val <= 1) {
+                    return;
+                } else {
+                    $('#J_beishu').val(_val - 1);
+                }
+            });
+
+            // 增加倍数
+            $('#J_beishuAdd').click(function(){
+                var _val = $('#J_beishu').val();
+                $('#J_beishu').val(Number(_val) + 1);
+            });
+
+            // 倍数
+            $('#J_beishu').on({
+                keyup: function() {
+                    var _val = $(this).val();
+                    var _reg = /^[1-9]\d*$/;
+                    if (!_reg.test(_val)) {
+                        layer.alert('您输入的投注倍数格式不正确,只能输入大于或等于1的数字。', {
+                            icon: 2
+                        });
+                        $(this).val(1);
+                    }
+                }
+            });
+
+            // 投注单位
+            $('#J_unit').next('.nice-select').find('li').click(function(e) {
+                var val = $(this).text();
+                var dataVal = $(this).attr("data-value");
+                $('[name="nice-select"] ul').hide();
+                $('#J_unit').data({
+                    val: val,
+                    txt: dataVal
+                });
+                // console.log($('#J_unit').data());
+            });
+
+            // 奖金返点
+            $('#J_rebate').next('.nice-select').find('li').click(function(e) {
+                var val = $(this).text();
+                var dataVal = $(this).attr("data-value");
+                $('[name="nice-select"] ul').hide();
+                $('#J_rebate').data({
+                    val: val,
+                    txt: dataVal
+                });
+                // console.log($('#J_rebate').data());
+            });
+        },
+        renderMaxBonus: function(mainNavType, subNavType) {
+            // 渲染最高奖金
+            var _data = SSC_TEMPLATE[mainNavType]({
+                type : subNavType
+            });
+            $('#J_maxBonus').html(_data.maxBonus);
+        },
+        renderBettingRule: function(mainNavType, subNavType) {
+            // 渲染玩法说明
+            var _data = SSC_TEMPLATE[mainNavType]({
+                type : subNavType
+            });
+            $('#J_bettingRule').html(_data.rule);
+        },
+        renderSubMenu: function(mainNavType) {
+            // 渲染次级菜单
+            var _html = SSC_TEMPLATE[mainNavType]();
+            $('#J_subMenuList').html(_html.dom);
+            $('#J_bettingRule').html(_html.rule);
+
+            Betting.renderSelectArea();
         },
         quicklySelect: function(elm, need, not) {
-            var list = $(elm).parent().prev().find('.num-wrp');
+            var list = $(elm).parent().prev().find('.J_numWrp');
             if (need && not) {
                 list.filter(not).removeClass('active');
                 list.filter(need).addClass('active');
@@ -87,7 +244,7 @@ $(function() {
             }
             // Betting.touzhu();
         },
-
+        
 
 
 
