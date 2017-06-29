@@ -1102,3 +1102,43 @@ var SSC_TEMPLATE = {
         };
     }
 };
+
+var globalVar = {
+    result: {},
+    merchantCode: "",
+    defaultAgent: "",
+    getAddressResult: null,
+    lottBetTimer: [],
+    lottDrawNumberTimer: [],
+    syncRate: 1,
+    quotaObj: [],
+    globeRebate: [],
+    currentLottery: {},
+    headers: {},
+    hotGameCount: 8,
+    activity: [],
+    bankCardLengh: 0,
+    BANK_CARD_MAX_LIMIT: 5,
+    cid: "",
+    messageRecipientList: [],
+    messageSelectedRecipient: [],
+    pvpGameWindows: null,
+    fishingGameWindows: null,
+    onlinePaymentWindows: null,
+    channelPaymentWindows: null,
+    walletList: {},
+    deletedIds: [],
+    loading: !0,
+    xmlHttp: ""
+};
+
+var vendorId = {
+    onlinePayment: null,
+    onlinePayment_index: 0,
+    wechat: null,
+    wechat_qr_enable: null,
+    wechat_index: 0,
+    alipay: null,
+    alipay_qr_enable: null,
+    alipay_index: 0
+};

@@ -272,10 +272,44 @@ $(function() {
                     list.addClass('active');
                 }
             }
-            Betting.touzhu();
+
+            
+            // Betting.touzhu();
         },
 
 
+
+        createBitScheme: function(a, b) {
+            var c = [];
+            if (1 * a == 2)
+                for (var d = 0; d < b.length; d++)
+                    for (var e = d + 1; e < b.length; e++) {
+                        var f = [];
+                        f.push(b[d]), f.push(b[e]), c.push(f)
+                    }
+            if (1 * a == 3)
+                for (var d = 0; d < b.length; d++)
+                    for (var e = d + 1; e < b.length; e++)
+                        for (var g = e + 1; g < b.length; g++) {
+                            var f = [];
+                            f.push(b[d]), f.push(b[e]), f.push(b[g]), c.push(f)
+                        }
+            if (1 * a == 4)
+                for (var d = 0; d < b.length; d++)
+                    for (var e = d + 1; e < b.length; e++)
+                        for (var g = e + 1; g < b.length; g++)
+                            for (var h = g + 1; h < b.length; h++) {
+                                var f = [];
+                                f.push(b[d]), f.push(b[e]), f.push(b[g]), f.push(b[h]), c.push(f)
+                            }
+            return c
+        },
+
+
+
+
+
+        
 
         touzhu: function() {
             var amount, bet = Betting.getBet();

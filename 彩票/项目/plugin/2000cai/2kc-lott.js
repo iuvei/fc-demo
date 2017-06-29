@@ -1,17 +1,44 @@
 var lott = {
     init: function() {
-        globalVar.multipTotalAmount = 0, globalVar.singleTotalAmount = 0, globalVar.singleTotalStakes = 0, globalVar.selectionBallAmount = 0, globalVar.selectionBallStakes = 0, globalVar.singleStakesPrice = 2, globalVar.playId = "", globalVar.playCode = "", globalVar.currentCart = [], globalVar.shortcutContent = [], globalVar.cartId = 0, globalVar.currentLottery.hot = {
+        // console.log(globalVar);
+
+        globalVar.multipTotalAmount = 0,    //
+        globalVar.singleTotalAmount = 0,    //
+        globalVar.singleTotalStakes = 0,    //
+        globalVar.selectionBallAmount = 0,  //当前选择总价？？？共多少元？
+        globalVar.selectionBallStakes = 0,  //当前选择注数
+        globalVar.singleStakesPrice = 2,    //单注价格
+        globalVar.playId = "",
+        globalVar.playCode = "",
+        globalVar.currentCart = [],     //当前购物车
+        globalVar.shortcutContent = [], //快捷方式内容
+        globalVar.cartId = 0,
+        globalVar.currentLottery.hot = {    //当前彩票（冷热）
             ball: {},
             size: {}
-        }, globalVar.currentLottery.gap = {
+        },
+        globalVar.currentLottery.gap = {    //当前彩票（遗漏）
             ball: {},
             size: {}
-        }, globalVar.currentLottMode = "", lott.lottBettingModes(), $("#gap_and_hot dt").removeClass("active"), $("#gap_and_hot dt[data-val='gap']").addClass("active"), lott.chase.chaseBtnEvents(), lott.betBtnEvents(), lott.betCartAndHistoryEvents(), lott.clearBetCart(), lott.chartEvent()
+        },
+        globalVar.currentLottMode = "", //
+        lott.lottBettingModes(),    //彩票投注模式
+
+        // 默认选中遗漏模式
+        $("#gap_and_hot dt").removeClass("active"),
+        $("#gap_and_hot dt[data-val='gap']").addClass("active"),
+
+        lott.chase.chaseBtnEvents(),    //点击追号的事件
+        lott.betBtnEvents(),    //里面绑定的是确认投注的按钮的提交订单事件
+        lott.betCartAndHistoryEvents(), //购物车以及投注历史记录切换事件
+        lott.clearBetCart(),    //一键清空
+        lott.chartEvent()   //走势图的事件
     },
     clearCart: function() {
         globalVar.multipTotalAmount = 0, globalVar.singleTotalAmount = 0, globalVar.singleTotalStakes = 0, globalVar.currentCart.splice(0, globalVar.currentCart.length), globalVar.shortcutContent = [], globalVar.cartId = 0, $("#betCartContent").html(""), $("#totalStakes").text(globalVar.singleTotalStakes), $("#totalAmount").text(lott.formatNumber(globalVar.singleTotalAmount, 4)), lott.betButtonStyleListener()
     },
     formatNumber: function(a, b, c) {
+        // 格式号码
         c || (a = Math.round(1e4 * a) / 1e4);
         var d, e, f, g = a + "",
             h = b;
@@ -95,10 +122,32 @@ var lott = {
         return c
     },
     setLottModeUI: function() {
+        // 设置奖励模式UI（传统、智赢）
+        // 
+        // console.log('setLottModeUI');
+        // a 的数据结构如下所示
+        // series = [{
+        //     defaultSeries:"1700"     //传统
+        //     gameGroup:"SSC"
+        //     gameGroupId:"1"
+        //     maxBetSeries:"1700"
+        //     maxSeries:"1700"
+        //     minSeries:"1700"
+        //     prizeModeId:"1"
+        // },{
+        //     defaultSeries:"2000"     //智赢
+        //     gameGroup:"SSC"
+        //     gameGroupId:"1"
+        //     maxBetSeries:"2000"
+        //     maxSeries:"2000"
+        //     minSeries:"2000"
+        //     prizeModeId:"2"
+        // }];
+
         var a = globalVar.currentLottery.series,
             b = "";
         if (1 == a.length) {
-            var c = a[0].prizeModeId;
+            var c = a[0].prizeModeId;   //奖励模式（传统，智赢）
             switch (c) {
                 case "1":
                     b += '<dt class="game-icons menu-tab-right2 inline-block hide" lott-mode="Tradition">传统</dt>';
@@ -124,33 +173,41 @@ var lott = {
         }
     },
     lottModeUIProcessor: function(a) {
+        // 奖励模式UI处理器
         $("#lottMode dt").removeClass("active"), a.addClass("active"), $("#lottMode dt[lott-mode='ZY']").hasClass("active") && "SSC" == globalVar.currentLottery.series[0].gameGroup ? ($("#topLottMenus").addClass("watermark"), $("#drawResult li:first-child").addClass("dr69")) : ($("#topLottMenus").removeClass("watermark"), $("#drawResult li:first-child").removeClass("dr69"));
         var b = a.attr("lott-mode");
         lott.setSeries(b), lott.lottPlayMenusUI()
     },
     setSeries: function(a) {
-        globalVar.currentLottMode = a;
+        // 集系列
+        globalVar.currentLottMode = a;  //当前的奖励模式（传统：Tradition、智赢：ZY）
         var b = {};
         if (1 == globalVar.currentLottery.series.length && (b = globalVar.currentLottery.series[0]), globalVar.currentLottery.series.length > 1) {
             var c = "Tradition" == globalVar.currentLottMode ? 0 : 1;
             b = globalVar.currentLottery.series[c]
         }
-        globalVar.currentLottery.betSeries = b.maxBetSeries, globalVar.currentLottery.prizeModeId = b.prizeModeId
+        globalVar.currentLottery.betSeries = b.maxBetSeries,
+        globalVar.currentLottery.prizeModeId = b.prizeModeId
     },
     lottPlayMenusUI: function() {
-        globalVar.playBonus = {}, globalVar.currentPlayMenu = {};
-        var a = globalVar.result.lottPlayMenus;
+        // 渲染彩票主菜单(五星、前四、后四.....)
+        globalVar.playBonus = {},
+        globalVar.currentPlayMenu = {};
+        var a = globalVar.result.lottPlayMenus; //分别为智赢、传统对应的主菜单及其对应的子菜单等相关数据
         if (a.length > 0) {
-            for (var b = "", c = 0; c < a.length; c++)
+            for (var b = "",c = 0; c < a.length; c++){
                 if (a[c].prizeModeName == globalVar.currentLottMode && a[c].playMenuGroups.length > 0) {
                     globalVar.currentPlayMenu = a[c].playMenuGroups;
                     for (var d = a[c].playMenuGroups, e = 0; e < d.length; e++) {
                         if ("PK10" == globalVar.currentLottery.series[0].gameGroup) {
-                            for (var f = 0, g = 0; g < d[e].playMenus.length; g++) 1 * d[e].playMenus[g].playSwitch == 0 && f++;
+                            for (var f = 0,
+                            g = 0; g < d[e].playMenus.length; g++) 1 * d[e].playMenus[g].playSwitch == 0 && f++;
                             if (d[e].playMenus.length == f) continue
                         } else {
-                            for (var h = 0, i = 0; i < d[e].playSubGroups.length; i++) {
-                                for (var f = 0, j = 0; j < d[e].playSubGroups[i].playMenus.length; j++) 1 * d[e].playSubGroups[i].playMenus[j].playSwitch == 0 && f++;
+                            for (var h = 0,
+                            i = 0; i < d[e].playSubGroups.length; i++) {
+                                for (var f = 0,
+                                j = 0; j < d[e].playSubGroups[i].playMenus.length; j++) 1 * d[e].playSubGroups[i].playMenus[j].playSwitch == 0 && f++;
                                 d[e].playSubGroups[i].playMenus.length == f && h++
                             }
                             if (d[e].playSubGroups.length == h) continue
@@ -158,11 +215,14 @@ var lott = {
                         1736 != d[e].playId && (b += '<li class="with_child" menu-info="' + d[e].playId + "#" + d[e].playCode + "#" + e + '">' + TCG.Prop("play_name_" + d[e].playId), b += "</li>")
                     }
                 }
-            $('ul[class="menu-loterry"]').html(b), $(document).off("click", ".menu-loterry>li").on("click", ".menu-loterry>li", function() {
-                $(".menu-loterry>li").removeClass("active"), $(this).addClass("active");
+            }
+            $('ul[class="menu-loterry"]').html(b),  //渲染主菜单
+            $(document).off("click", ".menu-loterry>li").on("click", ".menu-loterry>li", function() {
+                $(".menu-loterry>li").removeClass("active"),
+                $(this).addClass("active");
                 var a = $(this).attr("menu-info"),
-                    b = a.split("#"),
-                    c = "";
+                b = a.split("#"),   //主菜单的menu-info
+                c = "";
                 if ("PK10" == globalVar.currentLottery.series[0].gameGroup) {
                     var d = globalVar.currentPlayMenu[1 * b[2]];
                     c += "<dt>";
@@ -173,39 +233,61 @@ var lott = {
                         c += "</ul>"
                     }
                     c += "</dt>"
-                } else
-                    for (var d = globalVar.currentPlayMenu[1 * b[2]].playSubGroups, g = 0; g < d.length; g++) {
-                        c += "<dt><span>" + TCG.Prop("play_name_" + d[g].playId) + ":</span>";
-                        var e = d[g].playMenus;
-                        if (e.length > 0) {
-                            c += "<ul>";
-                            for (var f = 0; f < e.length; f++) 1 * e[f].playSwitch == 1 && (c += '<li menu-info="' + e[f].playId + "#" + e[f].playCode + "#" + e[f].singleBetPrice + '">' + TCG.Prop("play_name_" + e[f].playId) + "</li>", globalVar.playBonus[e[f].playCode] = lott.playBonusOrder(e[f].playMenuInfos));
-                            c += "</ul>"
-                        }
-                        c += "</dt>"
+                } else for (var d = globalVar.currentPlayMenu[1 * b[2]].playSubGroups, g = 0; g < d.length; g++) {
+                    c += "<dt><span>" + TCG.Prop("play_name_" + d[g].playId) + ":</span>";
+                    var e = d[g].playMenus;
+                    if (e.length > 0) {
+                        c += "<ul>";
+                        for (var f = 0; f < e.length; f++) 1 * e[f].playSwitch == 1 && (c += '<li menu-info="' + e[f].playId + "#" + e[f].playCode + "#" + e[f].singleBetPrice + '">' + TCG.Prop("play_name_" + e[f].playId) + "</li>", globalVar.playBonus[e[f].playCode] = lott.playBonusOrder(e[f].playMenuInfos));
+                        c += "</ul>"
                     }
-                $("#sub_group_menus").html(c), $("#sub_group_menus li").off("click").on("click", function() {
-                    $("#sub_group_menus li").removeClass("selected"), $(this).addClass("selected"), "lot-game-wrp" != $("div[select-area='ball']").prop("class") && $("div[select-area='ball']").prop("class", "lot-game-wrp");
+                    c += "</dt>"
+                }
+                $("#sub_group_menus").html(c),  //渲染子菜单
+                $("#sub_group_menus li").off("click").on("click", function() {
+                    $("#sub_group_menus li").removeClass("selected"),
+                    $(this).addClass("selected"),
+                    "lot-game-wrp" != $("div[select-area='ball']").prop("class") && $("div[select-area='ball']").prop("class", "lot-game-wrp");
                     var a = $(this).attr("menu-info"),
-                        b = a.split("#");
-                    $("#lottWinExplain").html(TCG.Prop("play_explain_" + b[0] + "_" + globalVar.currentLottery.prizeModeId)), globalVar.shortcutContent.length > 0 && lott.clearShortcutContent();
+                    b = a.split("#");
+                    $("#lottWinExplain").html(TCG.Prop("play_explain_" + b[0] + "_" + globalVar.currentLottery.prizeModeId)),   //渲染玩法说明
+                    globalVar.shortcutContent.length > 0 && lott.clearShortcutContent();
                     var c = globalVar.currentLottery.series[0].gameGroup;
-                    globalVar.singleStakesPrice = 1 * b[2], globalVar.playId = b[0], globalVar.playCode = b[1], globalVar.anyBitsContent = "", globalVar.anyBitScheme = [], lott.calculateAmount(0), $("div[select-area]").hide(), $('div[select-area="ball"]').show(), $("dl[bet-btn-area]").hide(), $('dl[bet-btn-area="ball"]').show(), $('dl[area-sort="textArea"]').hide(), lott[c].betBallUI(b[1]), lott.refreshCurrentBonus(globalVar.playCode, c)
+                    globalVar.singleStakesPrice = 1 * b[2],
+                    globalVar.playId = b[0],
+                    globalVar.playCode = b[1],
+                    globalVar.anyBitsContent = "",
+                    globalVar.anyBitScheme = [],
+                    lott.calculateAmount(0),      //计算金额，设置默认金额
+                    $("div[select-area]").hide(),
+                    $('div[select-area="ball"]').show(),
+                    $("dl[bet-btn-area]").hide(),
+                    $('dl[bet-btn-area="ball"]').show(),
+                    $('dl[area-sort="textArea"]').hide(),
+                    lott[c].betBallUI(b[1]),    //渲染对应类型 例如：c = 'SSC', b = 'All5Straight',对应的就是时时彩的五星直选
+                    lott.refreshCurrentBonus(globalVar.playCode, c) //刷新当前最高奖金
                 });
                 var h = $("#sub_group_menus li").get(0);
                 $(h).trigger("click")
             });
             var k = globalVar.currentLottery.series[0].gameGroup;
-            "SSC" == k && $(".menu-loterry>li[menu-info*='#Last_3#']").trigger("click"), "11X5" == k && $(".menu-loterry>li[menu-info*='#First_3_11X5#']").trigger("click"), "LF" == k && "TCP3P5" == globalVar.currentLottery.game && $(".menu-loterry>li[menu-info*='#P3_Straight_LF#']").trigger("click"), "LF" == k && "FC3D" == globalVar.currentLottery.game && $(".menu-loterry>li[menu-info*='#Last_3_3D#']").trigger("click"), "PK10" == k && $(".menu-loterry>li[menu-info*='#Fixed_Place_PK10#']").trigger("click"), lott.lottBetSeries()
+            "SSC" == k && $(".menu-loterry>li[menu-info*='#Last_3#']").trigger("click"),
+            "11X5" == k && $(".menu-loterry>li[menu-info*='#First_3_11X5#']").trigger("click"),
+            "LF" == k && "TCP3P5" == globalVar.currentLottery.game && $(".menu-loterry>li[menu-info*='#P3_Straight_LF#']").trigger("click"),
+            "LF" == k && "FC3D" == globalVar.currentLottery.game && $(".menu-loterry>li[menu-info*='#Last_3_3D#']").trigger("click"),
+            "PK10" == k && $(".menu-loterry>li[menu-info*='#Fixed_Place_PK10#']").trigger("click"),
+            lott.lottBetSeries()    //渲染奖金比例
         }
     },
     refreshCurrentBonus: function(a, b) {
+        // 刷新当前最高奖金
         var c = 0;
         a && (c = globalVar.playBonus[a].split(",")[0]);
         var d = 0;
         d = "11X5" == b ? 1980 : 2e3, $("span[play-menu='bonus']").text(lott.formatNumber(c * globalVar.currentLottery.betMode.unit * (globalVar.currentLottery.betSeries / d * 2), 4))
     },
     playBonusOrder: function(a) {
+        // 奖金？？？
         for (var b = [], c = 0; c < a.length; c++) b.push(a[c].bonus);
         var d = b.length;
         if (d <= 1) return b.join(",");
@@ -216,36 +298,85 @@ var lott = {
         return b.join(",")
     },
     lottBettingModes: function() {
+        // 彩票投注模式（元角分厘）
+        // console.log('lottBettingModes');
         var a = globalVar.result.bettingModes;
+        // console.log(globalVar);
+        // console.log(globalVar.result);
+        // console.log(a);
+
         if (a.betMultipleMax && (globalVar.currentLottery.betMaxMult = a.betMultipleMax), a.betAmountMax && (globalVar.currentLottery.betMaxAmount = a.betAmountMax), a.bettingModes && a.bettingModes.length > 0) {
-            for (var b = '<dt class="inline-block">模式:</dt>', c = 0; c < a.bettingModes.length; c++) b += '<dd class="btn game-icons inline-block currency" bet-mode="' + a.bettingModes[c].code + '"  mode-info="' + a.bettingModes[c].bettingModeId + "#" + a.bettingModes[c].unit + "#" + a.bettingModes[c].code + '">' + TCG.Prop("betting_mode_" + a.bettingModes[c].bettingModeId) + "</dd>";
-            $("#lottBetMode").html(b), $("#lottBetMode dd").off("click").on("click", function() {
+            for (var b = '<dt class="inline-block">模式:</dt>',
+            c = 0; c < a.bettingModes.length; c++) b += '<dd class="btn game-icons inline-block currency" bet-mode="' + a.bettingModes[c].code + '"  mode-info="' + a.bettingModes[c].bettingModeId + "#" + a.bettingModes[c].unit + "#" + a.bettingModes[c].code + '">' + TCG.Prop("betting_mode_" + a.bettingModes[c].bettingModeId) + "</dd>";
+            $("#lottBetMode").html(b),
+            $("#lottBetMode dd").off("click").on("click",
+                // 模式切换（圆角分厘）
+            function() {
                 if (!$(this).hasClass("active")) {
-                    $("#lottBetMode dd").removeClass("active"), $(this).addClass("active");
+                    $("#lottBetMode dd").removeClass("active"),
+                    $(this).addClass("active");
                     var a = $(this),
-                        b = $(this).attr("mode-info").split("#");
+                    b = $(this).attr("mode-info").split("#");
                     globalVar.currentLottery.betMode = {
                         id: b[0],
                         unit: b[1],
                         name: b[2]
                     };
                     var c = $('input[name="betMultiple"]').val();
-                    if (1 * c > globalVar.currentLottery.betMaxMult) return void TCG.Alert("alerts", "在当前模式您的最大投注倍数不能超过" + globalVar.currentLottery.betMaxMult + "倍", "XS", function() {
-                        $("input[name='betMultiple']").val(globalVar.currentLottery.betMaxMult), c = globalVar.currentLottery.betMaxMult, $("input[name='betMultiple']").trigger("input"), a.removeClass("active"), a.trigger("click")
+                    if (1 * c > globalVar.currentLottery.betMaxMult) return void TCG.Alert("alerts", "在当前模式您的最大投注倍数不能超过" + globalVar.currentLottery.betMaxMult + "倍", "XS",
+                    function() {
+                        $("input[name='betMultiple']").val(globalVar.currentLottery.betMaxMult),
+                        c = globalVar.currentLottery.betMaxMult,
+                        $("input[name='betMultiple']").trigger("input"),
+                        a.removeClass("active"),
+                        a.trigger("click")
                     });
                     if (globalVar.selectionBallAmount > 0) {
                         var d = 0;
-                        d = 0 == globalVar.playCode.indexOf("Any4Com") || 0 == globalVar.playCode.indexOf("Any3Com") || 0 == globalVar.playCode.indexOf("Any3Sum") || 0 == globalVar.playCode.indexOf("Any2Com") || 0 == globalVar.playCode.indexOf("Any2Sum") ? globalVar.selectionBallAmount * globalVar.anyBitScheme.length : globalVar.selectionBallAmount, $("#selectionBallAmount").text(lott.formatNumber(c * d * globalVar.currentLottery.betMode.unit, 4))
+                        d = 0 == globalVar.playCode.indexOf("Any4Com") || 0 == globalVar.playCode.indexOf("Any3Com") || 0 == globalVar.playCode.indexOf("Any3Sum") || 0 == globalVar.playCode.indexOf("Any2Com") || 0 == globalVar.playCode.indexOf("Any2Sum") ? globalVar.selectionBallAmount * globalVar.anyBitScheme.length: globalVar.selectionBallAmount,
+                        $("#selectionBallAmount").text(lott.formatNumber(c * d * globalVar.currentLottery.betMode.unit, 4))
                     }
                     if ("" != globalVar.playCode) {
                         var e = globalVar.currentLottery.series[0].gameGroup;
-                        lott.refreshCurrentBonus(globalVar.playCode, e)
+                        lott.refreshCurrentBonus(globalVar.playCode, e) //刷新当前最高奖金
                     }
                 }
-            }), $('#lottBetMode dd[bet-mode="Dollar"]').trigger("click"), lott.lottBetMultiple(), lott.setLottModeUI()
+            }),
+            $('#lottBetMode dd[bet-mode="Dollar"]').trigger("click"),
+            lott.lottBetMultiple(), //投注倍数
+            lott.setLottModeUI()    //
         }
+        // var a = globalVar.result.bettingModes;
+        // if (a.betMultipleMax && (globalVar.currentLottery.betMaxMult = a.betMultipleMax), a.betAmountMax && (globalVar.currentLottery.betMaxAmount = a.betAmountMax), a.bettingModes && a.bettingModes.length > 0) {
+        //     for (var b = '<dt class="inline-block">模式:</dt>', c = 0; c < a.bettingModes.length; c++) b += '<dd class="btn game-icons inline-block currency" bet-mode="' + a.bettingModes[c].code + '"  mode-info="' + a.bettingModes[c].bettingModeId + "#" + a.bettingModes[c].unit + "#" + a.bettingModes[c].code + '">' + TCG.Prop("betting_mode_" + a.bettingModes[c].bettingModeId) + "</dd>";
+        //     $("#lottBetMode").html(b), $("#lottBetMode dd").off("click").on("click", function() {
+        //         if (!$(this).hasClass("active")) {
+        //             $("#lottBetMode dd").removeClass("active"), $(this).addClass("active");
+        //             var a = $(this),
+        //                 b = $(this).attr("mode-info").split("#");
+        //             globalVar.currentLottery.betMode = {
+        //                 id: b[0],
+        //                 unit: b[1],
+        //                 name: b[2]
+        //             };
+        //             var c = $('input[name="betMultiple"]').val();
+        //             if (1 * c > globalVar.currentLottery.betMaxMult) return void TCG.Alert("alerts", "在当前模式您的最大投注倍数不能超过" + globalVar.currentLottery.betMaxMult + "倍", "XS", function() {
+        //                 $("input[name='betMultiple']").val(globalVar.currentLottery.betMaxMult), c = globalVar.currentLottery.betMaxMult, $("input[name='betMultiple']").trigger("input"), a.removeClass("active"), a.trigger("click")
+        //             });
+        //             if (globalVar.selectionBallAmount > 0) {
+        //                 var d = 0;
+        //                 d = 0 == globalVar.playCode.indexOf("Any4Com") || 0 == globalVar.playCode.indexOf("Any3Com") || 0 == globalVar.playCode.indexOf("Any3Sum") || 0 == globalVar.playCode.indexOf("Any2Com") || 0 == globalVar.playCode.indexOf("Any2Sum") ? globalVar.selectionBallAmount * globalVar.anyBitScheme.length : globalVar.selectionBallAmount, $("#selectionBallAmount").text(lott.formatNumber(c * d * globalVar.currentLottery.betMode.unit, 4))
+        //             }
+        //             if ("" != globalVar.playCode) {
+        //                 var e = globalVar.currentLottery.series[0].gameGroup;
+        //                 lott.refreshCurrentBonus(globalVar.playCode, e)
+        //             }
+        //         }
+        //     }), $('#lottBetMode dd[bet-mode="Dollar"]').trigger("click"), lott.lottBetMultiple(), lott.setLottModeUI()
+        // }
     },
     lottBetMultiple: function() {
+        // 投注倍数 加减
         $("#lottBetMultiple dt[bet-mult='reduce'],#lottBetMultiple dt[bet-mult='add']").off("click").on("click", function() {
             var a = $(this).attr("bet-mult"),
                 b = $('input[name="betMultiple"]').val();
@@ -281,6 +412,7 @@ var lott = {
         })
     },
     lottBetSeries: function() {
+        //彩票投注系列（比例）
         var a = {};
         if (1 == globalVar.currentLottery.series.length && (a = globalVar.currentLottery.series[0]), globalVar.currentLottery.series.length > 1) {
             var b = "Tradition" == globalVar.currentLottMode ? 0 : 1;
@@ -318,6 +450,7 @@ var lott = {
         })
     },
     betCartAndHistoryEvents: function() {
+        // 当前投注、投注历史切换事件
         $(document).off("click", "li[bet-sort]").on("click", "li[bet-sort]", function() {
             if (!$(this).hasClass("tab-active")) {
                 $("li[bet-sort]").removeClass("tab-active"), $(this).addClass("tab-active");
@@ -327,6 +460,7 @@ var lott = {
         }), $("li[bet-sort='currentBetCart']").trigger("click")
     },
     bettingOrderHistoryRecord: function() {
+        // 投注订单历史记录
         var a = new Date,
             b = (a.getFullYear(), a.getMonth() + 1 < 10 ? a.getMonth() : a.getMonth(), a.getDate() < 10 ? a.getDate() : a.getDate(), {
                 gameId: globalVar.currentLottery.gameId,
@@ -550,6 +684,9 @@ var lott = {
                     break;
                 case "All5Straight":
                     lott.direct(null, ["FIRST", "SECOND", "THIRD", "FOURTH", "FIFTH"], 0, 9, 1, !0, 10, 1, "", function(a) {
+                        // console.log('======================');
+                        console.log(a);
+                        // console.log('======================');
                         return a[a.length - 1][a[0]].length * a[a.length - 1][a[1]].length * a[a.length - 1][a[2]].length * a[a.length - 1][a[3]].length * a[a.length - 1][a[4]].length
                     });
                     break;
@@ -1241,6 +1378,7 @@ var lott = {
         }
     },
     autoSetGapOrHot: function(a) {
+        // 自动设置间隙或热
         if ("non" != a) {
             var b = $("#gap_and_hot dt[class*='active']").attr("data-val"),
                 c = $("#gap_and_hot").attr("play-ranks");
@@ -1257,19 +1395,65 @@ var lott = {
         }
     },
     direct: function(a, b, c, d, e, f, g, h, i, j) {
+        console.log(a, b, c, d, e, f, g, h, i, j);
+        console.log(globalVar);
+        // TODO: 分析对应的计算规则出来
+        /*
+        direct的参数解析：
+        a: null 对于 万千百十个 这样的选项卡组
+        b: []   一个数组，表示有几行 如 万千百 对应的 ["FIRST", "SECOND", "THIRD"]
+        c: 起始号码
+        d: 结束号码
+        e: ？？？？
+        f: 是否包含快捷选择区块？
+        g: 每行最多可以选择几个号码？
+        h: 每行最少选择几个号码？
+        i: '' ？？？？
+        j: 根据对应的算法返回已选则的注数
+
+
+        //后三直选
+        lott.direct(null, ["THIRD", "FOURTH", "FIFTH"], 0, 9, 1, !0, 10, 1, "", function(a) {
+            return a[a.length - 1][a[0]].length * a[a.length - 1][a[1]].length * a[a.length - 1][a[2]].length
+        });
+        break;
+
+        //五星直选
+        lott.direct(null, ["FIRST", "SECOND", "THIRD", "FOURTH", "FIFTH"], 0, 9, 1, !0, 10, 1, "", function(a) {
+            // a 表示的是类型如：五星直选    a = All5Straight
+            return a[a.length - 1][a[0]].length * a[a.length - 1][a[1]].length * a[a.length - 1][a[2]].length * a[a.length - 1][a[3]].length * a[a.length - 1][a[4]].length
+        });
+    
+        //五星通选（不含快捷选择按钮）
+        lott.direct(null, ["FIRST", "SECOND", "THIRD", "FOURTH", "FIFTH"], 0, 9, 1, !1, 1, 1, "", function(a) {
+            return a[a.length - 1][a[0]].length * a[a.length - 1][a[1]].length * a[a.length - 1][a[2]].length * a[a.length - 1][a[3]].length * a[a.length - 1][a[4]].length
+        });
+
+         */
+        
         var k = {},
-            l = globalVar.currentLottery.series[0].gameGroup,
+            l = globalVar.currentLottery.series[0].gameGroup, //彩票大类如：'SSC'
             m = "",
             n = b.join("#");
-        $("#gap_and_hot").attr("play-ranks", n), $("#gap_and_hot").attr("play-sort", "ball");
+            console.log(n);
+        $("#gap_and_hot").attr("play-ranks", n),    //列的组合 ：THIRD#FOURTH#FIFTH
+        $("#gap_and_hot").attr("play-sort", "ball");    //分类：ball 球？？
+        // TODO: 分析到这里了，SSC类型的会给 b 追加一个新的对象在最后。。然后里面存放已选的数字组合，再根据这个组合去算对应的注数？
         for (var o = 0; o < b.length; o++) {
             "11X5" == l || "PK10" == l && -1 == globalVar.playCode.indexOf("BSOE_PK10") ? k[b[o]] = [] : k[b[o]] = "";
             var p = null != a && "object" == typeof a ? a[o] : a;
             m += lott.ranks(p, b[o], c, d, e, f, !0)
         }
-        b.push(k), $("div[select-area='ball']").html(m), lott.gapAndHotBtnEvents(), lott.autoSetGapOrHot("ball"), lott.selectionBall(b, f, g, h, i, j)
+        // console.log(m);
+        // m:球的demo结构
+        b.push(k),
+        $("div[select-area='ball']").html(m),
+        lott.gapAndHotBtnEvents(),
+        lott.autoSetGapOrHot("ball"),
+        lott.selectionBall(b, f, g, h, i, j)
     },
     NonDirect: function(a, b, c, d, e, f, g, h, i, j, k) {
+        console.log('NonDirect');
         var l = {},
             m = globalVar.currentLottery.series[0].gameGroup;
         $("#gap_and_hot").attr("play-sort", "non");
@@ -1291,6 +1475,7 @@ var lott = {
         lott.selectionBall(b, f, g, h, i, j)
     },
     sumAndPointUI: function(a, b, c, d, e, f) {
+        console.log('sumAndPointUI');
         var g = {};
         $("#gap_and_hot").attr("play-sort", "non"), g["3rd"] = [1, 3, 6, 10, 15, 21, 28, 36, 45, 55, 63, 69, 73, 75, 75, 73, 69, 63, 55, 45, 36, 28, 21, 15, 10, 6, 3, 1], g["3rdx"] = [1, 1, 2, 3, 4, 5, 7, 8, 10, 12, 13, 14, 15, 15, 15, 15, 14, 13, 12, 10, 8, 7, 5, 4, 3, 2, 1, 1], g["2nd"] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1], g["2ndx"] = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 5, 4, 4, 3, 3, 2, 2, 1, 1], g["3rdz"] = [1, 2, 2, 4, 5, 6, 8, 10, 11, 13, 14, 14, 15, 15, 14, 14, 13, 11, 10, 8, 6, 5, 4, 2, 2, 1], g["2rdz"] = [1, 1, 2, 2, 3, 3, 4, 4, 5, 4, 4, 3, 3, 2, 2, 1, 1], g["3rpk"] = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], g["2rpk"] = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
         var h = "";
@@ -1310,6 +1495,8 @@ var lott = {
         lott.selectionPointEvents(b, m, g[f], c, d)
     },
     selectionPointEvents: function(a, b, c, d, e) {
+        // 
+        console.log('selectionPointEvents');
         $("#lott_ranks_" + a + ">dl>dt").unbind().hover(function() {
             $(this).addClass("hover")
         }, function() {
@@ -1385,6 +1572,7 @@ var lott = {
         })
     },
     BSOEUI: function(a, b, c) {
+        console.log('BSOEUI');
         var d = {},
             e = "",
             f = a.join("#");
@@ -1403,6 +1591,7 @@ var lott = {
         })
     },
     PK10BSOEUI: function(a, b, c, d) {
+        console.log('PK10BSOEUI');
         var e = {},
             f = "",
             g = b.join("#");
@@ -1506,6 +1695,7 @@ var lott = {
         a.push(c), $("div[select-area='ball']").hasClass("game-large") || $("div[select-area='ball']").addClass("game-large"), $("div[select-area='ball']").html(d), lott.ddsBallEvent(a, b)
     },
     ddsBallEvent: function(a, b) {
+        console.log('ddsBallEvent');
         var c = a[0];
         $(document).off("click", "#lott_ranks_" + c + ">dl>dt").on("click", "#lott_ranks_" + c + ">dl>dt", function() {
             var d = $(this).attr("data-val");
@@ -1580,6 +1770,7 @@ var lott = {
         })
     },
     czwSiftBtnEvents: function(a, b, c) {
+        console.log('czwSiftBtnEvents');
         $(document).off("click", "#lott_ranks_" + a + ">ul>li").on("click", "#lott_ranks_" + a + ">ul>li", function() {
             var d = $(this).attr("sift");
             switch ($("#lott_ranks_" + a + ">dl>dt").removeClass("selected"), d) {
@@ -1609,6 +1800,7 @@ var lott = {
         })
     },
     allManualEntryEvents: function() {
+        // 所有手动输入事件。textarea
         var a = {};
         switch (globalVar.playCode) {
             case "Any2_11X5_Single":
@@ -1842,6 +2034,7 @@ var lott = {
         })
     },
     manualEntryUI: function(a, b) {
+        console.log('manualEntryUI');
         var c = "",
             d = globalVar.currentLottery.series[0].gameGroup;
         globalVar.textArea = [], globalVar.anyBitsContent = "", c += '<dl class="manualBetting">';
@@ -1968,11 +2161,13 @@ var lott = {
     },
     setBitSchemeUI: function(a, b) {
         var c = [];
+        console.log(a);
         $("#" + a + "AnySequenceBit li[class*='active']").each(function() {
             c.push($(this).attr("sq-bit-id"))
         }), $("span[" + a + '-sq-bits="count"]').text(c.length), globalVar.anyBitsContent = c.join(""), globalVar.anyBitScheme = lott.createBitScheme(b, c), $("span[" + a + "-sq-bits='scheme']").text(globalVar.anyBitScheme.length)
     },
     createBitScheme: function(a, b) {
+        console.log(a,b);
         var c = [];
         if (1 * a == 2)
             for (var d = 0; d < b.length; d++)
@@ -2008,6 +2203,7 @@ var lott = {
         return c = "11X5" == b ? a.replace(/[^\d\r\n\f,;]+/g, "") : a.replace(/[^\d\r\n\f\s,;]+/g, ""), c = c.replace(/[^\d\d]+/g, "@"), ("@" == c.substring(c.length - 1) ? c.substring(0, c.length - 1) : c).split("@")
     },
     calculateSSCAnyManualEntryStakes: function(a) {
+        console.log('calculateSSCAnyManualEntryStakes');
         var b = $("#ballInputArea").val(),
             c = lott.manualEntryDisassemble(b);
         if (0 != c.length) {
@@ -2035,6 +2231,7 @@ var lott = {
         }
     },
     calculateSSCManualEntryStakes: function(a, b) {
+        console.log('calculateSSCManualEntryStakes');
         var c = $("#ballInputArea").val(),
             d = lott.manualEntryDisassemble(c);
         if (0 != d.length) {
@@ -2052,6 +2249,7 @@ var lott = {
         }
     },
     calculateESFManualEntryStakes: function(a, b) {
+        console.log('calculateESFManualEntryStakes');
         var c = $("#ballInputArea").val(),
             d = lott.ESFManualEntryDisassemble(c, b);
         if (0 != d.length) {
@@ -2074,6 +2272,7 @@ var lott = {
         }
     },
     addManualEntryToCart: function() {
+        console.log('addManualEntryToCart');
         if (!(globalVar.textArea.length <= 0)) {
             for (var a = $('input[name="betMultiple"]').val(), b = 0; b < globalVar.textArea.length; b++) lott.createBetCart(globalVar.textArea[b].ball, globalVar.textArea[b].type, a, globalVar.textArea[b].digit, globalVar.textArea[b].stakes, !1);
             lott.calculateCartBuyAmount(), globalVar.textArea = [], $("#ballInputArea").val(""), lott.calculateAmount(0)
@@ -2192,6 +2391,7 @@ var lott = {
         a.push(c), $("div[select-area='ball']").hasClass("PK10") || $("div[select-area='ball']").addClass("PK10"), $("div[select-area='ball']").html(d), lott.toradoraBallEvent(a, b)
     },
     toradoraBallEvent: function(a, b) {
+        console.log('toradoraBallEvent');
         var c = a[0];
         $(document).off("click", "#lott_ranks_" + c + ">dl>div").on("click", "#lott_ranks_" + c + ">dl>div", function() {
             if ($(this).hasClass("active")) $(this).removeClass("active"), a[a.length - 1][c] = "";
@@ -2222,18 +2422,23 @@ var lott = {
         })
     },
     selectionBall: function(a, b, c, d, e, f) {
+        console.log('selectionBall');
         for (var g = globalVar.currentLottery.series[0].gameGroup, h = 0; h < a.length - 1; h++) b ? (lott.multipleBallEvent(a[h], a, f, c), lott.siftBtnEvents(a[h], a, f)) : lott.singleBallEvent(a[h], a, f);
         "SSC" != g || "FixedPlace" != globalVar.playCode && "First2StraightAnyCode" != globalVar.playCode && "Last2StraightAnyCode" != globalVar.playCode && "First2ComAnyCode" != globalVar.playCode && "Last2ComAnyCode" != globalVar.playCode ? "LF" == g && "FixedPlace_LF" == globalVar.playCode ? lott.addBallToCartOfAlone(a, e) : "11X5" == g && "FixedPlace_11X5" == globalVar.playCode ? lott.add11X5BallToCartOfAlone(a) : "SSC" == g && (globalVar.playCode.indexOf("AllCom") > -1 || globalVar.playCode.indexOf("L4Com") > -1 || globalVar.playCode.indexOf("F4Com") > -1 || 0 == globalVar.playCode.indexOf("Any4Com")) ? lott.addBallToCartOf5O4StarCom(a, d, e) : "PK10" == g && globalVar.playCode.indexOf("BSOE_PK10") > -1 ? lott.addBallToCartOfPk10Bose(a) : "PK10" == g && globalVar.playCode.indexOf("5Fixed_PK10") > -1 ? lott.add11X5BallToCartOfAlone(a) : "11X5" == g || "PK10" == g && -1 == globalVar.playCode.indexOf("BSOE_PK10") && -1 == globalVar.playCode.indexOf("5Fixed_PK10") ? lott.add11X5BallToCart(a, d, e) : lott.addBallToCart(a, d, e) : lott.addBallToCartOfAlone(a, e)
     },
     ranks: function(a, b, c, d, e, f, g) {
         var h = "";
+        console.log(a, b, c, d, e, f, g);
         return h += '<div id="lott_ranks_' + b + '" class="game-cntaner">', h += '<span class="lt-tb-row ' + (1 == g ? "ch-xs" : "") + ' inline-block">' + (null == a || "" == a ? TCG.Prop("lottery_bett_" + b) : a) + (1 == g ? "<em></em>" : "") + "</span>", h += '<dl class="lt-number-row inline-block">' + lott.ball(c, d, e) + "</dl>", f && (h += lott.sift()), h += "</div>"
     },
     ball: function(a, b, c) {
+        // console.log(a,b,c);
         for (var d = "", e = a; e <= b; e++) d += '<dt class="num-wrp">' + (2 == c && e < 10 ? "0" + e : e) + "</dt>", d += '<dd class="sub-wrp"></dd>';
         return d
     },
     multipleBallEvent: function(a, b, c, d) {
+        console.log(a, b, c, d);
+        // console.log('multipleBallEvent');
         $("#lott_ranks_" + a + ">dl>dt").unbind().hover(function() {
             $(this).addClass("hover")
         }, function() {
@@ -2241,6 +2446,7 @@ var lott = {
         }), $(document).off("click", "#lott_ranks_" + a + ">dl>dt").on("click", "#lott_ranks_" + a + ">dl>dt", function() {
             var e = $(this).text(),
                 f = globalVar.currentLottery.series[0].gameGroup;
+                console.log(f);
             if ($(this).removeClass("hover"), $(this).hasClass("selected")) {
                 $(this).removeClass("selected");
                 var g = b[b.length - 1][a].indexOf(e);
@@ -2269,6 +2475,7 @@ var lott = {
         })
     },
     singleBallEvent: function(a, b, c) {
+        console.log('singleBallEvent');
         $("#lott_ranks_" + a + ">dl>dt").unbind().hover(function() {
             $(this).addClass("hover")
         }, function() {
@@ -2287,6 +2494,7 @@ var lott = {
         return '<ul class="lt-pick-row inline-block"><li sift="all">全</li><li sift="big">大</li><li sift="small">小</li><li sift="odd">奇</li><li sift="even">偶</li><li sift="clear">清</li></ul>'
     },
     siftBtnEvents: function(a, b, c) {
+        console.log('siftBtnEvents');
         $(document).off("click", "#lott_ranks_" + a + ">ul>li").on("click", "#lott_ranks_" + a + ">ul>li", function() {
             var d = $(this).attr("sift"),
                 e = globalVar.currentLottery.series[0].gameGroup;
@@ -2356,6 +2564,8 @@ var lott = {
         return c
     },
     calculateAmount: function(a) {
+        console.log(a);
+        //根据选择的注数计算金额
         var b = 0,
             c = $('input[name="betMultiple"]').val();
         if (a >= 0 && (globalVar.selectionBallStakes = a, globalVar.selectionBallAmount = 1 * a * (1 * globalVar.singleStakesPrice), 0 == globalVar.playCode.indexOf("Any4Com") || 0 == globalVar.playCode.indexOf("Any3Com") || 0 == globalVar.playCode.indexOf("Any3Sum") || 0 == globalVar.playCode.indexOf("Any2Com") || 0 == globalVar.playCode.indexOf("Any2Sum") ? ($("#selectionBallStakes").text(globalVar.selectionBallStakes * globalVar.anyBitScheme.length), $("#selectionBallAmount").text(lott.formatNumber(1 * c * globalVar.selectionBallAmount * globalVar.anyBitScheme.length * globalVar.currentLottery.betMode.unit, 4)), a = globalVar.selectionBallStakes * globalVar.anyBitScheme.length) : ($("#selectionBallStakes").text(globalVar.selectionBallStakes), $("#selectionBallAmount").text(lott.formatNumber(1 * c * globalVar.selectionBallAmount * globalVar.currentLottery.betMode.unit, 4)))), "SSC" == globalVar.currentLottery.series[0].gameGroup) switch (globalVar.playCode) {
@@ -2388,6 +2598,7 @@ var lott = {
         })
     },
     clearShortcutContent: function() {
+        // 清除快捷方式内容
         globalVar.shortcutContent.length > 0 && (globalVar.currentCart.splice(1 * globalVar.shortcutContent[0], globalVar.shortcutContent.length), globalVar.shortcutContent.splice(0, globalVar.shortcutContent.length))
     },
     addBallToCart: function(a, b, c) {
@@ -2764,6 +2975,7 @@ var lott = {
         })
     },
     createBetCart: function(a, b, c, d, e, f) {
+        // 创建购物车
         var g = {
             id: globalVar.cartId,
             ball: a,
@@ -2837,8 +3049,49 @@ var lott = {
         return globalVar.cartId++, g - 1
     },
     calculateCartBuyAmount: function() {
-        for (var a = 0, b = 0, c = 0, d = 0; d < globalVar.currentCart.length; d++) a = 1 * a + 1 * globalVar.currentCart[d].stakes, b = 1 * b + 1 * globalVar.currentCart[d].amount, c = 1 * c + 1 * globalVar.currentCart[d].amount * (1 * globalVar.currentCart[d].multiple);
-        globalVar.multipTotalAmount = c, globalVar.singleTotalAmount = b, globalVar.singleTotalStakes = a, $("#totalStakes").text(globalVar.singleTotalStakes), $("#totalAmount").text(lott.formatNumber(globalVar.multipTotalAmount, 4))
+        // 计算购物车购买金额
+        // a : 当前选择的注数
+        // stakes : 赌注
+        // amount : 量
+        // multiple : 多
+        
+        console.log(globalVar.currentCart.length);
+        // globalVar.currentCart.length //当前购物车投注数量
+
+        for (var a = 0,b = 0,c = 0,d = 0; d < globalVar.currentCart.length; d++) {
+            a = 1 * a + 1 * globalVar.currentCart[d].stakes,
+            b = 1 * b + 1 * globalVar.currentCart[d].amount,
+            c = 1 * c + 1 * globalVar.currentCart[d].amount * (1 * globalVar.currentCart[d].multiple);
+        }
+        console.log(globalVar);
+        console.log(a);
+        console.log(b);
+        console.log(c);
+
+        globalVar.multipTotalAmount = c;
+        globalVar.singleTotalAmount = b;
+        globalVar.singleTotalStakes = a;
+        $("#totalStakes").text(globalVar.singleTotalStakes);
+        $("#totalAmount").text(lott.formatNumber(globalVar.multipTotalAmount, 4));
+
+        // for (var a = 0,
+        // b = 0,
+        // c = 0,
+        // d = 0; d < globalVar.currentCart.length; d++){
+        //     a = 1 * a + 1 * globalVar.currentCart[d].stakes,
+        //     b = 1 * b + 1 * globalVar.currentCart[d].amount,
+        //     c = 1 * c + 1 * globalVar.currentCart[d].amount * (1 * globalVar.currentCart[d].multiple);
+        // }
+        // console.log(a);
+        // globalVar.multipTotalAmount = c,
+        // globalVar.singleTotalAmount = b,
+        // globalVar.singleTotalStakes = a,
+        // $("#totalStakes").text(globalVar.singleTotalStakes),
+        // $("#totalAmount").text(lott.formatNumber(globalVar.multipTotalAmount, 4))
+
+        // for (var a = 0, b = 0, c = 0, d = 0; d < globalVar.currentCart.length; d++) a = 1 * a + 1 * globalVar.currentCart[d].stakes, b = 1 * b + 1 * globalVar.currentCart[d].amount, c = 1 * c + 1 * globalVar.currentCart[d].amount * (1 * globalVar.currentCart[d].multiple);
+        // console.log(a);
+        // globalVar.multipTotalAmount = c, globalVar.singleTotalAmount = b, globalVar.singleTotalStakes = a, $("#totalStakes").text(globalVar.singleTotalStakes), $("#totalAmount").text(lott.formatNumber(globalVar.multipTotalAmount, 4))
     },
     clearSelectionBall: function(a) {
         if (a)
@@ -2849,21 +3102,24 @@ var lott = {
         globalVar.currentCart.length > 0 ? ($("#confirmBetOrder").hasClass("enable") || $("#confirmBetOrder").addClass("enable"), $("#chaseBetOrder").hasClass("enable") || $("#chaseBetOrder").addClass("enable"), $("#clearBetCart").hasClass("enable") || $("#clearBetCart").addClass("enable")) : ($("#confirmBetOrder").removeClass("enable"), $("#chaseBetOrder").removeClass("enable"), $("#clearBetCart").removeClass("enable"))
     },
     buttonClickEvents: function(a, b, c) {
+        // 按钮点击事件
         $(document).off(a, b).on(a, b, function() {
             $(this).hasClass("enable") && ($(this).hasClass("processing") || ($(this).addClass("processing"), c && c(this)))
         })
     },
     betBtnEvents: function() {
+        // 确认投注（提交订单）
         lott.buttonClickEvents("click", "#confirmBetOrder", function(a) {
             lott.confirmBetOrder(a, !1, null)
         })
     },
     clearBetCart: function() {
+        // 一键清空（清空购物车）
         lott.buttonClickEvents("click", "#clearBetCart", function(a) {
             lott.clearCart(), $(a).removeClass("processing")
         })
     },
-    chase: {
+    chase: {    //追？？？
         numeroList: [],
         maxChaseCount: 0,
         currNumero: "",
@@ -3171,6 +3427,7 @@ var lott = {
         }
     },
     confirmBetOrder: function(a, b, c) {
+        // 确认投注,提交订单
         if (!globalVar.currentLottery.isSale) return TCG.Alert("alerts", "当前彩种暂时没有开始销售,请稍后再试"), b && lott.clearShortcutContent(), void $(a).removeClass("processing");
         var d = $('input[name="betMultiple"]').val(),
             e = 0,
@@ -3260,6 +3517,7 @@ var lott = {
         return b
     },
     chartEvent: function() {
+        // 右上角走势图的点击事件
         $(document).on("click", ".jp-onel .alignright", function() {
             var a = JSON.stringify(globalVar);
             sessionStorage.setItem("globalVar", a)
