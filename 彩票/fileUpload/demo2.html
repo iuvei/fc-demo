@@ -7,7 +7,7 @@
 
 <body> 
 <div id="aa"></div> 
-<div class="rsLottBtns clearfix"><input id="betContentFile" type="file" accept="text/plain" name="file" style="display: none;"><div id="betFileUpload"><label for="betContentFile">选择文件</label></div></div>
+<div class="rsLottBtns clearfix"><input id="betContentFile" type="file" accept="text/plain" name="file"><div id="betFileUpload"><label for="betContentFile">选择文件</label></div></div>
 
 <script src="jquery-1.11.1.min.js"></script>
 <script>
@@ -18,12 +18,14 @@
             var fso, ts, s ; 
             var ForReading = 1; 
 
-            // fso = new ActiveXObject("Scripting.FileSystemObject"); 
-            fso = new CreateObject("Scripting.FileSystemObject"); 
+            fso = new ActiveXObject("Scripting.FileSystemObject"); 
+            // fso = new CreateObject("Scripting.FileSystemObject"); 
             ts = fso.OpenTextFile(e.currentTarget.value, ForReading); 
             // ts = fso.OpenTextFile("d:\\testfile.txt", ForReading); 
-            s = ts.ReadLine(); 
-            $("#aa").innerHTML = s; 
+            // s = ts.ReadLine(); 
+            s = ts.ReadAll(); 
+            console.log(s);
+            $("#aa").html(s);
         }); 
     });
 </script>
