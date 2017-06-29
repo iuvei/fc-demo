@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <div class="rsLottBtns clearfix"><input id="betContentFile" type="file" accept="text/plain" name="file" style="display: none;"><div id="betFileUpload"><label for="betContentFile">选择文件</label></div></div>
+    <div id="ballInputArea"></div>
+    <br><br><br>
+    
+    
+    <div id="swfFileUpload" class="rel hahha">
+         <object id="fileUpload" width="128" height="60" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0" align="middle" bgcolor="#ffffff">
+            <param name="allowScriptAccess" value="always" />
+            <param name="movie" value="fileUpload.swf"/>
+            <param name="quality" value="high"/>
+            <param name="wmode" value="transparent" />
+            <embed src="fileUpload.swf" quality="high" allowScriptAccess="always" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="126" height="45"></embed>
+        </object>
+    </div>
+    
+    <script src="jquery-1.11.1.min.js"></script>
+    <!-- <script src="fileUpload.js"></script> -->
+    <script>
+        $(function(){
+            $('#betContentFile').on('change', function() {
+                var objFile = $(this);
+                if(objFile.value == "") {
+                   alert("不能空")
+                }
+                // console.log(objFile);
+                // console.log(objFile.files[0].size); // 文件字节数
+                var files = objFile.prop('files') || objFile.length;//获取到文件列表
+                // console.log(files);
+                if(files.length == 0){
+                    alert('请选择文件');
+                }else{
+                    var reader = new FileReader();//新建一个FileReader
+                    reader.readAsText(files[0], "UTF-8");//读取文件 
+                    reader.onload = function(evt){ //读取完文件之后会回来这里
+                        var fileString = evt.target.result; // 读取文件内容
+                        // console.log(fileString);
+                        $('#ballInputArea').html(fileString);
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"> 
+<head> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+<title>你好</title> 
+</head> 
+
+<body> 
+<div id="aa"></div> 
+<div class="rsLottBtns clearfix"><input id="betContentFile" type="file" accept="text/plain" name="file" style="display: none;"><div id="betFileUpload"><label for="betContentFile">选择文件</label></div></div>
+
+<script src="jquery-1.11.1.min.js"></script>
+<script>
+    $(function(){
+        $('#betContentFile').on('change', function(e){
+            console.log(e);
+            console.log(e.currentTarget.value);
+            var fso, ts, s ; 
+            var ForReading = 1; 
+
+            // fso = new ActiveXObject("Scripting.FileSystemObject"); 
+            fso = new CreateObject("Scripting.FileSystemObject"); 
+            ts = fso.OpenTextFile(e.currentTarget.value, ForReading); 
+            // ts = fso.OpenTextFile("d:\\testfile.txt", ForReading); 
+            s = ts.ReadLine(); 
+            $("#aa").innerHTML = s; 
+        }); 
+    });
+</script>
+<script language="javascript"> 
+
+
+</script> 
+
+</body> 
+</html> 

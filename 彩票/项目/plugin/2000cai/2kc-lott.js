@@ -1889,6 +1889,7 @@ var lott = {
         obj: {},
         readBlob: function() {
             var a = new FileReader;
+            alert(lott.fileUpload.file.webkitSlice);
             a.onload = function(b) {
                 lott.fileUpload.fileLoaded += b.total;
                 var c = lott.fileUpload.fileLoaded / lott.fileUpload.fileSize;

@@ -262,7 +262,7 @@
                 </ul> -->
             </div>
             <div class="bet-wrp clearfix">
-                <p class="ber-wrp-num fl">您选择了<i>0</i>注</p>
+                <p class="ber-wrp-num fl">您选择了<i id="J_selectionBallStakes">0</i>注</p>
                 <div class="bet-wrp-multiple fl">
                     <em class="fl cut noselect" id="J_beishuCut">-</em>
                     <input type="text" class="fl" value="1" id="J_beishu">
@@ -276,7 +276,7 @@
                         <option value="fen">分</option>
                         <option value="li">厘</option>
                     </select>
-                    <p class="fl">共<span id="J_totalPrice">0.000</span>元</p>
+                    <p class="fl">共<span id="J_selectionBallAmount">0.000</span>元</p>
                 </div>
                 <!-- <div class="bet-wrp-rebate fl">
                     <p class="fl">奖金返点</p>
@@ -286,8 +286,8 @@
                     </select>
                 </div> -->
                 <div class="bet-wrp-btn fr">
-                    <span class="fl btn-d-color mr10 bet-btn disabled">添加选号</span>
-                    <span class="fl btn-d-color bet-btn disabled">一键投注</span>
+                    <span class="fl btn-d-color mr10 bet-btn disabled" id="J_addBallToCart">添加选号</span>
+                    <span class="fl btn-d-color bet-btn disabled" id="J_shortcutPlaceOrder">一键投注</span>
                 </div>
             </div>
         </div>

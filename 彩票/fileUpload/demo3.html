@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script>
+
+
+    
+</script>
+</head>
+<body>
+    <div>
+    <!-- 上传文件 ： <input type="file" name = "file" id="fileId" />  -->
+    <!-- <button  type="submit" name="btn" value="提交" id="btnId"  /> 提交 -->
+
+
+
+    <object id="fileUpload" width="640" height="300" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0" align="middle" bgcolor="#ffffff">
+    
+    <!-- <param name="allowFullScreen" value="false" />
+    <param name="allowScriptAccess" value="always" />
+    <param name="quality" value="high" />
+    <param name="movie" value="js/fileUpload.swf"/>
+    <param name="src" value="fileUpload.swf" />
+    <param name="allowscriptaccess" value="always" />
+    <param name="allowfullscreen" value="false" />
+    <param name="pluginspage" value="http://www.macromedia.com/go/getflashplayer" /> -->
+
+
+    <param name="allowScriptAccess" value="always" />
+    <param name="movie" value="fileUpload.swf"/>
+    <param name="quality" value="high"/>
+    <param name="wmode" value="transparent" />
+    
+    <!-- <embed id="update" width="640" height="300" type="application/x-shockwave-flash" src="update1.swf" allowFullScreen="false" allowScriptAccess="always" quality="high" allowscriptaccess="always" allowfullscreen="false" pluginspage="http://www.macromedia.com/go/getflashplayer" align="middle" bgcolor="#ffffff" /> -->
+
+
+    <embed src="fileUpload.swf" quality="high" allowScriptAccess="always" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="126" height="45"></embed>
+    </object>
+
+
+   <!--  <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" 
+codebase="http://download.macromedia.com/ pub/shockwave/cabs /flash/swflash.cab#version=11,0,0,0" 
+width="408" height="324" id="update" align="middle">
+<param name="allowFullScreen" value="false" />
+<param name="allowScriptAccess" value="always" />
+<param name="movie" value="update.swf" />
+<param name="quality" value="high" />
+<param name="bgcolor" value="#ffffff" />
+<embed src="update.swf" quality="high" bgcolor="#ffffff" 
+width="408" height="323" 
+name="update_" align="middle" 
+allowScriptAccess="always" allowFullScreen="false" 
+type="application/x-shockwave-flash" 
+pluginspage="http://www.macromedia.com/go/getflashplayer" />
+</object> -->
+</div>
+<script src="jquery-1.11.1.min.js"></script>
+<script>
+$(function(){
+    $('#btnId').click(function(){
+        check();
+    });
+
+    $('#fileId').on('change', function() {
+        var objFile = $(this);
+        if(objFile.value == "") {
+           alert("不能空")
+        }
+        console.log(objFile);
+        // console.log(objFile.files[0].size); // 文件字节数
+        var files = objFile.prop('files') || objFile.length;//获取到文件列表
+        console.log(files);
+        if(files.length == 0){
+            alert('请选择文件');
+        }else{
+            var reader = new FileReader();//新建一个FileReader
+            reader.readAsText(files[0], "UTF-8");//读取文件 
+            reader.onload = function(evt){ //读取完文件之后会回来这里
+                var fileString = evt.target.result; // 读取文件内容
+                console.log(fileString);
+            }
+        }
+    });
+
+    function check() {
+        var objFile = document.getElementById("fileId");
+        if(objFile.value == "") {
+           alert("不能空")
+        }
+        // console.log(objFile.files[0].size); // 文件字节数
+        var files = $('#fileId').prop('files');//获取到文件列表
+        if(files.length == 0){
+            alert('请选择文件');
+        }else{
+            var reader = new FileReader();//新建一个FileReader
+            reader.readAsText(files[0], "UTF-8");//读取文件 
+            reader.onload = function(evt){ //读取完文件之后会回来这里
+                var fileString = evt.target.result; // 读取文件内容
+                console.log(fileString);
+            }
+        }
+    }
+});
+</script>
+</body>
+</html>

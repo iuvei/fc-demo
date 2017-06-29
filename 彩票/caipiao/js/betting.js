@@ -272,7 +272,7 @@ $(function() {
                     list.addClass('active');
                 }
             }
-            // Betting.touzhu();
+            Betting.touzhu();
         },
 
 
@@ -282,13 +282,13 @@ $(function() {
             if (bet.sum < 1) {
                 return;
             }
-            $('#selectionBallStakes').html(bet.sum);
-            amount = Betting.bet_amount(bet.sum);
-            $('#selectionBallAmount').html(amount.toFixed(4));
+            $('#J_selectionBallStakes').html(bet.sum);
+            amount = Betting.getBetAmount(bet.sum);
+            $('#J_selectionBallAmount').html(amount.toFixed(4));
             if (bet.sum >= 1) {
-                $('#addBallToCart,#shortcutPlaceOrder').addClass('enable');
+                $('#J_addBallToCart,#J_shortcutPlaceOrder').addClass('disabled');
             } else {
-                $('#addBallToCart,#shortcutPlaceOrder').removeClass('enable');
+                $('#J_addBallToCart,#J_shortcutPlaceOrder').removeClass('disabled');
             }
         },
         getBet: function() {
@@ -333,7 +333,7 @@ $(function() {
                 li: li
             };
         },
-        bet_amount: function(sum) {
+        getBetAmount: function(sum) {
             //计算金额
             var money = 2,
                 betMultiple = parseInt($('#J_beishu').val());
