@@ -102,8 +102,6 @@
     margin-right: 33px;
 }
 .row-num{
-    // width: 632px;
-    // height: 52px;
     background-color: #fff;
     float: left;
     border-radius: 26px;
@@ -111,11 +109,11 @@
     padding-left: 7px;
     padding-right: 7px;
     max-width: 1000px;
+    margin-bottom: 22px;
 }
 .row-num li{
     float: left;
     width: 42px;
-    // height: 42px;
     line-height: 42px;
     text-align: center;
     cursor: pointer;
@@ -124,6 +122,10 @@
     color: #545454;
     margin-right: 22px;
     margin-bottom: 5px;
+}
+.row-many{
+    margin-left: 103px;
+    clear: left;
 }
 .row-num li.last{
     margin-right: 0;

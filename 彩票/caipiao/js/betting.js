@@ -109,7 +109,7 @@ $(function() {
                     _str += '<li>';
                     _str += '<div class="icon fl row-tt">' + _tt + '</div>';
                     if (options.numList.length) {
-                        _str += _getNumList(options.numList, options.multipleChoice, v.split('#')[0]);
+                        _str += _getNumList(options.numList, options.multipleChoice, v.split('#')[0], options.maxSelect, options.minSelect);
                     }
                     if (options.quickFast) {
                         _str += '<ul class="row-text fr">';
@@ -128,18 +128,35 @@ $(function() {
 
                 _str += '</ul>';
 
-                function _getNumList(numList, multipleChoice, rowName) {
-                    // console.log(rowName);
-                    var _numlist = '<ul data-row="'+ rowName +'" class="row-num fl J_ballList '+ ((multipleChoice == undefined || multipleChoice) ? 'J_multipleChoice' : '') +'">';
-                    var _len = numList.length - 1;
-                    $.each(numList, function(a, b) {
-                        if (a == _len) {
-                            _numlist += '<li class="J_numWrp last">' + b + '</li>';
-                        } else {
-                            _numlist += '<li class="J_numWrp">' + b + '</li>';
+                function _getNumList(numList, multipleChoice, rowName, maxSelect, minSelect) {
+                    var _numlist = '';
+                    if (numList.length > 12) {
+                        var _ulDom = '';
+                        for (var i = 0, _le = numList.length; i < _le; i += 12) {
+                            _ulDom = '<ul data-min="' + (minSelect ? minSelect : 1) + '" data-max="' + (maxSelect ? maxSelect : 12) + '" data-row="' + rowName + '" class="'+ (i ? 'row-many' : '') +' row-num fl J_ballList ' + ((multipleChoice == undefined || multipleChoice) ? 'J_multipleChoice' : '') + '">';
+                            var _lenxx = numList.slice(i, i + 12).length - 1;
+                            $.each(numList.slice(i, i + 12), function(a, b) {
+                                if (a == _lenxx) {
+                                    _ulDom += '<li class="J_numWrp last">' + b + '</li>';
+                                } else {
+                                    _ulDom += '<li class="J_numWrp">' + b + '</li>';
+                                }
+                            });
+                            _ulDom += '</ul>';
+                            _numlist += _ulDom;
                         }
-                    });
-                    _numlist += '</ul>';
+                    } else {
+                        _numlist = '<ul data-min="' + (minSelect ? minSelect : 1) + '" data-max="' + (maxSelect ? maxSelect : 10) + '" data-row="' + rowName + '" class="row-num fl J_ballList ' + ((multipleChoice == undefined || multipleChoice) ? 'J_multipleChoice' : '') + '">';
+                        var _len = numList.length - 1;
+                        $.each(numList, function(a, b) {
+                            if (a == _len) {
+                                _numlist += '<li class="J_numWrp last">' + b + '</li>';
+                            } else {
+                                _numlist += '<li class="J_numWrp">' + b + '</li>';
+                            }
+                        });
+                        _numlist += '</ul>';
+                    }
                     return _numlist;
                 }
             }
@@ -166,6 +183,21 @@ $(function() {
                     });
                 }
             }
+
+            Betting.resetBettingBottom();   //重置
+        },
+        resetBettingBottom: function() {
+            // 重置选号区域底部
+            $('#J_beishu').val(1);
+            $('#J_selectionBallStakes').text(0);
+            $('#J_selectionBallAmount').text('0.0000');
+            $('#J_addBallToCart,#J_shortcutPlaceOrder').addClass('disabled');
+            $('#J_unit').next('.nice-select').find('.current').html('元');
+            $('#J_unit').next('.nice-select').find('[data-value="yuan"]').addClass('selected').siblings('li').removeClass('selected');
+            $('#J_unit').data({
+                txt: 'yuan',
+                val: '元'
+            });
         },
         bettingEvent: function() {
             // 删除已选号码
@@ -200,12 +232,25 @@ $(function() {
             $('#J_bettingBox').on('click', '.J_numWrp', function() {
                 var _this = $(this);
                 var _canmany = _this.parent('ul').hasClass('J_multipleChoice');    //是否可以选择多个
+                var _max = _this.parent('ul').data('max');  // 最多可选数量
+                // TODO: 最少选择数量暂时没用到
+                var _min = _this.parent('ul').data('min');  // 最少可选数量
+                var _len = _this.parent('ul').find('.J_numWrp.active').length;    //当前行已选数量
+
+                // console.log(_len,_max);
 
                 if (_this.hasClass('active')) {
                     _this.removeClass('active');
                 } else {
                     if (_canmany) {
-                        _this.addClass('active');
+                        if (_len == _max) {
+                            layer.alert('前玩法最多只能选择'+ _max +'个号球!', {
+                                icon: 2
+                            });
+                            return;
+                        } else {
+                            _this.addClass('active');
+                        }
                     } else {
                         _this.addClass('active').siblings('li').removeClass('active');
                     }
@@ -231,16 +276,14 @@ $(function() {
             });
 
             // 倍数
-            $('#J_beishu').on({
-                keyup: function() {
-                    var _val = $(this).val();
-                    var _reg = /^[1-9]\d*$/;
-                    if (!_reg.test(_val)) {
-                        layer.alert('您输入的投注倍数格式不正确,只能输入大于或等于1的数字。', {
-                            icon: 2
-                        });
-                        $(this).val(1);
-                    }
+            $('#J_beishu').on('keyup blur keydown focus', function() {
+                var _val = $(this).val();
+                var _reg = /^[1-9]\d*$/;
+                if (!_reg.test(_val)) {
+                    layer.alert('您输入的投注倍数格式不正确,只能输入大于或等于1的数字。', {
+                        icon: 2
+                    });
+                    $(this).val(1);
                 }
             });
 
@@ -256,6 +299,16 @@ $(function() {
                 // console.log($('#J_unit').data());
             });
 
+            // 添加选号
+            $('#J_addBallToCart').on('click', function(){
+                Betting.addBallToCart();
+            });
+
+            // 
+            $('#J_shortcutPlaceOrder').on('click', function(){
+                Betting.shortcutPlaceOrder();
+            });
+            
             // 奖金返点
             // $('#J_rebate').next('.nice-select').find('li').click(function(e) {
             //     var val = $(this).text();
@@ -266,6 +319,12 @@ $(function() {
             //         txt: dataVal
             //     });
             // });
+        },
+        addBallToCart: function() {
+            console.log('添加选号');
+        },
+        shortcutPlaceOrder: function() {
+            console.log('一键投注');
         },
         getBettingQuantity: function() {
             var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
@@ -292,9 +351,12 @@ $(function() {
 
             $('#J_selectionBallStakes').text(_selectNum);
 
-            // if(){
-
-            // }
+            // 已选注数大于0时即可添加选号或一键投注
+            if (_selectNum) {
+                $('#J_addBallToCart,#J_shortcutPlaceOrder').removeClass('disabled');
+            } else {
+                $('#J_addBallToCart,#J_shortcutPlaceOrder').addClass('disabled');
+            }
 
             // console.log(SSC_TEMPLATE[_mainNav][_subNav].opt)
 

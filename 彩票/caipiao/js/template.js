@@ -22,6 +22,8 @@
  * 
  * quickFast ：是否有快捷选号(全、大、小、奇、偶、清)
  * multipleChoice ：一行是否可以选择多个号码
+ * maxSelect: 最多可选个数
+ * minSelect: 最少选择个数
  * hasNoAllFastBtn : 没有 全 选快捷按钮，默认是有的（值为：undefined/false）。取值为true时表示不需要
  * type : 选号类型 ball : 号码选号，text : 文本域
  * formula : 注数的计算方法
@@ -853,6 +855,7 @@ var SSC_TEMPLATE = {
                 _rule = '从0-9中选择2个或多个号码投注，所选号码与开奖号码的前二位相同，顺序不限，即为中奖。 如：选择7、8，开奖号码78***或87***即为中奖。';
                 _opt.numNameList = ['FIRST#组选'];
                 _opt.hasNoAllFastBtn = true;
+                _opt.maxSelect = 7;
                 _opt.formula = function(a){
                     return a[a.length - 1][a[0]].length * (a[a.length - 1][a[0]].length - 1) / 2
                 }
@@ -945,6 +948,7 @@ var SSC_TEMPLATE = {
                 _rule = '从0-9中选择2个或多个号码投注，所选号码与开奖号码的后二位相同，顺序不限，即为中奖。 如：选择7、8，开奖号码***78或***87，即为中奖。';
                 _opt.numNameList = ['FIFTH#组选'];
                 _opt.hasNoAllFastBtn = true;
+                _opt.maxSelect = 7;
                 _opt.formula = function(a){
                     return a[a.length - 1][a[0]].length * (a[a.length - 1][a[0]].length - 1) / 2
                 }
