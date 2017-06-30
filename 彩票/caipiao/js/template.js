@@ -24,7 +24,7 @@
  * multipleChoice ：一行是否可以选择多个号码
  * hasNoAllFastBtn : 没有 全 选快捷按钮，默认是有的（值为：undefined/false）。取值为true时表示不需要
  * type : 选号类型 ball : 号码选号，text : 文本域
- * 
+ * formula : 注数的计算方法
  */
 var SSC_TEMPLATE = {
     sameComparer: function(a, b) {
