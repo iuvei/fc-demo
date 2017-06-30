@@ -54,6 +54,7 @@ var lott = {
         return b
     },
     sameComparer: function(a, b) {
+        // 同一比较
         var c, d, e = 0;
         if ("string" == typeof a && "string" == typeof b) {
             if ("" == a || "" == b) return e;
@@ -684,14 +685,12 @@ var lott = {
                     break;
                 case "All5Straight":
                     lott.direct(null, ["FIRST", "SECOND", "THIRD", "FOURTH", "FIFTH"], 0, 9, 1, !0, 10, 1, "", function(a) {
-                        // console.log('======================');
-                        console.log(a);
-                        // console.log('======================');
                         return a[a.length - 1][a[0]].length * a[a.length - 1][a[1]].length * a[a.length - 1][a[2]].length * a[a.length - 1][a[3]].length * a[a.length - 1][a[4]].length
                     });
                     break;
                 case "All5All":
                     lott.direct(null, ["FIRST", "SECOND", "THIRD", "FOURTH", "FIFTH"], 0, 9, 1, !1, 1, 1, "", function(a) {
+                        console.log(a);
                         return a[a.length - 1][a[0]].length * a[a.length - 1][a[1]].length * a[a.length - 1][a[2]].length * a[a.length - 1][a[3]].length * a[a.length - 1][a[4]].length
                     });
                     break;
@@ -866,7 +865,9 @@ var lott = {
                     break;
                 case "AllCom120":
                     lott.NonDirect("组选", ["FIRST"], 0, 9, 1, !0, 10, 5, "", function(a) {
+                        console.log(a);
                         var b = a[a.length - 1][a[0]].length;
+                        console.log(b);
                         return (b - 4) * (b - 3) * (b - 2) * (b - 1) * b / 120
                     });
                     break;
@@ -875,6 +876,7 @@ var lott = {
                         FIFTH: 1,
                         FOURTH: 3
                     }, "", function(a) {
+                        console.log(a);
                         var b = a[a.length - 1][a[0]].length,
                             c = b > 0 ? a[a.length - 1][a[1]].length : 0;
                         return c * (c - 2) * (c - 1) / 6 * b - lott.sameComparer(a[a.length - 1][a[0]], a[a.length - 1][a[1]]) * ((c - 2) * (c - 1)) / 2
@@ -1345,12 +1347,16 @@ var lott = {
         })
     },
     gapAndHotBtnEvents: function() {
+        // 遗漏、冷热按钮点击事件
         $(document).off("click", "#gap_and_hot dt").on("click", "#gap_and_hot dt", function() {
             if (!$(this).hasClass("active")) {
                 $("#gap_and_hot dt").removeClass("active"), $(this).addClass("active");
                 var a = $("#gap_and_hot").attr("play-ranks").split("#"),
                     b = $("#gap_and_hot").attr("play-sort"),
                     c = $(this).attr("data-val");
+                // a : 玩法排名 THIRD#FOURTH#FIFTH
+                // b : 玩法排序 ball
+                // c : gap | gap
                 if ("non" != b) switch (c) {
                     case "hot":
                         lott.setHotUI(a, b);
@@ -1362,6 +1368,7 @@ var lott = {
         })
     },
     setGapUI: function(a, b) {
+        // 设置遗漏UI
         $("div[select-area='ball'] em").text("当前遗漏");
         for (var c = 0; c < a.length; c++) {
             var d = globalVar.currentLottery.gap[b][a[c]];
@@ -1370,6 +1377,7 @@ var lott = {
         }
     },
     setHotUI: function(a, b) {
+        // 设置冷热UI
         $("div[select-area='ball'] em").text("当前冷热");
         for (var c = 0; c < a.length; c++) {
             var d = globalVar.currentLottery.hot[b][a[c]];
@@ -1395,8 +1403,9 @@ var lott = {
         }
     },
     direct: function(a, b, c, d, e, f, g, h, i, j) {
-        console.log(a, b, c, d, e, f, g, h, i, j);
-        console.log(globalVar);
+        // console.log(a, b, c, d, e, f, g, h, i, j);
+        // console.log(globalVar);
+        
         // TODO: 分析对应的计算规则出来
         /*
         direct的参数解析：
@@ -1409,7 +1418,7 @@ var lott = {
         g: 每行最多可以选择几个号码？
         h: 每行最少选择几个号码？
         i: '' ？？？？
-        j: 根据对应的算法返回已选则的注数
+        j: 根据对应的算法返回已选则的注数算法
 
 
         //后三直选
@@ -1435,25 +1444,49 @@ var lott = {
             l = globalVar.currentLottery.series[0].gameGroup, //彩票大类如：'SSC'
             m = "",
             n = b.join("#");
-            console.log(n);
-        $("#gap_and_hot").attr("play-ranks", n),    //列的组合 ：THIRD#FOURTH#FIFTH
+            // console.log(n);
+        $("#gap_and_hot").attr("play-ranks", n),    //n 列的组合 ：THIRD#FOURTH#FIFTH
         $("#gap_and_hot").attr("play-sort", "ball");    //分类：ball 球？？
         // TODO: 分析到这里了，SSC类型的会给 b 追加一个新的对象在最后。。然后里面存放已选的数字组合，再根据这个组合去算对应的注数？
         for (var o = 0; o < b.length; o++) {
-            "11X5" == l || "PK10" == l && -1 == globalVar.playCode.indexOf("BSOE_PK10") ? k[b[o]] = [] : k[b[o]] = "";
+            if("11X5" == l || "PK10" == l && -1 == globalVar.playCode.indexOf("BSOE_PK10")) {
+                k[b[o]] = []
+            } else {
+                k[b[o]] = ""
+            }
+             // ?  : ;
+            // console.log(k);
+            // console.log(a);
             var p = null != a && "object" == typeof a ? a[o] : a;
+
             m += lott.ranks(p, b[o], c, d, e, f, !0)
         }
         // console.log(m);
-        // m:球的demo结构
-        b.push(k),
-        $("div[select-area='ball']").html(m),
-        lott.gapAndHotBtnEvents(),
-        lott.autoSetGapOrHot("ball"),
-        lott.selectionBall(b, f, g, h, i, j)
+        
+        b.push(k),  //为["THIRD", "FOURTH", "FIFTH"]这样的数组追加一个对象用来计算注数？？
+
+        $("div[select-area='ball']").html(m), // m:球的demo结构 包含数字以及快捷筛选
+        lott.gapAndHotBtnEvents(),  //设置冷热、遗漏按钮事件
+        lott.autoSetGapOrHot("ball"),   //自动设置遗漏或冷热
+        lott.selectionBall(b, f, g, h, i, j)    //选择号码球的事件
     },
     NonDirect: function(a, b, c, d, e, f, g, h, i, j, k) {
         console.log('NonDirect');
+        console.log(a, b, c, d, e, f, g, h, i, j, k);
+        console.log('NonDirect');
+        // 五星组选60的数据
+        // a : ['二重号', '单号']    显示的行名称 可以为string 或者 array 类型
+        // b : ["FIFTH", "FOURTH"]   显示行对应的值
+        // c : 0    最小数值 
+        // d : 9    最大数字
+        // e : 1
+        // f : true 
+        // g : 10   一行最多可选择数
+        // h : {FIFTH : 1, FOURTH : 3}
+        // i : ''
+        // j : 注数算法
+        // k : undefined
+        // 
         var l = {},
             m = globalVar.currentLottery.series[0].gameGroup;
         $("#gap_and_hot").attr("play-sort", "non");
@@ -2422,21 +2455,98 @@ var lott = {
         })
     },
     selectionBall: function(a, b, c, d, e, f) {
-        console.log('selectionBall');
-        for (var g = globalVar.currentLottery.series[0].gameGroup, h = 0; h < a.length - 1; h++) b ? (lott.multipleBallEvent(a[h], a, f, c), lott.siftBtnEvents(a[h], a, f)) : lott.singleBallEvent(a[h], a, f);
-        "SSC" != g || "FixedPlace" != globalVar.playCode && "First2StraightAnyCode" != globalVar.playCode && "Last2StraightAnyCode" != globalVar.playCode && "First2ComAnyCode" != globalVar.playCode && "Last2ComAnyCode" != globalVar.playCode ? "LF" == g && "FixedPlace_LF" == globalVar.playCode ? lott.addBallToCartOfAlone(a, e) : "11X5" == g && "FixedPlace_11X5" == globalVar.playCode ? lott.add11X5BallToCartOfAlone(a) : "SSC" == g && (globalVar.playCode.indexOf("AllCom") > -1 || globalVar.playCode.indexOf("L4Com") > -1 || globalVar.playCode.indexOf("F4Com") > -1 || 0 == globalVar.playCode.indexOf("Any4Com")) ? lott.addBallToCartOf5O4StarCom(a, d, e) : "PK10" == g && globalVar.playCode.indexOf("BSOE_PK10") > -1 ? lott.addBallToCartOfPk10Bose(a) : "PK10" == g && globalVar.playCode.indexOf("5Fixed_PK10") > -1 ? lott.add11X5BallToCartOfAlone(a) : "11X5" == g || "PK10" == g && -1 == globalVar.playCode.indexOf("BSOE_PK10") && -1 == globalVar.playCode.indexOf("5Fixed_PK10") ? lott.add11X5BallToCart(a, d, e) : lott.addBallToCart(a, d, e) : lott.addBallToCartOfAlone(a, e)
+        // 选择号码球的事件
+        // a : ["THIRD", "FOURTH", "FIFTH", { THIRD: '',FOURTH : '', FIFTH : ''}]
+        // b : true //是否可以选择多个球？每行
+        // c : 10   //最多可以选择的球数量
+        // d : 1 
+        // e : ''
+        // f : function(a){return a[a.length - 1][a[0]].length * a[a.length - 1][a[1]].length * a[a.length - 1][a[2]].length}
+        
+        console.log(a, b, c, d, e, f);
+        // console.log('selectionBall');
+        
+        // for (var g = globalVar.currentLottery.series[0].gameGroup, h = 0; h < a.length - 1; h++) b ? (lott.multipleBallEvent(a[h], a, f, c), lott.siftBtnEvents(a[h], a, f)) : lott.singleBallEvent(a[h], a, f);
+
+        // globalVar.currentLottery.series[0].gameGroup == 'SSC';
+        
+        for (var g = globalVar.currentLottery.series[0].gameGroup, h = 0; h < a.length - 1; h++){
+            if(b) {
+                lott.multipleBallEvent(a[h], a, f, c);  //选择多个号码球的事件
+                lott.siftBtnEvents(a[h], a, f); //快捷筛选按钮事件
+            } else {
+                lott.singleBallEvent(a[h], a, f);   //一行只能选择一个球的点击事件
+            }
+        }
+
+
+        if("SSC" != g || "FixedPlace" != globalVar.playCode && "First2StraightAnyCode" != globalVar.playCode && "Last2StraightAnyCode" != globalVar.playCode && "First2ComAnyCode" != globalVar.playCode && "Last2ComAnyCode" != globalVar.playCode ) {
+            if("LF" == g && "FixedPlace_LF" == globalVar.playCode) {
+                lott.addBallToCartOfAlone(a, e)
+            } else {
+                if("11X5" == g && "FixedPlace_11X5" == globalVar.playCode) {
+                    lott.add11X5BallToCartOfAlone(a)
+                } else {
+                    if("SSC" == g && (globalVar.playCode.indexOf("AllCom") > -1 || globalVar.playCode.indexOf("L4Com") > -1 || globalVar.playCode.indexOf("F4Com") > -1 || 0 == globalVar.playCode.indexOf("Any4Com"))) {
+                        lott.addBallToCartOf5O4StarCom(a, d, e)
+                    } else {
+                        if("PK10" == g && globalVar.playCode.indexOf("BSOE_PK10") > -1) {
+                            lott.addBallToCartOfPk10Bose(a)
+                        } else {
+                            if("PK10" == g && globalVar.playCode.indexOf("5Fixed_PK10") > -1) {
+                                lott.add11X5BallToCartOfAlone(a)   
+                            } else {
+                                if("11X5" == g || "PK10" == g && -1 == globalVar.playCode.indexOf("BSOE_PK10") && -1 == globalVar.playCode.indexOf("5Fixed_PK10")) {
+                                    lott.add11X5BallToCart(a, d, e)
+                                } else {
+                                    lott.addBallToCart(a, d, e)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } else {
+            lott.addBallToCartOfAlone(a, e)
+        }
+
+        // "SSC" != g || "FixedPlace" != globalVar.playCode && "First2StraightAnyCode" != globalVar.playCode && "Last2StraightAnyCode" != globalVar.playCode && "First2ComAnyCode" != globalVar.playCode && "Last2ComAnyCode" != globalVar.playCode ? "LF" == g && "FixedPlace_LF" == globalVar.playCode ? lott.addBallToCartOfAlone(a, e) : "11X5" == g && "FixedPlace_11X5" == globalVar.playCode ? lott.add11X5BallToCartOfAlone(a) : "SSC" == g && (globalVar.playCode.indexOf("AllCom") > -1 || globalVar.playCode.indexOf("L4Com") > -1 || globalVar.playCode.indexOf("F4Com") > -1 || 0 == globalVar.playCode.indexOf("Any4Com")) ? lott.addBallToCartOf5O4StarCom(a, d, e) : "PK10" == g && globalVar.playCode.indexOf("BSOE_PK10") > -1 ? lott.addBallToCartOfPk10Bose(a) : "PK10" == g && globalVar.playCode.indexOf("5Fixed_PK10") > -1 ? lott.add11X5BallToCartOfAlone(a) : "11X5" == g || "PK10" == g && -1 == globalVar.playCode.indexOf("BSOE_PK10") && -1 == globalVar.playCode.indexOf("5Fixed_PK10") ? lott.add11X5BallToCart(a, d, e) : lott.addBallToCart(a, d, e) : lott.addBallToCartOfAlone(a, e)
     },
     ranks: function(a, b, c, d, e, f, g) {
+        // a : null
+        // b : 'FOURTH'
+        // c : 号码开始数字
+        // d : 号码结束数字
+        // e : ?????
+        // f : 是否有快捷筛选 true 【全奇偶清...】
+        // g : 是否有两行文字如：万位  万位/当前遗漏
+        // 
+        // null "FOURTH" 0 9 1 true true
         var h = "";
-        console.log(a, b, c, d, e, f, g);
+        // console.log(a, b, c, d, e, f, g);
         return h += '<div id="lott_ranks_' + b + '" class="game-cntaner">', h += '<span class="lt-tb-row ' + (1 == g ? "ch-xs" : "") + ' inline-block">' + (null == a || "" == a ? TCG.Prop("lottery_bett_" + b) : a) + (1 == g ? "<em></em>" : "") + "</span>", h += '<dl class="lt-number-row inline-block">' + lott.ball(c, d, e) + "</dl>", f && (h += lott.sift()), h += "</div>"
     },
     ball: function(a, b, c) {
+        // 返回球的dom结构【一行】
+        // 0 9 1
+        // a : 号码开始数字
+        // b : 号码结束数字
+        // c : ?????
+        // console.log('=======')
         // console.log(a,b,c);
-        for (var d = "", e = a; e <= b; e++) d += '<dt class="num-wrp">' + (2 == c && e < 10 ? "0" + e : e) + "</dt>", d += '<dd class="sub-wrp"></dd>';
+        // console.log('=======')
+        for (var d = "", e = a; e <= b; e++){
+            d += '<dt class="num-wrp">' + (2 == c && e < 10 ? "0" + e: e) + "</dt>",
+            d += '<dd class="sub-wrp"></dd>';
+        }
         return d
     },
     multipleBallEvent: function(a, b, c, d) {
+        // a : 'THIRD'
+        // b : ["THIRD", "FOURTH", "FIFTH", { THIRD: '',FOURTH : '', FIFTH : ''}]
+        // c : 注数的计算公式：function(a){return a[a.length - 1][a[0]].length * a[a.length - 1][a[1]].length * a[a.length - 1][a[2]].length}
+        // d : 每行最多可以选择的球数 10
+        
         console.log(a, b, c, d);
         // console.log('multipleBallEvent');
         $("#lott_ranks_" + a + ">dl>dt").unbind().hover(function() {
@@ -2456,7 +2566,7 @@ var lott = {
                         var h = b[b.length - 1][a].replace(e, "");
                         b[b.length - 1][a] = h
                     }
-                lott.calculateAmount(c(b))
+                lott.calculateAmount(c(b))  //计算金额
             } else {
                 if (b[b.length - 1][a].length + 1 > d) return void TCG.Alert("errors", "当前玩法最多只能选择" + d + "个号球!");
                 if ($(this).addClass("selected"), "11X5" == f || "PK10" == f && -1 == globalVar.playCode.indexOf("BSOE_PK10")) b[b.length - 1][a].push(e), b[b.length - 1][a].sort(function(a, b) {
@@ -2470,7 +2580,7 @@ var lott = {
                         return a - b
                     }), b[b.length - 1][a] = j.join("")
                 }
-                lott.calculateAmount(c(b))
+                lott.calculateAmount(c(b))  //计算金额
             }
         })
     },
@@ -2491,10 +2601,16 @@ var lott = {
         })
     },
     sift: function() {
+        // 快捷筛选的dom结构
         return '<ul class="lt-pick-row inline-block"><li sift="all">全</li><li sift="big">大</li><li sift="small">小</li><li sift="odd">奇</li><li sift="even">偶</li><li sift="clear">清</li></ul>'
     },
     siftBtnEvents: function(a, b, c) {
+        // 快捷筛选号码按钮事件 【全奇偶大小清】
+        // a : 
+        // b :
+        // c : 
         console.log('siftBtnEvents');
+        console.log(a, b, c);
         $(document).off("click", "#lott_ranks_" + a + ">ul>li").on("click", "#lott_ranks_" + a + ">ul>li", function() {
             var d = $(this).attr("sift"),
                 e = globalVar.currentLottery.series[0].gameGroup;

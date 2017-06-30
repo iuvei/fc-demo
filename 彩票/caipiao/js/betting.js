@@ -81,10 +81,35 @@ $(function() {
             if (options.numNameList.length) {
                 _str += '<ul class="bet-row">';
                 $.each(options.numNameList, function(i, v) {
+                    var _tt = '';
+                    if(v.split('#').length > 1) {
+                        _tt = v.split('#')[1];
+                    } else {
+                        _tt = v;
+                    }
+                    switch (v) {
+                        case 'FIFTH':
+                            _tt = '个位'
+                            break;
+                        case 'FOURTH':
+                            _tt = '十位'
+                            break;
+                        case 'THIRD':
+                            _tt = '百位'
+                            break;
+                        case 'SECOND':
+                            _tt = '千位'
+                            break;
+                        case 'FIRST':
+                            _tt = '万位'
+                            break;
+                        default:
+                        break
+                    }
                     _str += '<li>';
-                    _str += '<div class="icon fl row-tt">' + v + '</div>';
+                    _str += '<div class="icon fl row-tt">' + _tt + '</div>';
                     if (options.numList.length) {
-                        _str += _getNumList(options.numList, options.multipleChoice);
+                        _str += _getNumList(options.numList, options.multipleChoice, v.split('#')[0]);
                     }
                     if (options.quickFast) {
                         _str += '<ul class="row-text fr">';
@@ -103,8 +128,9 @@ $(function() {
 
                 _str += '</ul>';
 
-                function _getNumList(numList, multipleChoice) {
-                    var _numlist = '<ul class="row-num fl '+ ((multipleChoice == undefined || multipleChoice) ? 'J_multipleChoice' : '') +'">';
+                function _getNumList(numList, multipleChoice, rowName) {
+                    // console.log(rowName);
+                    var _numlist = '<ul data-row="'+ rowName +'" class="row-num fl J_ballList '+ ((multipleChoice == undefined || multipleChoice) ? 'J_multipleChoice' : '') +'">';
                     var _len = numList.length - 1;
                     $.each(numList, function(a, b) {
                         if (a == _len) {
@@ -184,6 +210,9 @@ $(function() {
                         _this.addClass('active').siblings('li').removeClass('active');
                     }
                 }
+
+                // 计算注数
+                Betting.getBettingQuantity();
             });
             // 减少倍数
             $('#J_beishuCut').click(function() {
@@ -238,6 +267,40 @@ $(function() {
             //     });
             // });
         },
+        getBettingQuantity: function() {
+            var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
+            var _subNav = $('.J_subMenu.active').data('info').split('#')[1];
+            var _currentRule = SSC_TEMPLATE[_mainNav]({
+                type : _subNav
+            });
+            var _type = _currentRule.opt.type; //选择模式 ball:选号   text:文本域
+            var _formulaList = [];      //公式列表
+            var _currentSelect = [];    //当前已选号码的集合
+
+            $('.J_ballList').each(function(i){
+                var _this = $(this);
+                _formulaList[i] = _this.data('row');
+                _currentSelect[_this.data('row')] = _this.find('.J_numWrp.active').text();
+            });
+            
+            // console.log(_formulaList);
+            // console.log(_currentSelect);
+
+            _formulaList.push(_currentSelect);
+
+            var _selectNum = _currentRule.opt.formula(_formulaList);   //通过相应公式计算注数
+
+            $('#J_selectionBallStakes').text(_selectNum);
+
+            // if(){
+
+            // }
+
+            // console.log(SSC_TEMPLATE[_mainNav][_subNav].opt)
+
+            // Betting.renderBettingRule(_mainNav[1], _subNav[1]);
+            // Betting.renderMaxBonus(_mainNav[1], _subNav[1]);
+        },
         renderMaxBonus: function(mainNavType, subNavType) {
             // 渲染最高奖金
             var _data = SSC_TEMPLATE[mainNavType]({
@@ -272,9 +335,8 @@ $(function() {
                     list.addClass('active');
                 }
             }
-
             
-            // Betting.touzhu();
+            Betting.getBettingQuantity();   //计算注数
         },
 
 
