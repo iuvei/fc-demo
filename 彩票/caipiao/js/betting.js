@@ -23,8 +23,6 @@ $(function() {
 
                 var _mainNav = _info.split('#');
                 Betting.renderSubMenu(_mainNav[1]);
-
-                // console.log(_mainNav[1]);
             });
 
             // 次级导航选择投注方式
@@ -169,30 +167,13 @@ $(function() {
             }
 
             if (options.haveTextarea) {
-                $('textarea').placeholder();
-                if (GLOBAL.lessThenIE8()) {
-                    $('textarea').on({
-                        focus: function() {
-                            $(this).val('');
-                        },
-                        blur: function() {
-                            if (!$(this).val()) {
-                                $(this).val($(this).attr('placeholder'))
-                            }
-                        }
-                    });
-                }
-            }
-
-            if (options.haveTextarea) {
                 Betting.bindUploadEvent();
+                // TODO: IE89的 placeholder
+                // $('textarea').placeholder();
             }
 
             Betting.resetBettingBox();
         },
-        
-        
-
         resetBettingBox: function() {
             // 重置最高额度
             var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
@@ -533,6 +514,12 @@ $(function() {
         calculateAmount: function(num) {
             if (num != undefined) {
                 $('#J_selectionBallStakes').text(num);
+
+                if(num) {
+                    $('#J_addBallToCart,#J_shortcutPlaceOrder').removeClass('disabled');
+                } else {
+                    $('#J_addBallToCart,#J_shortcutPlaceOrder').addClass('disabled');
+                }
             }
             // 根据选择的注数计算金额
             var _type = $('.J_subMenu.active').data('info').split('#')[1];
@@ -564,25 +551,46 @@ $(function() {
             var b = SSC_TEMPLATE.allManualEntryEvents(_subNav);
 
             $('#J_ballInputArea').off('focus').on('focus', function(){
-                console.log('aaaaaaaaaaa')
-                if (/[A-Za-z\u4E00-\u9FFF]/.test($(this).val())) {
-                    $(this).val("");
+                var _val = '';
+                if (GLOBAL.lessThenIE8()) {
+                    _val = $("#J_ballInputArea").html();
+                } else {
+                    _val = $("#J_ballInputArea").val();
+                }
+                if (/[A-Za-z\u4E00-\u9FFF]/.test(_val)) {
+                    $(this).val('');
                     Betting.calculateAmount();
                     Betting.textArea = [];
                 }
             });
 
             $('#J_ballInputArea').off('blur').on('blur', function(){
-                console.log('bbbbbbbbbbb')
-                if ($(this).val() == '') {
+                var _val = '';
+                if (GLOBAL.lessThenIE8()) {
+                    _val = $("#J_ballInputArea").html();
+                } else {
+                    _val = $("#J_ballInputArea").val();
+                }
+                if (_val == '') {
                     Betting.calculateAmount();
                     Betting.textArea = [];
                 }
             });
 
             $('#J_ballInputArea').off('input propertychange').on('input propertychange', function(){
-                console.log('ccccccccccc')
-                if ($("#J_ballInputArea").val().replace(/[^\d]+/g, "").length <= 0) {
+                var _val = '';
+                if (GLOBAL.lessThenIE8()) {
+                    _val = $("#J_ballInputArea").html();
+                } else {
+                    _val = $("#J_ballInputArea").val();
+                }
+                
+                console.log(_val);
+
+                if (!_val) {
+                    _ballAreaChange();
+                }
+                if (_val.replace(/[^\d]+/g, "").length <= 0) {
                     Betting.calculateAmount();
                     Betting.textArea = [];
                     return;
@@ -591,14 +599,11 @@ $(function() {
                 _ballAreaChange();
             });
 
-            // delegate
-            $("body").delegate('input[type="file"]', 'change', function(e){
+            $('#J_uploadFile').off('change').on('change', function(e) {
+                $("#J_uploadFile").replaceWith($("#J_uploadFile").clone(true));
 
-            // });
-
-            // $('#J_uploadFile').off('change').on('change', function(e) {
                 var objFile = $(this);
-                console.log('dddddddd');
+
                 if (objFile.context.value.indexOf('.txt') == -1){
                     layer.alert('您选择的文件类型不符合要求,<br/>目前只支持txt文本格式的文件!', {
                         icon: 2
@@ -606,7 +611,14 @@ $(function() {
                     return false;
                 }
 
-                if (objFile.context.files[0].size > 1048576) {
+                var _size = 0;
+                if(objFile.context.size) {
+                    _size = objFile.context.size;
+                } else {
+                    _size = objFile.context.files[0].size
+                }
+
+                if (_size > 1048576) {
                     layer.alert('您选择的文件大小超过1M,<br/>目前只支持1M大小的文件!', {
                         icon: 2
                     });
@@ -622,16 +634,14 @@ $(function() {
                 if (files.length == 0) {
                     // alert('请选择文件');
                 } else {
+                    // $('#J_ballInputArea').val('');
                     var fileString = '';
                     if (window.FileReader) {
-                        console.log(12);
                         var reader = new FileReader(); //新建一个FileReader
                         reader.readAsText(files[0], "UTF-8"); //读取文件 
                         reader.onload = function(evt) { //读取完文件之后会回来这里
                             fileString = evt.target.result; // 读取文件内容
-                            console.log(12212);
-                            $('#J_ballInputArea').html(fileString);
-                            console.log(12212);
+                            $('#J_ballInputArea').val(fileString);
                             _ballAreaChange();
                         }
                     } else {
@@ -640,7 +650,7 @@ $(function() {
                         fso = new ActiveXObject("Scripting.FileSystemObject"); 
                         ts = fso.OpenTextFile(e.currentTarget.value, ForReading); 
                         fileString = ts.ReadAll(); 
-                        $('#J_ballInputArea').html(fileString);
+                        $('#J_ballInputArea').val(fileString);
                         _ballAreaChange();
                     }
                 }
@@ -695,8 +705,13 @@ $(function() {
                 _nowChose.push($(this).data('id') + '');
             });
             var _planLen = Betting.createBitScheme(Number($('#J_minChoseNum').text()), _nowChose);
-            var b = $("#J_ballInputArea").val(),
-                c = Betting.manualEntryDisassemble(b);
+            var _val = '';
+            if (GLOBAL.lessThenIE8()) {
+                _val = $("#J_ballInputArea").html();
+            } else {
+                _val = $("#J_ballInputArea").val();
+            };
+            var c = Betting.manualEntryDisassemble(_val);
             if (0 != c.length) {
                 var d = 0,
                     e = [];
@@ -723,9 +738,13 @@ $(function() {
         },
         calculateSSCManualEntryStakes: function(a, b) {
             // 时时彩的普通文本域事件
-            // console.log(a, b);
-            var c = $("#J_ballInputArea").val(),
-                d = Betting.manualEntryDisassemble(c);
+            var _val = '';
+            if (GLOBAL.lessThenIE8()) {
+                _val = $("#J_ballInputArea").html();
+            } else {
+                _val = $("#J_ballInputArea").val();
+            }
+            var d = Betting.manualEntryDisassemble(_val);
             if (0 != d.length) {
                 for (var e = 0, f = [], g = 0; g < d.length; g++) Betting.entryRegular(a, d[g] + "") && d[g].length == 1 * b.len && (f.push(d[g].replace(/([0-9#])(?=([0-9#]{1})+([^0-9#]|$))/g, "$1_")), e += 1 * b.stakes);
                 if (f.length > 0) {
