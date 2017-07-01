@@ -1,9 +1,3 @@
-.dark-color{
-	background-color: #00515d;
-}
-.light-color{
-	background-color: #008698;
-}
 .below-line{
     height: 1px;
     background-color: #008698;
@@ -16,6 +10,8 @@
 .text-d-color{
     color: #00515d;
 }
+.dark-color,
+.btn-d-color,
 .btn-add-num,
 .chart-check i.active,
 .bet-btns span:hover{
@@ -26,12 +22,8 @@
     background-color: #fff;
     color: #008698;
 }
-.border-l-color{
-    border-color: #008698;
-}
-.btn-d-color{
-    background-color: #00515d;
-}
+.light-color,
+.border-l-color,
 .btn-l-color{
     background-color: #008698;
 }
@@ -62,6 +54,11 @@
     border-color: #00515d;
     background-color: #00515d;
 }
+.bet-checkbox > div > i.active{
+    color: #fff;
+    background-color: #008698;
+}
+
 
 /* layer 扩展 */
 body .layui-layer-btn .layui-layer-btn0{

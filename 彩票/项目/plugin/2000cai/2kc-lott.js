@@ -38,6 +38,11 @@ var lott = {
         globalVar.multipTotalAmount = 0, globalVar.singleTotalAmount = 0, globalVar.singleTotalStakes = 0, globalVar.currentCart.splice(0, globalVar.currentCart.length), globalVar.shortcutContent = [], globalVar.cartId = 0, $("#betCartContent").html(""), $("#totalStakes").text(globalVar.singleTotalStakes), $("#totalAmount").text(lott.formatNumber(globalVar.singleTotalAmount, 4)), lott.betButtonStyleListener()
     },
     formatNumber: function(a, b, c) {
+        // console.log(a, b, c);
+        // a : 
+        // b : 
+        // c : 
+        // 
         // 格式号码
         c || (a = Math.round(1e4 * a) / 1e4);
         var d, e, f, g = a + "",
@@ -281,11 +286,22 @@ var lott = {
         }
     },
     refreshCurrentBonus: function(a, b) {
+        // 五星直选取值如下：
+        //a : All5Straight
+        //b : SSC
         // 刷新当前最高奖金
         var c = 0;
         a && (c = globalVar.playBonus[a].split(",")[0]);
         var d = 0;
-        d = "11X5" == b ? 1980 : 2e3, $("span[play-menu='bonus']").text(lott.formatNumber(c * globalVar.currentLottery.betMode.unit * (globalVar.currentLottery.betSeries / d * 2), 4))
+        if ("11X5" == b) {
+            d = 1980;
+        } else {
+            d = 2e3;
+        }
+        
+        $("span[play-menu='bonus']").text(lott.formatNumber(c * globalVar.currentLottery.betMode.unit * (globalVar.currentLottery.betSeries / d * 2), 4))
+
+        // d = "11X5" == b ? 1980 : 2e3, $("span[play-menu='bonus']").text(lott.formatNumber(c * globalVar.currentLottery.betMode.unit * (globalVar.currentLottery.betSeries / d * 2), 4))
     },
     playBonusOrder: function(a) {
         // 奖金？？？
@@ -1471,9 +1487,7 @@ var lott = {
         lott.selectionBall(b, f, g, h, i, j)    //选择号码球的事件
     },
     NonDirect: function(a, b, c, d, e, f, g, h, i, j, k) {
-        console.log('NonDirect');
         console.log(a, b, c, d, e, f, g, h, i, j, k);
-        console.log('NonDirect');
         // 五星组选60的数据
         // a : ['二重号', '单号']    显示的行名称 可以为string 或者 array 类型
         // b : ["FIFTH", "FOURTH"]   显示行对应的值
@@ -1499,6 +1513,7 @@ var lott = {
         }
         if (b.push(l), $("div[select-area='ball']").html(n), f && 1 * g < d && $('li[sift="all"]').remove(), k) {
             var q = globalVar.playCode.charAt(3);
+            console.log(q);
             $('span[at-sq-bits="no"]').text(q);
             for (var o = 1 * q; o > 0; o--) $("#atAnySequenceBit li:nth-last-child(" + o + ")").addClass("active");
             lott.setBitSchemeUI("at", 1 * q), $("#atAnySequenceBit li").off("click").on("click", function() {
@@ -1508,7 +1523,7 @@ var lott = {
         lott.selectionBall(b, f, g, h, i, j)
     },
     sumAndPointUI: function(a, b, c, d, e, f) {
-        console.log(a, b, c, d, e, f);
+        // console.log(a, b, c, d, e, f);
         // console.log('sumAndPointUI');
         // 后三和值的值如下
         // a : 和值
@@ -1571,13 +1586,10 @@ var lott = {
         }), $(document).off("click", "#lott_ranks_" + a + ">dl>dt").on("click", "#lott_ranks_" + a + ">dl>dt", function() {
             if ($(this).removeClass("hover"), $(this).hasClass("selected")) {
                 if ($(this).removeClass("selected"), b[1][a].length > 0) {
-                    var d = $("#lott_ranks_" + a + ">dl>dt").index(this),//所点击的号码的索引
+                    var d = $("#lott_ranks_" + a + ">dl>dt").index(this),
                         e = $(this).text(),
                         f = c[d],
                         g = "," + e + "#" + f;
-                        console.log(d);
-                        console.log(g); 
-
                     b[1][a].indexOf(g) > -1 && (b[1][a] = b[1][a].replace(g, ""));
                     var h = 0;
                     if (b[1][a].length > 1)
@@ -2238,9 +2250,15 @@ var lott = {
         console.log(a);
         $("#" + a + "AnySequenceBit li[class*='active']").each(function() {
             c.push($(this).attr("sq-bit-id"))
-        }), $("span[" + a + '-sq-bits="count"]').text(c.length), globalVar.anyBitsContent = c.join(""), globalVar.anyBitScheme = lott.createBitScheme(b, c), $("span[" + a + "-sq-bits='scheme']").text(globalVar.anyBitScheme.length)
+        });
+        $("span[" + a + '-sq-bits="count"]').text(c.length),
+        globalVar.anyBitsContent = c.join(""),
+        globalVar.anyBitScheme = lott.createBitScheme(b, c),
+        $("span[" + a + "-sq-bits='scheme']").text(globalVar.anyBitScheme.length)
     },
     createBitScheme: function(a, b) {
+        console.log(typeof a);
+        console.log(typeof b);
         console.log(a,b);
         var c = [];
         if (1 * a == 2)
@@ -2652,8 +2670,8 @@ var lott = {
         // a : 
         // b :
         // c : 
-        console.log('siftBtnEvents');
-        console.log(a, b, c);
+        // console.log('siftBtnEvents');
+        // console.log(a, b, c);
         $(document).off("click", "#lott_ranks_" + a + ">ul>li").on("click", "#lott_ranks_" + a + ">ul>li", function() {
             var d = $(this).attr("sift"),
                 e = globalVar.currentLottery.series[0].gameGroup;
@@ -2723,10 +2741,11 @@ var lott = {
         return c
     },
     calculateAmount: function(a) {
+        // a : 已选的注数
         // console.log(a);
         //根据选择的注数计算金额
         var b = 0,
-            c = $('input[name="betMultiple"]').val();
+            c = $('input[name="betMultiple"]').val();   //倍数
         if (a >= 0 && (globalVar.selectionBallStakes = a, globalVar.selectionBallAmount = 1 * a * (1 * globalVar.singleStakesPrice), 0 == globalVar.playCode.indexOf("Any4Com") || 0 == globalVar.playCode.indexOf("Any3Com") || 0 == globalVar.playCode.indexOf("Any3Sum") || 0 == globalVar.playCode.indexOf("Any2Com") || 0 == globalVar.playCode.indexOf("Any2Sum") ? ($("#selectionBallStakes").text(globalVar.selectionBallStakes * globalVar.anyBitScheme.length), $("#selectionBallAmount").text(lott.formatNumber(1 * c * globalVar.selectionBallAmount * globalVar.anyBitScheme.length * globalVar.currentLottery.betMode.unit, 4)), a = globalVar.selectionBallStakes * globalVar.anyBitScheme.length) : ($("#selectionBallStakes").text(globalVar.selectionBallStakes), $("#selectionBallAmount").text(lott.formatNumber(1 * c * globalVar.selectionBallAmount * globalVar.currentLottery.betMode.unit, 4)))), "SSC" == globalVar.currentLottery.series[0].gameGroup) switch (globalVar.playCode) {
             case "First2Join":
             case "Last2Join":
@@ -3228,7 +3247,9 @@ var lott = {
         console.log(c);
 
         globalVar.multipTotalAmount = c;
+        console.log('==============')
         globalVar.singleTotalAmount = b;
+        console.log('==============')
         globalVar.singleTotalStakes = a;
         $("#totalStakes").text(globalVar.singleTotalStakes);
         $("#totalAmount").text(lott.formatNumber(globalVar.multipTotalAmount, 4));

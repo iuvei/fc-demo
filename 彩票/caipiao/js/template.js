@@ -24,11 +24,44 @@
  * multipleChoice ：一行是否可以选择多个号码
  * maxSelect: 最多可选个数
  * minSelect: 最少选择个数
- * hasNoAllFastBtn : 没有 全 选快捷按钮，默认是有的（值为：undefined/false）。取值为true时表示不需要
+ * noAllFastBtn : 没有 全 选快捷按钮，默认是有的（值为：undefined/false）。取值为true时表示不需要
  * type : 选号类型 ball : 号码选号，text : 文本域
  * formula : 注数的计算方法
  */
 var SSC_TEMPLATE = {
+    sumAndPoint: function(x, options, type) {
+        // 和值求注数
+        var c = SSC_TEMPLATE.getSubNumList(type);
+        $('.J_numWrp').each(function(i){
+            $(this).data('num', c[i]);
+        });
+
+        var _curChose = '';
+        $('.J_numWrp.active').each(function(){
+            _curChose += ',' + $(this).text() + '#' + $(this).data('num');
+        });
+
+        if (!options.hasSelect) {
+            var g = ',' + options.text + '#' + c[options.index];
+            var h = 0;
+            if (_curChose.length > 1){
+                for (var i = _curChose.substring(1).split(","), j = 0; j < i.length; j++) {
+                    var k = i[j].split("#");
+                    h = 1 * h + 1 * k[1]
+                }
+            }
+            _num = h;
+        } else {
+            var h = 0;
+            for (var h = 0, i = _curChose.substring(1).split(","), j = 0; j < i.length; j++) {
+                var k = i[j].split("#");
+                h = 1 * h + 1 * k[1]
+            }
+            _num = h;
+        }
+
+        return _num;
+    },
     getSubNumList: function(type) {
         var _arr = [];
 
@@ -512,49 +545,12 @@ var SSC_TEMPLATE = {
                 break;
             case 'First3Sum':
                 _rule = '从0-27中选择1个或多个号码投注，所选数值为开奖号码前三位的数字相加之和相同，即为中奖。 如：选择和值1；开奖号码为001**、010**、100**，即中前三和值。';
-                _opt.numList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27];
+                _opt.numList = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27];
                 _opt.numNameList = ['FIRST#和值'];
                 _opt.quickFast = false;
-                _opt.formula = function(a, options){
-                    console.log(options);
-                    var _num = 0;
-                    var _a = [a[0]];
-                    console.log(_a);
-                    var l = {};
-                    l[_a] = "";
-                    var b = [_a, l];
-                    console.log(b);
-                    var d = options.index,//所点击的号码的索引
-                        e = options.text,
-                        f = SSC_TEMPLATE.getSubNumList('3rd')[d + 1];
-                    console.log(options.hasSelect);
-                    if (!options.hasSelect) {
-                        var g = "," + e + "#" + f;
-                            // console.log(f);
-                            // console.log(d);
-                            // console.log(g); 
-
-                        b[1][_a].indexOf(g) > -1 && (b[1][_a] = b[1][_a].replace(g, ""));
-                        if (b[1][_a].length > 1){
-                            for (var i = b[1][a].substring(1).split(","), j = 0; j < i.length; j++) {
-                                var k = i[j].split("#");
-                                h = 1 * h + 1 * k[1]
-                            }
-                        }
-                    } else {
-                        // var d = $("#lott_ranks_" + a + ">dl>dt").index(this),
-                        //     e = $(this).text(),
-                        //     f = c[d];
-                        b[1][_a] = b[1][_a] + "," + e + "#" + f;
-                        for (var h = 0, i = b[1][_a].substring(1).split(","), j = 0; j < i.length; j++) {
-                            var k = i[j].split("#");
-                            h = 1 * h + 1 * k[1]
-                        }
-                    }
-
-                    console.log(_num);
+                _opt.formula = function(x, options){
+                    var _num = SSC_TEMPLATE.sumAndPoint(x, options, '3rd');
                     return _num;
-                    // return console.log('对应 sumAndPointUI');
                 }
                 break;
             case 'First3Com3':
@@ -672,12 +668,12 @@ var SSC_TEMPLATE = {
                 break;
             case 'Middle3Sum':
                 _rule = '从0-27中选择1个或多个号码投注，所选数值为开奖号码中三位的数字相加之和相同，即为中奖。 如：选择和值1；开奖号码为*001*、*010*、*100*，即中中三和值。';
-                _opt.numList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27];
+                _opt.numList = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27];
                 _opt.numNameList = ['FOURTH#和值'];
                 _opt.quickFast = false;
-                _opt.formula = function(a){
-                    // TODO：
-                    return console.log('对应 sumAndPointUI');
+                _opt.formula = function(x, options){
+                    var _num = SSC_TEMPLATE.sumAndPoint(x, options, '3rd');
+                    return _num;
                 }
                 break;
             case 'Middle3Com3':
@@ -795,12 +791,12 @@ var SSC_TEMPLATE = {
                 break;
             case 'Last3Sum':
                 _rule = '从0-27中选择1个或多个号码投注，所选数值为开奖号码后三位的数字相加之和相同，即为中奖。 如：选择和值1；开奖号码为**001、**010、**100，即中后三和值。';
-                _opt.numList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27];
+                _opt.numList = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27];
                 _opt.numNameList = ['FIFTH#和值'];
                 _opt.quickFast = false;
-                _opt.formula = function(a){
-                    // TODO:
-                    return console.log('对应 sumAndPointUI');
+                _opt.formula = function(x, options){
+                    var _num = SSC_TEMPLATE.sumAndPoint(x, options, '3rd');
+                    return _num;
                 }
                 break;
             case 'Last3Com3':
@@ -870,7 +866,7 @@ var SSC_TEMPLATE = {
             numList: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
             numNameList: ['FIRST', 'SECOND'],
             quickFast: true,
-            hasNoAllFastBtn: false,
+            noAllFastBtn: false,
             type: 'ball',
             formula: null
         };
@@ -912,18 +908,19 @@ var SSC_TEMPLATE = {
                 break;
             case 'First2Sum':
                 _rule = '从0-18中选择1个或多个号码投注，所选数值为开奖号码前二位的数字相加之和相同，即为中奖。 如：选择1，开奖号码为10***或01***，即为中奖。';
-                _opt.numList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
+                _opt.numList = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
                 _opt.numNameList = ['FIRST#和值'];
                 _opt.quickFast = false;
-                _opt.formula = function(a){
-                    return console.log('对应 sumAndPointUI');
+                _opt.formula = function(x, options){
+                    var _num = SSC_TEMPLATE.sumAndPoint(x, options, '2nd');
+                    return _num;
                 }
                 break;
             case 'First2Com':
                 _maxBonus = '85.0000';
                 _rule = '从0-9中选择2个或多个号码投注，所选号码与开奖号码的前二位相同，顺序不限，即为中奖。 如：选择7、8，开奖号码78***或87***即为中奖。';
                 _opt.numNameList = ['FIRST#组选'];
-                _opt.hasNoAllFastBtn = true;
+                _opt.noAllFastBtn = true;
                 _opt.maxSelect = 7;
                 _opt.formula = function(a){
                     return a[a.length - 1][a[0]].length * (a[a.length - 1][a[0]].length - 1) / 2
@@ -1005,18 +1002,19 @@ var SSC_TEMPLATE = {
                 break;
             case 'Last2Sum':
                 _rule = '从0-18中选择1个或多个号码投注，所选数值为开奖号码后二位的数字相加之和相同，即为中奖。 如：选择1，开奖号码为***10或***01即为中奖。';
-                _opt.numList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
+                _opt.numList = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
                 _opt.numNameList = ['FIFTH#和值'];
                 _opt.quickFast = false;
-                _opt.formula = function(a){
-                    return console.log('对应 sumAndPointUI');
+                _opt.formula = function(x, options){
+                    var _num = SSC_TEMPLATE.sumAndPoint(x, options, '2nd');
+                    return _num;
                 }
                 break;
             case 'Last2Com':
                 _maxBonus = '85.0000';
                 _rule = '从0-9中选择2个或多个号码投注，所选号码与开奖号码的后二位相同，顺序不限，即为中奖。 如：选择7、8，开奖号码***78或***87，即为中奖。';
                 _opt.numNameList = ['FIFTH#组选'];
-                _opt.hasNoAllFastBtn = true;
+                _opt.noAllFastBtn = true;
                 _opt.maxSelect = 7;
                 _opt.formula = function(a){
                     return a[a.length - 1][a[0]].length * (a[a.length - 1][a[0]].length - 1) / 2
@@ -1482,8 +1480,9 @@ var SSC_TEMPLATE = {
                 _opt.numList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17];
                 _opt.numNameList = ['FIFTH#和值'];
                 _opt.quickFast = false;
-                _opt.formula = function(a){
-                    return console.log('对应 sumAndPointUI');
+                _opt.formula = function(x, options){
+                    var _num = SSC_TEMPLATE.sumAndPoint(x, options, '2rdz');
+                    return _num;
                 }
                 break;
             case 'Any3Sum_SSC':
@@ -1494,8 +1493,9 @@ var SSC_TEMPLATE = {
                 _opt.numList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26];
                 _opt.numNameList = ['FIFTH#和值'];
                 _opt.quickFast = false;
-                _opt.formula = function(a){
-                    return console.log('对应 sumAndPointUI');
+                _opt.formula = function(x, options){
+                    var _num = SSC_TEMPLATE.sumAndPoint(x, options, '3rdz');
+                    return _num;
                 }
                 break;
             case 'Any3Com3_SSC':
