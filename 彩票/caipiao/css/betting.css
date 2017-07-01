@@ -383,17 +383,40 @@
 .btn-red{
     background-color: #ff4747;
 }
-
-#J_selectArea textarea {
-    width: 865px;
+.bet-upload{}
+.bet-upload > div{
+    width: 112px;
+    height: 36px;
+    position: absolute;
+    left: 0px;
+    top: 58px;
+    z-index: 1;
+    overflow: hidden;
+    cursor: pointer;
+}
+.bet-upload input[type="file"]{
+    height: 36px;
+    width: 112px;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    cursor: pointer;
+    font-size: 0;
+    font-size:100px;
+    height:130%;
+    width:1000px;
+}
+.betting-box textarea {
+    width: 800px;
     border: 1px solid #d3d4d4;
-    border-radius: 6px;
-    box-shadow: -1px 3px 2px -1px #dedede inset;
+    /* border-radius: 6px; */
+    /* box-shadow: -1px 3px 2px -1px #dedede inset; */
     color: #888888;
-    height: 180px;
+    height: 220px;
     letter-spacing: normal !important;
     padding: 10px;
     resize: none;
     text-align: left;
     margin-bottom: 20px;
+    float: left;
+    margin-right: 36px;
 }

@@ -298,7 +298,7 @@ var lott = {
         } else {
             d = 2e3;
         }
-        
+
         $("span[play-menu='bonus']").text(lott.formatNumber(c * globalVar.currentLottery.betMode.unit * (globalVar.currentLottery.betSeries / d * 2), 4))
 
         // d = "11X5" == b ? 1980 : 2e3, $("span[play-menu='bonus']").text(lott.formatNumber(c * globalVar.currentLottery.betMode.unit * (globalVar.currentLottery.betSeries / d * 2), 4))
@@ -1621,7 +1621,9 @@ var lott = {
                         i = e == d.length - 1;
                     "Any3Sum_SSC" != globalVar.playCode && "Any2Sum_SSC" != globalVar.playCode || (g = globalVar.anyBitsContent + "@" + g, h *= globalVar.anyBitScheme.length), lott.createBetCart(g, 1, c, "", h, i)
                 }
+                console.log('++++++++++');
                 lott.clearSelectionBall(b)
+                console.log('++++++++++');
             }
         }), lott.shortcutBettingEvents(function(c) {
             if (b[1][a].length <= 0) TCG.Alert("alerts", "当前玩法至少要选择一个号球!");
@@ -1884,6 +1886,7 @@ var lott = {
     allManualEntryEvents: function() {
         // 所有手动输入事件。textarea
         var a = {};
+        console.log(globalVar.playCode);
         switch (globalVar.playCode) {
             case "Any2_11X5_Single":
                 a.bits = ["ANY"], a.miBall = 2, a.stakes = 1, a.len = 4, a.digit = "", a.eg = "01 02 03,01 02 03\n01 02 03;01 02 03";
@@ -2011,7 +2014,9 @@ var lott = {
             case "First5_PK10_Single":
                 a.bits = ["FIRST", "SECOND", "THIRD", "FOURTH", "FIFTH"], a.miBall = 1, a.stakes = 1, a.len = 10, a.digit = "", a.eg = "0102030405 0102030405\n0102030405,0102030405\n0102030405;0102030405"
         }
-        lott.manualEntryUI(!0, a), lott.allManualEntryRandomBall(a.bits, a.miBall, a.digit)
+        console.log(a);
+        lott.manualEntryUI(!0, a),
+        lott.allManualEntryRandomBall(a.bits, a.miBall, a.digit)
     },
     allManualEntryRandomBall: function(a, b, c) {
         for (var d = {}, e = globalVar.currentLottery.series[0].gameGroup, f = 0; f < a.length; f++) d[a[f]] = "11X5" == e || "PK10" == e ? [] : "";
@@ -2096,6 +2101,7 @@ var lott = {
             case "Any3Com_SSC":
                 a.digit = ""
         }
+        console.log('22222222222');
         lott.manualEntryUI(!1, a), lott.randomBallEvents(function(b) {
             var c = $('input[name="betMultiple"]').val(),
                 d = $(b).attr("bet-random"),
@@ -2116,12 +2122,16 @@ var lott = {
         })
     },
     manualEntryUI: function(a, b) {
+        console.log(a, b);
         console.log('manualEntryUI');
         var c = "",
             d = globalVar.currentLottery.series[0].gameGroup;
-        globalVar.textArea = [], globalVar.anyBitsContent = "", c += '<dl class="manualBetting">';
+        globalVar.textArea = [],
+        globalVar.anyBitsContent = "",
+        c += '<dl class="manualBetting">';
         var e = "";
-        if ("Any2_Single" != globalVar.playCode && "Any3_Single" != globalVar.playCode && "Any4_Single" != globalVar.playCode && "Any3Com_SSC" != globalVar.playCode && "Any2Com_SSC_Single" != globalVar.playCode || (e = lott.setAnySequenceBitUI("ma")), window.File && window.FileReader && window.FileList && window.Blob ? (c += '<dd><div class="rsLottBtns clearfix"><input id="betContentFile" type="file" accept="text/plain" name="file" style="display: none;" /><div id="betFileUpload"><label for="betContentFile">选择文件</label></div>', c += '<div id="emptySelection"><label for="">清空选号</label></div>', c += "</div>", c += e, c += "</dd>") : (c += '<dd style="height: 45px;"><div id="swfFileUpload">', c += '<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="126" height="45" id="fileUpload" align="middle">', c += '<param name="allowScriptAccess" value="always" />', c += '<param name="movie" value="js/fileUpload.swf"/>', c += '<param name="quality" value="high"/>', c += '<param name="wmode" value="transparent" />', c += '<embed src="js/fileUpload.swf" quality="high" allowScriptAccess="always" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="126" height="45"></embed>', c += "</object>", c += "</div>", c += e, c += "</dd>"), c += '<dd style="height: 30px;"><div class="uploadProgressBar"><div id="uploadProgressBar" style="width:0%;">0%</div></div></dd>', c += '<dd id="ballTextArea"><textarea cols="40" rows="6" id="ballInputArea" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off">', c += TCG.Prop("ballInputArea_" + d) + b.eg, c += "</textarea>", c += "</dd></dl>", $("div[select-area]").hide(), $('div[select-area="textArea"]').show(), $("dl[bet-btn-area]").hide(), $('dl[bet-btn-area="textArea"]').show(), lott.calculateAmount(0), $(".amount-bet-current").show(), $('div[select-area="textArea"]').html(c), "Any2_Single" == globalVar.playCode || "Any3_Single" == globalVar.playCode || "Any4_Single" == globalVar.playCode || "Any3Com_SSC" == globalVar.playCode || "Any2Com_SSC_Single" == globalVar.playCode) {
+        if ("Any2_Single" != globalVar.playCode && "Any3_Single" != globalVar.playCode && "Any4_Single" != globalVar.playCode && "Any3Com_SSC" != globalVar.playCode && "Any2Com_SSC_Single" != globalVar.playCode || (e = lott.setAnySequenceBitUI("ma")), window.File && window.FileReader && window.FileList && window.Blob ? (c += '<dd><div class="rsLottBtns clearfix"><input id="betContentFile" type="file" accept="text/plain" name="file" style="display: none;" /><div id="betFileUpload"><label for="betContentFile">选择文件</label></div>', c += '<div id="emptySelection"><label for="">清空选号</label></div>', c += "</div>", c += e, c += "</dd>") : (c += '<dd style="height: 45px;"><div id="swfFileUpload">', c += '<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="126" height="45" id="fileUpload" align="middle">', c += '<param name="allowScriptAccess" value="always" />', c += '<param name="movie" value="js/fileUpload.swf"/>', c += '<param name="quality" value="high"/>', c += '<param name="wmode" value="transparent" />', c += '<embed src="js/fileUpload.swf" quality="high" allowScriptAccess="always" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="126" height="45"></embed>', c += "</object>", c += "</div>", c += e, c += "</dd>"), c += '<dd style="height: 30px;"><div class="uploadProgressBar"><div id="uploadProgressBar" style="width:0%;">0%</div></div></dd>', c += '<dd id="ballTextArea"><textarea cols="40" rows="6" id="ballInputArea" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off">', c += TCG.Prop("ballInputArea_" + d) + b.eg, c += "</textarea>", c += "</dd></dl>", $("div[select-area]").hide(), $('div[select-area="textArea"]').show(), $("dl[bet-btn-area]").hide(), $('dl[bet-btn-area="textArea"]').show(), lott.calculateAmount(0), $(".amount-bet-current").show(), $('div[select-area="textArea"]').html(c),
+            "Any2_Single" == globalVar.playCode || "Any3_Single" == globalVar.playCode || "Any4_Single" == globalVar.playCode || "Any3Com_SSC" == globalVar.playCode || "Any2Com_SSC_Single" == globalVar.playCode) {
             $('span[ma-sq-bits="no"]').text(b.len);
             for (var f = b.len; f > 0; f--) $("#maAnySequenceBit li:nth-last-child(" + f + ")").addClass("active");
             lott.setBitSchemeUI("ma", b.len), $("#maAnySequenceBit li").off("click").on("click", function() {
@@ -2135,12 +2145,17 @@ var lott = {
         }), $("#ballInputArea").off("input propertychange").on("input propertychange", function() {
             $("#ballInputArea").val().replace(/[^\d]+/g, "").length <= 0 && lott.calculateAmount(0), globalVar.textArea = [];
             var c = globalVar.currentLottery.series[0].gameGroup;
-            if ("11X5" == c || "PK10" == c) lott.calculateESFManualEntryStakes(b, c);
-            else if ("Any2_Single" == globalVar.playCode || "Any3_Single" == globalVar.playCode || "Any4_Single" == globalVar.playCode || "Any3Com_SSC" == globalVar.playCode || "Any2Com_SSC_Single" == globalVar.playCode) {
+            if ("11X5" == c || "PK10" == c) {
+                lott.calculateESFManualEntryStakes(b, c);
+            } else if ("Any2_Single" == globalVar.playCode || "Any3_Single" == globalVar.playCode || "Any4_Single" == globalVar.playCode || "Any3Com_SSC" == globalVar.playCode || "Any2Com_SSC_Single" == globalVar.playCode) {
                 var d = $("#maAnySequenceBit li[class*='active']").size();
                 if (b.len > 1 * d) return void TCG.Alert("alerts", "请至少选择" + b.len + "个位置<br/>您当前选择了" + d + "个位置");
+                // 时时彩的任选文本域事件
                 lott.calculateSSCAnyManualEntryStakes(b)
-            } else lott.calculateSSCManualEntryStakes(a, b)
+            } else {
+                // 时时彩的普通文本域事件
+                lott.calculateSSCManualEntryStakes(a, b)
+            }
         }), $("#emptySelection").off("click").on("click", function() {
             $("#ballInputArea").val("").focus(), lott.calculateAmount(0), globalVar.textArea = []
         }), lott.buttonClickEvents("click", "#addTextAreaToCart", function(a) {
@@ -2257,8 +2272,6 @@ var lott = {
         $("span[" + a + "-sq-bits='scheme']").text(globalVar.anyBitScheme.length)
     },
     createBitScheme: function(a, b) {
-        console.log(typeof a);
-        console.log(typeof b);
         console.log(a,b);
         var c = [];
         if (1 * a == 2)
@@ -2285,16 +2298,20 @@ var lott = {
         return c
     },
     manualEntryDisassemble: function(a) {
+        console.log('manualEntryDisassemble');
         if (/[A-Za-z\u4E00-\u9FFF]/.test(a)) return TCG.Alert("alerts", "您的投注内容不符合要求<br/>里面还有字母或者中文!", "XS"), 0;
         var b = a.replace(/[^\d\r\n\f\s,;#]+/g, "");
         return b = b.replace(/[^\d#]+/g, "@"), ("@" == b.substring(b.length - 1) ? b.substring(0, b.length - 1) : b).split("@")
     },
     ESFManualEntryDisassemble: function(a, b) {
+        console.log('ESFManualEntryDisassemble');
         if (/[A-Za-z\u4E00-\u9FFF]/.test(a)) return void TCG.Alert("alerts", "您的投注内容不符合要求<br/>里面还有字母或者中文!", "XS");
         var c;
         return c = "11X5" == b ? a.replace(/[^\d\r\n\f,;]+/g, "") : a.replace(/[^\d\r\n\f\s,;]+/g, ""), c = c.replace(/[^\d\d]+/g, "@"), ("@" == c.substring(c.length - 1) ? c.substring(0, c.length - 1) : c).split("@")
     },
     calculateSSCAnyManualEntryStakes: function(a) {
+        // 时时彩任选的时候文本域事件
+        console.log(a);
         console.log('calculateSSCAnyManualEntryStakes');
         var b = $("#ballInputArea").val(),
             c = lott.manualEntryDisassemble(b);
@@ -2323,7 +2340,9 @@ var lott = {
         }
     },
     calculateSSCManualEntryStakes: function(a, b) {
+        // 时时彩的普通文本域事件
         console.log('calculateSSCManualEntryStakes');
+        console.log(a, b);
         var c = $("#ballInputArea").val(),
             d = lott.manualEntryDisassemble(c);
         if (0 != d.length) {
@@ -3153,6 +3172,14 @@ var lott = {
         })
     },
     createBetCart: function(a, b, c, d, e, f) {
+        console.log(a, b, c, d, e, f);
+        // a : 
+        // b : 
+        // c : 
+        // d : 
+        // e : 
+        // f : 
+        // 
         // 创建购物车
         var g = {
             id: globalVar.cartId,
@@ -3171,6 +3198,9 @@ var lott = {
         globalVar.currentCart.push(g), lott.assembleBetCartContent(g), f && lott.calculateCartBuyAmount(), lott.betButtonStyleListener(), globalVar.cartId++
     },
     assembleBetCartContent: function(a) {
+        console.log(a);
+        console.log('assembleBetCartContent');
+        // a : 
         var b = globalVar.currentLottery.series[0].gameGroup,
             c = '<ul row-date="' + a.id + '" class="bet_number custom' + a.id + '">';
         if (a.playCode.indexOf("FixedPlace") > -1 || a.playCode.indexOf("BSOE_PK10") > -1 && "First2SumBSOE_PK10" != a.playCode || a.playCode.indexOf("Fixed_PK10") > -1 ? c += "<li>" + TCG.Prop("play_name_" + a.playId) + lott.aloneDigitConversion(b, a.digit) + "</li>" : c += '<li class="f-data-fix">' + TCG.Prop("play_name_" + a.playId) + "</li>", a.playCode.indexOf("st2BSOE") > -1) {

@@ -29,6 +29,37 @@
  * formula : 注数的计算方法
  */
 var SSC_TEMPLATE = {
+    ballTextArea: {
+        calculateSSCAnyManualEntryStakes: function(b) {
+            // "Any2_Single"
+            // "Any3_Single"
+            // "Any4_Single"
+            // "Any3Com_SSC"
+            // "Any2Com_SSC_Single"
+
+
+        },
+        calculateSSCManualEntryStakes: function(a, b) {
+
+        },
+        ballAreaChange: function(type) {
+            if ("Any2_Single" == type || "Any3_Single" == type || "Any4_Single" == type || "Any3Com_SSC" == type || "Any2Com_SSC_Single" == type) {
+                    var d = $('#J_nowChoseNum').text();
+
+                    if (b.len > 1 * d){
+                            layer.alert('请至少选择'+ b.len +'个位置<br/>您当前选择了' + d + '个位置', {
+                            icon: 2
+                        });
+                        $('#J_ballInputArea').blur();
+                        return;
+                    }
+
+                    Betting.calculateSSCAnyManualEntryStakes(b)
+                } else {
+                    Betting.calculateSSCManualEntryStakes(a, b)
+                }
+        }
+    },
     sumAndPoint: function(x, options, type) {
         // 和值求注数
         var c = SSC_TEMPLATE.getSubNumList(type);
@@ -1608,45 +1639,142 @@ var SSC_TEMPLATE = {
             maxBonus: _maxBonus,
             opt: _opt
         };
+    },
+    allManualEntryEvents: function(subNav) {
+        // 所有手动输入事件。textarea
+        var a = {};
+        switch (subNav) {
+            case "Any2_11X5_Single":
+                a.bits = ["ANY"], a.miBall = 2, a.stakes = 1, a.len = 4, a.digit = "", a.eg = "01 02 03,01 02 03\n01 02 03;01 02 03";
+                break;
+            case "Any3_11X5_Single":
+                a.bits = ["ANY"], a.miBall = 3, a.stakes = 1, a.len = 6, a.digit = "", a.eg = "01 02 03,01 02 03\n01 02 03;01 02 03";
+                break;
+            case "Any4_11X5_Single":
+                a.bits = ["ANY"], a.miBall = 4, a.stakes = 1, a.len = 8, a.digit = "", a.eg = "01 02 03 04,01 02 03 04\n01 02 03 04;01 02 03 04";
+                break;
+            case "Any5_11X5_Single":
+                a.bits = ["ANY"], a.miBall = 5, a.stakes = 1, a.len = 10, a.digit = "", a.eg = "01 02 03 04 05,01 02 03 04 05\n01 02 03 04 05;01 02 03 04 05";
+                break;
+            case "Any6_11X5_Single":
+                a.bits = ["ANY"], a.miBall = 6, a.stakes = 1, a.len = 12, a.digit = "", a.eg = "01 02 03 04 05 06,01 02 03 04 05 06\n01 02 03 04 05 06;01 02 03 04 05 06";
+                break;
+            case "Any7_11X5_Single":
+                a.bits = ["ANY"], a.miBall = 7, a.stakes = 1, a.len = 14, a.digit = "", a.eg = "01 02 03 04 05 06 07,01 02 03 04 05 06 07\n01 02 03 04 05 06 07;01 02 03 04 05 06 07";
+                break;
+            case "Any8_11X5_Single":
+                a.bits = ["ANY"], a.miBall = 8, a.stakes = 1, a.len = 16, a.digit = "", a.eg = "01 02 03 04 05 06 07 08,01 02 03 04 05 06 07 08\n01 02 03 04 05 06 07 08;01 02 03 04 05 06 07 08";
+                break;
+            case "First3Straight_11X5_Single":
+                a.bits = ["FIRST", "SECOND", "THIRD"], a.miBall = 1, a.stakes = 1, a.len = 6, a.digit = "", a.eg = "01 02 03,01 02 03\n01 02 03;01 02 03";
+                break;
+            case "First3Com_11X5_Single":
+                a.bits = ["ANY"], a.miBall = 3, a.stakes = 1, a.len = 6, a.digit = "", a.eg = "01 02 03,01 02 03\n01 02 03;01 02 03";
+                break;
+            case "First2Straight_11X5_Single":
+                a.bits = ["FIRST", "SECOND"], a.miBall = 1, a.stakes = 1, a.len = 4, a.digit = "", a.eg = "01 02 03,01 02 03\n01 02 03;01 02 03";
+                break;
+            case "First2Com_11X5_Single":
+                a.bits = ["ANY"], a.miBall = 2, a.stakes = 1, a.len = 4, a.digit = "", a.eg = "01 02 03,01 02 03\n01 02 03;01 02 03";
+                break;
+            case "P3Last2Straight_LF_Single":
+                a.bits = ["SECOND", "THIRD"], a.miBall = 1, a.stakes = 1, a.len = 2, a.digit = "2", a.eg = "12 34\n12,34\n12;34";
+                break;
+            case "Last2Straight_LF_Single":
+            case "P5Last2Straight_LF_Single":
+                a.bits = ["FOURTH", "FIFTH"], a.miBall = 1, a.stakes = 1, a.len = 2, a.digit = "", a.eg = "12 34\n12,34\n12;34";
+                break;
+            case "P3Straight_LF_Single":
+                a.bits = ["FIRST", "SECOND", "THIRD"], a.miBall = 1, a.stakes = 1, a.len = 3, a.digit = "2", a.eg = "123 456\n123,456\n123;456";
+                break;
+            case "Last3Straight_LF_Single":
+                a.bits = ["THIRD", "FOURTH", "FIFTH"], a.miBall = 1, a.stakes = 1, a.len = 3, a.digit = "", a.eg = "123 456\n123,456\n123;456";
+                break;
+            case "P5First2Straight_LF_Single":
+                a.bits = ["FIRST", "SECOND"], a.miBall = 1, a.stakes = 1, a.len = 2, a.digit = "3", a.eg = "12 34\n12,34\n12;34";
+                break;
+            case "First2Straight_LF_Single":
+                a.bits = ["THIRD", "FOURTH"], a.miBall = 1, a.stakes = 1, a.len = 2, a.digit = "1", a.eg = "12 34\n12,34\n12;34";
+                break;
+            case "Last2Straight_Single":
+                a.bits = ["FOURTH", "FIFTH"], a.miBall = 1, a.stakes = 1, a.len = 2, a.digit = "", a.eg = "12 34\n12,34\n12;34";
+                break;
+            case "Last2Join_Single":
+                a.bits = ["FOURTH", "FIFTH"], a.miBall = 1, a.stakes = 2, a.len = 2, a.digit = "", a.eg = "12 34\n12,34\n12;34";
+                break;
+            case "Last3Straight_Single":
+                a.bits = ["THIRD", "FOURTH", "FIFTH"], a.miBall = 1, a.stakes = 1, a.len = 3, a.digit = "", a.eg = "123 456\n123,456\n123;456";
+                break;
+            case "Last3Join_Single":
+                a.bits = ["THIRD", "FOURTH", "FIFTH"], a.miBall = 1, a.stakes = 3, a.len = 3, a.digit = "", a.eg = "123 456\n123,456\n123;456";
+                break;
+            case "All5Straight_Single":
+            case "All5All_Single":
+                a.bits = ["FIRST", "SECOND", "THIRD", "FOURTH", "FIFTH"], a.miBall = 1, a.stakes = 1, a.len = 5, a.digit = "", a.eg = "12345 67890\n12345,67890\n12345;67890";
+                break;
+            case "All5Join_Single":
+                a.bits = ["FIRST", "SECOND", "THIRD", "FOURTH", "FIFTH"], a.miBall = 1, a.stakes = 5, a.len = 5, a.digit = "", a.eg = "12345 67890\n12345,67890\n12345;67890";
+                break;
+            case "First2Straight_Single":
+                a.bits = ["FIRST", "SECOND"], a.miBall = 1, a.stakes = 1, a.len = 2, a.digit = "3", a.eg = "12 34\n12,34\n12;34";
+                break;
+            case "First2Join_Single":
+                a.bits = ["FIRST", "SECOND"], a.miBall = 1, a.stakes = 2, a.len = 2, a.digit = "3", a.eg = "12 34\n12,34\n12;34";
+                break;
+            case "First3Straight_Single":
+                a.bits = ["FIRST", "SECOND", "THIRD"], a.miBall = 1, a.stakes = 1, a.len = 3, a.digit = "2", a.eg = "123 456\n123,456\n123;456";
+                break;
+            case "First3Join_Single":
+                a.bits = ["FIRST", "SECOND", "THIRD"], a.miBall = 1, a.stakes = 3, a.len = 3, a.digit = "2", a.eg = "123 456\n123,456\n123;456";
+                break;
+            case "Last4Straight_Single":
+                a.bits = ["SECOND", "THIRD", "FOURTH", "FIFTH"], a.miBall = 1, a.stakes = 1, a.len = 4, a.digit = "", a.eg = "1234 5678\n1234,5678\n1234;5678";
+                break;
+            case "Last4Join_Single":
+                a.bits = ["SECOND", "THIRD", "FOURTH", "FIFTH"], a.miBall = 1, a.stakes = 4, a.len = 4, a.digit = "", a.eg = "1234 5678\n1234,5678\n1234;5678";
+                break;
+            case "First4Straight_Single":
+                a.bits = ["FIRST", "SECOND", "THIRD", "FOURTH"], a.miBall = 1, a.stakes = 1, a.len = 4, a.digit = "1", a.eg = "1234 5678\n1234,5678\n1234;5678";
+                break;
+            case "First4Join_Single":
+                a.bits = ["FIRST", "SECOND", "THIRD", "FOURTH"], a.miBall = 1, a.stakes = 4, a.len = 4, a.digit = "1", a.eg = "1234 5678\n1234,5678\n1234;5678";
+                break;
+            case "Middle3Straight_Single":
+                a.bits = ["SECOND", "THIRD", "FOURTH"], a.miBall = 1, a.stakes = 1, a.len = 3, a.digit = "1", a.eg = "123 456\n123,456\n123;456";
+                break;
+            case "Middle3Join_Single":
+                a.bits = ["SECOND", "THIRD", "FOURTH"], a.miBall = 1, a.stakes = 3, a.len = 3, a.digit = "1", a.eg = "123 456\n123,456\n123;456";
+                break;
+            case "Any2_Single":
+                a.bits = ["FIRST", "SECOND", "THIRD", "FOURTH", "FIFTH"], a.miBall = 0, a.stakes = 1, a.len = 2, a.digit = "", a.eg = "12 34\n12,34\n12;34";
+                break;
+            case "Any3_Single":
+                a.bits = ["FIRST", "SECOND", "THIRD", "FOURTH", "FIFTH"], a.miBall = 0,
+                    a.stakes = 1, a.len = 3, a.digit = "", a.eg = "123 456\n123,456\n123;456";
+                break;
+            case "Any4_Single":
+                a.bits = ["FIRST", "SECOND", "THIRD", "FOURTH", "FIFTH"], a.miBall = 0, a.stakes = 1, a.len = 4, a.digit = "", a.eg = "1234 5678\n1234,5678\n1234;5678";
+                break;
+            case "Any2Com_SSC_Single":
+                a.bits = ["ANY"], a.miBall = 1, a.stakes = 1, a.len = 2, a.digit = "", a.eg = "12 34\n12,34\n12;34";
+                break;
+            case "First2_PK10_Single":
+                a.bits = ["FIRST", "SECOND"], a.miBall = 1, a.stakes = 1, a.len = 4, a.digit = "", a.eg = "0102 0102\n0102,0102\n0102;0102";
+                break;
+            case "First3_PK10_Single":
+                a.bits = ["FIRST", "SECOND", "THIRD"], a.miBall = 1, a.stakes = 1, a.len = 6, a.digit = "", a.eg = "010203 010203\n010203,010203\n010203;010203";
+                break;
+            case "First4_PK10_Single":
+                a.bits = ["FIRST", "SECOND", "THIRD", "FOURTH"], a.miBall = 1, a.stakes = 1, a.len = 8, a.digit = "", a.eg = "01020304 01020304\n01020304,01020304\n01020304;01020304";
+                break;
+            case "First5_PK10_Single":
+                a.bits = ["FIRST", "SECOND", "THIRD", "FOURTH", "FIFTH"], a.miBall = 1, a.stakes = 1, a.len = 10, a.digit = "", a.eg = "0102030405 0102030405\n0102030405,0102030405\n0102030405;0102030405"
+        }
+
+        return a;
+        // console.log(a);
+        // lott.manualEntryUI(!0, a),
+        // lott.allManualEntryRandomBall(a.bits, a.miBall, a.digit)
     }
 };
 
-var globalVar = {
-    result: {},
-    merchantCode: "",
-    defaultAgent: "",
-    getAddressResult: null,
-    lottBetTimer: [],
-    lottDrawNumberTimer: [],
-    syncRate: 1,
-    quotaObj: [],
-    globeRebate: [],
-    currentLottery: {},
-    headers: {},
-    hotGameCount: 8,
-    activity: [],
-    bankCardLengh: 0,
-    BANK_CARD_MAX_LIMIT: 5,
-    cid: "",
-    messageRecipientList: [],
-    messageSelectedRecipient: [],
-    pvpGameWindows: null,
-    fishingGameWindows: null,
-    onlinePaymentWindows: null,
-    channelPaymentWindows: null,
-    walletList: {},
-    deletedIds: [],
-    loading: !0,
-    xmlHttp: ""
-};
-
-var vendorId = {
-    onlinePayment: null,
-    onlinePayment_index: 0,
-    wechat: null,
-    wechat_qr_enable: null,
-    wechat_index: 0,
-    alipay: null,
-    alipay_qr_enable: null,
-    alipay_index: 0
-};
