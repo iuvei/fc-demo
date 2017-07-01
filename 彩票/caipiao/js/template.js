@@ -29,6 +29,37 @@
  * formula : 注数的计算方法
  */
 var SSC_TEMPLATE = {
+    getSubNumList: function(type) {
+        var _arr = [];
+
+        switch(type){
+            case '3rd':
+                _arr = [1, 3, 6, 10, 15, 21, 28, 36, 45, 55, 63, 69, 73, 75, 75, 73, 69, 63, 55, 45, 36, 28, 21, 15, 10, 6, 3, 1]; 
+            break;
+            case '3rdx':
+                _arr = [1, 1, 2, 3, 4, 5, 7, 8, 10, 12, 13, 14, 15, 15, 15, 15, 14, 13, 12, 10, 8, 7, 5, 4, 3, 2, 1, 1]; 
+            break;
+            case '2nd':
+                _arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]; 
+            break;
+            case '2ndx':
+                _arr = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 5, 4, 4, 3, 3, 2, 2, 1, 1]; 
+            break;
+            case '3rdz':
+                _arr = [1, 2, 2, 4, 5, 6, 8, 10, 11, 13, 14, 14, 15, 15, 14, 14, 13, 11, 10, 8, 6, 5, 4, 2, 2, 1]; 
+            break;
+            case '2rdz':
+                _arr = [1, 1, 2, 2, 3, 3, 4, 4, 5, 4, 4, 3, 3, 2, 2, 1, 1]; 
+            break;
+            case '3rpk':
+                _arr = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]; 
+            break;
+            case '2rpk':
+                _arr = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]; 
+            break;
+        }
+        return _arr;
+    },
     sameComparer: function(a, b) {
         // 同一比较
         var c, d, e = 0;
@@ -484,8 +515,46 @@ var SSC_TEMPLATE = {
                 _opt.numList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27];
                 _opt.numNameList = ['FIRST#和值'];
                 _opt.quickFast = false;
-                _opt.formula = function(a){
-                    return console.log('对应 sumAndPointUI');
+                _opt.formula = function(a, options){
+                    console.log(options);
+                    var _num = 0;
+                    var _a = [a[0]];
+                    console.log(_a);
+                    var l = {};
+                    l[_a] = "";
+                    var b = [_a, l];
+                    console.log(b);
+                    var d = options.index,//所点击的号码的索引
+                        e = options.text,
+                        f = SSC_TEMPLATE.getSubNumList('3rd')[d + 1];
+                    console.log(options.hasSelect);
+                    if (!options.hasSelect) {
+                        var g = "," + e + "#" + f;
+                            // console.log(f);
+                            // console.log(d);
+                            // console.log(g); 
+
+                        b[1][_a].indexOf(g) > -1 && (b[1][_a] = b[1][_a].replace(g, ""));
+                        if (b[1][_a].length > 1){
+                            for (var i = b[1][a].substring(1).split(","), j = 0; j < i.length; j++) {
+                                var k = i[j].split("#");
+                                h = 1 * h + 1 * k[1]
+                            }
+                        }
+                    } else {
+                        // var d = $("#lott_ranks_" + a + ">dl>dt").index(this),
+                        //     e = $(this).text(),
+                        //     f = c[d];
+                        b[1][_a] = b[1][_a] + "," + e + "#" + f;
+                        for (var h = 0, i = b[1][_a].substring(1).split(","), j = 0; j < i.length; j++) {
+                            var k = i[j].split("#");
+                            h = 1 * h + 1 * k[1]
+                        }
+                    }
+
+                    console.log(_num);
+                    return _num;
+                    // return console.log('对应 sumAndPointUI');
                 }
                 break;
             case 'First3Com3':

@@ -133,7 +133,7 @@ $(function() {
                     if (numList.length > 12) {
                         var _ulDom = '';
                         for (var i = 0, _le = numList.length; i < _le; i += 12) {
-                            _ulDom = '<ul data-min="' + (minSelect ? minSelect : 1) + '" data-max="' + (maxSelect ? maxSelect : 12) + '" data-row="' + rowName + '" class="'+ (i ? 'row-many' : '') +' row-num fl J_ballList ' + ((multipleChoice == undefined || multipleChoice) ? 'J_multipleChoice' : '') + '">';
+                            _ulDom = '<ul data-start="'+ i +'" data-min="' + (minSelect ? minSelect : 1) + '" data-max="' + (maxSelect ? maxSelect : 12) + '" data-row="' + rowName + '" class="'+ (i ? 'row-many' : '') +' row-num fl J_ballList ' + ((multipleChoice == undefined || multipleChoice) ? 'J_multipleChoice' : '') + '">';
                             var _lenxx = numList.slice(i, i + 12).length - 1;
                             $.each(numList.slice(i, i + 12), function(a, b) {
                                 if (a == _lenxx) {
@@ -238,6 +238,7 @@ $(function() {
                 var _len = _this.parent('ul').find('.J_numWrp.active').length;    //当前行已选数量
 
                 // console.log(_len,_max);
+                var _hasSelect = false;  //当前号码是否已经选中
 
                 if (_this.hasClass('active')) {
                     _this.removeClass('active');
@@ -250,14 +251,23 @@ $(function() {
                             return;
                         } else {
                             _this.addClass('active');
+                            _hasSelect = true;
                         }
                     } else {
                         _this.addClass('active').siblings('li').removeClass('active');
+                        _hasSelect = true;
                     }
                 }
 
+// console.log(_this.index());
+// console.log(_this.parent('ul').data('start') + _this.index());
+
                 // 计算注数
-                Betting.getBettingQuantity();
+                Betting.getBettingQuantity({
+                    hasSelect : _hasSelect,
+                    index : (_this.parent('ul').data('start') + _this.index()),
+                    text : _this.text()
+                });
             });
             // 减少倍数
             $('#J_beishuCut').click(function() {
@@ -301,11 +311,17 @@ $(function() {
 
             // 添加选号
             $('#J_addBallToCart').on('click', function(){
+                if ($(this).hasClass('disabled')) {
+                    return;
+                }
                 Betting.addBallToCart();
             });
 
             // 
             $('#J_shortcutPlaceOrder').on('click', function(){
+                if ($(this).hasClass('disabled')) {
+                    return;
+                }
                 Betting.shortcutPlaceOrder();
             });
             
@@ -326,7 +342,13 @@ $(function() {
         shortcutPlaceOrder: function() {
             console.log('一键投注');
         },
-        getBettingQuantity: function() {
+        getBettingQuantity: function(options) {
+            // options 是针对和值设置的配置：如：前三和值类型
+            options = options || {};
+            options.index = options.index || -1;
+            options.text = options.text || '';
+            options.hasSelect = options.hasSelect || false;
+
             var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
             var _subNav = $('.J_subMenu.active').data('info').split('#')[1];
             var _currentRule = SSC_TEMPLATE[_mainNav]({
@@ -347,7 +369,7 @@ $(function() {
 
             _formulaList.push(_currentSelect);
 
-            var _selectNum = _currentRule.opt.formula(_formulaList);   //通过相应公式计算注数
+            var _selectNum = _currentRule.opt.formula(_formulaList, options);   //通过相应公式计算注数
 
             $('#J_selectionBallStakes').text(_selectNum);
 

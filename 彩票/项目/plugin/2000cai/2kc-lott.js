@@ -1508,16 +1508,42 @@ var lott = {
         lott.selectionBall(b, f, g, h, i, j)
     },
     sumAndPointUI: function(a, b, c, d, e, f) {
-        console.log('sumAndPointUI');
+        console.log(a, b, c, d, e, f);
+        // console.log('sumAndPointUI');
+        // 后三和值的值如下
+        // a : 和值
+        // b : ["FIFTH"]
+        // c : 0    //最小号码值
+        // d : 27   //最大号码值
+        // e : 1    //最少选择数量？？？？
+        // f : 3rd  //用于区别号码球下的小标
+        // 
         var g = {};
-        $("#gap_and_hot").attr("play-sort", "non"), g["3rd"] = [1, 3, 6, 10, 15, 21, 28, 36, 45, 55, 63, 69, 73, 75, 75, 73, 69, 63, 55, 45, 36, 28, 21, 15, 10, 6, 3, 1], g["3rdx"] = [1, 1, 2, 3, 4, 5, 7, 8, 10, 12, 13, 14, 15, 15, 15, 15, 14, 13, 12, 10, 8, 7, 5, 4, 3, 2, 1, 1], g["2nd"] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1], g["2ndx"] = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 5, 4, 4, 3, 3, 2, 2, 1, 1], g["3rdz"] = [1, 2, 2, 4, 5, 6, 8, 10, 11, 13, 14, 14, 15, 15, 14, 14, 13, 11, 10, 8, 6, 5, 4, 2, 2, 1], g["2rdz"] = [1, 1, 2, 2, 3, 3, 4, 4, 5, 4, 4, 3, 3, 2, 2, 1, 1], g["3rpk"] = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], g["2rpk"] = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+        $("#gap_and_hot").attr("play-sort", "non"),
+            g["3rd"] = [1, 3, 6, 10, 15, 21, 28, 36, 45, 55, 63, 69, 73, 75, 75, 73, 69, 63, 55, 45, 36, 28, 21, 15, 10, 6, 3, 1],
+            g["3rdx"] = [1, 1, 2, 3, 4, 5, 7, 8, 10, 12, 13, 14, 15, 15, 15, 15, 14, 13, 12, 10, 8, 7, 5, 4, 3, 2, 1, 1],
+            g["2nd"] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
+            g["2ndx"] = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 5, 4, 4, 3, 3, 2, 2, 1, 1],
+            g["3rdz"] = [1, 2, 2, 4, 5, 6, 8, 10, 11, 13, 14, 14, 15, 15, 14, 14, 13, 11, 10, 8, 6, 5, 4, 2, 2, 1],
+            g["2rdz"] = [1, 1, 2, 2, 3, 3, 4, 4, 5, 4, 4, 3, 3, 2, 2, 1, 1],
+            g["3rpk"] = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            g["2rpk"] = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+
+
         var h = "";
+        console.log(globalVar.playCode);
+        // 
         "Any3Sum_SSC" != globalVar.playCode && "Any2Sum_SSC" != globalVar.playCode || (h += '<div style="margin:0px 0px 30px 0px">' + lott.setAnySequenceBitUI("at") + "</div>"), h += lott.ranks(a, b, c, d, e, !1, !1), $("div[select-area='ball']").html(h);
+
+        // 渲染和值号码下面的小数值
         for (var i = 0; i < g[f].length; i++) - 1 == globalVar.playCode.indexOf("Sum_PK10") && $("#lott_ranks_" + b + ">dl>dd:eq(" + i + ")").text(g[f][i]);
+
+        // 任二 + 任三 和值  包含复选框的情况
         if ("Any3Sum_SSC" == globalVar.playCode || "Any2Sum_SSC" == globalVar.playCode) {
             var j = globalVar.playCode.charAt(3);
             $('span[at-sq-bits="no"]').text(j);
             for (var k = 1 * j; k > 0; k--) $("#atAnySequenceBit li:nth-last-child(" + k + ")").addClass("active");
+            // 复选框
             lott.setBitSchemeUI("at", 1 * j), $("#atAnySequenceBit li").off("click").on("click", function() {
                 $(this).hasClass("active") ? $(this).removeClass("active") : $(this).addClass("active"), lott.setBitSchemeUI("at", 1 * j), 1 * globalVar.selectionBallStakes > 0 && lott.calculateAmount(1 * globalVar.selectionBallStakes)
             })
@@ -1525,11 +1551,19 @@ var lott = {
         var l = {};
         l[b] = "";
         var m = [b, l];
-        lott.selectionPointEvents(b, m, g[f], c, d)
+        //m 的结构如下所示：
+        // m = [['FIFTH'], { FIFTH : ''}];
+        lott.selectionPointEvents(b, m, g[f], c, d);
     },
     selectionPointEvents: function(a, b, c, d, e) {
+        // console.log(a, b, c, d, e);
+        // 后三和值的值如下所示：
+        // a : ['FIFTH']
+        // b : [['FIFTH'], { FIFTH : ''}]
+        // c : [1, 3, 6, 10, 15, 21, 28, 36, 45, 55, 63, 69, 73, 75, 75, 73, 69, 63, 55, 45, 36, 28, 21, 15, 10, 6, 3, 1]  //号码小标
+        // d : 1_   //最小号码
+        // e : 27   //最大号码
         // 
-        console.log('selectionPointEvents');
         $("#lott_ranks_" + a + ">dl>dt").unbind().hover(function() {
             $(this).addClass("hover")
         }, function() {
@@ -1537,10 +1571,13 @@ var lott = {
         }), $(document).off("click", "#lott_ranks_" + a + ">dl>dt").on("click", "#lott_ranks_" + a + ">dl>dt", function() {
             if ($(this).removeClass("hover"), $(this).hasClass("selected")) {
                 if ($(this).removeClass("selected"), b[1][a].length > 0) {
-                    var d = $("#lott_ranks_" + a + ">dl>dt").index(this),
+                    var d = $("#lott_ranks_" + a + ">dl>dt").index(this),//所点击的号码的索引
                         e = $(this).text(),
                         f = c[d],
                         g = "," + e + "#" + f;
+                        console.log(d);
+                        console.log(g); 
+
                     b[1][a].indexOf(g) > -1 && (b[1][a] = b[1][a].replace(g, ""));
                     var h = 0;
                     if (b[1][a].length > 1)
@@ -2189,6 +2226,10 @@ var lott = {
         return c.join("_")
     },
     setAnySequenceBitUI: function(a) {
+        // a : at || ma
+        // a = at : 表示复选框下面是号码球
+        // a = ma : 表示复选框下面的是文本域
+        // 设置任何序列位UI【复选框dom结构】
         var b = "";
         return b += '<div class="inline-block manualCheck"><ul class="manualCheckBoxWrp" id="' + a + 'AnySequenceBit">', b += '<li class="inline-block" sq-bit-id="1"><span class="csCheckBox"></span>万位</li><li class="inline-block" sq-bit-id="2"><span class="csCheckBox"></span>千位</li><li class="inline-block" sq-bit-id="3"><span class="csCheckBox"></span>百位</li><li class="inline-block" sq-bit-id="4"><span class="csCheckBox"></span>十位</li><li class="inline-block" sq-bit-id="5"><span class="csCheckBox"></span>个位</li>', b += "</ul></div>", b += '<div class="inline-block manualInfo">提示：至少选<span ' + a + '-sq-bits="no">0</span>个位置,您已选了<span ' + a + '-sq-bits="count">0</span>个位置，系统将自动生成<span ' + a + '-sq-bits="scheme">0</span>个方案。</div>'
     },
@@ -2513,6 +2554,8 @@ var lott = {
         // "SSC" != g || "FixedPlace" != globalVar.playCode && "First2StraightAnyCode" != globalVar.playCode && "Last2StraightAnyCode" != globalVar.playCode && "First2ComAnyCode" != globalVar.playCode && "Last2ComAnyCode" != globalVar.playCode ? "LF" == g && "FixedPlace_LF" == globalVar.playCode ? lott.addBallToCartOfAlone(a, e) : "11X5" == g && "FixedPlace_11X5" == globalVar.playCode ? lott.add11X5BallToCartOfAlone(a) : "SSC" == g && (globalVar.playCode.indexOf("AllCom") > -1 || globalVar.playCode.indexOf("L4Com") > -1 || globalVar.playCode.indexOf("F4Com") > -1 || 0 == globalVar.playCode.indexOf("Any4Com")) ? lott.addBallToCartOf5O4StarCom(a, d, e) : "PK10" == g && globalVar.playCode.indexOf("BSOE_PK10") > -1 ? lott.addBallToCartOfPk10Bose(a) : "PK10" == g && globalVar.playCode.indexOf("5Fixed_PK10") > -1 ? lott.add11X5BallToCartOfAlone(a) : "11X5" == g || "PK10" == g && -1 == globalVar.playCode.indexOf("BSOE_PK10") && -1 == globalVar.playCode.indexOf("5Fixed_PK10") ? lott.add11X5BallToCart(a, d, e) : lott.addBallToCart(a, d, e) : lott.addBallToCartOfAlone(a, e)
     },
     ranks: function(a, b, c, d, e, f, g) {
+        // 渲染号码的行列
+        // 
         // a : null
         // b : 'FOURTH'
         // c : 号码开始数字
@@ -2680,7 +2723,7 @@ var lott = {
         return c
     },
     calculateAmount: function(a) {
-        console.log(a);
+        // console.log(a);
         //根据选择的注数计算金额
         var b = 0,
             c = $('input[name="betMultiple"]').val();
