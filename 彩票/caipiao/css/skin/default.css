@@ -4,7 +4,9 @@
 }
 .text-l-color,
 .betting-sub-menu dd:hover,
-.betting-sub-menu dd.active{
+.betting-sub-menu dd.active,
+.user-nav dl dd a.active,
+.user-tips-t{
     color: #008698;
 }
 .text-d-color{
@@ -24,7 +26,9 @@
 }
 .light-color,
 .border-l-color,
-.btn-l-color{
+.btn-l-color,
+.user-header,
+.user-nav dl dt{
     background-color: #008698;
 }
 .btn-d-color.disabled,
@@ -33,7 +37,7 @@
     background-color: #9f9f9f;
     cursor: no-drop;
 }
-
+.
 
 /* 详情页选择 */
 .row-num li.active,
@@ -57,6 +61,15 @@
 }
 .bet-checkbox > div > i.active{
     color: #fff;
+    background-color: #008698;
+}
+
+/* 会员中心 */
+.user-tt span{
+    border-bottom: 2px solid #008698;
+    color: #008698;
+}
+.user-s-btn{
     background-color: #008698;
 }
 
