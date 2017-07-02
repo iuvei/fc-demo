@@ -29,37 +29,37 @@
  * formula : 注数的计算方法
  */
 var SSC_TEMPLATE = {
-    ballTextArea: {
-        calculateSSCAnyManualEntryStakes: function(b) {
-            // "Any2_Single"
-            // "Any3_Single"
-            // "Any4_Single"
-            // "Any3Com_SSC"
-            // "Any2Com_SSC_Single"
+    // ballTextArea: {
+    //     calculateSSCAnyManualEntryStakes: function(b) {
+    //         // "Any2_Single"
+    //         // "Any3_Single"
+    //         // "Any4_Single"
+    //         // "Any3Com_SSC"
+    //         // "Any2Com_SSC_Single"
 
 
-        },
-        calculateSSCManualEntryStakes: function(a, b) {
+    //     },
+    //     calculateSSCManualEntryStakes: function(a, b) {
 
-        },
-        ballAreaChange: function(type) {
-            if ("Any2_Single" == type || "Any3_Single" == type || "Any4_Single" == type || "Any3Com_SSC" == type || "Any2Com_SSC_Single" == type) {
-                    var d = $('#J_nowChoseNum').text();
+    //     },
+    //     ballAreaChange: function(type) {
+    //         if ("Any2_Single" == type || "Any3_Single" == type || "Any4_Single" == type || "Any3Com_SSC" == type || "Any2Com_SSC_Single" == type) {
+    //             var d = $('#J_nowChoseNum').text();
 
-                    if (b.len > 1 * d){
-                            layer.alert('请至少选择'+ b.len +'个位置<br/>您当前选择了' + d + '个位置', {
-                            icon: 2
-                        });
-                        $('#J_ballInputArea').blur();
-                        return;
-                    }
+    //             if (b.len > 1 * d){
+    //                     layer.alert('请至少选择'+ b.len +'个位置<br/>您当前选择了' + d + '个位置', {
+    //                     icon: 2
+    //                 });
+    //                 $('#J_ballInputArea').blur();
+    //                 return;
+    //             }
 
-                    Betting.calculateSSCAnyManualEntryStakes(b)
-                } else {
-                    Betting.calculateSSCManualEntryStakes(a, b)
-                }
-        }
-    },
+    //             Betting.calculateSSCAnyManualEntryStakes(b)
+    //         } else {
+    //             Betting.calculateSSCManualEntryStakes(a, b)
+    //         }
+    //     }
+    // },
     sumAndPoint: function(x, options, type) {
         // 和值求注数
         var c = SSC_TEMPLATE.getSubNumList(type);
@@ -125,6 +125,7 @@ var SSC_TEMPLATE = {
         return _arr;
     },
     sameComparer: function(a, b) {
+        console.log(a, b);
         // 同一比较
         var c, d, e = 0;
         if ("string" == typeof a && "string" == typeof b) {
@@ -477,7 +478,7 @@ var SSC_TEMPLATE = {
             case 'L4Com6':
                 _maxBonus = '2833.3334';
                 _rule = '至少选择2个二重号码，竞猜开奖号码的后四位，号码一致顺序不限，即为中奖。例：投注方案：二重号28开奖号码：*2288（顺序不限）';
-                _opt.numNameList = ['#FIRST二重号'];
+                _opt.numNameList = ['FIRST#二重号'];
                 _opt.formula = function(a){
                     var b = a[a.length - 1][a[0]].length;
                     return (b - 1) * b / 2
@@ -1487,6 +1488,8 @@ var SSC_TEMPLATE = {
                 _rule = '从万位、千位、百位、十位、个位中任意勾选两个位置，然后从0-9中选择两个号码组成一注，所选2个位置的开奖号码与所选号码一致，顺序不限，即为中奖。中奖举例：勾选位置万位、个位，选择号码79； 开奖号码：9***7 或 7***9，均中任二组选。';
                 _opt.haveCheckbox = true;
                 _opt.numNameList = ['FIRST#组选'];
+                _opt.noAllFastBtn = true;
+                _opt.maxSelect = 7;
                 _opt.formula = function(a){
                     return a[a.length - 1][a[0]].length * (a[a.length - 1][a[0]].length - 1) / 2
                 }
@@ -1554,6 +1557,7 @@ var SSC_TEMPLATE = {
                 _rule = '从万位、千位、百位、十位、个位中任意勾选三个位置，然后输入三个号码组成一注，所选3个位置的开奖号码与输入号码一致，顺序不限，即为中奖。中奖举例：勾选位置千位、百位、个位，分別投注(0,0,1),以及(1,2,3)，开奖号码：*00*1，顺序不限，均中任三混合组选。';
                 _opt.haveCheckbox = true;
                 _opt.haveTextarea = true;
+                _opt.defaultCheck = 3;
                 _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、空格、逗号[,]或者分号[;]隔开\n支持格式如下:\n122 123 211\n123,241,212\n122;221\n';
                 _opt.numList = [];
                 _opt.type = 'text';
@@ -1768,7 +1772,24 @@ var SSC_TEMPLATE = {
                 a.bits = ["FIRST", "SECOND", "THIRD", "FOURTH"], a.miBall = 1, a.stakes = 1, a.len = 8, a.digit = "", a.eg = "01020304 01020304\n01020304,01020304\n01020304;01020304";
                 break;
             case "First5_PK10_Single":
-                a.bits = ["FIRST", "SECOND", "THIRD", "FOURTH", "FIFTH"], a.miBall = 1, a.stakes = 1, a.len = 10, a.digit = "", a.eg = "0102030405 0102030405\n0102030405,0102030405\n0102030405;0102030405"
+                a.bits = ["FIRST", "SECOND", "THIRD", "FOURTH", "FIFTH"], a.miBall = 1, a.stakes = 1, a.len = 10, a.digit = "", a.eg = "0102030405 0102030405\n0102030405,0102030405\n0102030405;0102030405";
+            case "Last3Com":
+                a.digit = "";a.stakes = 1,a.len = 3,a.eg = "122 123 211\n123,241,212\n122;221";
+                break;
+            case "First3Com":
+                a.digit = "2";a.stakes = 1,a.len = 3,a.eg = "122 123 211\n123,241,212\n122;221";
+                break;
+            case "Middle3Com":
+                a.digit = "1";a.stakes = 1,a.len = 3,a.eg = "122 123 211\n123,241,212\n122;221";
+                break;
+            case "Last3Com_LF":
+                a.digit = "";a.stakes = 1,a.len = 3,a.eg = "122 123 211\n123,241,212\n122;221";
+                break;
+            case "P3Com_LF":
+                a.digit = "2";a.stakes = 1,a.len = 3,a.eg = "122 123 211\n123,241,212\n122;221";
+                break;
+            case "Any3Com_SSC":
+                a.digit = "";a.stakes = 1,a.len = 3,a.eg = "122 123 211\n123,241,212\n122;221";
         }
 
         return a;

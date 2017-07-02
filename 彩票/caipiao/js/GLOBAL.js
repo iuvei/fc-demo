@@ -109,5 +109,11 @@ var GLOBAL = {
 			isIE = UA.indexOf('MSIE') > -1,
 			v = isIE ? /\d+/.exec(UA.split(';')[1]) : 'no ie';
 		return v <= 8;
+	},
+	lessThenIE9: function() {
+		var UA = navigator.userAgent,
+			isIE = UA.indexOf('MSIE') > -1,
+			v = isIE ? /\d+/.exec(UA.split(';')[1]) : 'no ie';
+		return v <= 9;
 	}
 };

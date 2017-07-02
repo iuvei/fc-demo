@@ -2102,7 +2102,8 @@ var lott = {
                 a.digit = ""
         }
         console.log('22222222222');
-        lott.manualEntryUI(!1, a), lott.randomBallEvents(function(b) {
+        lott.manualEntryUI(!1, a),
+        lott.randomBallEvents(function(b) {
             var c = $('input[name="betMultiple"]').val(),
                 d = $(b).attr("bet-random"),
                 e = lott.arrRandom(1, 998, 1 * d, 3, !0),

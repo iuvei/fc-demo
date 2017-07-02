@@ -420,3 +420,13 @@
     float: left;
     margin-right: 36px;
 }
+.forIe89{
+    position: absolute;
+    color: #A9A9B1;
+    width: 800px;
+    left: 0;
+    top: 0;
+    line-height: 25px;
+    padding: 10px;
+    z-index: 1;
+}
