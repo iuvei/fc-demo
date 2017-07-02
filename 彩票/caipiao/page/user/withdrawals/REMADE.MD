@@ -3,7 +3,7 @@
 ##提款
 
     提款
-    ├── 绑定提款卡
-    ├── 提款记录
-    └── 提款申请
+    ├── 提款申请    //withdrawal_application.html
+    ├── 提款记录    //withdrawal_records.html
+    └── 绑定提款卡   //withdrawal_bindcard.html
 

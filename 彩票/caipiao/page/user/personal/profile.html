@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>充值记录</title>
+	<title>我的资料</title>
 	<link rel="stylesheet" href="../../../css/reset.css">
 	<link rel="stylesheet" href="../../../css/user_common.css">
 	<link rel="stylesheet" href="../../../css/skin/default.css" id="J_skinCss">
 </head>
-<body class="bg-whit">
+<body>
 	<!-- 顶部 -->
 	<div id="header" class="header dark-color">
 		<div class="w1200 clearfix rel">
@@ -92,13 +92,13 @@
 	
 	<div class="w1200 clearfix">
 		<div class="user-nav fl">
-			<dl class="open">
+			<dl>
 				<dt><em class="icon icon-cz"></em><span>充值</span><i class="icon"></i></dt>
 				<dd><a href="recharge_online.html">线上支付</a></dd>
 				<dd><a href="recharge_transfer.html">网银转账</a></dd>
 				<dd><a href="recharge_wechat.html">微信转账</a></dd>
 				<dd><a href="recharge_ali.html">支付宝转账</a></dd>
-				<dd><a href="recharge_record.html" class="active">充值记录</a></dd>
+				<dd><a href="recharge_record.html">充值记录</a></dd>
 			</dl>
 			<dl>
 				<dt><em class="icon icon-tk"></em><span>提款</span><i class="icon"></i></dt>
@@ -106,9 +106,9 @@
 				<dd><a href="#">提款记录</a></dd>
 				<dd><a href="#">绑定提款卡</a></dd>
 			</dl>
-			<dl>
+			<dl class="open">
 				<dt><em class="icon icon-user"></em><span>个人</span><i class="icon"></i></dt>
-				<dd><a href="#">我的资料</a></dd>
+				<dd><a href="profile.html" class="active">我的资料</a></dd>
 				<dd><a href="#">资金详情</a></dd>
 				<dd><a href="#">投注记录</a></dd>
 				<dd><a href="#">追号记录</a></dd>
@@ -135,69 +135,49 @@
 		<div class="user-content fl">
 			<div class="user-con">
 				<div class="user-tt">
-					<span>充值记录</span>
+					<span>我的资料</span>
 				</div>
 				
-				<div class="user-search clearfix">
-					<div class="user-s-tt">状态：</div>
-					<div class="user-s-sel">
-						<select name="" id="">
-							<option value="111">全部</option>
-						</select>
-					</div>
-					<div class="user-s-tt">方式：</div>
-					<div class="user-s-sel">
-						<select name="" id="">
-							<option value="111">全部</option>
-						</select>
-					</div>
-					<div class="user-s-tt">日期：</div>
-					<div class="user-s-day">
-						<input type="text">
-						<span>到：</span>
-						<input type="text">
-					</div>
-					<div class="user-s-btn fr">查询</div>
-				</div>
-
-
-				<div class="user-table user-czjl">
-					<ul class="user-table-t">
-						<li class="t1">充值编号</li>
-						<li class="t2">充值方式</li>
-						<li class="t3">申请金额</li>
-						<li class="t4">到账金额</li>
-						<li class="t5">充值时间</li>
-						<li class="t6">到账时间</li>
-						<li class="t7">状态</li>
-						<li class="t8">备注</li>
-					</ul>
-					<ul class="user-table-c">
-						<li class="empty">没有找到符合条件的数据</li>
+				<div class="user-profile rel clearfix">
+					<ul class="user-form">
 						<li>
-							<div class="t1">充值编号</div>
-							<div class="t2">充值方式</div>
-							<div class="t3">申请金额</div>
-							<div class="t4">到账金额</div>
-							<div class="t5">充值时间</div>
-							<div class="t6">到账时间</div>
-							<div class="t7">状态</div>
-							<div class="t8">备注</div>
+							<span class="user-form-t">提款人姓名：</span>
+							<div class="user-form-c"><input type="text"><em>*</em></div>
+						</li>
+						<li>
+							<span class="user-form-t">昵称：</span>
+							<div class="user-form-c"><input type="text"></div>
+						</li>
+						<li>
+							<span class="user-form-t">资金密码：</span>
+							<div class="user-form-c"><input type="text"><em>*</em></div>
+						</li>
+						<li>
+							<span class="user-form-t">手机号码：</span>
+							<div class="user-form-c"><input type="text"></div>
+						</li>
+						<li>
+							<span class="user-form-t">确认资金密码：</span>
+							<div class="user-form-c"><input type="text"><em>*</em></div>
+						</li>
+						<li>
+							<span class="user-form-t">QQ号码：</span>
+							<div class="user-form-c"><input type="text"></div>
+						</li>
+						<li>
+							<span class="user-form-t">安全邮箱：</span>
+							<div class="user-form-c"><input type="text"><em>*</em></div>
 						</li>
 					</ul>
-					<div class="user-table-f">
-						<p>到账金额合计：<span>0.00</span></p>
-						<p>到账手续费合计：<span>0.00</span></p>
-					</div>
+					<div class="user-profile-btn btn-l-color abs">确认</div>
 				</div>
 			</div>
-
-			<p>这里是分页</p>
-
-			
+			<div class="user-tips">
+				<div class="user-tips-t">温馨提示</div>
+				<p>您可以通过  “个人资料”  页面设置您的昵称、取款人姓名、资金 密码、邮箱等。邮箱是您找回登录密码的唯一途径，请务必填写真实有效的邮箱为保障您的帐户安全，设置取款人姓名必须与绑定的银行卡开户 人姓名一致，并且只能设置一次 ，如果需要修改，请 联系客服。*为必填项</p>
+			</div>
 		</div>
 	</div>
-
 
 	<!-- 底部 -->
 	<div id="footer" class="footer dark-color">

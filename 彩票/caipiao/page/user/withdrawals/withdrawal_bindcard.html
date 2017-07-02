@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>充值记录</title>
+	<title>绑定提款卡</title>
 	<link rel="stylesheet" href="../../../css/reset.css">
 	<link rel="stylesheet" href="../../../css/user_common.css">
 	<link rel="stylesheet" href="../../../css/skin/default.css" id="J_skinCss">
@@ -92,19 +92,19 @@
 	
 	<div class="w1200 clearfix">
 		<div class="user-nav fl">
-			<dl class="open">
+			<dl>
 				<dt><em class="icon icon-cz"></em><span>充值</span><i class="icon"></i></dt>
 				<dd><a href="recharge_online.html">线上支付</a></dd>
 				<dd><a href="recharge_transfer.html">网银转账</a></dd>
 				<dd><a href="recharge_wechat.html">微信转账</a></dd>
 				<dd><a href="recharge_ali.html">支付宝转账</a></dd>
-				<dd><a href="recharge_record.html" class="active">充值记录</a></dd>
+				<dd><a href="recharge_record.html">充值记录</a></dd>
 			</dl>
-			<dl>
+			<dl class="open">
 				<dt><em class="icon icon-tk"></em><span>提款</span><i class="icon"></i></dt>
-				<dd><a href="#">提款申请</a></dd>
-				<dd><a href="#">提款记录</a></dd>
-				<dd><a href="#">绑定提款卡</a></dd>
+				<dd><a href="withdrawal_application.html">提款申请</a></dd>
+				<dd><a href="withdrawal_records.html">提款记录</a></dd>
+				<dd><a href="withdrawal_bindcard.html" class="active">绑定提款卡</a></dd>
 			</dl>
 			<dl>
 				<dt><em class="icon icon-user"></em><span>个人</span><i class="icon"></i></dt>
@@ -135,66 +135,56 @@
 		<div class="user-content fl">
 			<div class="user-con">
 				<div class="user-tt">
-					<span>充值记录</span>
+					<span>绑定提款卡</span>
 				</div>
-				
-				<div class="user-search clearfix">
-					<div class="user-s-tt">状态：</div>
-					<div class="user-s-sel">
-						<select name="" id="">
-							<option value="111">全部</option>
-						</select>
-					</div>
-					<div class="user-s-tt">方式：</div>
-					<div class="user-s-sel">
-						<select name="" id="">
-							<option value="111">全部</option>
-						</select>
-					</div>
-					<div class="user-s-tt">日期：</div>
-					<div class="user-s-day">
-						<input type="text">
-						<span>到：</span>
-						<input type="text">
-					</div>
-					<div class="user-s-btn fr">查询</div>
-				</div>
-
-
-				<div class="user-table user-czjl">
-					<ul class="user-table-t">
-						<li class="t1">充值编号</li>
-						<li class="t2">充值方式</li>
-						<li class="t3">申请金额</li>
-						<li class="t4">到账金额</li>
-						<li class="t5">充值时间</li>
-						<li class="t6">到账时间</li>
-						<li class="t7">状态</li>
-						<li class="t8">备注</li>
-					</ul>
-					<ul class="user-table-c">
-						<li class="empty">没有找到符合条件的数据</li>
-						<li>
-							<div class="t1">充值编号</div>
-							<div class="t2">充值方式</div>
-							<div class="t3">申请金额</div>
-							<div class="t4">到账金额</div>
-							<div class="t5">充值时间</div>
-							<div class="t6">到账时间</div>
-							<div class="t7">状态</div>
-							<div class="t8">备注</div>
-						</li>
-					</ul>
-					<div class="user-table-f">
-						<p>到账金额合计：<span>0.00</span></p>
-						<p>到账手续费合计：<span>0.00</span></p>
+			</div>
+			<div class="user-bindcard rel clearfix">
+				<ul class="user-form">
+					<li>
+						<span class="user-form-t">充值金额：</span>
+						<div class="user-form-c"><input type="text"><em>*</em></div>
+					</li>
+					<li>
+						<span class="user-form-t">银行：</span>
+						<div class="user-form-c">
+							<div class="user-bank-list fl">
+								银行下拉列表
+							</div>
+							<em>*</em>
+						</div>
+					</li>
+					<li>
+						<span class="user-form-t">银行卡号：</span>
+						<div class="user-form-c"><input type="text"><em>*</em></div>
+					</li>
+					<li>
+						<span class="user-form-t">确定卡号：</span>
+						<div class="user-form-c"><input type="text"><em>*</em></div>
+					</li>
+					<li>
+						<span class="user-form-t">所在省/市：</span>
+						<div class="user-form-c">
+							<select name="" id="" style="width:105px;">
+								<option value="">暂无优惠活动</option>
+							</select>
+							<select name="" id="" style="width:105px;">
+								<option value="">暂无优惠活动</option>
+							</select>
+							<em>*</em>
+						</div>
+					</li>
+					<li>
+						<span class="user-form-t">银行分行：</span>
+						<div class="user-form-c"><input type="text"><em>*</em></div>
+					</li>
+				</ul>
+				<div class="user-bindcard-add">
+					<div class="bind-add">
+						<span class="btn-l-color">+ 新增</span>
+						<p>最多可绑定五张提款银行卡</p>
 					</div>
 				</div>
 			</div>
-
-			<p>这里是分页</p>
-
-			
 		</div>
 	</div>
 

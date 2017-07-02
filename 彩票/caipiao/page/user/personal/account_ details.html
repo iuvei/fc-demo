@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>充值记录</title>
+	<title>账变明细</title>
 	<link rel="stylesheet" href="../../../css/reset.css">
 	<link rel="stylesheet" href="../../../css/user_common.css">
 	<link rel="stylesheet" href="../../../css/skin/default.css" id="J_skinCss">
@@ -92,13 +92,13 @@
 	
 	<div class="w1200 clearfix">
 		<div class="user-nav fl">
-			<dl class="open">
+			<dl>
 				<dt><em class="icon icon-cz"></em><span>充值</span><i class="icon"></i></dt>
 				<dd><a href="recharge_online.html">线上支付</a></dd>
 				<dd><a href="recharge_transfer.html">网银转账</a></dd>
 				<dd><a href="recharge_wechat.html">微信转账</a></dd>
 				<dd><a href="recharge_ali.html">支付宝转账</a></dd>
-				<dd><a href="recharge_record.html" class="active">充值记录</a></dd>
+				<dd><a href="recharge_record.html">充值记录</a></dd>
 			</dl>
 			<dl>
 				<dt><em class="icon icon-tk"></em><span>提款</span><i class="icon"></i></dt>
@@ -106,13 +106,13 @@
 				<dd><a href="#">提款记录</a></dd>
 				<dd><a href="#">绑定提款卡</a></dd>
 			</dl>
-			<dl>
+			<dl class="open">
 				<dt><em class="icon icon-user"></em><span>个人</span><i class="icon"></i></dt>
 				<dd><a href="#">我的资料</a></dd>
 				<dd><a href="#">资金详情</a></dd>
 				<dd><a href="#">投注记录</a></dd>
 				<dd><a href="#">追号记录</a></dd>
-				<dd><a href="#">账变明细</a></dd>
+				<dd><a href="#" class="active">账变明细</a></dd>
 				<dd><a href="#">登录密码</a></dd>
 				<dd><a href="#">资金密码</a></dd>
 			</dl>
@@ -135,17 +135,17 @@
 		<div class="user-content fl">
 			<div class="user-con">
 				<div class="user-tt">
-					<span>充值记录</span>
+					<span>账变明细</span>
 				</div>
 				
 				<div class="user-search clearfix">
-					<div class="user-s-tt">状态：</div>
+					<div class="user-s-tt">账户：</div>
 					<div class="user-s-sel">
 						<select name="" id="">
 							<option value="111">全部</option>
 						</select>
 					</div>
-					<div class="user-s-tt">方式：</div>
+					<div class="user-s-tt">类型：</div>
 					<div class="user-s-sel">
 						<select name="" id="">
 							<option value="111">全部</option>
@@ -161,40 +161,28 @@
 				</div>
 
 
-				<div class="user-table user-czjl">
+				<div class="user-table account-details">
 					<ul class="user-table-t">
-						<li class="t1">充值编号</li>
-						<li class="t2">充值方式</li>
-						<li class="t3">申请金额</li>
-						<li class="t4">到账金额</li>
-						<li class="t5">充值时间</li>
-						<li class="t6">到账时间</li>
-						<li class="t7">状态</li>
-						<li class="t8">备注</li>
+						<li class="t1">备注</li>
+						<li class="t2">编号</li>
+						<li class="t3">事件</li>
+						<li class="t4">金额</li>
+						<li class="t5">状态</li>
 					</ul>
 					<ul class="user-table-c">
 						<li class="empty">没有找到符合条件的数据</li>
 						<li>
-							<div class="t1">充值编号</div>
-							<div class="t2">充值方式</div>
-							<div class="t3">申请金额</div>
-							<div class="t4">到账金额</div>
-							<div class="t5">充值时间</div>
-							<div class="t6">到账时间</div>
-							<div class="t7">状态</div>
-							<div class="t8">备注</div>
+							<div class="t1">3123123</div>
+							<div class="t2">3223233</div>
+							<div class="t3">2017-06-03</div>
+							<div class="t4">100.00</div>
+							<div class="t5">中奖</div>
 						</li>
 					</ul>
-					<div class="user-table-f">
-						<p>到账金额合计：<span>0.00</span></p>
-						<p>到账手续费合计：<span>0.00</span></p>
-					</div>
 				</div>
 			</div>
 
 			<p>这里是分页</p>
-
-			
 		</div>
 	</div>
 

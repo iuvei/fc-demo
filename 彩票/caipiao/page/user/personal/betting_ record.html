@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>充值记录</title>
+	<title>投注记录</title>
 	<link rel="stylesheet" href="../../../css/reset.css">
 	<link rel="stylesheet" href="../../../css/user_common.css">
 	<link rel="stylesheet" href="../../../css/skin/default.css" id="J_skinCss">
@@ -92,13 +92,13 @@
 	
 	<div class="w1200 clearfix">
 		<div class="user-nav fl">
-			<dl class="open">
+			<dl>
 				<dt><em class="icon icon-cz"></em><span>充值</span><i class="icon"></i></dt>
 				<dd><a href="recharge_online.html">线上支付</a></dd>
 				<dd><a href="recharge_transfer.html">网银转账</a></dd>
 				<dd><a href="recharge_wechat.html">微信转账</a></dd>
 				<dd><a href="recharge_ali.html">支付宝转账</a></dd>
-				<dd><a href="recharge_record.html" class="active">充值记录</a></dd>
+				<dd><a href="recharge_record.html">充值记录</a></dd>
 			</dl>
 			<dl>
 				<dt><em class="icon icon-tk"></em><span>提款</span><i class="icon"></i></dt>
@@ -106,11 +106,11 @@
 				<dd><a href="#">提款记录</a></dd>
 				<dd><a href="#">绑定提款卡</a></dd>
 			</dl>
-			<dl>
+			<dl class="open">
 				<dt><em class="icon icon-user"></em><span>个人</span><i class="icon"></i></dt>
 				<dd><a href="#">我的资料</a></dd>
 				<dd><a href="#">资金详情</a></dd>
-				<dd><a href="#">投注记录</a></dd>
+				<dd><a href="#" class="active">投注记录</a></dd>
 				<dd><a href="#">追号记录</a></dd>
 				<dd><a href="#">账变明细</a></dd>
 				<dd><a href="#">登录密码</a></dd>
@@ -135,7 +135,7 @@
 		<div class="user-content fl">
 			<div class="user-con">
 				<div class="user-tt">
-					<span>充值记录</span>
+					<span>投注记录</span>
 				</div>
 				
 				<div class="user-search clearfix">
@@ -145,7 +145,7 @@
 							<option value="111">全部</option>
 						</select>
 					</div>
-					<div class="user-s-tt">方式：</div>
+					<div class="user-s-tt">游戏：</div>
 					<div class="user-s-sel">
 						<select name="" id="">
 							<option value="111">全部</option>
@@ -159,42 +159,59 @@
 					</div>
 					<div class="user-s-btn fr">查询</div>
 				</div>
+				<div class="user-search clearfix betting-search">
+					<div class="user-s-tt">订单：</div>
+					<div class="user-s-inp">
+						<input type="text">
+					</div>
+					<div class="user-s-tt">期号：</div>
+					<div class="user-s-inp">
+						<input type="text">
+					</div>
+					<div class="user-s-tt">追号：</div>
+					<div class="user-s-sel">
+						<select name="" id="">
+							<option value="111">全部</option>
+						</select>
+					</div>
+				</div>
 
 
-				<div class="user-table user-czjl">
+				<div class="user-table betting-record">
 					<ul class="user-table-t">
-						<li class="t1">充值编号</li>
-						<li class="t2">充值方式</li>
-						<li class="t3">申请金额</li>
-						<li class="t4">到账金额</li>
-						<li class="t5">充值时间</li>
-						<li class="t6">到账时间</li>
-						<li class="t7">状态</li>
-						<li class="t8">备注</li>
+						<li class="t1">游戏类型</li>
+						<li class="t2">订单编号</li>
+						<li class="t3">投注事件</li>
+						<li class="t4">投注期号</li>
+						<li class="t5">追号</li>
+						<li class="t6">计划投注金额</li>
+						<li class="t7">有效投注金额</li>
+						<li class="t8">中奖金额</li>
+						<li class="t9">状态</li>
 					</ul>
 					<ul class="user-table-c">
 						<li class="empty">没有找到符合条件的数据</li>
 						<li>
-							<div class="t1">充值编号</div>
-							<div class="t2">充值方式</div>
-							<div class="t3">申请金额</div>
-							<div class="t4">到账金额</div>
-							<div class="t5">充值时间</div>
-							<div class="t6">到账时间</div>
-							<div class="t7">状态</div>
-							<div class="t8">备注</div>
+							<div class="t1">重庆时时彩</div>
+							<div class="t2">BT4869</div>
+							<div class="t3">06-30 15:06:32</div>
+							<div class="t4">20170630-046</div>
+							<div class="t5">-</div>
+							<div class="t6">100.00</div>
+							<div class="t7">100.00</div>
+							<div class="t8">100.00</div>
+							<div class="t9">中奖</div>
 						</li>
 					</ul>
 					<div class="user-table-f">
-						<p>到账金额合计：<span>0.00</span></p>
-						<p>到账手续费合计：<span>0.00</span></p>
+						<p>计划投注金额合计：<span>0.00</span></p>
+						<p>有效投注金额合计：<span>0.00</span></p>
+						<p>中奖金额合计：<span>0.00</span></p>
 					</div>
 				</div>
 			</div>
 
 			<p>这里是分页</p>
-
-			
 		</div>
 	</div>
 
