@@ -162,7 +162,8 @@ body{
 
 .user-table-c{
 	background-color: #f7f7f7;
-	min-height: 400px;
+	height: 400px;
+	overflow: auto;
 }
 .user-table-c{
 
@@ -185,14 +186,24 @@ body{
 .user-table-c li > div{
 	float: left;
 }
+/* 充值记录 */
 .user-czjl .t1{width: 112px;}
 .user-czjl .t2{width: 106px;}
 .user-czjl .t3{width: 113px;}
 .user-czjl .t4{width: 165px;}
 .user-czjl .t5{width: 123px;}
 .user-czjl .t6{width: 163px;}
-.user-czjl .t7{width: 110px;}
+.user-czjl .t7{width: 90px;}
 .user-czjl .t8{width: 120px;}
+
+/* 提款记录 */
+.user-tkjl .t1{width: 112px;}
+.user-tkjl .t2{width: 222px;}
+.user-tkjl .t3{width: 174px;}
+.user-tkjl .t4{width: 140px;}
+.user-tkjl .t5{width: 178px;}
+.user-tkjl .t6{width: 166px;}
+
 .user-table-f{
 	background-color: #fff;
 	padding-top: 12px;
@@ -265,6 +276,7 @@ body{
 	margin-top: 15px;
 	background-color: #f7f7f7;
 	padding: 10px 40px;
+	margin-bottom: 85px;
 }
 .user-tips-t{
 	font-size: 16px;
@@ -308,3 +320,99 @@ body{
 .online{
 	height: 547px;
 }
+/* 提款申请 */
+.user-tk-table{
+	padding: 8px 23px;
+	color: #666;
+	overflow: hidden;
+}
+.user-tk-table > p{
+	font-size: 16px;
+	height: 44px;
+	line-height: 44px;
+}
+.user-tk-table ul{
+	overflow: hidden;
+	border: 1px solid #f1f1f1;
+	font-size: 14px;
+	margin-bottom: 20px;
+}
+.user-tk-table ul li{
+	border-bottom: 1px solid #f6f6f6;
+	overflow: hidden;
+	height: 38px;
+	line-height: 38px;
+}
+.user-tk-table ul li.tk-table-tt{
+	height: 40px;
+	line-height: 40px;
+	background-color: #f1f1f1;
+}
+.user-tk-table ul li.empty{
+	text-align: center;
+}
+.user-tk-table ul li div{
+	float: left;
+	letter-spacing: 2px;
+	text-align: center;
+}
+.user-tk-table .t1{width: 160px;}
+.user-tk-table .t2{width: 185px;}
+.user-tk-table .t3{width: 234px;}
+.user-tk-table .t4{width: 110px;}
+.user-tk-table .t5{width: 150px;}
+.user-tk-table .t6{width: 125px;}
+.user-tk-form{
+
+}
+.user-tk-form > div{}
+.add-bank-card{
+	display: block;
+	width: 142px;
+	height: 40px;
+	line-height: 40px;
+	color: #fff;
+	font-size: 18px;
+	cursor: pointer;
+	text-align: center;
+	border-radius: 3px;
+	margin-bottom: 40px;
+}
+.add-bank-card em{
+
+}
+
+
+.user-tk-tt{
+	height: 36px;
+	line-height: 36px;
+	display: inline-block;
+	font-size: 16px;
+	letter-spacing: 3px;
+}
+.user-tk-inp{
+	width: 204px;
+	height: 34px;
+	line-height: 34px;
+	border: 1px solid #ededed;
+	padding: 0 10px;
+	margin-right: 20px;
+}
+.user-tk-ye{
+	font-weight: bold;
+}
+
+.user-tk-btn{
+    width: 178px;
+    height: 52px;
+    line-height: 52px;
+    text-align: center;
+    color: #fff;
+    cursor: pointer;
+    font-size: 18px;
+    letter-spacing: 5px;
+    margin-right: 47px;
+    margin-bottom: 31px;
+    border-radius: 3px;
+}
+
