@@ -210,8 +210,6 @@ $(function() {
             var _planLen = Betting.createBitScheme(Number($('#J_minChoseNum').text()), _nowChose);
             $('#J_planNum').text(_planLen.length);
                 
-console.log(_planLen.length);
-
             if (_planLen.length) {
                 Betting.getBettingQuantity();
                 Betting.calculateAmount();

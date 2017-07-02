@@ -29,37 +29,6 @@
  * formula : 注数的计算方法
  */
 var SSC_TEMPLATE = {
-    // ballTextArea: {
-    //     calculateSSCAnyManualEntryStakes: function(b) {
-    //         // "Any2_Single"
-    //         // "Any3_Single"
-    //         // "Any4_Single"
-    //         // "Any3Com_SSC"
-    //         // "Any2Com_SSC_Single"
-
-
-    //     },
-    //     calculateSSCManualEntryStakes: function(a, b) {
-
-    //     },
-    //     ballAreaChange: function(type) {
-    //         if ("Any2_Single" == type || "Any3_Single" == type || "Any4_Single" == type || "Any3Com_SSC" == type || "Any2Com_SSC_Single" == type) {
-    //             var d = $('#J_nowChoseNum').text();
-
-    //             if (b.len > 1 * d){
-    //                     layer.alert('请至少选择'+ b.len +'个位置<br/>您当前选择了' + d + '个位置', {
-    //                     icon: 2
-    //                 });
-    //                 $('#J_ballInputArea').blur();
-    //                 return;
-    //             }
-
-    //             Betting.calculateSSCAnyManualEntryStakes(b)
-    //         } else {
-    //             Betting.calculateSSCManualEntryStakes(a, b)
-    //         }
-    //     }
-    // },
     sumAndPoint: function(x, options, type) {
         // 和值求注数
         var c = SSC_TEMPLATE.getSubNumList(type);
@@ -125,7 +94,6 @@ var SSC_TEMPLATE = {
         return _arr;
     },
     sameComparer: function(a, b) {
-        console.log(a, b);
         // 同一比较
         var c, d, e = 0;
         if ("string" == typeof a && "string" == typeof b) {
