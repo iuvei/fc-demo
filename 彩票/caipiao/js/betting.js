@@ -1,6 +1,7 @@
 $(function() {
     var Betting = {
         textArea: [],   //用来存放textarea已选的号码
+        selectedData: [], //选择的数据
         singleStakesPrice: 2,   //默认一注的单价
         init: function() {
             $('select').niceSelect();
@@ -212,7 +213,7 @@ $(function() {
                 
             if (_planLen.length) {
                 Betting.getBettingQuantity();
-                Betting.calculateAmount();
+                // Betting.calculateAmount();
                 if ($('#J_selectionBallStakes').text() != 0) {
                     $('#J_addBallToCart,#J_shortcutPlaceOrder').removeClass('disabled');
                 }
@@ -247,8 +248,13 @@ $(function() {
                 Betting.renderCheckbox();
             });
 
+            // 一键清空
+            $('#J_clearCart').click(function(){
+                $('#J_betList').html('');
+            });
+
             // 删除已选号码
-            $('.J_delNums').click(function() {
+            $('#J_betList').on('click', '.J_delNums', function() {
                 $(this).parents('li').remove();
             });
             //清除下注按钮
@@ -312,7 +318,7 @@ $(function() {
                     index : (_this.parent('ul').data('start') + _this.index()),
                     text : _this.text()
                 });
-                Betting.calculateAmount();
+                // Betting.calculateAmount();
             });
 
             // 减少倍数
@@ -388,19 +394,73 @@ $(function() {
             // });
         },
         addBallToCart: function() {
-            console.log('添加选号');
-            // var _str = '';
-            // _str += '<li class="clearfix">';
-            // _str += '    <div class="t1" data-type="">后三直选</div>';
-            // _str += '    <div class="t2">8 | 7 | 6... <span class="cm_number hide">56789|56789|56789</span></div>';
-            // _str += '    <div class="t3">元</div>';
-            // _str += '    <div class="t4">1</div>';
-            // _str += '    <div class="t5">1</div>';
-            // _str += '    <div class="t6">2.0000</div>';
-            // _str += '    <div class="t7"><em class="icon icon-del J_delNums"></em></div>';
-            // _str += '</li>';
-            // console.log(_str);
-            // $('#J_betList')
+            var _data = Betting.getSelectData();
+            // console.log(_data);
+            // 渲染购物车
+            Betting.renderCart(_data);
+        },
+        renderCart: function(data) {
+            // 渲染购物车
+            console.log(data);
+            var _str = '';
+            var _len = data.length;
+            if (data && _len) {
+                $.each(data, function(i, n) {
+                    _str += '<li class="clearfix" data-type="'+ n.ajaxType +'" data-hex="'+ (n.hex ? n.hex : '') +'" data-need="'+ (n.need == 'sum' ? 'n' : n.need) +'">';
+                    _str += '    <div class="t1" data-type="'+ n.type +'">'+ n.typeName +'</div>';
+                    _str += '    <div class="t2"><div>';
+                    _str += _changeNum(n);
+                    _str += '<span class="cm_number hide">';
+                    _str += _changeNum(n);
+                    _str += '</span>';
+                    _str += '</div></div>';
+                    _str += '    <div class="t3" data-unit="'+ n.unit +'">'+ n.unitName +'</div>';
+                    _str += '    <div class="t4">'+ n.num +'</div>';
+                    _str += '    <div class="t5">'+ n.multiple +'</div>';
+                    _str += '    <div class="t6">'+ n.sum +'</div>';
+                    _str += '    <div class="t7"><em class="icon icon-del J_delNums"></em></div>';
+                    _str += '</li>';
+                });
+
+                function _changeNum(k) {
+                    var _html = '';
+                    if (k.w) {
+                        _html += k.w + (k.q ? ' | ' : '');
+                    }
+                    if (k.q) {
+                        _html += k.q + (k.b ? ' | ' : '');
+                    }
+                    if (k.b) {
+                        _html += k.b + (k.s ? ' | ' : '');
+                    }
+                    if (k.s) {
+                        _html += k.s + (k.g ? ' | ' : '');
+                    }
+                    if (k.g) {
+                        _html += k.g;
+                    }
+                    if (k.n) {
+                        _html += k.n ;
+                    }
+                    if (k.n1) {
+                        _html += k.n1 + (k.n2 ? ' | ' : '');
+                    }
+                    if (k.n2) {
+                        _html += k.n2;
+                    }
+                    
+                    return _html;
+                }
+            }
+
+            $('#J_betList').prepend(_str);
+
+            Betting.resetSelectArea();
+        },
+        resetSelectArea: function() {
+            // 重置选区
+            $('.J_numWrp.active').removeClass('active');
+            Betting.resetBettingBox();
         },
         shortcutPlaceOrder: function() {
             console.log('一键投注');
@@ -426,6 +486,7 @@ $(function() {
             var _formulaList = [];      //公式列表
             var _currentSelect = [];    //当前已选号码的集合
 
+
             $('.J_ballList').each(function(i){
                 var _this = $(this);
                 _formulaList[i] = _this.data('row');
@@ -433,6 +494,7 @@ $(function() {
             });
             
             _formulaList.push(_currentSelect);
+            
             var _selectNum = _currentRule.opt.formula(_formulaList, options);   //通过相应公式计算注数
 
             // 已选注数大于0时即可添加选号或一键投注
@@ -447,6 +509,120 @@ $(function() {
             }
 
             $('#J_selectionBallStakes').text(_selectNum);
+
+            Betting.calculateAmount();
+
+            // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            // 当前选择的数据
+            // console.log(_currentSelect);
+            // Betting.selectedData
+            // if (_selectNum) {
+            //     Betting.getSelectData(_currentSelect, _type);
+            // }
+
+            // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        },
+        getSelectData: function(currentSelect, type) {
+            // type : ball
+            // 获取选择的数据
+            var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
+            var _subNav = $('.J_subMenu.active').data('info').split('#')[1];
+
+            var _data = [];
+            var _rule = SSC_TEMPLATE[_mainNav]({
+                type : _subNav
+            });
+            var _opt = _rule.opt;
+
+            if (_opt.type == 'ball') {
+                var _d = {};
+                var _n = '';
+                var _need = '';
+                $.each(_opt.numNameList, function(i, n) {
+                    if (n.split('#')[0] == 'FIRST') { //万
+                        _d.w = $('[data-row="FIRST"] .J_numWrp.active').text();
+                        _need += 'w#';
+                    } else if(n.split('#')[0] == 'SECOND') {  //千
+                        _d.q = $('[data-row="SECOND"] .J_numWrp.active').text();
+                        _need += 'q#';
+                    } else if(n.split('#')[0] == 'THIRD') {   //百
+                        _d.b = $('[data-row="THIRD"] .J_numWrp.active').text();
+                        _need += 'b#';
+                    } else if(n.split('#')[0] == 'FOURTH') {  //十
+                        _d.s = $('[data-row="FOURTH"] .J_numWrp.active').text();
+                        _need += 's#';
+                    } else if(n.split('#')[0] == 'FIFTH') {   //个
+                        _d.g = $('[data-row="FIFTH"] .J_numWrp.active').text();
+                        _need += 'g';
+                    } else if(n.split('#')[0] == 'NONE') {   //组选就一个值
+                        _d.n = $('[data-row="NONE"] .J_numWrp.active').text();
+                        _need += 'n';
+                    } else if(n.split('#')[0] == 'NONE1') {   //组选就一个值
+                        _d.n1 = $('[data-row="NONE1"] .J_numWrp.active').text();
+                        _need += 'n1#';
+                    } else if(n.split('#')[0] == 'NONE2') {   //组选就一个值
+                        _d.n2 = $('[data-row="NONE2"] .J_numWrp.active').text();
+                        _need += 'n2';
+                    } else if(n.split('#')[0] == 'SUM') {   //和值
+                        var _sum = '';
+                        $.each($('[data-row="SUM"] .J_numWrp.active'), function(i){
+                            if (i == $('[data-row="SUM"] .J_numWrp.active').length - 1) {
+                                _sum += $(this).text();
+                            } else {
+                                _sum += $(this).text() +'|';
+                            }
+                        });
+                        _d.n = _sum;
+                        _need += 'sum';
+                    }
+                });
+                _d.type = _subNav;
+                _d.typeName = $('.J_subMenu.active').text();    //玩法类型
+                _d.multiple = $('#J_beishu').val(); //投注倍数
+                _d.unit = $('#J_unit').data('txt').split('#')[2];   //投注金额单位：yuan,jiao,fen,li
+                _d.unitName = $('#J_unit').data('val'); //投注金额单位 元角分厘
+                _d.sum = $('#J_selectionBallAmount').text();    //投注金额
+                _d.num = $('#J_selectionBallStakes').text();    //投注注数
+                _d.len = _opt.numNameList.length;
+                _d.need = _need;  //需要的数据类型
+                _d.ajaxType = _opt.ajaxType;
+
+                if (_opt.haveCheckbox) {
+                    var _hex = '';
+                    $('.J_CheckBox.active').each(function(){
+                        var _id = $(this).data('id');
+                        if (_id == 1) {
+                            _hex += 'w';
+                        } else if(_id == 2){
+                            _hex += 'q';
+                        } else if(_id == 3){
+                            _hex += 'b';
+                        } else if(_id == 4){
+                            _hex += 's';
+                        } else if(_id == 5){
+                            _hex += 'g';
+                        }
+                    });
+                    _d.hex = _hex;
+                }
+
+                _data.push(_d);
+            } else if(_rule.opt.type == 'text'){
+                // TODO : 文本域上传
+                
+                // n : '',     //无定位
+                // n1 : '',     //无定位组合
+                // n2 : '',     //无定位组合
+                // hex : ''    //指定万(w)，千(q)，百(b)，十(s)，个(g)
+            }
+
+
+
+            Betting.selectedData = _data;
+            // console.log(_data);
+            return _data;
         },
         renderMaxBonus: function(mainNavType, subNavType) {
             // 渲染最高奖金
@@ -487,7 +663,7 @@ $(function() {
             }
             
             Betting.getBettingQuantity();   //计算注数
-            Betting.calculateAmount();
+            // Betting.calculateAmount();
         },
         createBitScheme: function(a, b) {
             // 计算选择方案数
@@ -814,7 +990,6 @@ $(function() {
             }
         }
     }
-
 
     Betting.init();
 });
