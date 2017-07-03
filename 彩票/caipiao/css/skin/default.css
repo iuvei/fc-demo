@@ -34,6 +34,8 @@ a.text-l-color,
 .user-nav dl dt{
     background-color: #008698;
 }
+.btn-red.disabled,
+.bet-btn.disabled,
 .btn-d-color.disabled,
 .btn-l-color.disabled{
     color: #fff;

@@ -91,6 +91,10 @@ var lott = {
         return h
     },
     numberRandom: function(a, b, c) {
+        console.log(a, b, c);
+        // a : 
+        // b : 
+        // c : 
         for (var d = [c], e = 0; e < c; e++) {
             var f = 0;
             do {
@@ -107,6 +111,7 @@ var lott = {
         return c + a
     },
     randomBallEvents: function(a) {
+        console.log('randomBallEvents');
         $(document).off("click", "div[bet-random]").on("click", "div[bet-random]", function() {
             $("li[bet-sort='currentBetCart']").hasClass("tab-active") || $("li[bet-sort='currentBetCart']").trigger("click"), a && a(this)
         })
@@ -1828,6 +1833,7 @@ var lott = {
         a.push(c), $("div[select-area='ball']").html(d), lott.czwBallEvents(a, 7, b)
     },
     czwBallEvents: function(a, b, c) {
+        console.log('czwBallEvents');
         var d = a[0];
         lott.czwSiftBtnEvents(d, a, c), lott.multipleBallEvent(d, a, c, b), lott.addToCartEvents(function() {
             if (a[a.length - 1][d].length >= 1) {
@@ -2800,6 +2806,7 @@ var lott = {
         globalVar.shortcutContent.length > 0 && (globalVar.currentCart.splice(1 * globalVar.shortcutContent[0], globalVar.shortcutContent.length), globalVar.shortcutContent.splice(0, globalVar.shortcutContent.length))
     },
     addBallToCart: function(a, b, c) {
+        console.log('addBallToCart')
         lott.addToCartEvents(function() {
             for (var d = "", e = 0; e < a.length - 1; e++) {
                 if (!(a[a.length - 1][a[e]].length >= b)) {
@@ -2828,9 +2835,11 @@ var lott = {
                 var i = lott.createShortcutBetContent(e, 1, h, c, g);
                 globalVar.shortcutContent.push(i), lott.confirmBetOrder(d, !0, a)
             }
-        }), lott.randomBallEvents(function(d) {
-            var e = $('input[name="betMultiple"]').val(),
-                f = $(d).attr("bet-random");
+        }),
+        lott.randomBallEvents(function(d) {
+            console.log(d);
+            var e = $('input[name="betMultiple"]').val(),   //倍数
+                f = $(d).attr("bet-random");    //机选数量
             if (a.length - 1 > 1 && 1 * b == 0 && globalVar.playCode.indexOf("Any") > -1)
                 for (var g = 0; g < 1 * f; g++) {
                     for (var h = lott.numberRandom(0, 4, 1 * globalVar.playCode.charAt(3)), i = new Array(5), j = "", k = 0; k < h.length; k++) i[h[k]] = lott.numberRandom(0, 9, 1)[0];
@@ -2853,7 +2862,7 @@ var lott = {
                     }
                     lott.createBetCart(j, 1, e, c, n, m)
                 }
-            if (a.length - 1 > 1 && 1 * b == 1)
+            if (a.length - 1 > 1 && 1 * b == 1){
                 for (var g = 0; g < 1 * f; g++) {
                     for (var j = "", k = 0; k < a.length - 1; k++) j += "_" + lott.numberRandom(0, 9, 1)[0];
                     var n = 1;
@@ -2861,6 +2870,7 @@ var lott = {
                     var m = g == 1 * f - 1;
                     lott.createBetCart(j.substring(1), 1, e, c, n, m)
                 }
+            }
         })
     },
     addBallToCartOfAlone: function(a, b) {
@@ -3085,6 +3095,8 @@ var lott = {
         })
     },
     addBallToCartOf5O4StarCom: function(a, b, c) {
+        console.log('addBallToCartOf5O4StarCom');
+        console.log(a, b, c);
         lott.addToCartEvents(function() {
             for (var d = "", e = 0; e < a.length - 1; e++) {
                 var f = "number" == typeof b ? b : b[a[e]];

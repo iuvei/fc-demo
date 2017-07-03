@@ -130,7 +130,7 @@ var SSC_TEMPLATE = {
                 _opt.formula = function(a){
                     return a[a.length - 1][a[0]].length * a[a.length - 1][a[1]].length * a[a.length - 1][a[2]].length * a[a.length - 1][a[3]].length * a[a.length - 1][a[4]].length;
                 }
-                _opt.ajaxType = '';
+                _opt.ajaxType = 'all5';
                 break;
             case 'All5Straight_Single':
                 _rule = '"手动输入一个5位数号码组成一注，所选号码的万位、千位、百位、十位、个位与开奖号码相同，且顺序一致，即为中奖。如：选择12345，开奖号码为12345，即为中奖。"';
@@ -190,6 +190,7 @@ var SSC_TEMPLATE = {
                 _maxBonus = '1416.6666';
                 _rule = '从0-9中任意选择5个号码组成一注，所选号码与开奖号码的万、千、百、十、个位相同，顺序不限，即为中奖。例：投注方案：10568开奖号码：10568（顺序不限）即为中奖。';
                 _opt.numNameList = ['NONE#组选'];
+                _opt.minSelect = 5;
                 _opt.formula = function(a){
                     var b = a[a.length - 1][a[0]].length;
                     return (b - 4) * (b - 3) * (b - 2) * (b - 1) * b / 120
@@ -200,6 +201,10 @@ var SSC_TEMPLATE = {
                 _maxBonus = '2833.3334';
                 _rule = '选择1个二重号码和3个单号号码组成一注，所选的单号号码与开奖号码相同，且所选二重号码在开奖号码中出现了2次，即为中奖。例：投注方案：二重号8，单号016开奖号码：01688（顺序不限）即为中奖。';
                 _opt.numNameList = ['NONE1#二重号', 'NONE2#单号'];
+                _opt.teamMinSelect = {
+                    NONE1 : 1,
+                    NONE2 : 3
+                };
                 _opt.formula = function(a){
                     var b = a[a.length - 1][a[0]].length,
                         c = b > 0 ? a[a.length - 1][a[1]].length : 0;
@@ -335,6 +340,7 @@ var SSC_TEMPLATE = {
                 _maxBonus = '708.3334';
                 _rule = '至少选择4个号码投注，竞猜开奖号码的前4位，号码一致顺序不限，即为中奖。例：投注方案：0568开奖号码：0568*（顺序不限）即为中奖。';
                 _opt.numNameList = ['NONE#组选'];
+                _opt.minSelect = 4;
                 _opt.formula = function(a){
                     var b = a[a.length - 1][a[0]].length;
                     return (b - 3) * (b - 2) * (b - 1) * b / 24
@@ -456,6 +462,7 @@ var SSC_TEMPLATE = {
                 _maxBonus = '708.3334';
                 _rule = '至少选择4个号码投注，竞猜开奖号码的后4位，号码一致顺序不限，即为中奖。例：投注方案：0568开奖号码：*0568（顺序不限）即为中奖。';
                 _opt.numNameList = ['NONE#组选'];
+                _opt.minSelect = 4;
                 _opt.formula = function(a){
                     var b = a[a.length - 1][a[0]].length;
                     return (b - 3) * (b - 2) * (b - 1) * b / 24
@@ -1657,6 +1664,7 @@ var SSC_TEMPLATE = {
                 _rule = '从万位、千位、百位、十位、个位中任意勾选四个位置，然后从0-9中选择四个号码组成一注，所选4个位置的开奖号码与所选号码一致，顺序不限，即为中奖。中奖举例：勾选位置万位、千位、十位、个位，选择号码1234； 开奖号码：12*34 或 13*24，均中任四组选24.';
                 _opt.haveCheckbox = true;
                 _opt.defaultCheck = 4;
+                _opt.minSelect = 4;
                 _opt.numNameList = ['NONE#组选'];
                 _opt.formula = function(a){
                     var b = a[a.length - 1][a[0]].length;
@@ -1682,6 +1690,9 @@ var SSC_TEMPLATE = {
                 _rule = '"从万位、千位、百位、十位、个位中任意勾选四个位置，然后从0-9中选择2个二重号组成一注，所选4个位置的开奖号码与所选号码一致，并且所选的2个二重号码在所选4个位置的开奖号码中分别出现了2次，顺序不限，即为中奖。中奖举例：勾选位置万位、千位、十位、个位，选择二重号：6、8； 开奖号码：66*88 或 68*68 均中任四组选6."';
                 _opt.haveCheckbox = true;
                 _opt.defaultCheck = 4;
+                _opt.teamMinSelect = {
+                    NONE : 2
+                };
                 _opt.numNameList = ['NONE#二重号'];
                 _opt.formula = function(a){
                     var b = a[a.length - 1][a[0]].length;
@@ -1694,6 +1705,10 @@ var SSC_TEMPLATE = {
                 _rule = '"从万位、千位、百位、十位、个位中任意勾选四个位置，然后从0-9中选择1个三重号和1个单号组成一注，所选4个位置的开奖号码与所选号码一致，并且所选三重号码在所选4个位置的开奖号码中出现了3次，顺序不限，即为中奖。中奖举例：勾选位置万位、千位、十位、个位，选择三重号：8，单号：0； 开奖号码：88*80 或 80*88 均中任四组选4."';
                 _opt.haveCheckbox = true;
                 _opt.defaultCheck = 4;
+                _opt.teamMinSelect = {
+                    NONE1 : 1,
+                    NONE2 : 1
+                };
                 _opt.numNameList = ['NONE1#三重号', 'NONE2#单号'];
                 _opt.formula = function(a){
                     return a[a.length - 1][a[0]].length * a[a.length - 1][a[1]].length - SSC_TEMPLATE.sameComparer(a[a.length - 1][a[0]], a[a.length - 1][a[1]])

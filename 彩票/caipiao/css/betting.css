@@ -304,16 +304,16 @@
     text-align: center;
 }
 .bet-list-tt p.t1,
-.bet-list-con li div.t1{width: 112px;}
+.bet-list-con li div.t1{width: 150px;}
 .bet-list-tt p.t2,
 .bet-list-con li div.t2{width: 170px;}
 .bet-list-con li div.t2 div{width: 72px;margin: 0 auto;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;}
 .bet-list-tt p.t3,
 .bet-list-con li div.t3{width: 130px;}
 .bet-list-tt p.t4,
-.bet-list-con li div.t4{width: 150px;}
+.bet-list-con li div.t4{width: 130px;}
 .bet-list-tt p.t5,
-.bet-list-con li div.t5{width: 146px;}
+.bet-list-con li div.t5{width: 125px;}
 .bet-list-tt p.t6,
 .bet-list-con li div.t6{width: 120px;}
 .bet-list-tt p.t7{width: 144px;}
@@ -328,7 +328,7 @@
     border-radius: 4px;
     color: #595656;
     display: block;
-    left: 50px;
+    left: 90px;
     min-width: 291px;
     padding: 12px;
     position: absolute;
