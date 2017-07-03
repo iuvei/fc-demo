@@ -466,7 +466,7 @@ $(function() {
                 type : _subNav
             });
 
-            var _amount = Betting.singleStakesPrice * Number($('#J_beishu').val()) * 1 * Number($('#J_unit').data('txt').split('#')[1]);    //一注的价格
+            var _amount = 0;    //一注的价格
 
             var _data = [];
             
@@ -526,10 +526,14 @@ $(function() {
                     // console.log(11111);
                     for (var j = 0; j < 1 * _times; j++) {
                         for (var k = "", q = 0; q < a.length - 1; q++) k += "_" + Betting.numberRandom(0, 9, 1)[0];
-                        // var n = 1;
-                        // _subNav.indexOf("Join") > -1 && (n = 1 * _subNav.charAt(_subNav.indexOf("Join") - 1)), _subNav.indexOf("3ComAnyCode2") > -1 && (n = 10);
-                        // var o = j == 1 * _times - 1;
-                        _data.push(_getTextRoundData(k));
+                        var n = 1;
+                        _subNav.indexOf("Join") > -1 && (n = 1 * _subNav.charAt(_subNav.indexOf("Join") - 1)), _subNav.indexOf("3ComAnyCode2") > -1 && (n = 10);
+                        var o = j == 1 * _times - 1;
+
+                        console.log(k);
+                        console.log(n);
+                        // console.log(k.substring(1), 1, f, c, 1, o);
+                        _data.push(_getTextRoundData(k, n));
                     }
                 }
             } else {
@@ -552,7 +556,14 @@ $(function() {
                                     return a - b
                                 }), g = j.join("") + "@" + g, h *= 1
                             }
-                            _data.push(_getTextRoundData(g));
+                            
+                            // console.log(g);
+                            // console.log(g);
+                            // console.log(g);
+                            console.log(g, 1, _beishu, h, i);
+                            // console.log(g, 1, _beishu, c, h, i);
+
+                            _data.push(_getTextRoundData(g, h));
                         }
                     }
                     if ("AllCom60" == _subNav || "AllCom20" == _subNav || "F4Com12" == _subNav || "L4Com12" == _subNav || "Any4Com12_SSC" == _subNav){
@@ -571,7 +582,8 @@ $(function() {
                                     return a - b
                                 }), g = j.join("") + "@" + g, h *= 1
                             }
-                            _data.push(_getTextRoundData(g));
+
+                            _data.push(_getTextRoundData(g, h));
                         }
                     }
                     if ("AllCom30" == _subNav){
@@ -640,6 +652,14 @@ $(function() {
                             for (var j = "", k = 0; k < a.length - 1; k++){
                                 j += "_" + Betting.numberRandom(0, 9, 1)[0];  
                             }
+                            var n = 1;
+                            _subNav.indexOf("Join") > -1 && (n = 1 * _subNav.charAt(_subNav.indexOf("Join") - 1)), _subNav.indexOf("3ComAnyCode2") > -1 && (n = 10);
+                            var m = g == 1 * _times - 1;
+
+                            // n : 注数
+                            console.log(j);
+                            console.log(n);
+
                             var _ddd = {};
                             var _need = '';
 
@@ -689,8 +709,9 @@ $(function() {
                             _ddd.unitName = $('#J_unit').data('val');
                             _ddd.type = _subNav;
                             _ddd.typeName = $('.J_subMenu.active').text();
-                            _ddd.num = 1,  //默认每次机选1;
-                            _ddd.sum = Betting.formatNumber(_amount, 4);
+                            _ddd.num = n,  //默认每次机选1;
+                            // sum = 注数 * 倍数 * 模式 * 单价
+                            _ddd.sum = Betting.formatNumber(n * 1 * Number($('#J_unit').data('txt').split('#')[1] * Betting.singleStakesPrice), 4);
                             _ddd.need = _need;
 
                             _data[g] = _ddd;
@@ -701,7 +722,7 @@ $(function() {
             }
 
 
-            function _getTextRoundData(j) {
+            function _getTextRoundData(j, num) {
                 var _ddd = {};
                 var _need = '';
 
@@ -730,8 +751,11 @@ $(function() {
                 _ddd.unitName = $('#J_unit').data('val');
                 _ddd.type = _subNav;
                 _ddd.typeName = $('.J_subMenu.active').text();
-                _ddd.num = 1,  //默认每次机选1;
-                _ddd.sum = Betting.formatNumber(_amount, 4);
+                console.log(num);
+                _ddd.num = num ? num : 1,  //默认每次机选1;
+                _ddd.sum = Betting.formatNumber(_ddd.num * 1 * Number($('#J_unit').data('txt').split('#')[1] * Betting.singleStakesPrice), 4);
+                // _ddd.need = _need;
+                // _ddd.sum = Betting.formatNumber(_amount, 4);
                 _ddd.need = _need;
 
                 // _data[g] = _ddd;
@@ -797,7 +821,9 @@ $(function() {
                         _ddd.type = _subNav;
                         _ddd.typeName = $('.J_subMenu.active').text();
                         _ddd.num = 1,  //默认每次机选1;
-                        _ddd.sum = Betting.formatNumber(_amount, 4);
+                        _ddd.sum = Betting.formatNumber(_ddd.num * 1 * Number($('#J_unit').data('txt').split('#')[1] * Betting.singleStakesPrice), 4);
+                        // _ddd.need = _need;
+                        // _ddd.sum = Betting.formatNumber(_amount, 4);
                         _ddd.need = _need;
 
                         _getRoundData[g] = _ddd;

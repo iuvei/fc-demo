@@ -138,6 +138,7 @@ var SSC_TEMPLATE = {
                 _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、空格、逗号[,]或者分号[;]隔开\n支持格式如下:\n12345 67890\n12345,67890\n12345;67890\n';
                 _opt.numList = [];
                 _opt.type = 'text';
+                // a.miBall = 1, a.stakes = 1, a.len = 5, a.digit = "",
                 _opt.numNameList = [];
                 _opt.formula = function(a){
                     return console.log('对应 allManualEntryEvents');
@@ -161,6 +162,7 @@ var SSC_TEMPLATE = {
                 _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、空格、逗号[,]或者分号[;]隔开\n支持格式如下:\n12345 67890\n12345,67890\n12345;67890\n';
                 _opt.numList = [];
                 _opt.type = 'text';
+                // a.miBall = 1, a.stakes = 1, a.len = 5, a.digit = ""
                 _opt.numNameList = [];
                 _opt.formula = function(a){
                     return console.log('对应 allManualEntryEvents');
@@ -216,6 +218,10 @@ var SSC_TEMPLATE = {
                 _maxBonus = '5666.6666';
                 _rule = '选择2个二重号和1个单号号码组成一注，所选的单号号码与开奖号码相同，且所选的2个二重号吗分别在开奖号码中出现了2次，即为中奖。例：投注方案：二重号68，单号0开奖号码：06688（顺序不限）';
                 _opt.numNameList = ['NONE1#二重号', 'NONE2#单号'];
+                _opt.teamMinSelect = {
+                    NONE1 : 2,
+                    NONE2 : 1
+                };
                 _opt.formula = function(a){
                     var b = a[a.length - 1][a[0]].length;
                     return a[a.length - 1][a[1]].length * ((b - 1) * b) / 2 - SSC_TEMPLATE.sameComparer(a[a.length - 1][a[0]], a[a.length - 1][a[1]]) * (b - 1)
@@ -226,6 +232,10 @@ var SSC_TEMPLATE = {
                 _maxBonus = '8500.0000';
                 _rule = '选择1个三重号码和2个单号号码组成一注，所选的单号号码与开奖号码相同，且所选三重号码在开奖号码中出现了3次，即为中奖。例：投注方案：三重号8，单号01开奖号码：01888（顺序不限）即为中奖。';
                 _opt.numNameList = ['NONE1#三重号', 'NONE2#单号'];
+                _opt.teamMinSelect = {
+                    NONE1 : 1,
+                    NONE2 : 2
+                };
                 _opt.formula = function(a){
                     var b = a[a.length - 1][a[0]].length,
                             c = a[a.length - 1][a[1]].length;
@@ -236,6 +246,10 @@ var SSC_TEMPLATE = {
             case 'AllCom10':
                 _rule = '选择1个三重号吗和1个二重号吗，所选三重号码在开奖号码中出现3次，并且所选二重号吗在开奖号码中出现了2次，即为中奖。例：投注方案：三重号8，二重号1开奖号码：11888（顺序不限）即为中奖。';
                 _opt.numNameList = ['NONE1#三重号', 'NONE2#二重号'];
+                _opt.teamMinSelect = {
+                    NONE1 : 1,
+                    NONE2 : 1
+                };
                 _opt.formula = function(a){
                     return a[a.length - 1][a[0]].length * a[a.length - 1][a[1]].length - SSC_TEMPLATE.sameComparer(a[a.length - 1][a[0]], a[a.length - 1][a[1]])
                 };
@@ -245,6 +259,10 @@ var SSC_TEMPLATE = {
                 _maxBonus = '34000.0000';
                 _rule = '选择1个四重号码和1个单号号码组成一注，所选的单号存在与开奖号码中，且所选四重号码在开奖号码中出现了4次，即为中奖。例：投注方案：四重号8，单号1开奖号码：18888（顺序不限）即为中奖。';
                 _opt.numNameList = ['NONE1#四重号', 'NONE2#单号'];
+                _opt.teamMinSelect = {
+                    NONE1 : 1,
+                    NONE2 : 1
+                };
                 _opt.formula = function(a){
                     return a[a.length - 1][a[0]].length * a[a.length - 1][a[1]].length - SSC_TEMPLATE.sameComparer(a[a.length - 1][a[0]], a[a.length - 1][a[1]])
                 };
@@ -351,6 +369,10 @@ var SSC_TEMPLATE = {
                 _maxBonus = '1416.6666';
                 _rule = '至少选择1个二重号码和2个单号号码，竞猜开奖号码的前四位，号码一致顺序不限，即为中奖。例：投注方案：二重号8，单号06开奖号码：8806*（顺序不限）';
                 _opt.numNameList = ['NONE1#二重号', 'NONE2#单号'];
+                _opt.teamMinSelect = {
+                    NONE1 : 1,
+                    NONE2 : 1
+                };
                 _opt.formula = function(a){
                     var b = a[a.length - 1][a[0]].length,
                         c = a[a.length - 1][a[1]].length;
@@ -372,6 +394,10 @@ var SSC_TEMPLATE = {
                 _maxBonus = '4250.0000';
                 _rule = '至少选择1个三重号码和1个单号号码，竞猜开奖号码的前四位，号码一致顺序不限，即为中奖。例：投注方案：三重号8，单号2中奖号码：8882*（顺序不限）';
                 _opt.numNameList = ['NONE1#三重号', 'NONE2#单号'];
+                _opt.teamMinSelect = {
+                    NONE1 : 1,
+                    NONE2 : 1
+                };
                 _opt.formula = function(a){
                     return a[a.length - 1][a[0]].length * a[a.length - 1][a[1]].length - SSC_TEMPLATE.sameComparer(a[a.length - 1][a[0]], a[a.length - 1][a[1]])
                 };
@@ -473,6 +499,10 @@ var SSC_TEMPLATE = {
                 _maxBonus = '1416.6666';
                 _rule = '至少选择1个二重号码和2个单号号码，竞猜开奖号码的后四位，号码一致顺序不限，即为中奖。例：投注方案：二重号8，单号06开奖号码：*8806（顺序不限）';
                 _opt.numNameList = ['NONE1#二重号', 'NONE2#单号'];
+                _opt.teamMinSelect = {
+                    NONE1 : 1,
+                    NONE2 : 1
+                };
                 _opt.formula = function(a){
                     var b = a[a.length - 1][a[0]].length,
                         c = a[a.length - 1][a[1]].length;
@@ -494,6 +524,10 @@ var SSC_TEMPLATE = {
                 _maxBonus = '4250.0000';
                 _rule = '至少选择1个三重号码和1个单号号码，竞猜开奖号码的后四位，号码一致顺序不限，即为中奖。例：投注方案：三重号8，单号2中奖号码：*8882（顺序不限）';
                 _opt.numNameList = ['NONE1#三重号', 'NONE2#单号'];
+                _opt.teamMinSelect = {
+                    NONE1 : 1,
+                    NONE2 : 1
+                };
                 _opt.formula = function(a){
                     return a[a.length - 1][a[0]].length * a[a.length - 1][a[1]].length - SSC_TEMPLATE.sameComparer(a[a.length - 1][a[0]], a[a.length - 1][a[1]])
                 };
@@ -1539,6 +1573,7 @@ var SSC_TEMPLATE = {
                 _opt.haveTextarea = true;
                 _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、空格、逗号[,]或者分号[;]隔开\n支持格式如下:\n123 456\n123,456\n123;456\n';
                 _opt.numList = [];
+                // a.miBall = 0,a.stakes = 1, a.len = 3, a.digit = "",
                 _opt.type = 'text';
                 _opt.numNameList = [];
                 _opt.formula = function(a){
@@ -1549,6 +1584,7 @@ var SSC_TEMPLATE = {
             case 'Any4':
                 _maxBonus = '17000.0000';
                 _rule = '从万位、千位、百位、十位、个位中至少四位上各选1个号码组成一注，所选号码与开奖号码相同，且顺序一致，即为中奖。 如：选择万位号码为1，千位号码为2，百位号码为3，十位号码为4，开奖号码为1234*，即为中奖。';
+                // _opt.minSelect = 0;
                 _opt.formula = function(a){
                     return a[a.length - 1][a[0]].length * a[a.length - 1][a[1]].length * a[a.length - 1][a[2]].length * a[a.length - 1][a[3]].length + a[a.length - 1][a[0]].length * a[a.length - 1][a[1]].length * a[a.length - 1][a[2]].length * a[a.length - 1][a[4]].length + a[a.length - 1][a[0]].length * a[a.length - 1][a[1]].length * a[a.length - 1][a[3]].length * a[a.length - 1][a[4]].length + a[a.length - 1][a[0]].length * a[a.length - 1][a[2]].length * a[a.length - 1][a[3]].length * a[a.length - 1][a[4]].length + a[a.length - 1][a[1]].length * a[a.length - 1][a[2]].length * a[a.length - 1][a[3]].length * a[a.length - 1][a[4]].length
                 };
@@ -1615,6 +1651,7 @@ var SSC_TEMPLATE = {
                 _opt.defaultCheck = 3;
                 _opt.numList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26];
                 _opt.numNameList = ['SUM#和值'];
+                // _opt.minSelect = 1;
                 _opt.quickFast = false;
                 _opt.formula = function(x, options){
                     var _num = SSC_TEMPLATE.sumAndPoint(x, options, '3rdz');
@@ -1628,6 +1665,8 @@ var SSC_TEMPLATE = {
                 _opt.haveCheckbox = true;
                 _opt.defaultCheck = 3;
                 _opt.numNameList = ['NONE#组三'];
+                // _opt.maxSelect = 10;
+                // _opt.minSelect = 2;
                 _opt.formula = function(a){
                     return a[a.length - 1][a[0]].length * (a[a.length - 1][a[0]].length - 1)
                 };
@@ -1650,6 +1689,11 @@ var SSC_TEMPLATE = {
                 _opt.haveCheckbox = true;
                 _opt.haveTextarea = true;
                 _opt.defaultCheck = 3;
+
+                // a.stakes: 1,
+                // a.len: 3,
+                // a.digit = ""
+
                 _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、空格、逗号[,]或者分号[;]隔开\n支持格式如下:\n122 123 211\n123,241,212\n122;221\n';
                 _opt.numList = [];
                 _opt.type = 'text';
@@ -1664,6 +1708,7 @@ var SSC_TEMPLATE = {
                 _rule = '从万位、千位、百位、十位、个位中任意勾选四个位置，然后从0-9中选择四个号码组成一注，所选4个位置的开奖号码与所选号码一致，顺序不限，即为中奖。中奖举例：勾选位置万位、千位、十位、个位，选择号码1234； 开奖号码：12*34 或 13*24，均中任四组选24.';
                 _opt.haveCheckbox = true;
                 _opt.defaultCheck = 4;
+                _opt.maxSelect = 10;
                 _opt.minSelect = 4;
                 _opt.numNameList = ['NONE#组选'];
                 _opt.formula = function(a){
@@ -1678,6 +1723,10 @@ var SSC_TEMPLATE = {
                 _opt.haveCheckbox = true;
                 _opt.defaultCheck = 4;
                 _opt.numNameList = ['NONE1#二重号', 'NONE2#单号'];
+                _opt.teamMinSelect = {
+                    NONE1 : 1,
+                    NONE2 : 2
+                };
                 _opt.formula = function(a){
                     var b = a[a.length - 1][a[0]].length,
                     c = a[a.length - 1][a[1]].length;
@@ -1690,6 +1739,8 @@ var SSC_TEMPLATE = {
                 _rule = '"从万位、千位、百位、十位、个位中任意勾选四个位置，然后从0-9中选择2个二重号组成一注，所选4个位置的开奖号码与所选号码一致，并且所选的2个二重号码在所选4个位置的开奖号码中分别出现了2次，顺序不限，即为中奖。中奖举例：勾选位置万位、千位、十位、个位，选择二重号：6、8； 开奖号码：66*88 或 68*68 均中任四组选6."';
                 _opt.haveCheckbox = true;
                 _opt.defaultCheck = 4;
+                _opt.maxSelect = 10;
+                _opt.minSelect = 2;
                 _opt.teamMinSelect = {
                     NONE : 2
                 };
