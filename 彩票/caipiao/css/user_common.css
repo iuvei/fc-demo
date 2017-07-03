@@ -737,8 +737,6 @@ body.bg-whit{
 .user-ljgl{
 	font-size: 14px;
 }
-.user-ljgl {}
-.user-table-c li > div{}
 .user-ljgl .t1{width: 110px;}
 .user-ljgl .t2{width: 180px;}
 .user-ljgl .t3{width: 87px;}
@@ -762,6 +760,9 @@ body.bg-whit{
 .user-report-tt span{
 	font-size: 14px;
 }
+.user-bbgl{
+	font-size: 14px;
+}
 .user-bbgl .t1{width: 140px;}
 .user-bbgl .t2{width: 120px;}
 .user-bbgl .t3{width: 120px;}
@@ -782,14 +783,16 @@ body.bg-whit{
 .user-xjgl .t5{width: 180px;}
 .user-xjgl .t6{width: 170px;}
 
-/*  */
-
-
-
-
-
-
-
-
-
-
+/* 团队投注 */
+.team-betting{
+	font-size: 14px;
+}
+.team-betting .user-table-c li > div{letter-spacing: 1px;}
+.team-betting .t1{width: 110px;}
+.team-betting .t2{width: 117px;}
+.team-betting .t3{width: 110px;}
+.team-betting .t4{width: 127px;}
+.team-betting .t5{width: 140px;}
+.team-betting .t6{width: 137px;}
+.team-betting .t7{width: 125px;}
+.team-betting .t8{width: 107px;}
