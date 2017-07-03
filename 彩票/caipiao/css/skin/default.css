@@ -62,6 +62,7 @@ a.text-l-color,
     border-color: #00515d;
     background-color: #00515d;
 }
+.link-reg-con span.active,
 .bet-checkbox > div > i.active{
     color: #fff;
     background-color: #008698;
@@ -75,7 +76,9 @@ a.text-l-color,
 .user-s-btn{
     background-color: #008698;
 }
-
+.user-ljgl .user-table-c li > div.t2{
+    color: #059acb;
+}
 
 /* layer 扩展 */
 body .layui-layer-btn .layui-layer-btn0{
