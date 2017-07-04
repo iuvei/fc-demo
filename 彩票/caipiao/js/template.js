@@ -25,9 +25,10 @@
  * maxSelect: 最多可选个数
  * minSelect: 最少选择个数
  * noAllFastBtn : 没有 全 选快捷按钮，默认是有的（值为：undefined/false）。取值为true时表示不需要
- * type : 选号类型 ball : 号码选号，text : 文本域
+ * type : 选号类型 ball : 号码选号，text : 文本域 sum:和值 mixing : 混合组选 mixingAny : 不定位组选 taste : 趣味
  * formula : 注数的计算方法
  * ajaxType : 后台接受的type值
+ * sumType : 和值类型
  */
 var SSC_TEMPLATE = {
     sumAndPoint: function(x, options, type) {
@@ -118,6 +119,8 @@ var SSC_TEMPLATE = {
             numNameList: ['FIRST', 'SECOND', 'THIRD', 'FOURTH', 'FIFTH'],
             quickFast: true,
             multipleChoice: true,
+            minSelect: 1,
+            maxSelect: 10,
             type: 'ball',
             formula: null,
             ajaxType: ''
@@ -311,6 +314,7 @@ var SSC_TEMPLATE = {
             numNameList: ['FIRST', 'SECOND', 'THIRD', 'FOURTH'],
             quickFast: true,
             type: 'ball',
+            minSelect: 1,
             formula: null,
             ajaxType: ''
         };
@@ -442,6 +446,7 @@ var SSC_TEMPLATE = {
             quickFast: true,
             type: 'ball',
             formula: null,
+            minSelect: 1,
             ajaxType: ''
         };
         var _maxBonus = '17000.0000';
@@ -572,6 +577,7 @@ var SSC_TEMPLATE = {
             quickFast: true,
             type: 'ball',
             formula: null,
+            minSelect: 1,
             ajaxType: ''
         };
         var _maxBonus = '1700.0000';
@@ -617,6 +623,7 @@ var SSC_TEMPLATE = {
             case 'First3StraightCom':
                 _rule = '从0-9中选择3个或以上号码投注，开奖号码为组六形态即中奖。 如：选择2、3、4；开奖号码为234**、243**、324**、342**、432**、423**，即中一注奖。';
                 _opt.numNameList = ['NONE#直组'];
+                _opt.minSelect = 3;
                 _opt.formula = function(a){
                     return a[a.length - 1][a[0]].length * (a[a.length - 1][a[0]].length - 1) * (a[a.length - 1][a[0]].length - 2)
                 };
@@ -627,16 +634,20 @@ var SSC_TEMPLATE = {
                 _opt.numList = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27];
                 _opt.numNameList = ['SUM#和值'];
                 _opt.quickFast = false;
+                // _opt.minSelect = 1;
                 _opt.formula = function(x, options){
                     var _num = SSC_TEMPLATE.sumAndPoint(x, options, '3rd');
                     return _num;
                 };
+                _opt.sumType = '3rd';
+                _opt.type = 'sum';
                 _opt.ajaxType = 'sum3b';
                 break;
             case 'First3Com3':
                 _maxBonus = '566.6668';
                 _rule = '从0-9中选择2个或多个号码投注，所选号码与开奖号码的前三位相同，顺序不限，即为中奖。 如：选择1、2，开奖号码为122**、212**、221** 、 112**、121**、211**，即为中奖。';
                 _opt.numNameList = ['NONE#组三'];
+                _opt.minSelect = 2;
                 _opt.formula = function(a){
                     return a[a.length - 1][a[0]].length * (a[a.length - 1][a[0]].length - 1)
                 };
@@ -646,6 +657,7 @@ var SSC_TEMPLATE = {
                 _maxBonus = '283.3334';
                 _rule = '从0-9中选择3个或多个号码投注，所选号码与开奖号码的前三位相同，顺序不限，即为中奖。 如：选择1、2、3，开奖号码为123**、132**、231** 、 213**、312**、321**，即为中奖。';
                 _opt.numNameList = ['NONE#组六'];
+                _opt.minSelect = 3;
                 _opt.formula = function(a){
                     return a[a.length - 1][a[0]].length * (a[a.length - 1][a[0]].length - 1) * (a[a.length - 1][a[0]].length - 2) / 6
                 };
@@ -657,7 +669,7 @@ var SSC_TEMPLATE = {
                 _opt.haveTextarea = true;
                 _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、空格、逗号[,]或者分号[;]隔开\n支持格式如下:\n122 123 211\n123,241,212\n122;221\n';
                 _opt.numList = [];
-                _opt.type = 'text';
+                _opt.type = 'mixing';
                 _opt.numNameList = [];
                 _opt.formula = function(a){
                     // TODO：
@@ -705,6 +717,7 @@ var SSC_TEMPLATE = {
             quickFast: true,
             type: 'ball',
             formula: null,
+            minSelect : 1,
             ajaxType: ''
         };
         var _maxBonus = '1700.0000';
@@ -714,6 +727,7 @@ var SSC_TEMPLATE = {
                 _opt.formula = function(a){
                     return a[a.length - 1][a[0]].length * a[a.length - 1][a[1]].length * a[a.length - 1][a[2]].length
                 };
+                // _opt.minSelect = 1;
                 _opt.ajaxType = 'all3m';
                 break;
             case 'Middle3Straight_Single':
@@ -750,6 +764,7 @@ var SSC_TEMPLATE = {
             case 'Middle3StraightCom':
                 _rule = '从0-9中选择3个或以上号码投注，开奖号码为组六形态即中奖。 如：选择2、3、4；开奖号码为*234*、*243*、*324*、*342*、*432*、*423*，即中一注奖。';
                 _opt.numNameList = ['NONE#直组'];
+                _opt.minSelect = 3;
                 _opt.formula = function(a){
                     return a[a.length - 1][a[0]].length * (a[a.length - 1][a[0]].length - 1) * (a[a.length - 1][a[0]].length - 2)
                 };
@@ -764,12 +779,15 @@ var SSC_TEMPLATE = {
                     var _num = SSC_TEMPLATE.sumAndPoint(x, options, '3rd');
                     return _num;
                 };
+                _opt.type = 'sum';
+                _opt.sumType = '3rd';
                 _opt.ajaxType = 'sum3m';
                 break;
             case 'Middle3Com3':
                 _maxBonus = '566.6668';
                 _rule = '从0-9中选择2个或多个号码投注，所选号码与开奖号码的中三位相同，顺序不限，即为中奖。 如：选择1、2，开奖号码为*122*、*212*、*221* 、 *112*、*121*、*211*，即为中奖。';
                 _opt.numNameList = ['NONE#组三'];
+                _opt.minSelect = 2;
                 _opt.formula = function(a){
                     return a[a.length - 1][a[0]].length * (a[a.length - 1][a[0]].length - 1)
                 };
@@ -779,6 +797,7 @@ var SSC_TEMPLATE = {
                 _maxBonus = '283.3334';
                 _rule = '从0-9中选择3个或多个号码投注，所选号码与开奖号码的中三位相同，顺序不限，即为中奖。 如：选择1、2、3，开奖号码为*123*、*132*、*231*、 *213*、*312*、*321*，即为中奖。';
                 _opt.numNameList = ['NONE#组六'];
+                _opt.minSelect = 3;
                 _opt.formula = function(a){
                     return a[a.length - 1][a[0]].length * (a[a.length - 1][a[0]].length - 1) * (a[a.length - 1][a[0]].length - 2) / 6
                 };
@@ -790,7 +809,7 @@ var SSC_TEMPLATE = {
                 _opt.haveTextarea = true;
                 _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、空格、逗号[,]或者分号[;]隔开\n支持格式如下:\n122 123 211\n123,241,212\n122;221\n';
                 _opt.numList = [];
-                _opt.type = 'text';
+                _opt.type = 'mixing';
                 _opt.numNameList = [];
                 _opt.formula = function(a){
                     // TODO:
@@ -838,6 +857,7 @@ var SSC_TEMPLATE = {
             quickFast: true,
             type: 'ball',
             formula: null,
+            minSelect: 1,
             ajaxType: ''
         };
         var _maxBonus = '1700.0000';
@@ -883,6 +903,7 @@ var SSC_TEMPLATE = {
             case 'Last3StraightCom':
                 _rule = '从0-9中选择3个或以上号码投注，开奖号码为组六形态即中奖。 如：选择2、3、4；开奖号码为**234、**243、**324、**342、**432、**423，即中一注奖。';
                 _opt.numNameList = ['NONE#直组'];
+                _opt.minSelect = 3;
                 _opt.formula = function(a){
                     return a[a.length - 1][a[0]].length * (a[a.length - 1][a[0]].length - 1) * (a[a.length - 1][a[0]].length - 2)
                 };
@@ -897,12 +918,15 @@ var SSC_TEMPLATE = {
                     var _num = SSC_TEMPLATE.sumAndPoint(x, options, '3rd');
                     return _num;
                 };
+                _opt.type = 'sum';
+                _opt.sumType = '3rd';
                 _opt.ajaxType = 'sum3';
                 break;
             case 'Last3Com3':
                 _maxBonus = '566.6668';
                 _rule = '从0-9中选择2个或多个号码投注，所选号码与开奖号码的后三位相同，顺序不限，即为中奖 如：选择1、2，开奖号码为**122、**212、**221 、 **112、**121、**211，即为中奖。';
                 _opt.numNameList = ['NONE#组三'];
+                _opt.minSelect = 2;
                 _opt.formula = function(a){
                     return a[a.length - 1][a[0]].length * (a[a.length - 1][a[0]].length - 1)
                 };
@@ -912,6 +936,7 @@ var SSC_TEMPLATE = {
                 _maxBonus = '283.3334';
                 _rule = '从0-9中选择3个或多个号码投注，所选号码与开奖号码的后三位相同，顺序不限，即为中奖。 如：选择1、2、3，开奖号码为**123，**132，**231，**213，**312，**321，即为中奖。';
                 _opt.numNameList = ['NONE#组六'];
+                _opt.minSelect = 3;
                 _opt.formula = function(a){
                     return a[a.length - 1][a[0]].length * (a[a.length - 1][a[0]].length - 1) * (a[a.length - 1][a[0]].length - 2) / 6
                 };
@@ -923,7 +948,7 @@ var SSC_TEMPLATE = {
                 _opt.haveTextarea = true;
                 _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、空格、逗号[,]或者分号[;]隔开\n支持格式如下:\n122 123 211\n123,241,212\n122;221\n';
                 _opt.numList = [];
-                _opt.type = 'text';
+                _opt.type = 'mixing';
                 _opt.numNameList = [];
                 _opt.formula = function(a){
                     // TODO：
@@ -972,6 +997,7 @@ var SSC_TEMPLATE = {
             noAllFastBtn: false,
             type: 'ball',
             formula: null,
+            minSelect: 1,
             ajaxType: ''
         };
         var _maxBonus = '170.0000';
@@ -1023,6 +1049,8 @@ var SSC_TEMPLATE = {
                     var _num = SSC_TEMPLATE.sumAndPoint(x, options, '2nd');
                     return _num;
                 };
+                _opt.type = 'sum';
+                _opt.sumType = '2nd';
                 _opt.ajaxType = 'sum2b';
                 break;
             case 'First2Com':
@@ -1031,6 +1059,7 @@ var SSC_TEMPLATE = {
                 _opt.numNameList = ['NONE#组选'];
                 _opt.noAllFastBtn = true;
                 _opt.maxSelect = 7;
+                _opt.minSelect = 2;
                 _opt.formula = function(a){
                     return a[a.length - 1][a[0]].length * (a[a.length - 1][a[0]].length - 1) / 2
                 };
@@ -1073,6 +1102,7 @@ var SSC_TEMPLATE = {
             quickFast: true,
             type: 'ball',
             formula: null,
+            minSelect: 1,
             ajaxType: ''
         };
         var _maxBonus = '170.0000';
@@ -1124,6 +1154,8 @@ var SSC_TEMPLATE = {
                     var _num = SSC_TEMPLATE.sumAndPoint(x, options, '2nd');
                     return _num;
                 };
+                _opt.type = 'sum';
+                _opt.sumType = '2nd';
                 _opt.ajaxType = 'sum2';
                 break;
             case 'Last2Com':
@@ -1132,6 +1164,7 @@ var SSC_TEMPLATE = {
                 _opt.numNameList = ['NONE#组选'];
                 _opt.noAllFastBtn = true;
                 _opt.maxSelect = 7;
+                _opt.minSelect = 2;
                 _opt.formula = function(a){
                     return a[a.length - 1][a[0]].length * (a[a.length - 1][a[0]].length - 1) / 2
                 };
@@ -1174,6 +1207,7 @@ var SSC_TEMPLATE = {
             quickFast: true,
             type: 'ball',
             formula: null,
+            minSelect: 1,
             ajaxType: ''
         };
         var _maxBonus = '17.0000';
@@ -1230,6 +1264,7 @@ var SSC_TEMPLATE = {
             multipleChoice: false,
             type: 'ball',
             formula: null,
+            minSelect: 1,
             ajaxType: ''
         };
         var _maxBonus = '1700.0000';
@@ -1241,6 +1276,8 @@ var SSC_TEMPLATE = {
                 _opt.formula = function(a){
                     return 1 * a[a.length - 1][a[0]].length
                 };
+                _opt.maxSelect = 1;
+                _opt.minSelect = 1;
                 _opt.ajaxType = 'sure3b1';
                 break;
             case 'First3StraightAnyCode2':
@@ -1256,6 +1293,8 @@ var SSC_TEMPLATE = {
                 _maxBonus = '6.2730';
                 _rule = '从0-9中选择1个号码投注，每注由1个号码组成，只要开奖号码的千位、百位、十位中包含所选号码，即为中奖。 如：选择2，开奖号码为*2***， **2**， ***2*，即为中奖。';
                 _opt.numNameList = ['NONE#胆码'];
+                _opt.maxSelect = 1;
+                _opt.minSelect = 1;
                 _opt.formula = function(a){
                     return 1 * a[a.length - 1][a[0]].length
                 };
@@ -1277,6 +1316,8 @@ var SSC_TEMPLATE = {
                 _opt.formula = function(a){
                     return 1 * a[a.length - 1][a[0]].length
                 };
+                _opt.maxSelect = 1;
+                _opt.minSelect = 1;
                 _opt.ajaxType = 'sure3a1';
                 break;
             case 'Last3StraightAnyCode2':
@@ -1294,6 +1335,7 @@ var SSC_TEMPLATE = {
                 _opt.quickFast = true;
                 _opt.multipleChoice = true;
                 _opt.numNameList = ['NONE#胆码'];
+                _opt.minSelect = 1;
                 _opt.formula = function(a){
                     return 1 * a[a.length - 1][a[0]].length
                 };
@@ -1308,6 +1350,7 @@ var SSC_TEMPLATE = {
                 _opt.formula = function(a){
                     return 1 * a[a.length - 1][a[0]].length
                 };
+                _opt.minSelect = 1;
                 _opt.ajaxType = 'sure2';
                 break;
             case 'First3ComAnyCode1':
@@ -1316,6 +1359,7 @@ var SSC_TEMPLATE = {
                 _opt.formula = function(a){
                     return 55 * a[a.length - 1][a[0]].length
                 };
+                _opt.minSelect = 1;
                 _opt.ajaxType = 'gsure3b1';
                 break;
             case 'First3ComAnyCode2':
@@ -1332,6 +1376,8 @@ var SSC_TEMPLATE = {
                 _opt.formula = function(a){
                     return 55 * a[a.length - 1][a[0]].length
                 };
+                _opt.maxSelect = 1;
+                _opt.minSelect = 1;
                 _opt.ajaxType = 'gsure3m1';
                 break;
             case 'Middle3ComAnyCode2':
@@ -1345,6 +1391,8 @@ var SSC_TEMPLATE = {
             case 'Last3ComAnyCode1':
                 _rule = '从0-9中选择1个或多个号码投注，只要开奖号码的百位、十位、个位中包含所选号码，即为中奖(含对子、豹子号)。 如：选择2，开奖号码为**222即中豹子形态；开奖号码为**322即中组三形态；开奖号码为**321即中组六形态。';
                 _opt.numNameList = ['NONE#胆码'];
+                _opt.maxSelect = 1;
+                _opt.minSelect = 1;
                 _opt.formula = function(a){
                     return 55 * a[a.length - 1][a[0]].length
                 };
@@ -1364,6 +1412,8 @@ var SSC_TEMPLATE = {
                 _opt.quickFast = true;
                 _opt.multipleChoice = true;
                 _opt.numNameList = ['NONE#胆码'];
+                _opt.minSelect = 1;
+                _opt.type = 'mixingAny';
                 _opt.formula = function(a){
                     return 10 * a[a.length - 1][a[0]].length
                 };
@@ -1375,6 +1425,8 @@ var SSC_TEMPLATE = {
                 _opt.quickFast = true;
                 _opt.multipleChoice = true;
                 _opt.numNameList = ['NONE#胆码'];
+                _opt.minSelect = 1;
+                _opt.type = 'mixingAny';
                 _opt.formula = function(a){
                     return 10 * a[a.length - 1][a[0]].length
                 };
@@ -1427,6 +1479,7 @@ var SSC_TEMPLATE = {
             quickFast: true,
             type: 'ball',
             formula: null,
+            minSelect: 1,
             ajaxType: ''
         };
         var _maxBonus = '6.8000';
@@ -1440,6 +1493,7 @@ var SSC_TEMPLATE = {
                 _opt.formula = function(a){
                     return a[a.length - 1][a[0]].length * a[a.length - 1][a[1]].length
                 };
+                _opt.type = 'taste';
                 _opt.ajaxType = 'size2b';
                 break;
             case 'Last2BSOE':
@@ -1451,6 +1505,7 @@ var SSC_TEMPLATE = {
                 _opt.formula = function(a){
                     return a[a.length - 1][a[0]].length * a[a.length - 1][a[1]].length
                 };
+                _opt.type = 'taste';
                 _opt.ajaxType = 'size2';
                 break;
             case 'AnyShow1_SSC':
@@ -1459,6 +1514,7 @@ var SSC_TEMPLATE = {
                 _opt.formula = function(a){
                     return a[a.length - 1][a[0]].length
                 };
+                _opt.minSelect = 1;
                 _opt.ajaxType = 'repeat1';
                 break;
             case 'AnyShow2_SSC':
@@ -1467,6 +1523,7 @@ var SSC_TEMPLATE = {
                 _opt.formula = function(a){
                     return a[a.length - 1][a[0]].length
                 };
+                _opt.minSelect = 1;
                 _opt.ajaxType = 'repeat2';
                 break;
             case 'AnyShow3_SSC':
@@ -1475,6 +1532,7 @@ var SSC_TEMPLATE = {
                 _opt.formula = function(a){
                     return a[a.length - 1][a[0]].length
                 };
+                _opt.minSelect = 1;
                 _opt.ajaxType = 'repeat3';
                 break;
             case 'AnyShow4_SSC':
@@ -1483,6 +1541,7 @@ var SSC_TEMPLATE = {
                 _opt.formula = function(a){
                     return a[a.length - 1][a[0]].length
                 };
+                _opt.minSelect = 1;
                 _opt.ajaxType = 'repeat4';
                 break;
         }
@@ -1523,6 +1582,7 @@ var SSC_TEMPLATE = {
             quickFast: true,
             type: 'ball',
             formula: null,
+            minSelect: 1,
             ajaxType: ''
         };
         var _maxBonus = '17.0000';
@@ -1533,6 +1593,7 @@ var SSC_TEMPLATE = {
                 _opt.formula = function(a){
                     return a[a.length - 1][a[0]].length + a[a.length - 1][a[1]].length + a[a.length - 1][a[2]].length + a[a.length - 1][a[3]].length + a[a.length - 1][a[4]].length
                 };
+                _opt.minSelect = 0;
                 _opt.ajaxType = 'any1';
                 break;
             case 'Any2':
@@ -1541,6 +1602,7 @@ var SSC_TEMPLATE = {
                 _opt.formula = function(a){
                     return a[a.length - 1][a[0]].length * a[a.length - 1][a[1]].length + a[a.length - 1][a[0]].length * a[a.length - 1][a[2]].length + a[a.length - 1][a[0]].length * a[a.length - 1][a[3]].length + a[a.length - 1][a[0]].length * a[a.length - 1][a[4]].length + a[a.length - 1][a[1]].length * a[a.length - 1][a[2]].length + a[a.length - 1][a[1]].length * a[a.length - 1][a[3]].length + a[a.length - 1][a[1]].length * a[a.length - 1][a[4]].length + a[a.length - 1][a[2]].length * a[a.length - 1][a[3]].length + a[a.length - 1][a[2]].length * a[a.length - 1][a[4]].length + a[a.length - 1][a[3]].length * a[a.length - 1][a[4]].length
                 };
+                _opt.minSelect = 0;
                 _opt.ajaxType = 'any2';
                 break;
             case 'Any2_Single':
@@ -1560,6 +1622,7 @@ var SSC_TEMPLATE = {
             case 'Any3':
                 _maxBonus = '1700.0000';
                 _rule = '从万位、千位、百位、十位、个位中至少三位上各选1个号码组成一注，所选号码与开奖号码相同，且顺序一致，即为中奖。 如：选择万位号码为1，千位号码为2，百位号码为3，开奖号码为123**，即为中奖。';
+                _opt.minSelect = 0;
                 _opt.formula = function(a){
                     return a[a.length - 1][a[0]].length * a[a.length - 1][a[1]].length * a[a.length - 1][a[2]].length + a[a.length - 1][a[0]].length * a[a.length - 1][a[1]].length * a[a.length - 1][a[3]].length + a[a.length - 1][a[0]].length * a[a.length - 1][a[1]].length * a[a.length - 1][a[4]].length + a[a.length - 1][a[0]].length * a[a.length - 1][a[2]].length * a[a.length - 1][a[3]].length + a[a.length - 1][a[0]].length * a[a.length - 1][a[2]].length * a[a.length - 1][a[4]].length + a[a.length - 1][a[0]].length * a[a.length - 1][a[3]].length * a[a.length - 1][a[4]].length + a[a.length - 1][a[1]].length * a[a.length - 1][a[2]].length * a[a.length - 1][a[3]].length + a[a.length - 1][a[1]].length * a[a.length - 1][a[2]].length * a[a.length - 1][a[4]].length + a[a.length - 1][a[1]].length * a[a.length - 1][a[3]].length * a[a.length - 1][a[4]].length + a[a.length - 1][a[2]].length * a[a.length - 1][a[3]].length * a[a.length - 1][a[4]].length
                 };
@@ -1588,6 +1651,7 @@ var SSC_TEMPLATE = {
                 _opt.formula = function(a){
                     return a[a.length - 1][a[0]].length * a[a.length - 1][a[1]].length * a[a.length - 1][a[2]].length * a[a.length - 1][a[3]].length + a[a.length - 1][a[0]].length * a[a.length - 1][a[1]].length * a[a.length - 1][a[2]].length * a[a.length - 1][a[4]].length + a[a.length - 1][a[0]].length * a[a.length - 1][a[1]].length * a[a.length - 1][a[3]].length * a[a.length - 1][a[4]].length + a[a.length - 1][a[0]].length * a[a.length - 1][a[2]].length * a[a.length - 1][a[3]].length * a[a.length - 1][a[4]].length + a[a.length - 1][a[1]].length * a[a.length - 1][a[2]].length * a[a.length - 1][a[3]].length * a[a.length - 1][a[4]].length
                 };
+                _opt.minSelect = 0;
                 _opt.ajaxType = 'any4';
                 break;
             case 'Any4_Single':
@@ -1612,6 +1676,7 @@ var SSC_TEMPLATE = {
                 _opt.numNameList = ['NONE#组选'];
                 _opt.noAllFastBtn = true;
                 _opt.maxSelect = 7;
+                _opt.minSelect = 2;
                 _opt.formula = function(a){
                     return a[a.length - 1][a[0]].length * (a[a.length - 1][a[0]].length - 1) / 2
                 };
@@ -1625,6 +1690,7 @@ var SSC_TEMPLATE = {
                 _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、空格、逗号[,]或者分号[;]隔开\n支持格式如下:\n12 34\n12,34\n12;34\n';
                 _opt.numList = [];
                 _opt.type = 'text';
+                _opt.minSelect = 2;
                 _opt.numNameList = [];
                 _opt.formula = function(a){
                     return console.log('对应 allManualEntryEvents');
@@ -1642,6 +1708,8 @@ var SSC_TEMPLATE = {
                     var _num = SSC_TEMPLATE.sumAndPoint(x, options, '2rdz');
                     return _num;
                 };
+                _opt.type = 'sum';
+                _opt.sumType = '2rdz';
                 _opt.ajaxType = 'gsany2';
                 break;
             case 'Any3Sum_SSC':
@@ -1652,11 +1720,13 @@ var SSC_TEMPLATE = {
                 _opt.numList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26];
                 _opt.numNameList = ['SUM#和值'];
                 // _opt.minSelect = 1;
+                _opt.type = 'sum';
                 _opt.quickFast = false;
                 _opt.formula = function(x, options){
                     var _num = SSC_TEMPLATE.sumAndPoint(x, options, '3rdz');
                     return _num;
                 };
+                _opt.sumType = '3rdz';
                 _opt.ajaxType = 'gsany3';
                 break;
             case 'Any3Com3_SSC':
@@ -1664,6 +1734,7 @@ var SSC_TEMPLATE = {
                 _rule = '从万位、千位、百位、十位、个位中任意勾选三个位置，然后从0-9中选择两个号码组成一注，所选3个位置的开奖号码与所选号码一致，顺序不限，即为中奖。中奖举例：勾选位置万位、千位、个位，选择号码18； 开奖号码：11**8 或 18**1，均中任三组三复式';
                 _opt.haveCheckbox = true;
                 _opt.defaultCheck = 3;
+                _opt.minSelect = 2;
                 _opt.numNameList = ['NONE#组三'];
                 // _opt.maxSelect = 10;
                 // _opt.minSelect = 2;
@@ -1677,6 +1748,7 @@ var SSC_TEMPLATE = {
                 _rule = '从万位、千位、百位、十位、个位中任意勾选三个位置，然后从0-9中选择三个号码组成一注，所选3个位置的开奖号码与所选号码一致，顺序不限，即为中奖。中奖举例：勾选位置万位、百位、个位，选择号码159； 开奖号码：1*5*9 或 9*1*5，均中任三组六复式。';
                 _opt.haveCheckbox = true;
                 _opt.defaultCheck = 3;
+                _opt.minSelect = 3;
                 _opt.numNameList = ['NONE#组六'];
                 _opt.formula = function(a){
                     return a[a.length - 1][a[0]].length * (a[a.length - 1][a[0]].length - 1) * (a[a.length - 1][a[0]].length - 2) / 6
@@ -1696,7 +1768,7 @@ var SSC_TEMPLATE = {
 
                 _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、空格、逗号[,]或者分号[;]隔开\n支持格式如下:\n122 123 211\n123,241,212\n122;221\n';
                 _opt.numList = [];
-                _opt.type = 'text';
+                _opt.type = 'mixing';
                 _opt.numNameList = [];
                 _opt.formula = function(a){
                     return console.log('对应 allMixComboSelection');
@@ -1952,6 +2024,62 @@ var SSC_TEMPLATE = {
         // console.log(a);
         // lott.manualEntryUI(!0, a),
         // lott.allManualEntryRandomBall(a.bits, a.miBall, a.digit)
+    },
+    allMixComboSelection: function() {
+
+    },
+    BSOEConversion: function(a) {
+        var b = "";
+        switch (a) {
+            case "大":
+                b = "0";
+                break;
+            case "小":
+                b = "1";
+                break;
+            case "单":
+                b = "2";
+                break;
+            case "双":
+                b = "3";
+                break;
+            case "0":
+                b = "大";
+                break;
+            case "1":
+                b = "小";
+                break;
+            case "2":
+                b = "单";
+                break;
+            case "3":
+                b = "双";
+                break;
+            case "d":
+                b = "胆";
+                break;
+            case "t":
+                b = "拖";
+                break;
+            case "05":
+                b = "0单5双";
+                break;
+            case "14":
+                b = "1单4双";
+                break;
+            case "23":
+                b = "2单3双";
+                break;
+            case "32":
+                b = "3单2双";
+                break;
+            case "41":
+                b = "4单1双";
+                break;
+            case "50":
+                b = "5单0双"
+        }
+        return b
     }
 };
 

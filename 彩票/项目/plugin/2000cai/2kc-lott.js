@@ -1528,7 +1528,7 @@ var lott = {
         lott.selectionBall(b, f, g, h, i, j)
     },
     sumAndPointUI: function(a, b, c, d, e, f) {
-        // console.log(a, b, c, d, e, f);
+        console.log(a, b, c, d, e, f);
         // console.log('sumAndPointUI');
         // 后三和值的值如下
         // a : 和值
@@ -1573,6 +1573,14 @@ var lott = {
         var m = [b, l];
         //m 的结构如下所示：
         // m = [['FIFTH'], { FIFTH : ''}];
+        // 
+        // 后三和值： 取值如下
+        // b : ['FIRST']
+        // m : [['FIFTH'], { FIFTH : ''}];
+        // g[f] :  f = 3rd g = ...
+        // c : 0
+        // d : 27
+        // 
         lott.selectionPointEvents(b, m, g[f], c, d);
     },
     selectionPointEvents: function(a, b, c, d, e) {

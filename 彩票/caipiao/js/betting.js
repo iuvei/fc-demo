@@ -440,6 +440,29 @@ $(function() {
             }
             return d
         },
+        arrRandom: function(a, b, c, d, e) {
+            var f = new Array;
+            switch (d) {
+                case 3:
+                    for (var g = a; g <= b; g++) /^(\d)\1\1$/.test(g) || (f[g] = g);
+                    break;
+                case 2:
+                    for (var g = a; g <= b; g++) /^(\d)\1$/.test(g) || (f[g] = g);
+                    break;
+                case 0:
+                    for (var g = a; g <= b; g++) f[g] = g
+            }
+            f.sort(function() {
+                return .5 - Math.random()
+            });
+            for (var h = [], g = 0; g < c; g++) e ? h.push(Betting.addZero(f[g] + "", (b + "").length)) : h.push(f[g] + "");
+            return h
+        },
+        addZero: function(a, b) {
+            if (a.length > 1 * b) return "";
+            for (var c = "", d = 0; d < 1 * b - a.length; d++) c += "0";
+            return c + a
+        },
         randomBalls : function(times) {
             var _beishu = $('#J_beishu').val(); //倍数
             var _times = times; //机选数量
@@ -462,6 +485,9 @@ $(function() {
             var a = _formulaList;   //公式列表
             var _minSelect = 1;  //????这个是什么意思？？最小选择数量？
 
+            // console.log(_mainNav);
+            // console.log(_subNav);
+
             var _currentRule = SSC_TEMPLATE[_mainNav]({
                 type : _subNav
             });
@@ -481,7 +507,47 @@ $(function() {
             //     sum: Betting.formatNumber(_amount, 4),
             //     need: ''
             // };
-            console.log(a);
+            console.log(_currentRule.opt.type);
+            // console.log(a);
+
+
+            // if("SSC" != g || "FixedPlace" != globalVar.playCode && "First2StraightAnyCode" != globalVar.playCode && "Last2StraightAnyCode" != globalVar.playCode && "First2ComAnyCode" != globalVar.playCode && "Last2ComAnyCode" != globalVar.playCode ) {
+            //     if("LF" == g && "FixedPlace_LF" == globalVar.playCode) {
+
+            //         // lott.addBallToCartOfAlone(a, e)
+            //     } else {
+            //         if("11X5" == g && "FixedPlace_11X5" == globalVar.playCode) {
+            //             // lott.add11X5BallToCartOfAlone(a)
+            //         } else {
+            //             if("SSC" == g && (globalVar.playCode.indexOf("AllCom") > -1 || globalVar.playCode.indexOf("L4Com") > -1 || globalVar.playCode.indexOf("F4Com") > -1 || 0 == globalVar.playCode.indexOf("Any4Com"))) {
+            //                 lott.addBallToCartOf5O4StarCom(a, d, e)
+            //             } else {
+            //                 if("PK10" == g && globalVar.playCode.indexOf("BSOE_PK10") > -1) {
+            //                     lott.addBallToCartOfPk10Bose(a)
+            //                 } else {
+            //                     if("PK10" == g && globalVar.playCode.indexOf("5Fixed_PK10") > -1) {
+            //                         lott.add11X5BallToCartOfAlone(a)   
+            //                     } else {
+            //                         if("11X5" == g || "PK10" == g && -1 == globalVar.playCode.indexOf("BSOE_PK10") && -1 == globalVar.playCode.indexOf("5Fixed_PK10")) {
+            //                             lott.add11X5BallToCart(a, d, e)
+            //                         } else {
+            //                             lott.addBallToCart(a, d, e)
+            //                         }
+            //                     }
+            //                 }
+            //             }
+            //         }
+            //     }
+            // } else {
+            //     lott.addBallToCartOfAlone(a, e)
+            // }
+
+
+
+
+
+           
+            // 
             if (_currentRule.opt.type == 'text') {
                 var _miBall = SSC_TEMPLATE.allManualEntryEvents(_subNav).miBall;
                 // 默认设置为SSC
@@ -496,11 +562,15 @@ $(function() {
                         for (var p = Betting.numberRandom(0, 4, 1 * _subNav.charAt(3)), l = new Array(5), k = "", q = 0; q < p.length; q++) l[p[q]] = Betting.numberRandom(0, 9, 1)[0];
                         for (var r = 0; r < l.length; r++) null == l[r] ? k += "_#" : k += "_" + l[r];
                         var o = j == 1 * _times - 1;
-                        lott.createBetCart(k.substring(1), 1, f, c, 1, o)
+
+                        // console.log(k);
+                        _data.push(_getTextRoundData(k, 1));
+
+                        // lott.createBetCart(k.substring(1), 1, f, c, 1, o)
                     }
                 }
                 if ("Any2Com_SSC_Single" == _subNav) {
-                    for (var s = [], l = lott.arrRandom(1, 98, 1 * _times, 2, !0), j = 0; j < 1 * _times; j++) {
+                    for (var s = [], l = Betting.arrRandom(1, 98, 1 * _times, 2, !0), j = 0; j < 1 * _times; j++) {
                         var p = Betting.numberRandom(1, 5, 2);
                         p.sort(function(a, b) {
                             return a - b
@@ -509,7 +579,9 @@ $(function() {
                     for (var q = 0; q < s.length; q++) {
                         var k = s[q] + "@" + l[q],
                             o = q == s.length - 1;
-                        lott.createBetCart(k, 1, f, a.digit, 1, o)
+
+                        _data.push(_getTextRoundData(k, 1));
+                        // lott.createBetCart(k, 1, f, a.digit, 1, o)
                     }
                 }
                 if ("Any2Com_SSC_Single" != _subNav && a.length - 1 == 1 && 1 * _miBall >= 1){
@@ -536,7 +608,7 @@ $(function() {
                         _data.push(_getTextRoundData(k, n));
                     }
                 }
-            } else {
+            } else if(_currentRule.opt.type == 'ball'){
                 if (_subNav.indexOf("AllCom") > -1 || _subNav.indexOf("L4Com") > -1 || _subNav.indexOf("F4Com") > -1 || 0 == _subNav.indexOf("Any4Com")) {
 
                     if ("AllCom120" == _subNav || "F4Com24" == _subNav || "L4Com24" == _subNav || "Any4Com24_SSC" == _subNav){
@@ -583,6 +655,10 @@ $(function() {
                                 }), g = j.join("") + "@" + g, h *= 1
                             }
 
+                            console.log('AllCom60');
+                            console.log(h);
+                            console.log(h);
+
                             _data.push(_getTextRoundData(g, h));
                         }
                     }
@@ -592,6 +668,8 @@ $(function() {
                             g += "_" + j[1 * n];
                             var h = 1,
                                 i = f == 1 * _times - 1;
+
+                            console.log('AllCom30');
                             _data.push(_getTextRoundData(g));
                         }
                     }
@@ -613,36 +691,70 @@ $(function() {
                                 }), g = j.join("") + "@" + g, h *= 1
                             }
 
-                            _data.push(_getTextRoundData(g));
+                            console.log(h)
+                            console.log('AllCom10');
+                            _data.push(_getTextRoundData(g, h));
+                        }
+                    }
+
+                } else if("FixedPlace" == _subNav  || "Last1Straight" == _subNav){
+                    console.log('FixedPlace');
+
+                    for (var e = 0; e < 1 * _times; e++) {
+                        var f = "";
+                        f = Betting.numberRandom(0, 4, 1)[0] + "";
+                        // f = "FC3D" == globalVar.currentLottery.game ? Betting.numberRandom(0, 2, 1)[0] + "" : Betting.numberRandom(0, 4, 1)[0] + "";
+                        var g = Betting.numberRandom(0, 9, 1)[0] + "",
+                            h = e == 1 * _times - 1;
+
+                        console.log(f);
+                        console.log(g, 1, _beishu, f, 1, h);
+                        // lott.createBetCart(g, 1, c, f, 1, h)
+                        // lott.createBetCart(g, 1, c, f, 1, h)
+                        if ("FixedPlace" == _subNav) {
+                            _data.push(_getTextRoundData(g, 1, f));
+                        } else {
+                            _data.push(_getTextRoundData(g, 1, 0));
                         }
                     }
                 } else {
-                    // lott.addBallToCart(a, d, e);
-                    if (a.length - 1 > 1 && 1 * _minSelect == 0 && _subNav.indexOf("Any") > -1)
+                    _minSelect = SSC_TEMPLATE[_mainNav]({
+                        type : _subNav
+                    }).opt.minSelect;
+
+                    if (a.length - 1 > 1 && 1 * _minSelect == 0 && _subNav.indexOf("Any") > -1){
                         for (var g = 0; g < 1 * _times; g++) {
                             for (var h = Betting.numberRandom(0, 4, 1 * _subNav.charAt(3)), i = new Array(5), j = "", k = 0; k < h.length; k++) i[h[k]] = Betting.numberRandom(0, 9, 1)[0];
                             for (var l = 0; l < i.length; l++) null == i[l] ? j += "_#" : j += "_" + i[l];
                             var m = g == 1 * _times - 1;
-                            lott.createBetCart(j.substring(1), 1, e, c, 1, m)
+
+                            _data.push(_getTextRoundData(j, 1));
                         }
+                    }
                     if (a.length - 1 == 1 && 1 * _minSelect >= 1){
+                        // _minSelect = SSC_TEMPLATE[_mainNav]({
+                        //     type : _subNav
+                        // }).opt.minSelect;
+
+                        // console.log(_minSelect);
                         for (var g = 0; g < 1 * _times; g++) {
                             var j = "";
                             j = Betting.numberRandom(0, 9, 1 * _minSelect).join("");
+                            // console.log(j);
                             var n = 1;
                             _subNav.indexOf("3Com3") > -1 && (n = 2), _subNav.indexOf("3StraightCom") > -1 && (n = 6), _subNav.indexOf("3ComAnyCode1") > -1 && (n = 55);
                             var m = g == 1 * _times - 1;
                             if (0 == _subNav.indexOf("Any3Com") || "Any2Com_SSC" == _subNav) {
                                 var h = Betting.numberRandom(1, 5, 1 * _subNav.charAt(3));
-                                h.sort(function(a, b) {
-                                    return a - b
+                                h.sort(function(a, _minSelect) {
+                                    return a - _minSelect
                                 }), j = h.join("") + "@" + j, n *= 1
                             }
-                            console.log(j);
-                            console.log(e);
-                            console.log(c);
-                            console.log(n);
-                            console.log(m);
+                            // console.log(j);
+                            // console.log(c);
+                            // console.log(n);
+                            _data.push(_getTextRoundData(j, n));
+
                             // lott.createBetCart(j, 1, e, c, n, m)
                         }
                     }
@@ -656,35 +768,37 @@ $(function() {
                             _subNav.indexOf("Join") > -1 && (n = 1 * _subNav.charAt(_subNav.indexOf("Join") - 1)), _subNav.indexOf("3ComAnyCode2") > -1 && (n = 10);
                             var m = g == 1 * _times - 1;
 
-                            // n : 注数
-                            console.log(j);
-                            console.log(n);
-
                             var _ddd = {};
                             var _need = '';
 
-                            if($('[data-row="FIRST"]').length) {
-                                _ddd.w = j.split('_').join('').split('')[0];
+                            var _FIRST = $('[data-row="FIRST"]');
+                            var _SECOND = $('[data-row="SECOND"]');
+                            var _THIRD = $('[data-row="THIRD"]');
+                            var _FOURTH = $('[data-row="FOURTH"]');
+                            var _FIFTH = $('[data-row="FIFTH"]');
+
+                            if(_FIRST.length) {
+                                _ddd.w = j.split('_').join('').split('')[_FIRST.parent('li').index()];
                                 _need += 'w#';
                             }
 
-                            if($('[data-row="SECOND"]').length) {
-                                _ddd.q = j.split('_').join('').split('')[1];
+                            if(_SECOND.length) {
+                                _ddd.q = j.split('_').join('').split('')[_SECOND.parent('li').index()];
                                 _need += 'q#';
                             }
 
-                            if($('[data-row="THIRD"]').length) {
-                                _ddd.b = j.split('_').join('').split('')[2];
+                            if(_THIRD.length) {
+                                _ddd.b = j.split('_').join('').split('')[_THIRD.parent('li').index()];
                                 _need += 'b#';
                             }
 
-                            if($('[data-row="FOURTH"]').length) {
-                                _ddd.s = j.split('_').join('').split('')[3];
+                            if(_FOURTH.length) {
+                                _ddd.s = j.split('_').join('').split('')[_FOURTH.parent('li').index()];
                                 _need += 's#';
                             }
 
-                            if($('[data-row="FIFTH"]').length) {
-                                _ddd.g = j.split('_').join('').split('')[0];
+                            if(_FIFTH.length) {
+                                _ddd.g = j.split('_').join('').split('')[_FIFTH.parent('li').index()];
                                 _need += 'g';
                             }
 
@@ -719,16 +833,255 @@ $(function() {
                     }
                     // _data = _getRoundData(a, _minSelect, _times, _currentRule);
                 }
+            } else if(_currentRule.opt.type == 'sum'){
+                // var _balls = SSC_TEMPLATE.getSubNumList(_currentRule.opt.sumType);
+                // var _balls = SSC_TEMPLATE.getSubNumList(_currentRule.opt.sumType);
+                // var _balls = SSC_TEMPLATE[_mainNav]({})(_currentRule.opt.sumType);
+                var _balls = _currentRule.opt.numList;
+                var _ballSmallNumList = SSC_TEMPLATE.getSubNumList(_currentRule.opt.sumType);
+                // console.log(_balls);
+                // console.log(_balls[0]);
+                // console.log(_balls[_balls.length - 1]);
+                // console.log(_ballSmallNumList);
+                // return;
+
+                for (var g = Betting.numberRandom(_balls[0], _balls[_balls.length - 1], 1 * _times), h = 0; h < g.length; h++) {
+                    console.log(g);
+                    var i = "",
+                        j = 0;
+                    i = g[h] + "", j = _ballSmallNumList[1 * g[h] - 1 * _balls[0]];
+                    var k = h == g.length - 1;
+                    if ("Any3Sum_SSC" == _subNav || "Any2Sum_SSC" == _subNav) {
+                        var l = _subNav.charAt(3),
+                            m = Betting.numberRandom(1, 5, 1 * l);
+                        m.sort(function(a, _beishu) {
+                            return a - _beishu
+                        }), i = m.join("") + "@" + i, j *= 1
+                    }
+                    console.log(i);
+                    console.log(j);
+                    _data.push(_getTextRoundData(i, j));
+                    // lott.createBetCart(i, 1, _beishu, "", j, k)
+                }
+            } else if (_currentRule.opt.type == 'mixingAny') {
+                for (var e = 0; e < 1 * _times; e++) {
+                    var g = "";
+                    g = Betting.numberRandom(0, 9, 1)[0] + "";
+                    var i = 1;
+                    _subNav.indexOf("2ComAnyCode") > -1 && (i = 10);
+                    var h = e == 1 * _times - 1;
+                    _data.push(_getTextRoundData(g, i));
+                }
+            } else if (_currentRule.opt.type == 'taste') {
+                for (var e = [], f = 0; f < 1 * _times; f++) {
+                    var g = Betting.numberRandom(0, 3, 2);
+                    e.push(g)
+                }
+                for (var h = 0; h < e.length; h++) {
+                    var g = e[h].join("_"),
+                        i = h == e.length - 1;
+
+                    _data.push(_getTextRoundData(g, 1));
+                    // lott.createBetCart(g, 1, _beishu, b, 1, i)
+                }
+            } else if (_currentRule.opt.type == 'mixing') {
+                var a = {
+                    stakes: 1,
+                    len: 3
+                };
+                switch (_subNav) {
+                    case "Last3Com":
+                        a.digit = "";
+                        break;
+                    case "First3Com":
+                        a.digit = "2";
+                        break;
+                    case "Middle3Com":
+                        a.digit = "1";
+                        break;
+                    case "Last3Com_LF":
+                        a.digit = "";
+                        break;
+                    case "P3Com_LF":
+                        a.digit = "2";
+                        break;
+                    case "Any3Com_SSC":
+                        a.digit = "";
+                }
+                var e = Betting.arrRandom(1, 998, 1 * _times, 3, !0),
+                    f = [];
+                if ("Any3Com_SSC" == _subNav){
+                    for (var g = 0; g < 1 * _times; g++) {
+                        var h = Betting.numberRandom(1, 5, 3);
+                        h.sort(function(a, b) {
+                            return a - b
+                        }), f.push(h.join(""))
+                    }
+                }
+
+                for (var i = 0; i < e.length; i++) {
+                    var j = e[i].replace(/([0-9])(?=([0-9]{1})+([^0-9]|$))/g, "$1_"),
+                        k = i == e.length - 1;
+                    if("Any3Com_SSC" == _subNav){
+                        j = f[i] + "@" + j 
+                    } else {
+                        j = j;
+                        // lott.createBetCart(j, 1, c, a.digit, a.stakes, k)
+                        _getRoundData
+                    }
+                    console.log(j, 1, _beishu, a.digit, a.stakes, k)
+                    // Betting.textArea.push(j);
+                    // Betting.calculateAmount(a.stakes);
+                    _data.push(_getTextRoundData(j, a.stakes));
+                }
             }
 
 
-            function _getTextRoundData(j, num) {
+            function _getTextRoundData(j, num, type) {
+                // j : 数值
+                // num : 倍数
+                // type : 位置 01234 = 个十百千万
+                console.log(j, num, type);
+
                 var _ddd = {};
                 var _need = '';
 
                 if (j.indexOf('@') > -1){
                     j = j.split('@')[1];
                 }
+
+                var _FIRST = $('[data-row="FIRST"]');
+                var _SECOND = $('[data-row="SECOND"]');
+                var _THIRD = $('[data-row="THIRD"]');
+                var _FOURTH = $('[data-row="FOURTH"]');
+                var _FIFTH = $('[data-row="FIFTH"]');
+
+                function _transText(num){
+                    var _txt = '';
+                    if(num == 0){
+                        _txt = '大'
+                    } else if(num == 1) {
+                        _txt = '小';
+                    } else if(num == 2) {
+                        _txt = '单';
+                    } else if(num == 3) {
+                        _txt = '双';
+                    }
+                    return _txt;
+                }
+
+                if(_FIRST.length) {
+                    if(_currentRule.opt.type == 'taste') {
+                        _ddd.w = _transText(j.split('_').join('').split('')[_FIRST.parent('li').index()]);
+                    } else {
+                        if (type == 4) {
+                            _ddd.w = j;
+                        } else{
+                            _ddd.w = j.split('_').join('').split('')[_FIRST.parent('li').index()];
+                        }
+                    }
+                    if(_ddd.w == '#'){
+                    } else {
+                        if (type == undefined || type != undefined && type == 4) {
+                            _need += 'w#';
+                        }
+                    }
+                }
+
+                if(_SECOND.length) {
+                    if(_currentRule.opt.type == 'taste') {
+                        _ddd.q = _transText(j.split('_').join('').split('')[_SECOND.parent('li').index()]);
+                    } else {
+                        if (type == 3) {
+                            _ddd.q = j;
+                        } else {
+                            _ddd.q = j.split('_').join('').split('')[_SECOND.parent('li').index()];
+                        }
+                    }
+                    if(_ddd.q == '#'){
+                        // _ddd.q = '';
+                    } else {
+                        if (type == undefined || type != undefined && type == 3) {
+                            _need += 'q#';
+                        }
+                    }
+                }
+
+                if(_THIRD.length) {
+
+                    if (type == 2) {
+                        _ddd.b = j;
+                    } else {
+                        _ddd.b = j.split('_').join('').split('')[_THIRD.parent('li').index()];
+                    }
+
+                    if(_ddd.b == '#'){
+                        // _ddd.b = '';
+                    } else {
+                        if (type == undefined || type != undefined && type == 2) {
+                            _need += 'b#';
+                        }
+                    }
+                }
+
+                if(_FOURTH.length) {
+                    if(_currentRule.opt.type == 'taste') {
+                        _ddd.s = _transText(j.split('_').join('').split('')[_FOURTH.parent('li').index()]);
+                    } else {
+                        if (type == 1) {
+                            _ddd.s = j;
+                        } else {
+                            _ddd.s = j.split('_').join('').split('')[_FOURTH.parent('li').index()];
+                        }
+                    }
+                    if(_ddd.s == '#'){
+                        // _ddd.s = '';
+                    } else {
+                        if (type == undefined || type != undefined && type == 1) {
+                            _need += 's#';
+                        }
+                    }
+                }
+
+                if(_FIFTH.length) {
+                    if(_currentRule.opt.type == 'taste') {
+                        _ddd.g = _transText(j.split('_').join('').split('')[_FIFTH.parent('li').index()]);
+                    } else {
+                        if (type == 0) {
+                            _ddd.g = j;
+                        } else {
+                            _ddd.g = j.split('_').join('').split('')[_FIFTH.parent('li').index()];
+                        }
+                    }
+                    if(_ddd.g == '#'){
+                        _ddd.g = '';
+                    } else {
+                        if (type == undefined || type != undefined && type == 0) {
+                            _need += 'g';
+                        }
+                    }
+                }
+
+                var _hex = '';
+                if (_currentRule.opt.haveCheckbox) {
+                    $('.J_CheckBox.active').each(function(){
+                        var _id = $(this).data('id');
+                        if (_id == 1) {
+                            _hex += 'w';
+                        } else if(_id == 2){
+                            _hex += 'q';
+                        } else if(_id == 3){
+                            _hex += 'b';
+                        } else if(_id == 4){
+                            _hex += 's';
+                        } else if(_id == 5){
+                            _hex += 'g';
+                        }
+                    });
+                    _ddd.hex = _hex;
+                }
+
+                console.log(_ddd);
 
                 if($('#J_ballInputArea').length || $('[data-row="NONE"]').length) {
                     _ddd.n = j.split('_').join('');
@@ -745,13 +1098,18 @@ $(function() {
                     _need += 'n2';
                 }
 
+                if($('[data-row="SUM"]').length) {
+                    _ddd.n1 = j;
+                    _need += 'n';
+                }
+
                 _ddd.multiple = $('#J_beishu').val();
                 _ddd.ajaxType = _currentRule.opt.ajaxType;
                 _ddd.unit = $('#J_unit').data('txt').split('#')[1];
                 _ddd.unitName = $('#J_unit').data('val');
                 _ddd.type = _subNav;
                 _ddd.typeName = $('.J_subMenu.active').text();
-                console.log(num);
+                // console.log(num);
                 _ddd.num = num ? num : 1,  //默认每次机选1;
                 _ddd.sum = Betting.formatNumber(_ddd.num * 1 * Number($('#J_unit').data('txt').split('#')[1] * Betting.singleStakesPrice), 4);
                 // _ddd.need = _need;
@@ -772,7 +1130,7 @@ $(function() {
                         var _ddd = {};
                         var _need = '';
                         
-                        console.log(j);
+                        // console.log(j);
 
                         if($('[data-row="FIRST"]').length) {
                             _ddd.w = j.split('_').join('').split('')[0];
@@ -999,7 +1357,7 @@ $(function() {
             _d.num = $('#J_selectionBallStakes').text();    //投注注数
             _d.ajaxType = _opt.ajaxType;
 
-            if (_opt.type == 'ball') {
+            if (_opt.type == 'ball' || _opt.type == 'taste' || _rule.opt.type == 'sum' || _rule.opt.type == 'mixingAny') {
                 var _n = '';
                 var _need = '';
                 $.each(_opt.numNameList, function(i, n) {
@@ -1046,7 +1404,7 @@ $(function() {
                 _d.need = _need;  //需要的数据类型
                 // _d.ajaxType = _opt.ajaxType;
                 // _data.push(_d);
-            } else if(_rule.opt.type == 'text'){
+            } else if(_rule.opt.type == 'text' || _rule.opt.type == 'mixing'){
                 // TODO : 文本域上传
                 _d.need = 'n';
 
@@ -1064,6 +1422,7 @@ $(function() {
                 }
 
                 var _ballList = _ball.split(',');
+                console.log(_ballList);
                 var _nums = '';
                 $.each(_ballList, function(i, n){
                     _nums += n.split('_').join('');
@@ -1071,6 +1430,7 @@ $(function() {
                         _nums += ' | ';
                     }
                 });
+                console.log(_nums)
                 _d.n = _nums;
             }
 
@@ -1429,7 +1789,7 @@ $(function() {
                     
                     // console.log(e);
                     console.log(j);
-                    Betting.textArea.push(j)
+                    Betting.textArea.push(j);
                 }
 
                 Betting.calculateAmount(d, $('#J_planNum').text());
