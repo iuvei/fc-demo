@@ -6,6 +6,17 @@ $(function() {
 			COMMON.getUrlParam();
 			COMMON.renderUserInfo();
 			COMMON.bindEvent();
+
+			COMMON.userCenterMenu();
+		},
+		userCenterMenu: function(){
+			// 会员中心的左侧菜单
+			if ($('#J_userNav').length) {
+				$('#J_userNav').find('dt').click(function(){
+					$('#J_userNav').find('dl').removeClass('open');
+					$(this).parents('dl').addClass('open');
+				});
+			}
 		},
 		bindEvent: function() {
 			// 退出

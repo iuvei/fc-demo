@@ -4,6 +4,7 @@
 	<meta charset="UTF-8">
 	<title>账变明细</title>
 	<link rel="stylesheet" href="../../../css/reset.css">
+	<link rel="stylesheet" href="../../../css/nice-select.css">
 	<link rel="stylesheet" href="../../../css/user_common.css">
 	<link rel="stylesheet" href="../../../css/skin/default.css" id="J_skinCss">
 </head>
@@ -143,19 +144,26 @@
 					<div class="user-s-sel">
 						<select name="" id="">
 							<option value="111">全部</option>
+							<option value="111">处理中</option>
+							<option value="111">审核失败</option>
+							<option value="111">审核通过</option>
 						</select>
 					</div>
 					<div class="user-s-tt">类型：</div>
 					<div class="user-s-sel">
 						<select name="" id="">
 							<option value="111">全部</option>
+							<option value="111">全部</option>
+							<option value="111">全部</option>
+							<option value="111">全部</option>
+							<option value="111">全部</option>
 						</select>
 					</div>
 					<div class="user-s-tt">日期：</div>
 					<div class="user-s-day">
-						<input type="text">
+						<input type="text" class="datepick" id="J_startDay">
 						<span>到：</span>
-						<input type="text">
+						<input type="text" class="datepick" id="J_endDay">
 					</div>
 					<div class="user-s-btn fr">查询</div>
 				</div>
@@ -183,6 +191,7 @@
 			</div>
 
 			<p>这里是分页</p>
+			
 		</div>
 	</div>
 
@@ -193,10 +202,14 @@
 	</div>
 
 
-	<!-- <script src="../js/jquery-1.11.1.min.js"></script>
-	<script src="../js/jquery.cookie.js"></script>
-	<script src="../js/layer/layer.js"></script>
-	<script src="../js/GLOBAL.js"></script>
-	<script src="../js/common.js"></script> -->
+	<script src="../../../js/jquery-1.11.1.min.js"></script>
+	<script src="../../../js/jquery-nice-select.js"></script>
+	<script src="../../../js/jquery.cookie.js"></script>
+	<script src="../../../js/layer/layer.js"></script>
+	<script src="../../../js/laypage/laypage.js"></script>
+	<script src="../../../js/laydate/laydate.js"></script>
+	<script src="../../../js/GLOBAL.js"></script>
+	<!-- <script src="../../../js/common.js"></script> -->
+	<script src="../../../js/user.js"></script>
 </body>
 </html>
