@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/nice-select.css">
+    <style>
+        body{
+            padding: 100px;
+        }
+        .nice-select {
+            background: #008698;
+            color: #fff;
+            border-radius: 0;
+        }
+        .nice-select .option {
+            color: #666;
+        }
+        .nice-select.open .list {
+            border-radius: 0px;
+            border: 1px solid #008698;
+            margin-top: 0;
+        }
+        .nice-select:after {
+            border-color: #fff;
+        }
+        .nice-select .option:hover, .nice-select .option.focus, .nice-select .option.selected.focus{
+            background-color: #f6f6f6;
+            color: #008698;
+            font-weight: normal;
+        }
+    </style>
+</head>
+<body>
+
+    <select name="" id="demo">
+        <option value="1">1111</option>
+        <option value="1">11122222222222221</option>
+        <option value="1">2222</option>
+        <option value="1">3333</option>
+        <option value="1">4444</option>
+        <option value="1">5555</option>
+        <option value="1">6666</option>
+    </select>
+    
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery.nice-select.min.js"></script>
+    <script>
+        $(function(){
+            $('select').niceSelect();
+        });
+    </script>
+</body>
+</html>
