@@ -425,45 +425,8 @@ $(function() {
                 Betting.randomBalls(i);
             });
         },
-        numberRandom: function(a, b, c) {
-            // console.log(a, b, c);
-            // a : 
-            // b : 
-            // c : 
-            for (var d = [c], e = 0; e < c; e++) {
-                var f = 0;
-                do {
-                    var g = !1;
-                    f = Math.floor(Math.random() * (b - a + 1)) + a, -1 != d.indexOf(f) && (g = !0)
-                } while (g);
-                d[e] = f
-            }
-            return d
-        },
-        arrRandom: function(a, b, c, d, e) {
-            var f = new Array;
-            switch (d) {
-                case 3:
-                    for (var g = a; g <= b; g++) /^(\d)\1\1$/.test(g) || (f[g] = g);
-                    break;
-                case 2:
-                    for (var g = a; g <= b; g++) /^(\d)\1$/.test(g) || (f[g] = g);
-                    break;
-                case 0:
-                    for (var g = a; g <= b; g++) f[g] = g
-            }
-            f.sort(function() {
-                return .5 - Math.random()
-            });
-            for (var h = [], g = 0; g < c; g++) e ? h.push(Betting.addZero(f[g] + "", (b + "").length)) : h.push(f[g] + "");
-            return h
-        },
-        addZero: function(a, b) {
-            if (a.length > 1 * b) return "";
-            for (var c = "", d = 0; d < 1 * b - a.length; d++) c += "0";
-            return c + a
-        },
         randomBalls : function(times) {
+            console.log('randomBalls');
             var _beishu = $('#J_beishu').val(); //倍数
             var _times = times; //机选数量
             var _formulaList = [];      //公式列表
@@ -493,61 +456,9 @@ $(function() {
             });
 
             var _amount = 0;    //一注的价格
-
             var _data = [];
-            
-            // var _ddd = {
-            //     multiple: $('#J_beishu').val(),
-            //     ajaxType: _currentRule.opt.ajaxType,
-            //     unit: $('#J_unit').data('txt').split('#')[1],
-            //     unitName: $('#J_unit').data('val'),
-            //     type: _subNav,
-            //     typeName: $('.J_subMenu.active').text(),
-            //     num: 1,  //默认每次机选1注
-            //     sum: Betting.formatNumber(_amount, 4),
-            //     need: ''
-            // };
-            console.log(_currentRule.opt.type);
-            // console.log(a);
-
-
-            // if("SSC" != g || "FixedPlace" != globalVar.playCode && "First2StraightAnyCode" != globalVar.playCode && "Last2StraightAnyCode" != globalVar.playCode && "First2ComAnyCode" != globalVar.playCode && "Last2ComAnyCode" != globalVar.playCode ) {
-            //     if("LF" == g && "FixedPlace_LF" == globalVar.playCode) {
-
-            //         // lott.addBallToCartOfAlone(a, e)
-            //     } else {
-            //         if("11X5" == g && "FixedPlace_11X5" == globalVar.playCode) {
-            //             // lott.add11X5BallToCartOfAlone(a)
-            //         } else {
-            //             if("SSC" == g && (globalVar.playCode.indexOf("AllCom") > -1 || globalVar.playCode.indexOf("L4Com") > -1 || globalVar.playCode.indexOf("F4Com") > -1 || 0 == globalVar.playCode.indexOf("Any4Com"))) {
-            //                 lott.addBallToCartOf5O4StarCom(a, d, e)
-            //             } else {
-            //                 if("PK10" == g && globalVar.playCode.indexOf("BSOE_PK10") > -1) {
-            //                     lott.addBallToCartOfPk10Bose(a)
-            //                 } else {
-            //                     if("PK10" == g && globalVar.playCode.indexOf("5Fixed_PK10") > -1) {
-            //                         lott.add11X5BallToCartOfAlone(a)   
-            //                     } else {
-            //                         if("11X5" == g || "PK10" == g && -1 == globalVar.playCode.indexOf("BSOE_PK10") && -1 == globalVar.playCode.indexOf("5Fixed_PK10")) {
-            //                             lott.add11X5BallToCart(a, d, e)
-            //                         } else {
-            //                             lott.addBallToCart(a, d, e)
-            //                         }
-            //                     }
-            //                 }
-            //             }
-            //         }
-            //     }
-            // } else {
-            //     lott.addBallToCartOfAlone(a, e)
-            // }
-
-
-
-
-
+            // console.log(_currentRule.opt.type);
            
-            // 
             if (_currentRule.opt.type == 'text') {
                 var _miBall = SSC_TEMPLATE.allManualEntryEvents(_subNav).miBall;
                 // 默认设置为SSC
@@ -825,7 +736,7 @@ $(function() {
                             _ddd.typeName = $('.J_subMenu.active').text();
                             _ddd.num = n,  //默认每次机选1;
                             // sum = 注数 * 倍数 * 模式 * 单价
-                            _ddd.sum = Betting.formatNumber(n * 1 * Number($('#J_unit').data('txt').split('#')[1] * Betting.singleStakesPrice), 4);
+                            _ddd.sum = Betting.formatNumber(n * _ddd.multiple * Number($('#J_unit').data('txt').split('#')[1] * Betting.singleStakesPrice), 4);
                             _ddd.need = _need;
 
                             _data[g] = _ddd;
@@ -927,7 +838,7 @@ $(function() {
                     } else {
                         j = j;
                         // lott.createBetCart(j, 1, c, a.digit, a.stakes, k)
-                        _getRoundData
+                        // _getRoundData
                     }
                     console.log(j, 1, _beishu, a.digit, a.stakes, k)
                     // Betting.textArea.push(j);
@@ -935,7 +846,6 @@ $(function() {
                     _data.push(_getTextRoundData(j, a.stakes));
                 }
             }
-
 
             function _getTextRoundData(j, num, type) {
                 // j : 数值
@@ -1109,9 +1019,11 @@ $(function() {
                 _ddd.unitName = $('#J_unit').data('val');
                 _ddd.type = _subNav;
                 _ddd.typeName = $('.J_subMenu.active').text();
-                // console.log(num);
                 _ddd.num = num ? num : 1,  //默认每次机选1;
-                _ddd.sum = Betting.formatNumber(_ddd.num * 1 * Number($('#J_unit').data('txt').split('#')[1] * Betting.singleStakesPrice), 4);
+                
+                console.log(_ddd.multiple);
+
+                _ddd.sum = Betting.formatNumber(_ddd.num * 1 * _ddd.multiple * Number($('#J_unit').data('txt').split('#')[1] * Betting.singleStakesPrice), 4);
                 // _ddd.need = _need;
                 // _ddd.sum = Betting.formatNumber(_amount, 4);
                 _ddd.need = _need;
@@ -1179,9 +1091,7 @@ $(function() {
                         _ddd.type = _subNav;
                         _ddd.typeName = $('.J_subMenu.active').text();
                         _ddd.num = 1,  //默认每次机选1;
-                        _ddd.sum = Betting.formatNumber(_ddd.num * 1 * Number($('#J_unit').data('txt').split('#')[1] * Betting.singleStakesPrice), 4);
-                        // _ddd.need = _need;
-                        // _ddd.sum = Betting.formatNumber(_amount, 4);
+                        _ddd.sum = Betting.formatNumber(_ddd.num * _ddd.multiple * Number($('#J_unit').data('txt').split('#')[1] * Betting.singleStakesPrice), 4);
                         _ddd.need = _need;
 
                         _getRoundData[g] = _ddd;
@@ -1195,9 +1105,7 @@ $(function() {
         },
         addBallToCart: function() {
             var _data = Betting.getSelectData();
-            // console.log(_data);
             // 渲染购物车
-            // console.log(Betting.textArea);
             Betting.renderCart(_data);
         },
         renderCart: function(data) {
@@ -1454,6 +1362,9 @@ $(function() {
             }
 
             _data.push(_d);
+
+
+            console.log(_data);
             return _data;
         },
         renderMaxBonus: function(mainNavType, subNavType) {
@@ -1822,6 +1733,40 @@ $(function() {
                 console.log(Betting.textArea);
                 Betting.calculateAmount(e);
             }
+        },
+        numberRandom: function(a, b, c) {
+            for (var d = [c], e = 0; e < c; e++) {
+                var f = 0;
+                do {
+                    var g = !1;
+                    f = Math.floor(Math.random() * (b - a + 1)) + a, -1 != d.indexOf(f) && (g = !0)
+                } while (g);
+                d[e] = f
+            }
+            return d
+        },
+        arrRandom: function(a, b, c, d, e) {
+            var f = new Array;
+            switch (d) {
+                case 3:
+                    for (var g = a; g <= b; g++) /^(\d)\1\1$/.test(g) || (f[g] = g);
+                    break;
+                case 2:
+                    for (var g = a; g <= b; g++) /^(\d)\1$/.test(g) || (f[g] = g);
+                    break;
+                case 0:
+                    for (var g = a; g <= b; g++) f[g] = g
+            }
+            f.sort(function() {
+                return .5 - Math.random()
+            });
+            for (var h = [], g = 0; g < c; g++) e ? h.push(Betting.addZero(f[g] + "", (b + "").length)) : h.push(f[g] + "");
+            return h
+        },
+        addZero: function(a, b) {
+            if (a.length > 1 * b) return "";
+            for (var c = "", d = 0; d < 1 * b - a.length; d++) c += "0";
+            return c + a
         }
     }
 
