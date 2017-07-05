@@ -245,9 +245,9 @@ $(function() {
                 if($(this).hasClass('disabled')){
                     return;
                 }
-
-                // TODO: 投注
-                console.log('确认投注');
+                
+                var _data = Betting.getConfirmData();
+                Betting.confirmCart(_data, 'confirm');
             });
 
             // 清空选号
@@ -425,8 +425,29 @@ $(function() {
                 Betting.randomBalls(i);
             });
         },
+        confirmCart: function(_data, type) {
+            // type : confirm 确认投注    shortcut : 一键投注
+            
+            GLOBAL.getAjaxData({
+                url: '/bet/buy',
+                data: {
+                    id : $('#orderId').val(),
+                    items : _data
+                }
+            }, function(data) {
+                // TODO:根据返回金额校验当前用户余额是否足够
+                console.log(data);
+                if (type == 'confirm') {
+                    $('#J_betList').html('');
+                    $('#J_confirmBets,#J_chaseNumber').addClass('disabled');
+                    Betting.renderTotal();
+                } else if(type == 'shortcut'){
+                    Betting.resetSelectArea();
+                }
+            });
+        },
         randomBalls : function(times) {
-            console.log('randomBalls');
+            // console.log('randomBalls');
             var _beishu = $('#J_beishu').val(); //倍数
             var _times = times; //机选数量
             var _formulaList = [];      //公式列表
@@ -620,8 +641,6 @@ $(function() {
 
                         console.log(f);
                         console.log(g, 1, _beishu, f, 1, h);
-                        // lott.createBetCart(g, 1, c, f, 1, h)
-                        // lott.createBetCart(g, 1, c, f, 1, h)
                         if ("FixedPlace" == _subNav) {
                             _data.push(_getTextRoundData(g, 1, f));
                         } else {
@@ -643,15 +662,9 @@ $(function() {
                         }
                     }
                     if (a.length - 1 == 1 && 1 * _minSelect >= 1){
-                        // _minSelect = SSC_TEMPLATE[_mainNav]({
-                        //     type : _subNav
-                        // }).opt.minSelect;
-
-                        // console.log(_minSelect);
                         for (var g = 0; g < 1 * _times; g++) {
                             var j = "";
                             j = Betting.numberRandom(0, 9, 1 * _minSelect).join("");
-                            // console.log(j);
                             var n = 1;
                             _subNav.indexOf("3Com3") > -1 && (n = 2), _subNav.indexOf("3StraightCom") > -1 && (n = 6), _subNav.indexOf("3ComAnyCode1") > -1 && (n = 55);
                             var m = g == 1 * _times - 1;
@@ -661,12 +674,7 @@ $(function() {
                                     return a - _minSelect
                                 }), j = h.join("") + "@" + j, n *= 1
                             }
-                            // console.log(j);
-                            // console.log(c);
-                            // console.log(n);
                             _data.push(_getTextRoundData(j, n));
-
-                            // lott.createBetCart(j, 1, e, c, n, m)
                         }
                     }
 
@@ -679,70 +687,9 @@ $(function() {
                             _subNav.indexOf("Join") > -1 && (n = 1 * _subNav.charAt(_subNav.indexOf("Join") - 1)), _subNav.indexOf("3ComAnyCode2") > -1 && (n = 10);
                             var m = g == 1 * _times - 1;
 
-                            var _ddd = {};
-                            var _need = '';
-
-                            var _FIRST = $('[data-row="FIRST"]');
-                            var _SECOND = $('[data-row="SECOND"]');
-                            var _THIRD = $('[data-row="THIRD"]');
-                            var _FOURTH = $('[data-row="FOURTH"]');
-                            var _FIFTH = $('[data-row="FIFTH"]');
-
-                            if(_FIRST.length) {
-                                _ddd.w = j.split('_').join('').split('')[_FIRST.parent('li').index()];
-                                _need += 'w#';
-                            }
-
-                            if(_SECOND.length) {
-                                _ddd.q = j.split('_').join('').split('')[_SECOND.parent('li').index()];
-                                _need += 'q#';
-                            }
-
-                            if(_THIRD.length) {
-                                _ddd.b = j.split('_').join('').split('')[_THIRD.parent('li').index()];
-                                _need += 'b#';
-                            }
-
-                            if(_FOURTH.length) {
-                                _ddd.s = j.split('_').join('').split('')[_FOURTH.parent('li').index()];
-                                _need += 's#';
-                            }
-
-                            if(_FIFTH.length) {
-                                _ddd.g = j.split('_').join('').split('')[_FIFTH.parent('li').index()];
-                                _need += 'g';
-                            }
-
-                            if($('[data-row="NONE"]').length) {
-                                _ddd.n = j.split('_').join('').split('')[0];
-                                _need += 'n';
-                            }
-
-                            if($('[data-row="NONE1"]').length) {
-                                _ddd.n1 = j.split('_').join('').split('')[0];
-                                _need += 'n1#';
-                            }
-
-                            if($('[data-row="NONE2"]').length) {
-                                _ddd.n2 = j.split('_').join('').split('')[1];
-                                _need += 'n2';
-                            }
-
-                            _ddd.multiple = $('#J_beishu').val();
-                            _ddd.ajaxType = _currentRule.opt.ajaxType;
-                            _ddd.unit = $('#J_unit').data('txt').split('#')[1];
-                            _ddd.unitName = $('#J_unit').data('val');
-                            _ddd.type = _subNav;
-                            _ddd.typeName = $('.J_subMenu.active').text();
-                            _ddd.num = n,  //默认每次机选1;
-                            // sum = 注数 * 倍数 * 模式 * 单价
-                            _ddd.sum = Betting.formatNumber(n * _ddd.multiple * Number($('#J_unit').data('txt').split('#')[1] * Betting.singleStakesPrice), 4);
-                            _ddd.need = _need;
-
-                            _data[g] = _ddd;
+                            _data.push(_getTextRoundData(j, n));
                         }
                     }
-                    // _data = _getRoundData(a, _minSelect, _times, _currentRule);
                 }
             } else if(_currentRule.opt.type == 'sum'){
                 // var _balls = SSC_TEMPLATE.getSubNumList(_currentRule.opt.sumType);
@@ -838,7 +785,6 @@ $(function() {
                     } else {
                         j = j;
                         // lott.createBetCart(j, 1, c, a.digit, a.stakes, k)
-                        // _getRoundData
                     }
                     console.log(j, 1, _beishu, a.digit, a.stakes, k)
                     // Betting.textArea.push(j);
@@ -851,7 +797,7 @@ $(function() {
                 // j : 数值
                 // num : 倍数
                 // type : 位置 01234 = 个十百千万
-                console.log(j, num, type);
+                // console.log(j, num, type);
 
                 var _ddd = {};
                 var _need = '';
@@ -891,6 +837,10 @@ $(function() {
                         }
                     }
                     if(_ddd.w == '#'){
+                        _ddd.w = '';
+                        if (type == undefined) {
+                            _need += 'w#';
+                        }
                     } else {
                         if (type == undefined || type != undefined && type == 4) {
                             _need += 'w#';
@@ -909,7 +859,10 @@ $(function() {
                         }
                     }
                     if(_ddd.q == '#'){
-                        // _ddd.q = '';
+                        _ddd.q = '';
+                        if (type == undefined) {
+                            _need += 'q#';
+                        }
                     } else {
                         if (type == undefined || type != undefined && type == 3) {
                             _need += 'q#';
@@ -918,7 +871,6 @@ $(function() {
                 }
 
                 if(_THIRD.length) {
-
                     if (type == 2) {
                         _ddd.b = j;
                     } else {
@@ -926,7 +878,10 @@ $(function() {
                     }
 
                     if(_ddd.b == '#'){
-                        // _ddd.b = '';
+                        _ddd.b = '';
+                        if (type == undefined) {
+                            _need += 'b#';
+                        }
                     } else {
                         if (type == undefined || type != undefined && type == 2) {
                             _need += 'b#';
@@ -945,7 +900,10 @@ $(function() {
                         }
                     }
                     if(_ddd.s == '#'){
-                        // _ddd.s = '';
+                        _ddd.s = '';
+                        if (type == undefined) {
+                            _need += 's#';
+                        }
                     } else {
                         if (type == undefined || type != undefined && type == 1) {
                             _need += 's#';
@@ -965,6 +923,9 @@ $(function() {
                     }
                     if(_ddd.g == '#'){
                         _ddd.g = '';
+                        if (type == undefined) {
+                            _need += 'g';
+                        }
                     } else {
                         if (type == undefined || type != undefined && type == 0) {
                             _need += 'g';
@@ -991,37 +952,47 @@ $(function() {
                     _ddd.hex = _hex;
                 }
 
-                console.log(_ddd);
+                // console.log(_ddd);
 
                 if($('#J_ballInputArea').length || $('[data-row="NONE"]').length) {
-                    _ddd.n = j.split('_').join('');
+                    _ddd.n = j.split('_').join('').replace(/\#/g,'').split('').sort().join('');
+                    // _ddd.n = j.split('_').join('');
                     _need += 'n';
                 }
 
+console.log(j)
                 if($('[data-row="NONE1"]').length) {
-                    _ddd.n1 = j.split('_')[0];
+                    if(j.indexOf('_') == 0){
+                        _ddd.n1 = j.split('_')[1].split('').sort().join('');
+                    } else {
+                        _ddd.n1 = j.split('_')[0].split('').sort().join('');
+                    }
                     _need += 'n1#';
                 }
 
                 if($('[data-row="NONE2"]').length) {
-                    _ddd.n2 = j.split('_')[1];
+                    if(j.indexOf('_') == 0){
+                        _ddd.n2 = j.split('_')[2];
+                    } else {
+                        _ddd.n2 = j.split('_')[1];
+                    }
                     _need += 'n2';
                 }
 
                 if($('[data-row="SUM"]').length) {
-                    _ddd.n1 = j;
+                    _ddd.n1 = j.split('').sort().join('');
                     _need += 'n';
                 }
 
                 _ddd.multiple = $('#J_beishu').val();
                 _ddd.ajaxType = _currentRule.opt.ajaxType;
-                _ddd.unit = $('#J_unit').data('txt').split('#')[1];
+                _ddd.unit = $('#J_unit').data('txt').split('#')[2];
                 _ddd.unitName = $('#J_unit').data('val');
-                _ddd.type = _subNav;
+                _ddd.type = _currentRule.opt.type;
                 _ddd.typeName = $('.J_subMenu.active').text();
                 _ddd.num = num ? num : 1,  //默认每次机选1;
                 
-                console.log(_ddd.multiple);
+                // console.log(_ddd.multiple);
 
                 _ddd.sum = Betting.formatNumber(_ddd.num * 1 * _ddd.multiple * Number($('#J_unit').data('txt').split('#')[1] * Betting.singleStakesPrice), 4);
                 // _ddd.need = _need;
@@ -1030,75 +1001,6 @@ $(function() {
 
                 // _data[g] = _ddd;
                 return _ddd;
-            }
-            
-            function _getRoundData(a, _minSelect, _times, _currentRule){
-                var _getRoundData = [];
-                if (a.length - 1 > 1 && 1 * _minSelect == 1) {
-                    for (var g = 0; g < 1 * _times; g++) {
-                        for (var j = "", k = 0; k < a.length - 1; k++){
-                            j += "_" + Betting.numberRandom(0, 9, 1)[0];  
-                        }
-                        var _ddd = {};
-                        var _need = '';
-                        
-                        // console.log(j);
-
-                        if($('[data-row="FIRST"]').length) {
-                            _ddd.w = j.split('_').join('').split('')[0];
-                            _need += 'w#';
-                        }
-
-                        if($('[data-row="SECOND"]').length) {
-                            _ddd.q = j.split('_').join('').split('')[1];
-                            _need += 'q#';
-                        }
-
-                        if($('[data-row="THIRD"]').length) {
-                            _ddd.b = j.split('_').join('').split('')[2];
-                            _need += 'b#';
-                        }
-
-                        if($('[data-row="FOURTH"]').length) {
-                            _ddd.s = j.split('_').join('').split('')[3];
-                            _need += 's#';
-                        }
-
-                        if($('[data-row="FIFTH"]').length) {
-                            _ddd.g = j.split('_').join('').split('')[0];
-                            _need += 'g';
-                        }
-
-                        if($('[data-row="NONE"]').length) {
-                            _ddd.n = j.split('_').join('').split('')[0];
-                            _need += 'n';
-                        }
-
-                        if($('[data-row="NONE1"]').length) {
-                            _ddd.n1 = j.split('_').join('').split('')[0];
-                            _need += 'n1#';
-                        }
-
-                        if($('[data-row="NONE2"]').length) {
-                            _ddd.n2 = j.split('_').join('').split('')[1];
-                            _need += 'n2';
-                        }
-
-                        _ddd.multiple = $('#J_beishu').val();
-                        _ddd.ajaxType = _currentRule.opt.ajaxType;
-                        _ddd.unit = $('#J_unit').data('txt').split('#')[1];
-                        _ddd.unitName = $('#J_unit').data('val');
-                        _ddd.type = _subNav;
-                        _ddd.typeName = $('.J_subMenu.active').text();
-                        _ddd.num = 1,  //默认每次机选1;
-                        _ddd.sum = Betting.formatNumber(_ddd.num * _ddd.multiple * Number($('#J_unit').data('txt').split('#')[1] * Betting.singleStakesPrice), 4);
-                        _ddd.need = _need;
-
-                        _getRoundData[g] = _ddd;
-                    }
-                }
-
-                return _getRoundData;
             }
 
             Betting.renderCart(_data);
@@ -1115,15 +1017,15 @@ $(function() {
             var _len = data.length;
             if (data && _len) {
                 $.each(data, function(i, n) {
-                    _str += '<li class="clearfix" data-type="'+ n.ajaxType +'" data-hex="'+ (n.hex ? n.hex : '') +'" data-need="'+ (n.need == 'sum' ? 'n' : n.need) +'">';
-                    _str += '    <div class="t1" data-type="'+ n.type +'">'+ n.typeName +'</div>';
+                    _str += '<li class="clearfix" data-type="'+ n.type +'" data-ajaxtype="'+ n.ajaxType +'" data-hex="'+ (n.hex ? n.hex : '') +'" data-need="'+ (n.need == 'sum' ? 'n' : n.need) +'" data-unit="'+ n.unit +'" data-multiple="'+ n.multiple +'" data-w="'+ (n.w ? n.w : '') +'" data-q="'+ (n.q ? n.q : '') +'" data-b="'+ (n.b ? n.b : '') +'" data-s="'+ (n.s ? n.s : '') +'" data-g="'+ (n.g ? n.g : '') +'" data-n="'+ (n.n ? n.n : '') +'" data-n1="'+ (n.n1 ? n.n1 : '') +'" data-n2="'+ (n.n2 ? n.n2 : '') +'" >';
+                    _str += '    <div class="t1">'+ n.typeName +'</div>';
                     _str += '    <div class="t2"><div>';
                     _str += _changeNum(n);
-                    _str += '<span class="cm_number hide">';
+                    _str += '<span class="cm_number hide J_cartNums">';
                     _str += _changeNum(n);
                     _str += '</span>';
                     _str += '</div></div>';
-                    _str += '    <div class="t3" data-unit="'+ n.unit +'">'+ n.unitName +'</div>';
+                    _str += '    <div class="t3">'+ n.unitName +'</div>';
                     _str += '    <div class="t4 J_nums">'+ n.num +'</div>';
                     _str += '    <div class="t5">'+ n.multiple +'</div>';
                     _str += '    <div class="t6 J_sums">'+ n.sum +'</div>';
@@ -1149,13 +1051,13 @@ $(function() {
                         _html += k.g;
                     }
                     if (k.n) {
-                        _html += k.n ;
+                        _html += k.n.split('').sort().join('') ;
                     }
                     if (k.n1) {
-                        _html += k.n1 + (k.n2 ? ' | ' : '');
+                        _html += (k.n1.split('').sort().join('')) + (k.n2 ? ' | ' : '');
                     }
                     if (k.n2) {
-                        _html += k.n2;
+                        _html += k.n2.split('').sort().join('');
                     }
                     
                     return _html;
@@ -1194,7 +1096,63 @@ $(function() {
                 $('#J_ballInputArea').val('');
             }
         },
+        getConfirmData: function() {
+            var _items = [];
+            $('#J_betList li').each(function(x, y){
+                var _ajaxData = {};
+                var _this = $(this);
+                var _type = _this.data('type');
+                var _need = _this.data('need');
+                var _nums = _this.find('.J_cartNums').html().replace(/\ /g, '');
+
+                _ajaxData.type = _this.data('ajaxtype');
+                _ajaxData.multiple = _this.data('multiple');
+                _ajaxData.unit = _this.data('unit');
+
+                
+                if(_this.data('hex')){
+                    _ajaxData.hex = _this.data('hex').split('').join(',');
+                }
+
+                console.log(_type, _nums);
+                if (_type == 'ball') {
+                    $.each(_need.split('#'), function(i, n){
+                        if (n) {
+                            _ajaxData[n] = _this.data(n) + '';
+                        }
+                        _ajaxData[n] = _ajaxData[n].split('').sort().join('');
+                    });
+                } else if(_type == 'text' || _type == 'mixing' || _type == 'sum' || _type == 'mixingAny'){
+                    _ajaxData.n = _nums;
+                } else if(_type == 'taste'){
+                    $.each(_need.split('#'), function(i, n){
+                        if (n) {
+                            _ajaxData[n] = _exchangeToNum(_this.data(n));
+                        }
+                    });
+
+                    function _exchangeToNum(name){
+                        var _num = '0';
+                        if(name == '大'){
+                            _num = '0';
+                        } else if (name == '小') {
+                            _num = '1';
+                        } else if (name == '单') {
+                            _num = '2';
+                        } else if (name == '双') {
+                            _num = '3';
+                        }
+                        return _num;
+                    }
+                }
+
+                _items.push(_ajaxData);
+            });
+
+            return _items;
+        },
         shortcutPlaceOrder: function() {
+            var _items = [];
             var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
             var _subNav = $('.J_subMenu.active').data('info').split('#')[1];
             var _currentRule = SSC_TEMPLATE[_mainNav]({
@@ -1204,13 +1162,10 @@ $(function() {
             var _data = Betting.getSelectData();
             var _ajaxData = {};
 
-            // console.log(_data);
-            // console.log(_currentRule);
             _ajaxData.type = _currentRule.opt.ajaxType;
             _ajaxData.multiple = Number($('#J_beishu').val());  //转换为数字
             _ajaxData.unit = $('#J_unit').data('txt').split('#')[2];
 
-            console.log(_type);
             if (_data[0].hex) {
                 _ajaxData.hex = _data[0].hex.split('').join(',');
             }
@@ -1249,22 +1204,9 @@ $(function() {
                 }
             }
 
-            var _items = [];
-            console.log(_ajaxData);
-
             _items.push(_ajaxData);
 
-            console.log(_items);
-            // GLOBAL.getAjaxData({
-            //     url: '/bet /buy',
-            //     data: {
-            //         id: '',
-            //         items: _items
-            //     }
-            // }, function(d) {
-                    // TOOD购买成功的回调
-                    // Betting.resetSelectArea();
-            // });
+            Betting.confirmCart(_items, 'shortcut');
         },
         getBettingQuantity: function(options) {
             // 计算选择的注数
@@ -1326,7 +1268,8 @@ $(function() {
             var _opt = _rule.opt;
             var _d = {};
 
-            _d.typeName = $('.J_subMenu.active').text();    //玩法类型
+            _d.type = _opt.type;   //选号类型
+            _d.typeName = $('.J_subMenu.active').text();    //玩法类型名称
             _d.multiple = $('#J_beishu').val(); //投注倍数
             _d.unit = $('#J_unit').data('txt').split('#')[2];   //投注金额单位：yuan,jiao,fen,li
             _d.unitName = $('#J_unit').data('val'); //投注金额单位 元角分厘
@@ -1375,7 +1318,6 @@ $(function() {
                         _need += 'sum';
                     }
                 });
-                _d.type = _subNav;
                 
                 // _d.len = _opt.numNameList.length;
                 _d.need = _need;  //需要的数据类型

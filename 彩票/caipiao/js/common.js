@@ -4,7 +4,7 @@ $(function() {
 		init: function() {
 			COMMON.setSkin();
 			COMMON.getUrlParam();
-			COMMON.renderUserInfo();
+			// COMMON.renderUserInfo();
 			COMMON.bindEvent();
 
 			COMMON.userCenterMenu();
@@ -40,6 +40,13 @@ $(function() {
 				}
 			});
 
+			// 显示开奖历史
+			$('#J_lastThreeDrawResult1,#J_historyList').hover(function(){
+				$('#J_historyList').show();
+			}, function(){
+				$('#J_historyList').hide();
+			});
+
 			// 走势图
 			$('#J_trendChart').click(function() {
 				window.open('/caipiao/page/chart.html?name=qq_fen_fen');
@@ -66,8 +73,7 @@ $(function() {
 		},
 		renderUserInfo: function() {
 			GLOBAL.getAjaxData({
-				type: 'get',
-				url: '../data/user/detail.json'
+				url: '/user/detail'
 			}, function(data) {
 				$('.J_userName').html(data.username);
 				$('.J_balance').html(data.balance)
@@ -76,14 +82,15 @@ $(function() {
 		},
 		homeBallInfo: function() {
 			GLOBAL.getAjaxData({
-				type: 'get',
-				url: '../data/product/list.json'
+				url: '/product/lists'
 			}, function(data) {
 				var _data = data.data;
 				$.each(_data, function(i, val) {
-					$('#J_betTimer' + val.id).html(val['periods'].date + '-' + val['periods'].num); //彩票期数
+					// 跳转地址
+					$('#J_jumpToPage' + val.id).attr('href', 'betting.html?name=' + val.code +'&id=' + val.id);
+					//彩票期数
+					$('#J_betTimer' + val.id).html(val['periods'].date + '-' + val['periods'].num);
 					//定时器处理
-
 					COMMON.countDown(parseInt(val.periods.lottery_surplus), val.id, val.id);
 				});
 			});
@@ -95,8 +102,7 @@ $(function() {
 				maxWidth: '520px'
 			}, function(index) {
 				GLOBAL.getAjaxData({
-					type: 'get',
-					url: '../data/user/logout.json'
+					url: '/user/logout'
 				}, function(data) {
 					layer.close(index);
 					// TODO: 跳转到登录页面
@@ -118,10 +124,12 @@ $(function() {
 					second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
 				} else {
 					// TODO: 结束提示
-					// layer.alert('第<span style="padding:0 5px;">' + $('#J_betTimer').html() + '</span>期已结束<br/>请留意投注期号。', {
-					// 	icon: 2,
-					// 	time: 2000
-					// });
+					if (!COMMON.isIndex) {
+						layer.alert('第<span style="padding:0 5px;">' + $('#J_betTimer').html() + '</span>期已结束<br/>请留意投注期号。', {
+							icon: 2,
+							time: 2000
+						});
+					}
 
 					window.clearInterval(t);
 					COMMON.getBallInfo($id);
@@ -151,9 +159,12 @@ $(function() {
 			}, 1000);
 		},
 		getBallInfo: function($id) {
+			var _url = GLOBAL.getRequestURL();
 			GLOBAL.getAjaxData({
-				type: 'get',
-				url: '../data/product/detail.json'
+				url: '/product/detail',
+				data: {
+					id : Number($id) || _url.id
+				}
 			}, function(data) {
 				// TODO: 判断是详情页还是首页
 				if (COMMON.isIndex) {
@@ -161,6 +172,7 @@ $(function() {
 					//定时器处理
 					COMMON.countDown(parseInt(data.periods.lottery_surplus), data.id, data.id);
 				} else {
+					$('#J_productLogo').attr('src', data.logo);
 					// TODO: 详情页
 					$('#J_betTimer').html(data.periods.date + '-' + COMMON.fillLenght(data.periods.num, 3, '0')); //彩票期数
 					// $('#countDown').val(parseInt(data.periods.lottery_surplus)); //距离开奖时间 秒数
@@ -181,6 +193,7 @@ $(function() {
 			return str;
 		},
 		lotteryNum: function(_id, num, d) {
+			var _url = GLOBAL.getRequestURL();
 			//处理开奖号
 			if (num.length > 0) {
 				var _str = '';
@@ -190,50 +203,55 @@ $(function() {
 				$('#' + _id).html(_str);
 
 				GLOBAL.getAjaxData({
-					type: 'get',
-					url: '../data/lottery/list.json'
+					url: 'lottery/lists',
+					data : {
+						id : _url.id,
+						pageSize : 10
+					}
 				}, function(d) {
-					var three = $('#J_lastThreeDrawResult1');
-					var three2 = $('#J_lastThreeDrawResult2');
-					three.find('dd').remove();
-					three2.find('dd').remove();
-					// seven.find('li').remove();
+					var _list1 = '';
+					var _list2 = '';
+					var _list3 = '';
+					$('#J_lastThreeDrawResult1').find('dd').remove();
+					$('#J_lastThreeDrawResult2').find('dd').remove();
 					$.each(d.data, function(k, val) {
 						val.num = COMMON.fillLenght(val.num, 3, '0');
 						if (k < 3) {
-							// three.append(`<li><div class="alignleft">${val.date}-${val.num}</div><div class="alignright"><ul><li>${val.lottery_num[0]}</li><li>${val.lottery_num[1]}</li><li>${val.lottery_num[2]}</li><li>${val.lottery_num[3]}</li><li>${val.lottery_num[4]}</li></ul></div></li>`);
-							three.append('<dd>'+ val.date +'-'+ val.num +'</dd>');
-							three2.append('<dd>' + val.lottery_num[0] + val.lottery_num[1] + val.lottery_num[2] + val.lottery_num[3] + val.lottery_num[4] + '</dd>');
-
+							_list1 += '<dd>'+ val.date +'-'+ val.num +'</dd>';
+							_list2 += '<dd>' + val.lottery_num[0] + val.lottery_num[1] + val.lottery_num[2] + val.lottery_num[3] + val.lottery_num[4] + '</dd>';
 						}
-						// seven.append('<li class="draw_date">${val.date}-${val.num}</li><li class="draw_winning"><ul><li>${val.lottery_num[0]}</li><li>${val.lottery_num[1]}</li><li>${val.lottery_num[2]}</li><li>${val.lottery_num[3]}</li><li>${val.lottery_num[4]}</li></ul></li>');
+						_list3 += '<li><span>'+ val.date +'-'+ val.num +'</span><em>' + val.lottery_num[0] + val.lottery_num[1] + val.lottery_num[2] + val.lottery_num[3] + val.lottery_num[4] + '</em></li>';
 					});
+
+					$('#J_lastThreeDrawResult1').append(_list1);
+					$('#J_lastThreeDrawResult2').append(_list2);
+					$('#J_historyList').html(_list3);
 				});
+			} else {
+				// 没获取到最新的数据三秒获取一次
+				setTimeout(function(){
+					COMMON.getBallInfo();
+				}, 3000);
 			}
 		},
 		getUrlParam: function() {
-			var r = window.location.search.substr(1).match(/name=(\w+)/);
-			var x = GLOBAL.getRequestURL();
-			if (!x.name) {
+			// var r = window.location.search.substr(1).match(/name=(\w+)/);
+			var _url = GLOBAL.getRequestURL();
+
+			if (!_url.name) {
 				// 判断是否为首页或者详情页面
 				COMMON.isIndex = true;
 			}
 			if (COMMON.isIndex) {
 				COMMON.homeBallInfo();
 			} else {
-				// if (!r) {
-				// 	location.href = '/caipiao/page/index.html';
-				// }
-				if (r[1] == 'chong_qing_shi_shi') {
-					COMMON.getBallInfo(1);
-				} else if (r[1] == 'qq_fen_fen') {
-					COMMON.getBallInfo(2);
-				} else if (r[1] == 'bei_ji_fen_fen') {
-					COMMON.getBallInfo(3);
+				if (!_url.name) {
+					location.href = '/index.html';
+				} else {
+					COMMON.getBallInfo(_url.id);
 				}
 			}
-		},
-
+		}
 	}
 
 	COMMON.init();

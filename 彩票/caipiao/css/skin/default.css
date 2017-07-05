@@ -43,7 +43,6 @@ a.text-l-color,
     cursor: no-drop;
 }
 
-
 /* 详情页选择 */
 .row-num li.active,
 .row-num li:hover{
@@ -79,7 +78,7 @@ a.text-l-color,
     background-color: #008698;
 }
 .user-ljgl .user-table-c li > div.t2{
-    color: #059acb;
+    color: #00515d;
 }
 
 /* layer 扩展 */
