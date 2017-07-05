@@ -9,6 +9,44 @@ $(function() {
             Betting.renderSelectArea();
         },
         bindEvent: function() {
+            // 历史投注换页
+            $('#J_betTabPagePrev').click(function(){
+                var _index = $('#J_curPage').html();
+                var _total = $('#J_totalPage').html();
+
+                if(_index == 1){
+                    return;
+                }
+                Betting.getBetHistory({
+                    page: _index--
+                });
+            });
+
+            $('#J_betTabPageNext').click(function(){
+                var _index = $('#J_curPage').html();
+                var _total = $('#J_totalPage').html();
+                
+                if(_index == _total){
+                    return;
+                }
+                Betting.getBetHistory({
+                    page: _index++
+                });
+            });
+            
+            //切换当前投注、投注历史
+            $('.J_betTabTt').click(function(){
+                var _this = $(this);
+                var _index = _this.index();
+                $('.J_betTabTt').removeClass('active');
+                _this.addClass('active');
+                $('.J_betTabBox').addClass('hide');
+                $('.J_betTabBox').eq(_index).removeClass('hide');
+                if(_index){
+                    Betting.getBetHistory();
+                }
+            });
+            
             // 主导航栏选择大类型
             $('.J_withChild').click(function() {
                 var _this = $(this);
@@ -235,9 +273,7 @@ $(function() {
                 if($(this).hasClass('disabled')){
                     return;
                 }
-
                 // TODO: 追号
-                console.log('我要追号');
             });
 
             // 确认投注
@@ -316,7 +352,6 @@ $(function() {
                 var _min = _this.parent('ul').data('min');  // 最少可选数量
                 var _len = _this.parent('ul').find('.J_numWrp.active').length;    //当前行已选数量
 
-                // console.log(_len,_max);
                 var _hasSelect = false;  //当前号码是否已经选中
 
                 if (_this.hasClass('active')) {
@@ -325,6 +360,7 @@ $(function() {
                     if (_canmany) {
                         if (_len == _max) {
                             layer.alert('前玩法最多只能选择'+ _max +'个号球!', {
+                                skin: 'bett-alert-dialog',
                                 icon: 2
                             });
                             return;
@@ -372,6 +408,7 @@ $(function() {
                 var _reg = /^[1-9]\d*$/;
                 if (!_reg.test(_val)) {
                     layer.alert('您输入的投注倍数格式不正确,只能输入大于或等于1的数字。', {
+                        skin: 'bett-alert-dialog',
                         icon: 2
                     });
                     $(this).val(1).blur();
@@ -436,7 +473,13 @@ $(function() {
                 }
             }, function(data) {
                 // TODO:根据返回金额校验当前用户余额是否足够
-                console.log(data);
+                layer.alert('订单支付成功<br/>投注期号：' + $('#J_betTimer').html() + '期<br/>投注总额：' + data + '元', {
+                    skin: 'bett-alert-dialog',
+                    icon: 1
+                });
+
+                COMMON.renderUserInfo();
+
                 if (type == 'confirm') {
                     $('#J_betList').html('');
                     $('#J_confirmBets,#J_chaseNumber').addClass('disabled');
@@ -447,7 +490,6 @@ $(function() {
             });
         },
         randomBalls : function(times) {
-            // console.log('randomBalls');
             var _beishu = $('#J_beishu').val(); //倍数
             var _times = times; //机选数量
             var _formulaList = [];      //公式列表
@@ -468,17 +510,12 @@ $(function() {
             }
             var a = _formulaList;   //公式列表
             var _minSelect = 1;  //????这个是什么意思？？最小选择数量？
-
-            // console.log(_mainNav);
-            // console.log(_subNav);
-
             var _currentRule = SSC_TEMPLATE[_mainNav]({
                 type : _subNav
             });
 
             var _amount = 0;    //一注的价格
             var _data = [];
-            // console.log(_currentRule.opt.type);
            
             if (_currentRule.opt.type == 'text') {
                 var _miBall = SSC_TEMPLATE.allManualEntryEvents(_subNav).miBall;
@@ -495,10 +532,7 @@ $(function() {
                         for (var r = 0; r < l.length; r++) null == l[r] ? k += "_#" : k += "_" + l[r];
                         var o = j == 1 * _times - 1;
 
-                        // console.log(k);
                         _data.push(_getTextRoundData(k, 1));
-
-                        // lott.createBetCart(k.substring(1), 1, f, c, 1, o)
                     }
                 }
                 if ("Any2Com_SSC_Single" == _subNav) {
@@ -513,7 +547,6 @@ $(function() {
                             o = q == s.length - 1;
 
                         _data.push(_getTextRoundData(k, 1));
-                        // lott.createBetCart(k, 1, f, a.digit, 1, o)
                     }
                 }
                 if ("Any2Com_SSC_Single" != _subNav && a.length - 1 == 1 && 1 * _miBall >= 1){
@@ -527,16 +560,12 @@ $(function() {
                     }
                 }
                 if ("Any2Com_SSC_Single" != _subNav && a.length - 1 > 1 && 1 * _miBall == 1){
-                    // console.log(11111);
                     for (var j = 0; j < 1 * _times; j++) {
                         for (var k = "", q = 0; q < a.length - 1; q++) k += "_" + Betting.numberRandom(0, 9, 1)[0];
                         var n = 1;
                         _subNav.indexOf("Join") > -1 && (n = 1 * _subNav.charAt(_subNav.indexOf("Join") - 1)), _subNav.indexOf("3ComAnyCode2") > -1 && (n = 10);
                         var o = j == 1 * _times - 1;
 
-                        console.log(k);
-                        console.log(n);
-                        // console.log(k.substring(1), 1, f, c, 1, o);
                         _data.push(_getTextRoundData(k, n));
                     }
                 }
@@ -561,12 +590,6 @@ $(function() {
                                 }), g = j.join("") + "@" + g, h *= 1
                             }
                             
-                            // console.log(g);
-                            // console.log(g);
-                            // console.log(g);
-                            console.log(g, 1, _beishu, h, i);
-                            // console.log(g, 1, _beishu, c, h, i);
-
                             _data.push(_getTextRoundData(g, h));
                         }
                     }
@@ -587,10 +610,6 @@ $(function() {
                                 }), g = j.join("") + "@" + g, h *= 1
                             }
 
-                            console.log('AllCom60');
-                            console.log(h);
-                            console.log(h);
-
                             _data.push(_getTextRoundData(g, h));
                         }
                     }
@@ -601,7 +620,6 @@ $(function() {
                             var h = 1,
                                 i = f == 1 * _times - 1;
 
-                            console.log('AllCom30');
                             _data.push(_getTextRoundData(g));
                         }
                     }
@@ -623,24 +641,18 @@ $(function() {
                                 }), g = j.join("") + "@" + g, h *= 1
                             }
 
-                            console.log(h)
-                            console.log('AllCom10');
                             _data.push(_getTextRoundData(g, h));
                         }
                     }
 
                 } else if("FixedPlace" == _subNav  || "Last1Straight" == _subNav){
-                    console.log('FixedPlace');
 
                     for (var e = 0; e < 1 * _times; e++) {
                         var f = "";
                         f = Betting.numberRandom(0, 4, 1)[0] + "";
-                        // f = "FC3D" == globalVar.currentLottery.game ? Betting.numberRandom(0, 2, 1)[0] + "" : Betting.numberRandom(0, 4, 1)[0] + "";
                         var g = Betting.numberRandom(0, 9, 1)[0] + "",
                             h = e == 1 * _times - 1;
 
-                        console.log(f);
-                        console.log(g, 1, _beishu, f, 1, h);
                         if ("FixedPlace" == _subNav) {
                             _data.push(_getTextRoundData(g, 1, f));
                         } else {
@@ -692,19 +704,11 @@ $(function() {
                     }
                 }
             } else if(_currentRule.opt.type == 'sum'){
-                // var _balls = SSC_TEMPLATE.getSubNumList(_currentRule.opt.sumType);
-                // var _balls = SSC_TEMPLATE.getSubNumList(_currentRule.opt.sumType);
-                // var _balls = SSC_TEMPLATE[_mainNav]({})(_currentRule.opt.sumType);
                 var _balls = _currentRule.opt.numList;
                 var _ballSmallNumList = SSC_TEMPLATE.getSubNumList(_currentRule.opt.sumType);
-                // console.log(_balls);
-                // console.log(_balls[0]);
-                // console.log(_balls[_balls.length - 1]);
-                // console.log(_ballSmallNumList);
-                // return;
+               
 
                 for (var g = Betting.numberRandom(_balls[0], _balls[_balls.length - 1], 1 * _times), h = 0; h < g.length; h++) {
-                    console.log(g);
                     var i = "",
                         j = 0;
                     i = g[h] + "", j = _ballSmallNumList[1 * g[h] - 1 * _balls[0]];
@@ -716,10 +720,7 @@ $(function() {
                             return a - _beishu
                         }), i = m.join("") + "@" + i, j *= 1
                     }
-                    console.log(i);
-                    console.log(j);
                     _data.push(_getTextRoundData(i, j));
-                    // lott.createBetCart(i, 1, _beishu, "", j, k)
                 }
             } else if (_currentRule.opt.type == 'mixingAny') {
                 for (var e = 0; e < 1 * _times; e++) {
@@ -740,7 +741,6 @@ $(function() {
                         i = h == e.length - 1;
 
                     _data.push(_getTextRoundData(g, 1));
-                    // lott.createBetCart(g, 1, _beishu, b, 1, i)
                 }
             } else if (_currentRule.opt.type == 'mixing') {
                 var a = {
@@ -784,11 +784,7 @@ $(function() {
                         j = f[i] + "@" + j 
                     } else {
                         j = j;
-                        // lott.createBetCart(j, 1, c, a.digit, a.stakes, k)
                     }
-                    console.log(j, 1, _beishu, a.digit, a.stakes, k)
-                    // Betting.textArea.push(j);
-                    // Betting.calculateAmount(a.stakes);
                     _data.push(_getTextRoundData(j, a.stakes));
                 }
             }
@@ -797,7 +793,6 @@ $(function() {
                 // j : 数值
                 // num : 倍数
                 // type : 位置 01234 = 个十百千万
-                // console.log(j, num, type);
 
                 var _ddd = {};
                 var _need = '';
@@ -952,7 +947,6 @@ $(function() {
                     _ddd.hex = _hex;
                 }
 
-                // console.log(_ddd);
 
                 if($('#J_ballInputArea').length || $('[data-row="NONE"]').length) {
                     _ddd.n = j.split('_').join('').replace(/\#/g,'').split('').sort().join('');
@@ -960,7 +954,6 @@ $(function() {
                     _need += 'n';
                 }
 
-console.log(j)
                 if($('[data-row="NONE1"]').length) {
                     if(j.indexOf('_') == 0){
                         _ddd.n1 = j.split('_')[1].split('').sort().join('');
@@ -991,15 +984,9 @@ console.log(j)
                 _ddd.type = _currentRule.opt.type;
                 _ddd.typeName = $('.J_subMenu.active').text();
                 _ddd.num = num ? num : 1,  //默认每次机选1;
-                
-                // console.log(_ddd.multiple);
-
                 _ddd.sum = Betting.formatNumber(_ddd.num * 1 * _ddd.multiple * Number($('#J_unit').data('txt').split('#')[1] * Betting.singleStakesPrice), 4);
-                // _ddd.need = _need;
-                // _ddd.sum = Betting.formatNumber(_amount, 4);
                 _ddd.need = _need;
 
-                // _data[g] = _ddd;
                 return _ddd;
             }
 
@@ -1012,7 +999,6 @@ console.log(j)
         },
         renderCart: function(data) {
             // 渲染购物车
-            console.log(data);
             var _str = '';
             var _len = data.length;
             if (data && _len) {
@@ -1114,7 +1100,6 @@ console.log(j)
                     _ajaxData.hex = _this.data('hex').split('').join(',');
                 }
 
-                console.log(_type, _nums);
                 if (_type == 'ball') {
                     $.each(_need.split('#'), function(i, n){
                         if (n) {
@@ -1150,6 +1135,71 @@ console.log(j)
             });
 
             return _items;
+        },
+        getBetHistory: function(options) {
+            options = options || {};
+            options.page = options.page || 1;
+            options.pageSize = options.pageSize || 10;
+            // 获取投注历史
+            GLOBAL.getAjaxData({
+                url: '/bet/lists',
+                data: {
+                    page: options.page,
+                    pageSize: options.pageSize
+                }
+            }, function(data) {
+                var _str = '';
+
+                if (data.total > 0) {
+                    $.each(data.data, function(i, n){
+                        _str += '<li class="clearfix">';
+                        _str += '    <div class="t1">'+ n.product.name +'</div>';
+                        _str += '    <div class="t2">'+ n.order_id +'</div>';
+                        _str += '    <div class="t3">'+ n.created +'</div>';
+                        _str += '    <div class="t4">'+ n.periods.date +'-'+ n.periods.num +'</div>';
+                        _str += '    <div class="t5">'+ (n.periods.lottery_num ? n.periods.lottery_num : '-') +'</div>';
+                        _str += '    <div class="t6">'+ n.money +'</div>';
+                        _str += '    <div class="t7">'+ n.bonus +'</div>';
+                        _str += '    <div class="t8">'+ _compile(n.status) +'</div>';
+                        _str += '</li>';
+                    });
+
+                    function _compile(status){
+                        var _txt = '';
+                        switch(status){
+                            case 'wait':
+                            _txt = '等待支付';
+                            break;
+                            case 'pay':
+                            _txt = '已经支付';
+                            break;
+                            case 'expire':
+                            _txt = '过期';
+                            break;
+                            case 'retreat':
+                            _txt = '撤销';
+                            break;
+                            case 'regret':
+                            _txt = '未中奖';
+                            break;
+                            case 'winning':
+                            _txt = '中奖';
+                            break;
+                        }
+
+                        return _txt;
+                    }
+
+                    $('#J_betHistoryPage').show();
+                    $('#J_curPage').html(data.current_page);
+                    $('#J_totalPage').html(data.total);
+                } else {
+                    _str += '<li class="empty">您没有投注历史！</li>';
+                    $('#J_betHistoryPage').hide();
+                }
+
+                $('#J_betHistory').html(_str);
+            });
         },
         shortcutPlaceOrder: function() {
             var _items = [];
@@ -1212,7 +1262,6 @@ console.log(j)
             // 计算选择的注数
             // options 是针对和值设置的配置：如：前三和值类型
             options = options || {};
-            // console.log(options.index);
             if (options.index != 0) {
                 options.index = options.index || -1;
             }
@@ -1319,10 +1368,7 @@ console.log(j)
                     }
                 });
                 
-                // _d.len = _opt.numNameList.length;
                 _d.need = _need;  //需要的数据类型
-                // _d.ajaxType = _opt.ajaxType;
-                // _data.push(_d);
             } else if(_rule.opt.type == 'text' || _rule.opt.type == 'mixing'){
                 // TODO : 文本域上传
                 _d.need = 'n';
@@ -1341,7 +1387,6 @@ console.log(j)
                 }
 
                 var _ballList = _ball.split(',');
-                // console.log(_ballList);
                 var _nums = '';
                 $.each(_ballList, function(i, n){
                     _nums += n.split('_').join('');
@@ -1349,7 +1394,6 @@ console.log(j)
                         _nums += ' | ';
                     }
                 });
-                console.log(_nums)
                 _d.n = _nums;
             }
 
@@ -1374,7 +1418,6 @@ console.log(j)
 
             _data.push(_d);
 
-            // console.log(_data);
             return _data;
         },
         renderMaxBonus: function(mainNavType, subNavType) {
@@ -1416,7 +1459,6 @@ console.log(j)
             }
             
             Betting.getBettingQuantity();   //计算注数
-            // Betting.calculateAmount();
         },
         createBitScheme: function(a, b) {
             // 计算选择方案数
@@ -1510,6 +1552,7 @@ console.log(j)
 
                 if (b.len > 1 * d){
                         layer.alert('请至少选择'+ b.len +'个位置<br/>您当前选择了' + d + '个位置', {
+                        skin: 'bett-alert-dialog',
                         icon: 2
                     });
                     $('#J_ballInputArea').blur();
@@ -1597,6 +1640,7 @@ console.log(j)
 
                 if (objFile.context.value.indexOf('.txt') == -1){
                     layer.alert('您选择的文件类型不符合要求,<br/>目前只支持txt文本格式的文件!', {
+                        skin: 'bett-alert-dialog',
                         icon: 2
                     });
                     return false;
@@ -1611,6 +1655,7 @@ console.log(j)
 
                 if (_size > 1048576) {
                     layer.alert('您选择的文件大小超过1M,<br/>目前只支持1M大小的文件!', {
+                        skin: 'bett-alert-dialog',
                         icon: 2
                     });
                     return false;
@@ -1618,6 +1663,7 @@ console.log(j)
 
                 if (objFile.value == "") {
                     layer.alert('号码不能为空', {
+                        skin: 'bett-alert-dialog',
                         icon: 2
                     });
                 }
@@ -1652,6 +1698,7 @@ console.log(j)
         manualEntryDisassemble: function(a) {
             if (/[A-Za-z\u4E00-\u9FFF]/.test(a)) {
                 layer.alert('您的投注内容不符合要求,<br/>里面还有字母或者中文!', {
+                    skin: 'bett-alert-dialog',
                     icon: 2
                 });
                 $('#J_ballInputArea').blur();
@@ -1707,8 +1754,6 @@ console.log(j)
                             type: 2,
                             digit: a.digit
                         };
-                    // console.log(e);
-                    // console.log(j);
                     Betting.textArea.push(j);
                 }
 
@@ -1716,7 +1761,6 @@ console.log(j)
             }
         },
         calculateSSCManualEntryStakes: function(a, b) {
-            // console.log(a, b);
             // 时时彩的普通文本域事件
             // SSC_TEMPLATE.sameComparer()
             Betting.textArea = [];
@@ -1739,7 +1783,6 @@ console.log(j)
                     Betting.textArea.push(h)
                 }
 
-                // console.log(Betting.textArea);
                 Betting.calculateAmount(e);
             }
         },

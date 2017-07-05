@@ -2024,62 +2024,6 @@ var SSC_TEMPLATE = {
         // console.log(a);
         // lott.manualEntryUI(!0, a),
         // lott.allManualEntryRandomBall(a.bits, a.miBall, a.digit)
-    },
-    allMixComboSelection: function() {
-
-    },
-    BSOEConversion: function(a) {
-        var b = "";
-        switch (a) {
-            case "大":
-                b = "0";
-                break;
-            case "小":
-                b = "1";
-                break;
-            case "单":
-                b = "2";
-                break;
-            case "双":
-                b = "3";
-                break;
-            case "0":
-                b = "大";
-                break;
-            case "1":
-                b = "小";
-                break;
-            case "2":
-                b = "单";
-                break;
-            case "3":
-                b = "双";
-                break;
-            case "d":
-                b = "胆";
-                break;
-            case "t":
-                b = "拖";
-                break;
-            case "05":
-                b = "0单5双";
-                break;
-            case "14":
-                b = "1单4双";
-                break;
-            case "23":
-                b = "2单3双";
-                break;
-            case "32":
-                b = "3单2双";
-                break;
-            case "41":
-                b = "4单1双";
-                break;
-            case "50":
-                b = "5单0双"
-        }
-        return b
     }
 };
 

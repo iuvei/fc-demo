@@ -1,24 +1,36 @@
-$(function() {
+// $(function() {
 	var COMMON = {
 		isIndex: false,
+		timer: null,
+		timer2: null,
 		init: function() {
 			COMMON.setSkin();
 			COMMON.getUrlParam();
-			// COMMON.renderUserInfo();
+			COMMON.renderUserInfo();
 			COMMON.bindEvent();
-
 			COMMON.userCenterMenu();
 		},
 		userCenterMenu: function(){
 			// 会员中心的左侧菜单
 			if ($('#J_userNav').length) {
 				$('#J_userNav').find('dt').click(function(){
+					if($(this).parents('dl').hasClass('open')){
+						$(this).parents('dl').removeClass('open');
+						return;
+					}
 					$('#J_userNav').find('dl').removeClass('open');
 					$(this).parents('dl').addClass('open');
 				});
 			}
 		},
 		bindEvent: function() {
+			// 页面跳转
+			$('.J_pageJump').click(function(){
+				if($(this).data('page')){
+					window.location.href = '/user/' + $(this).data('page') + '.html';
+				}
+			});
+			
 			// 退出
 			$('#J_signOut').click(function() {
 				COMMON.signOut();
@@ -75,7 +87,7 @@ $(function() {
 			GLOBAL.getAjaxData({
 				url: '/user/detail'
 			}, function(data) {
-				$('.J_userName').html(data.username);
+				$('#J_headerUserName,.J_userName').html(data.nickname ? data.nickname : data.username);
 				$('.J_balance').html(data.balance)
 				$('#J_cutoverBalance').data('balance', data.balance);
 			});
@@ -106,12 +118,13 @@ $(function() {
 				}, function(data) {
 					layer.close(index);
 					// TODO: 跳转到登录页面
-					window.location.href = 'login';
+					window.location.href = '/login.html';
 				});
 			});
 		},
 		countDown: function(intDiff, suffix, $id) {
-			var t = window.setInterval(function() {
+			// window.clearInterval(t);
+			COMMON.timer2 = window.setInterval(function() {
 				var day = 0,
 					hour = 0,
 					minute = 0,
@@ -132,7 +145,7 @@ $(function() {
 						});
 					}
 
-					window.clearInterval(t);
+					window.clearInterval(COMMON.timer2);
 					COMMON.getBallInfo($id);
 					return;
 				}
@@ -157,9 +170,22 @@ $(function() {
 				}
 
 				intDiff--;
+
+				// 提前10s停止投注
+				if(intDiff <= 10){
+					$('#J_shortcutPlaceOrder,#J_confirmBets').addClass('disabled');
+				} else {
+					if(!$('#J_addBallToCart').hasClass('disabled') ){
+						$('#J_shortcutPlaceOrder').removeClass('disabled');
+					}
+					if($('#J_betList li').length){
+						$('#J_confirmBets').removeClass('disabled');
+					}
+				}
 			}, 1000);
 		},
 		getBallInfo: function($id) {
+			window.clearInterval(COMMON.timer2);
 			var _url = GLOBAL.getRequestURL();
 			GLOBAL.getAjaxData({
 				url: '/product/detail',
@@ -194,7 +220,9 @@ $(function() {
 			return str;
 		},
 		lotteryNum: function(_id, num, d) {
-			var _url = GLOBAL.getRequestURL();
+			
+			clearTimeout(COMMON.timer);
+			// window.clearInterval(t);
 			//处理开奖号
 			if (num.length > 0) {
 				var _str = '';
@@ -203,57 +231,152 @@ $(function() {
 				};
 				$('#' + _id).html(_str);
 
-				GLOBAL.getAjaxData({
-					url: 'lottery/lists',
-					data : {
-						id : _url.id,
-						pageSize : 10
-					}
-				}, function(d) {
-					var _list1 = '';
-					var _list2 = '';
-					var _list3 = '';
-					$('#J_lastThreeDrawResult1').find('dd').remove();
-					$('#J_lastThreeDrawResult2').find('dd').remove();
-					$.each(d.data, function(k, val) {
-						val.num = COMMON.fillLenght(val.num, 3, '0');
-						if (k < 3) {
-							_list1 += '<dd>'+ val.date +'-'+ val.num +'</dd>';
-							_list2 += '<dd>' + val.lottery_num[0] + val.lottery_num[1] + val.lottery_num[2] + val.lottery_num[3] + val.lottery_num[4] + '</dd>';
-						}
-						_list3 += '<li><span>'+ val.date +'-'+ val.num +'</span><em>' + val.lottery_num[0] + val.lottery_num[1] + val.lottery_num[2] + val.lottery_num[3] + val.lottery_num[4] + '</em></li>';
-					});
-
-					$('#J_lastThreeDrawResult1').append(_list1);
-					$('#J_lastThreeDrawResult2').append(_list2);
-					$('#J_historyList').html(_list3);
-				});
+				COMMON.renderHistory();
 			} else {
 				// 没获取到最新的数据三秒获取一次
-				setTimeout(function(){
+				COMMON.timer = setTimeout(function(){
 					COMMON.getBallInfo();
-				}, 3000);
+				}, 10000);
 			}
 		},
-		getUrlParam: function() {
-			// var r = window.location.search.substr(1).match(/name=(\w+)/);
+		renderHistory: function(){
 			var _url = GLOBAL.getRequestURL();
+			GLOBAL.getAjaxData({
+				url: 'lottery/lists',
+				data : {
+					id : _url.id,
+					pageSize : 10
+				}
+			}, function(d) {
+				var _list1 = '';
+				var _list2 = '';
+				var _list3 = '';
+				$('#J_lastThreeDrawResult1').find('dd').remove();
+				$('#J_lastThreeDrawResult2').find('dd').remove();
+				$.each(d.data, function(k, val) {
+					val.num = COMMON.fillLenght(val.num, 3, '0');
+					if (k < 3) {
+						_list1 += '<dd>'+ val.date +'-'+ val.num +'</dd>';
+						_list2 += '<dd>' + val.lottery_num[0] + val.lottery_num[1] + val.lottery_num[2] + val.lottery_num[3] + val.lottery_num[4] + '</dd>';
+					}
+					_list3 += '<li><span>'+ val.date +'-'+ val.num +'</span><em>' + val.lottery_num[0] + val.lottery_num[1] + val.lottery_num[2] + val.lottery_num[3] + val.lottery_num[4] + '</em></li>';
+				});
 
-			if (!_url.name) {
+				$('#J_lastThreeDrawResult1').append(_list1);
+				$('#J_lastThreeDrawResult2').append(_list2);
+				$('#J_historyList').html(_list3);
+			});
+		},
+		getUrlParam: function() {
+			var _url = GLOBAL.getRequestURL();
+			var _userNav = $('#J_userNav').length;
+
+			if (!_url.name && !_userNav) {
 				// 判断是否为首页或者详情页面
 				COMMON.isIndex = true;
 			}
+
 			if (COMMON.isIndex) {
 				COMMON.homeBallInfo();
 			} else {
 				if (!_url.name) {
-					location.href = '/index.html';
+					// 用户中心
+					// console.log(12);
+					// location.href = '/index.html';
 				} else {
+					// 详情页
 					COMMON.getBallInfo(_url.id);
+				}
+
+				// 渲染开奖历史
+				// COMMON.renderHistory();
+			}
+		},
+		USER: {
+			renderBankList: function() {
+				console.log('银行卡列表返回数据格式不对');
+				// 渲染可绑定银行卡选项
+				GLOBAL.getAjaxData({
+					url: '/bank/option'
+				}, function(d) {
+					console.log(d);
+				});
+			},
+			initDatePick: function() {
+				var start = {
+					elem: '#J_startDay',
+					format: 'YYYY-MM-DD',
+					max: laydate.now(),
+					istoday: false,
+					issure: false,
+					isclear: false,
+					choose: function(datas) {
+						end.min = datas; //开始日选好后，重置结束日的最小日期
+						end.start = datas //将结束日的初始值设定为开始日
+					}
+				};
+				var end = {
+					elem: '#J_endDay',
+					format: 'YYYY-MM-DD',
+					max: laydate.now(),
+					istoday: false,
+					issure: false,
+					isclear: false,
+					choose: function(datas) {
+						start.max = datas; //结束日选好后，重置开始日的最大日期
+					}
+				};
+				laydate(start);
+				laydate(end);
+			},
+			rechargeOnline: {
+				// 线上支付
+				init: function(){
+					COMMON.USER.renderBankList();
+
+					this.bindEvent();
+				},
+				bindEvent: function(){
+					$('#J_quoatList li').click(function(){
+						$(this).addClass('active').siblings().removeClass('active');
+						$('#J_quoatInp').val($(this).data('n'));
+					});
+				}
+			},
+			rechargeRecord: {
+				// 充值记录
+				init: function() {
+					COMMON.USER.initDatePick();
+					this.getList();
+					this.bindEvent();
+				},
+				bindEvent: function() {
+					$('#J_searchListBtn').click(function(){
+						var _status = $('#J_status').next('.nice-select').find('.selected').data().value;
+						var _mod = $('#J_mode').next('.nice-select').find('.selected').data().value;
+						var _start = $('#J_startDay').va();
+						var _end = $('#J_endDay').va();
+						console.log(_status, _mod);
+
+						// this.getList({
+
+						// });
+					});
+				},
+				getList: function(option) {
+					option = option || {};
+
+					GLOBAL.getAjaxData({
+						url: '/recharge/lists'
+					}, function(d) {
+						console.log(d);
+
+						// $('select').niceSelect();
+					});
 				}
 			}
 		}
 	}
 
 	COMMON.init();
-});
+// });
