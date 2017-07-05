@@ -71,6 +71,7 @@ var GLOBAL = {
 						}
 					} else {
 						layer.alert(d.message, {
+							skin: 'bett-alert-dialog',
 							icon: 2
 						});
 					}
@@ -79,6 +80,7 @@ var GLOBAL = {
 			error: function(XMLHttpRequest, textStatus, errorThrown) {
 				var msg = '<div style="padding:0 0 0 40px;"><h4>协议返回异常</h4>请检查用户配置或网络</div> ';
 				layer.alert(msg, {
+					skin: 'bett-alert-dialog',
 					icon: 2
 				});
 			}

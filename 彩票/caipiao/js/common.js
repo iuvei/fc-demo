@@ -126,6 +126,7 @@ $(function() {
 					// TODO: 结束提示
 					if (!COMMON.isIndex) {
 						layer.alert('第<span style="padding:0 5px;">' + $('#J_betTimer').html() + '</span>期已结束<br/>请留意投注期号。', {
+							skin: 'bett-alert-dialog',
 							icon: 2,
 							time: 2000
 						});
