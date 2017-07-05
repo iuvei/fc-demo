@@ -1195,7 +1195,76 @@ $(function() {
             }
         },
         shortcutPlaceOrder: function() {
-            console.log('一键投注');
+            var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
+            var _subNav = $('.J_subMenu.active').data('info').split('#')[1];
+            var _currentRule = SSC_TEMPLATE[_mainNav]({
+                type : _subNav
+            });
+            var _type = _currentRule.opt.type;
+            var _data = Betting.getSelectData();
+            var _ajaxData = {};
+
+            // console.log(_data);
+            // console.log(_currentRule);
+            _ajaxData.type = _currentRule.opt.ajaxType;
+            _ajaxData.multiple = Number($('#J_beishu').val());  //转换为数字
+            _ajaxData.unit = $('#J_unit').data('txt').split('#')[2];
+
+            console.log(_type);
+            if (_data[0].hex) {
+                _ajaxData.hex = _data[0].hex.split('').join(',');
+            }
+
+            if (_type == 'ball') {
+                $.each(_data[0].need.split('#'), function(i, n){
+                    if (n) {
+                        _ajaxData[n] = _data[0][n];
+                    }
+                });
+            } else if(_type == 'text' || _type == 'mixing'){
+                _ajaxData.n = _data[0].n.replace(/( \| )/g, ',');
+            } else if(_type == 'sum'){
+                _ajaxData.n = _data[0].n.replace(/(\|)/g, ',');
+            } else if(_type == 'mixingAny'){
+                _ajaxData.n = _data[0].n;
+            } else if(_type == 'taste'){
+                $.each(_data[0].need.split('#'), function(i, n){
+                    if (n) {
+                        _ajaxData[n] = _exchangeToNum(_data[0][n]);
+                    }
+                });
+
+                function _exchangeToNum(name){
+                    var _num = '0';
+                    if(name == '大'){
+                        _num = '0';
+                    } else if (name == '小') {
+                        _num = '1';
+                    } else if (name == '单') {
+                        _num = '2';
+                    } else if (name == '双') {
+                        _num = '3';
+                    }
+                    return _num;
+                }
+            }
+
+            var _items = [];
+            console.log(_ajaxData);
+
+            _items.push(_ajaxData);
+
+            console.log(_items);
+            // GLOBAL.getAjaxData({
+            //     url: '/bet /buy',
+            //     data: {
+            //         id: '',
+            //         items: _items
+            //     }
+            // }, function(d) {
+                    // TOOD购买成功的回调
+                    // Betting.resetSelectArea();
+            // });
         },
         getBettingQuantity: function(options) {
             // 计算选择的注数
@@ -1330,7 +1399,7 @@ $(function() {
                 }
 
                 var _ballList = _ball.split(',');
-                console.log(_ballList);
+                // console.log(_ballList);
                 var _nums = '';
                 $.each(_ballList, function(i, n){
                     _nums += n.split('_').join('');
@@ -1363,8 +1432,7 @@ $(function() {
 
             _data.push(_d);
 
-
-            console.log(_data);
+            // console.log(_data);
             return _data;
         },
         renderMaxBonus: function(mainNavType, subNavType) {
@@ -1697,9 +1765,8 @@ $(function() {
                             type: 2,
                             digit: a.digit
                         };
-                    
                     // console.log(e);
-                    console.log(j);
+                    // console.log(j);
                     Betting.textArea.push(j);
                 }
 
@@ -1730,7 +1797,7 @@ $(function() {
                     Betting.textArea.push(h)
                 }
 
-                console.log(Betting.textArea);
+                // console.log(Betting.textArea);
                 Betting.calculateAmount(e);
             }
         },
