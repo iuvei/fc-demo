@@ -3,9 +3,9 @@
 <head>
 	<meta charset="UTF-8">
 	<title>提款申请</title>
-	<link rel="stylesheet" href="../../../css/reset.css">
-	<link rel="stylesheet" href="../../../css/user_common.css">
-	<link rel="stylesheet" href="../../../css/skin/default.css" id="J_skinCss">
+	<link rel="stylesheet" href="../css/reset.css">
+	<link rel="stylesheet" href="../css/user_common.css">
+	<link rel="stylesheet" href="../css/skin/default.css" id="J_skinCss">
 </head>
 <body class="bg-whit">
 	<!-- 顶部 -->
@@ -139,7 +139,7 @@
 				</div>
 				<div class="user-tk-table clearfix">
 					<p>已绑定的银行卡：</p>
-					<ul>
+					<ul id="J_tkBankList">
 						<li class="tk-table-tt">
 							<div class="t1">开户银行名称</div>
 							<div class="t2">开户银行省份</div>
@@ -148,7 +148,7 @@
 							<div class="t5">绑卡日期</div>
 							<div class="t6">操作</div>
 						</li>
-						<li>
+						<!-- <li>
 							<div class="t1">工商银行</div>
 							<div class="t2">浙江省 - 杭州市</div>
 							<div class="t3">***************7976</div>
@@ -180,24 +180,23 @@
 						</li>
 						<li class="empty">
 							<p>暂时没有绑定提款卡</p>
-						</li>
+						</li> -->
 					</ul>
-
 					
 					<div class="user-tk-form">
-						<span class="add-bank-card btn-l-color"><em class="icon"></em>+ 新增银行卡</span>
+						<span class="add-bank-card btn-l-color J_pageJump" data-page="withdrawal_bindcard"><em class="icon"></em>+ 新增银行卡</span>
 						<div class="mb15">
 							<span class="user-tk-tt">提款金额：</span>
-							<input type="text" class="user-tk-inp">
+							<input type="text" class="user-tk-inp" id="money">
 							<span class="user-tk-tt">钱包余额：</span>
-							<span class="user-tk-ye text-l-color">0.00</span>
+							<span class="user-tk-ye text-l-color J_balance">0.00</span>
 						</div>
 						<div class="">
 							<span class="user-tk-tt">资金密码：</span>
-							<input type="text" class="user-tk-inp">
+							<input type="text" class="user-tk-inp" id="password">
 						</div>
 						<div>
-							<span class="btn-l-color user-tk-btn fr">确认提款</span>
+							<span class="btn-l-color user-tk-btn fr" id="J_confirmBtn">确认提款</span>
 						</div>
 					</div>
 				</div>
@@ -217,10 +216,25 @@
 	</div>
 
 
-	<script src="../../../js/jquery-1.11.1.min.js"></script>
-	<script src="../../../js/jquery.cookie.js"></script>
-	<script src="../../../js/layer/layer.js"></script>
-	<script src="../../../js/GLOBAL.js"></script>
-	<script src="../../../js/common.js"></script>
+	<script src="../js/jquery-1.11.1.min.js"></script>
+	<script src="../js/jquery.cookie.js"></script>
+	<script src="../js/layer/layer.js"></script>
+	<script src="../js/GLOBAL.js"></script>
+	<script src="../js/common.js"></script>
+
+	<script src="../js/jquery-1.11.1.min.js"></script>
+	<!-- <script src="../js/jquery-nice-select.js"></script> -->
+	<script src="../js/jquery.cookie.js"></script>
+	<script src="../js/layer/layer.js"></script>
+	<!-- <script src="../js/laydate/laydate.js"></script> -->
+	<!-- <script src="../js/laypage/laypage.js"></script> -->
+	<script src="../js/GLOBAL.js"></script>
+	<script src="../js/common.js"></script>
+
+	<script>
+		$(function(){
+			COMMON.USER.withdrawalApplication.init();
+		});
+	</script>
 </body>
 </html>

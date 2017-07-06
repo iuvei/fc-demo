@@ -4,6 +4,7 @@
 	<meta charset="UTF-8">
 	<title>线上支付</title>
 	<link rel="stylesheet" href="../css/reset.css">
+	<link rel="stylesheet" href="../css/nice-select.css">
 	<link rel="stylesheet" href="../css/user_common.css">
 	<link rel="stylesheet" href="../css/skin/default.css" id="J_skinCss">
 </head>
@@ -157,14 +158,12 @@
 							<div class="user-form-c">
 								<div class="user-bank-list">
 									<!-- 银行下拉列表 -->
-									<select name="" id="">
-										<option value="">1111</option>
-									</select>
+									<select id="J_bankList"></select>
 								</div>
 							</div>
 						</li>
 					</ul>
-					<div class="user-transfer-btn btn-l-color abs">确认</div>
+					<div class="user-transfer-btn btn-l-color abs" id="J_confirmBtn">确认</div>
 				</div>
 			</div>
 			<div class="user-tips">
@@ -182,6 +181,7 @@
 
 
 	<script src="../js/jquery-1.11.1.min.js"></script>
+	<script src="../js/jquery-nice-select.js"></script>
 	<script src="../js/jquery.cookie.js"></script>
 	<script src="../js/layer/layer.js"></script>
 	<script src="../js/GLOBAL.js"></script>

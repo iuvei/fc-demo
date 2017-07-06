@@ -192,7 +192,9 @@ body.bg-whit{
 .user-czjl .t3{width: 113px;}
 .user-czjl .t4{width: 165px;}
 .user-czjl .t5{width: 123px;}
+.user-czjl div.t5{font-size: 12px;}
 .user-czjl .t6{width: 163px;}
+.user-czjl div.t6{font-size: 12px;}
 .user-czjl .t7{width: 90px;}
 .user-czjl .t8{width: 120px;}
 
@@ -201,6 +203,7 @@ body.bg-whit{
 .user-tkjl .t2{width: 222px;}
 .user-tkjl .t3{width: 174px;}
 .user-tkjl .t4{width: 140px;}
+.user-tkjl div.t4{font-size: 12px;}
 .user-tkjl .t5{width: 178px;}
 .user-tkjl .t6{width: 166px;}
 
@@ -343,6 +346,10 @@ body.bg-whit{
 	overflow: hidden;
 	height: 38px;
 	line-height: 38px;
+}
+.user-tk-table ul li.active,
+.user-tk-table ul li:hover{
+	background-color: #BFE1E5;
 }
 .user-tk-table ul li.tk-table-tt{
 	height: 40px;
@@ -768,14 +775,12 @@ body.bg-whit{
 .user-bbgl{
 	font-size: 14px;
 }
-.user-bbgl .t1{width: 140px;}
-.user-bbgl .t2{width: 120px;}
-.user-bbgl .t3{width: 120px;}
-.user-bbgl .t4{width: 120px;}
-.user-bbgl .t5{width: 120px;}
-.user-bbgl .t6{width: 120px;}
-.user-bbgl .t7{width: 120px;}
-.user-bbgl .t8{width: 120px;}
+.user-bbgl .t1{width: 160px;}
+.user-bbgl .t2{width: 160px;}
+.user-bbgl .t3{width: 160px;}
+.user-bbgl .t4{width: 160px;}
+.user-bbgl .t5{width: 160px;}
+.user-bbgl .t6{width: 160px;}
 
 /* 下级管理 */
 .user-xjgl{
@@ -794,11 +799,11 @@ body.bg-whit{
 }
 .team-betting .user-table-c li > div{letter-spacing: 1px;}
 .team-betting .t1{width: 110px;}
-.team-betting .t2{width: 117px;}
+.team-betting .t2{width: 88px;}
 .team-betting .t3{width: 110px;}
-.team-betting .t4{width: 127px;}
+.team-betting .t4{width: 170px;}
 .team-betting .t5{width: 140px;}
-.team-betting .t6{width: 137px;}
+.team-betting .t6{width: 100px;}
 .team-betting .t7{width: 125px;}
 .team-betting .t8{width: 107px;}
 

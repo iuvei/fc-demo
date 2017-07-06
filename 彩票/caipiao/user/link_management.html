@@ -142,23 +142,25 @@
 				<div class="user-search clearfix">
 					<div class="user-s-tt">渠道：</div>
 					<div class="user-s-inp">
-						<input type="text">
+						<input type="text" id="channel">
 					</div>
 					<div class="user-s-tt">类型：</div>
 					<div class="user-s-sel">
 						<select id="J_linkType">
 							<option value="">全部</option>
+							<option value="member">会员</option>
+							<option value="agent">代理</option>
 						</select>
 					</div>
 					<div class="user-s-tt">状态：</div>
 					<div class="user-s-sel">
-						<select id="J_linkStatus">
+						<select id="J_status">
 							<option value="">全部</option>
 							<option value="normal">正常</option>
 							<option value="cancel">取消</option>
 						</select>
 					</div>
-					<div class="user-s-btn fr">查询</div>
+					<div class="user-s-btn fr" id="J_searchListBtn">查询</div>
 				</div>
 
 
@@ -173,9 +175,9 @@
 						<li class="t7">到账日期</li>
 						<li class="t8">操作</li>
 					</ul>
-					<ul class="user-table-c">
+					<ul class="user-table-c" id="J_list">
 						<!-- <li class="empty">没有找到符合条件的数据</li> -->
-						<li>
+						<!-- <li>
 							<div class="t1">论坛</div>
 							<div class="t2 J_clipboard" data-clipboard-text="https://www.baidu.com/">https://www.baidu.com/</div>
 							<div class="t3">0</div>
@@ -184,7 +186,7 @@
 							<div class="t6">2017-06-30</div>
 							<div class="t7">2017-06-30</div>
 							<div class="t8">删除</div>
-						</li>
+						</li> -->
 						
 					</ul>
 					<div class="user-table-f">
@@ -194,7 +196,7 @@
 				</div>
 			</div>
 
-			<p>这里是分页</p>
+			<div id="J_Paging"></div>
 		</div>
 	</div>
 

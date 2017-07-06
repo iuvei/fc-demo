@@ -143,6 +143,7 @@
 					<div class="user-s-tt">状态：</div>
 					<div class="user-s-sel">
 						<select name="" id="J_status">
+							<option value="">全部</option>
 							<option value="wait">待确认</option>
 							<option value="success">充值成功</option>
 							<option value="fail">充值失败</option>
@@ -151,6 +152,7 @@
 					<div class="user-s-tt">方式：</div>
 					<div class="user-s-sel">
 						<select name="" id="J_mode">
+							<option value="">全部</option>
 							<option value="bank">银行</option>
 							<option value="alipay">支付宝</option>
 							<option value="weixin">微信</option>
@@ -178,8 +180,8 @@
 						<li class="t7">状态</li>
 						<li class="t8">备注</li>
 					</ul>
-					<ul class="user-table-c">
-						<li class="empty">没有找到符合条件的数据</li>
+					<ul class="user-table-c" id="J_list">
+						<!-- <li class="empty">没有找到符合条件的数据</li>
 						<li>
 							<div class="t1">充值编号</div>
 							<div class="t2">充值方式</div>
@@ -189,7 +191,7 @@
 							<div class="t6">到账时间</div>
 							<div class="t7">状态</div>
 							<div class="t8">备注</div>
-						</li>
+						</li> -->
 					</ul>
 					<div class="user-table-f">
 						<p>到账金额合计：<span>0.00</span></p>
@@ -198,9 +200,7 @@
 				</div>
 			</div>
 
-			<p>这里是分页</p>
-
-			
+			<div id="J_Paging"></div>
 		</div>
 	</div>
 

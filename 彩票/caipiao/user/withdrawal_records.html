@@ -3,9 +3,10 @@
 <head>
 	<meta charset="UTF-8">
 	<title>提款记录</title>
-	<link rel="stylesheet" href="../../../css/reset.css">
-	<link rel="stylesheet" href="../../../css/user_common.css">
-	<link rel="stylesheet" href="../../../css/skin/default.css" id="J_skinCss">
+	<link rel="stylesheet" href="../css/reset.css">
+	<link rel="stylesheet" href="../css/nice-select.css">
+	<link rel="stylesheet" href="../css/user_common.css">
+	<link rel="stylesheet" href="../css/skin/default.css" id="J_skinCss">
 </head>
 <body class="bg-whit">
 	<!-- 顶部 -->
@@ -103,8 +104,8 @@
             <dl class="open">
                 <dt><em class="icon icon-tk"></em><span>提款</span><i class="icon"></i></dt>
                 <dd><a href="../user/withdrawal_application.html">提款申请</a></dd>
-                <dd><a href="../user/withdrawal_records.html">提款记录</a></dd>
-                <dd><a href="../user/withdrawal_bindcard.html" class="active">绑定提款卡</a></dd>
+                <dd><a href="../user/withdrawal_records.html" class="active">提款记录</a></dd>
+                <dd><a href="../user/withdrawal_bindcard.html">绑定提款卡</a></dd>
             </dl>
             <dl>
                 <dt><em class="icon icon-user"></em><span>个人</span><i class="icon"></i></dt>
@@ -141,19 +142,21 @@
 				<div class="user-search clearfix">
 					<div class="user-s-tt">状态：</div>
 					<div class="user-s-sel">
-						<select name="" id="">
-							<option value="111">全部</option>
+						<select id="J_status">
+							<option value="">全部</option>
+							<option value="wait">待确认</option>
+							<option value="success">提现成功</option>
+							<option value="fail">提现失败</option>
 						</select>
 					</div>
 					<div class="user-s-tt">日期：</div>
 					<div class="user-s-day">
-						<input type="text">
+						<input type="text" class="datepick" id="J_startDay">
 						<span>到：</span>
-						<input type="text">
+						<input type="text" class="datepick" id="J_endDay">
 					</div>
-					<div class="user-s-btn fr">查询</div>
+					<div class="user-s-btn fr" id="J_searchListBtn">查询</div>
 				</div>
-
 
 				<div class="user-table user-tkjl">
 					<ul class="user-table-t">
@@ -164,129 +167,16 @@
 						<li class="t5">状态</li>
 						<li class="t6">备注</li>
 					</ul>
-					<ul class="user-table-c">
+					<ul class="user-table-c" id="J_list">
 						<!-- <li class="empty">没有找到符合条件的数据</li> -->
-						<li>
+						<!-- <li>
 							<div class="t1">2839240</div>
 							<div class="t2">10，300，,30</div>
 							<div class="t3">中国工商银行</div>
 							<div class="t4">2017-06-30</div>
 							<div class="t5">无</div>
 							<div class="t6">无</div>
-						</li>
-						<li>
-							<div class="t1">2839240</div>
-							<div class="t2">10，300，,30</div>
-							<div class="t3">中国工商银行</div>
-							<div class="t4">2017-06-30</div>
-							<div class="t5">无</div>
-							<div class="t6">无</div>
-						</li>
-						<li>
-							<div class="t1">2839240</div>
-							<div class="t2">10，300，,30</div>
-							<div class="t3">中国工商银行</div>
-							<div class="t4">2017-06-30</div>
-							<div class="t5">无</div>
-							<div class="t6">无</div>
-						</li>
-						<li>
-							<div class="t1">2839240</div>
-							<div class="t2">10，300，,30</div>
-							<div class="t3">中国工商银行</div>
-							<div class="t4">2017-06-30</div>
-							<div class="t5">无</div>
-							<div class="t6">无</div>
-						</li>
-
-						<li>
-							<div class="t1">2839240</div>
-							<div class="t2">10，300，,30</div>
-							<div class="t3">中国工商银行</div>
-							<div class="t4">2017-06-30</div>
-							<div class="t5">无</div>
-							<div class="t6">无</div>
-						</li><li>
-							<div class="t1">2839240</div>
-							<div class="t2">10，300，,30</div>
-							<div class="t3">中国工商银行</div>
-							<div class="t4">2017-06-30</div>
-							<div class="t5">无</div>
-							<div class="t6">无</div>
-						</li>
-						<li>
-							<div class="t1">2839240</div>
-							<div class="t2">10，300，,30</div>
-							<div class="t3">中国工商银行</div>
-							<div class="t4">2017-06-30</div>
-							<div class="t5">无</div>
-							<div class="t6">无</div>
-						</li>
-						<li>
-							<div class="t1">2839240</div>
-							<div class="t2">10，300，,30</div>
-							<div class="t3">中国工商银行</div>
-							<div class="t4">2017-06-30</div>
-							<div class="t5">无</div>
-							<div class="t6">无</div>
-						</li>
-						<li>
-							<div class="t1">2839240</div>
-							<div class="t2">10，300，,30</div>
-							<div class="t3">中国工商银行</div>
-							<div class="t4">2017-06-30</div>
-							<div class="t5">无</div>
-							<div class="t6">无</div>
-						</li>
-						<li>
-							<div class="t1">2839240</div>
-							<div class="t2">10，300，,30</div>
-							<div class="t3">中国工商银行</div>
-							<div class="t4">2017-06-30</div>
-							<div class="t5">无</div>
-							<div class="t6">无</div>
-						</li>
-						<li>
-							<div class="t1">2839240</div>
-							<div class="t2">10，300，,30</div>
-							<div class="t3">中国工商银行</div>
-							<div class="t4">2017-06-30</div>
-							<div class="t5">无</div>
-							<div class="t6">无</div>
-						</li>
-						<li>
-							<div class="t1">2839240</div>
-							<div class="t2">10，300，,30</div>
-							<div class="t3">中国工商银行</div>
-							<div class="t4">2017-06-30</div>
-							<div class="t5">无</div>
-							<div class="t6">无</div>
-						</li>
-						<li>
-							<div class="t1">2839240</div>
-							<div class="t2">10，300，,30</div>
-							<div class="t3">中国工商银行</div>
-							<div class="t4">2017-06-30</div>
-							<div class="t5">无</div>
-							<div class="t6">无</div>
-						</li>
-						<li>
-							<div class="t1">2839240</div>
-							<div class="t2">10，300，,30</div>
-							<div class="t3">中国工商银行</div>
-							<div class="t4">2017-06-30</div>
-							<div class="t5">无</div>
-							<div class="t6">无</div>
-						</li>
-						<li>
-							<div class="t1">2839240</div>
-							<div class="t2">10，300，,30</div>
-							<div class="t3">中国工商银行</div>
-							<div class="t4">2017-06-30</div>
-							<div class="t5">无</div>
-							<div class="t6">无</div>
-						</li>
-
+						</li> -->
 					</ul>
 					<div class="user-table-f">
 						<p>提款金额合计：<span>0.00</span></p>
@@ -294,7 +184,7 @@
 				</div>
 			</div>
 
-			<p>这里是分页</p>
+			<div id="J_Paging"></div>
 		</div>
 	</div>
 
@@ -305,10 +195,26 @@
 	</div>
 
 
-	<script src="../../../js/jquery-1.11.1.min.js"></script>
+	<!-- <script src="../../../js/jquery-1.11.1.min.js"></script>
 	<script src="../../../js/jquery.cookie.js"></script>
 	<script src="../../../js/layer/layer.js"></script>
 	<script src="../../../js/GLOBAL.js"></script>
-	<script src="../../../js/common.js"></script>
+	<script src="../../../js/common.js"></script> -->
+
+	<script src="../js/jquery-1.11.1.min.js"></script>
+	<script src="../js/jquery-nice-select.js"></script>
+	<script src="../js/jquery.cookie.js"></script>
+	<script src="../js/layer/layer.js"></script>
+	<script src="../js/laydate/laydate.js"></script>
+	<script src="../js/laypage/laypage.js"></script>
+	<script src="../js/GLOBAL.js"></script>
+	<script src="../js/common.js"></script>
+
+	<script>
+		$(function(){
+			$('select').niceSelect();
+			COMMON.USER.withdrawalRecords.init();
+		});
+	</script>
 </body>
 </html>

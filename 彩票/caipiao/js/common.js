@@ -91,6 +91,7 @@
 				$('#J_headerUserName').data('n', data.username);
 				$('.J_balance').html(data.balance)
 				$('#J_cutoverBalance').data('balance', data.balance);
+				GLOBAL.COOKIE.setCookieItem('set_fund_password', data.set_fund_password, 2);
 			});
 		},
 		homeBallInfo: function() {
@@ -145,8 +146,8 @@
 							time: 2000
 						});
 					}
-
-					window.clearInterval(COMMON.timer2);
+					clearInterval(COMMON.timer);
+					clearInterval(COMMON.timer2);
 					COMMON.getBallInfo($id);
 					return;
 				}
@@ -295,12 +296,18 @@
 		},
 		USER: {
 			renderBankList: function() {
-				console.log('银行卡列表返回数据格式不对');
 				// 渲染可绑定银行卡选项
 				GLOBAL.getAjaxData({
 					url: '/bank/option'
 				}, function(d) {
-					console.log(d);
+					var _str = '';
+					if(d.length){
+						$.each(d, function(i, n){
+							_str += '<option value="'+ n.id +'">'+ n.name +'</option>';
+						});
+					}
+					$('#J_bankList').html(_str);
+					$('select').niceSelect();
 				});
 			},
 			initDatePick: function() {
@@ -355,11 +362,61 @@
 
                 return _txt;
             },
+            converRechargeStatus: function(status){
+                var _txt = '';
+                switch(status){
+                    case 'wait':
+                    _txt = '待确认';
+                    break;
+                    case 'fail':
+                    _txt = '充值失败';
+                    break;
+                    case 'success':
+                    _txt = '充值成功';
+                    break;
+                }
+
+                return _txt;
+            },
+            converRechargeType: function(status){
+                var _txt = '';
+                switch(status){
+                    case 'bank':
+                    _txt = '银行';
+                    break;
+                    case 'alipay':
+                    _txt = '支付宝';
+                    break;
+                    case 'weixin':
+                    _txt = '微信';
+                    break;
+                    case 'quick':
+                    _txt = '快捷支付';
+                    break;
+                }
+
+                return _txt;
+            },
+            recharge: function(money, type) {
+            	GLOBAL.getAjaxData({
+					url: '/recharge/add',
+					data: {
+						money: money,
+						channel: 'online',
+						type: type
+					}
+				}, function(data) {
+					layer.alert('充值成功', {
+						skin: 'bett-alert-dialog',
+						icon: 1,
+						time: 2000
+					});
+				});
+            },
 			// 线上支付
 			rechargeOnline: {
 				init: function(){
 					COMMON.USER.renderBankList();
-
 					this.bindEvent();
 				},
 				bindEvent: function(){
@@ -367,37 +424,357 @@
 						$(this).addClass('active').siblings().removeClass('active');
 						$('#J_quoatInp').val($(this).data('n'));
 					});
+
+					$('#J_confirmBtn').click(function(){
+						var num = $('#J_quoatInp').val();
+
+						if(num < 1 || num > 50000){
+							layer.alert('最低充值金额为1元，单笔最高充值金额为50,000元', {
+								skin: 'bett-alert-dialog',
+								icon: 2
+							});
+							return false;
+						}
+						COMMON.USER.recharge(num, 'bank');
+					});
+				}
+			},
+			// 网银转账
+			rechargeTransfer: {
+				init: function(){
+					COMMON.USER.renderBankList();
+					this.bindEvent();
+				},
+				bindEvent: function(){
+					$('#J_confirmBtn').click(function(){
+						var num = $('#J_quoatInp').val();
+
+						if(num < 1 || num > 50000){
+							layer.alert('最低充值金额为1元，单笔最高充值金额为50,000元', {
+								skin: 'bett-alert-dialog',
+								icon: 2
+							});
+							return false;
+						}
+						COMMON.USER.recharge(num, 'bank');
+					});
+				}
+			},
+			// 微信转账
+			rechargeOnline: {
+				init: function(){
+					COMMON.USER.renderBankList();
+					this.bindEvent();
+				},
+				bindEvent: function(){
+					$('#J_quoatList li').click(function(){
+						$(this).addClass('active').siblings().removeClass('active');
+						$('#J_quoatInp').val($(this).data('n'));
+					});
+
+					$('#J_confirmBtn').click(function(){
+						var num = $('#J_quoatInp').val();
+
+						if(num < 1 || num > 50000){
+							layer.alert('最低充值金额为1元，单笔最高充值金额为50,000元', {
+								skin: 'bett-alert-dialog',
+								icon: 2
+							});
+							return false;
+						}
+						COMMON.USER.recharge(num, 'bank');
+					});
 				}
 			},
 			// 充值记录
 			rechargeRecord: {
 				init: function() {
 					COMMON.USER.initDatePick();
-					this.getList();
 					this.bindEvent();
 				},
 				bindEvent: function() {
 					$('#J_searchListBtn').click(function(){
-						var _status = $('#J_status').next('.nice-select').find('.selected').data().value;
-						var _mod = $('#J_mode').next('.nice-select').find('.selected').data().value;
-						var _start = $('#J_startDay').va();
-						var _end = $('#J_endDay').va();
-						console.log(_status, _mod);
-
-						// this.getList({
-
-						// });
+						COMMON.USER.rechargeRecord.getList();
 					});
+				},
+				renderList: function(data) {
+					var _str = '';
+					if (data.total > 0){
+						$.each(data.data, function(i, n){
+							_str += '<li>';
+							_str += '    <div class="t1">'+ n.id +'</div>';
+							_str += '    <div class="t2">'+ COMMON.USER.converRechargeType(n.type) +'</div>';
+							_str += '    <div class="t3">'+ n.money +'</div>';
+							_str += '    <div class="t4">'+ '--' +'</div>';
+							_str += '    <div class="t5">'+ n.created +'</div>';
+							_str += '    <div class="t6">'+ '--' +'</div>';
+							_str += '    <div class="t7">'+ COMMON.USER.converRechargeStatus(n.status) +'</div>';
+							_str += '    <div class="t8">'+ n.remark +'</div>';
+							_str += '</li>';
+						});					
+					} else {
+						_str += '<li class="empty">没有找到符合条件的数据</li>';
+					}
+
+					$('#J_list').html(_str);
 				},
 				getList: function(option) {
 					option = option || {};
+					option.status = option.status || $('#J_status').next('.nice-select').find('.selected').data().value || '';
+					option.type = option.type || $('#J_mode').next('.nice-select').find('.selected').data().value || '';
+					option.created_min = option.created_min || $('#J_startDay').val() || '';
+					option.created_max = option.created_max || $('#J_endDay').val() || '';
+					option.pageSize = option.pageSize || 10;
+					option.page = option.page || 1;
 
 					GLOBAL.getAjaxData({
-						url: '/recharge/lists'
+						url: '/recharge/lists',
+						data: {
+							type: option.type,
+							status: option.status,
+							created_min: option.created_min,
+							created_max: option.created_max,
+							pageSize: option.pageSize,
+							page: option.page
+						}
 					}, function(d) {
-						console.log(d);
+						COMMON.USER.rechargeRecord.renderList(d);
+						if(d.total > 10){
+							laypage({
+								cont: 'J_Paging',
+								pages: Math.ceil(d.total / d.per_page),
+								prev: '<',
+								next: '>',
+								first: false,
+								last: false,
+								skip: true, //是否开启跳页
+								groups: 10, //连续显示分页数
+								jump: function(obj) {
+									COMMON.USER.rechargeRecord.getData({
+										page: obj.curr
+									});
+								}
+							});
+						}
+					});
+				},
+				getData: function(option){
+					option = option || {};
+					option.status = option.status || $('#J_status').next('.nice-select').find('.selected').data().value || '';
+					option.type = option.type || $('#J_mode').next('.nice-select').find('.selected').data().value || '';
+					option.created_min = option.created_min || $('#J_startDay').val() || '';
+					option.created_max = option.created_max || $('#J_endDay').val() || '';
+					option.pageSize = option.pageSize || 10;
+					option.page = option.page || 1;
+					GLOBAL.getAjaxData({
+						url: '/recharge/lists',
+						data: {
+							type: option.type,
+							status: option.status,
+							created_min: option.created_min,
+							created_max: option.created_max,
+							pageSize: option.pageSize,
+							page: option.page
+						}
+					}, function(d) {
+						COMMON.USER.rechargeRecord.renderList(d);
+					});
+				}
+			},
+			// 提款申请
+			withdrawalApplication: {
+				init: function(){
+					this.initDetail();
+					this.bindEvent();
+				},
+				bindEvent: function(){
+					$('#J_tkBankList').on('click', '.J_cancelBankCard', function(){
+						var _this = $(this);
 
-						// $('select').niceSelect();
+						layer.confirm('确定要接触绑定该卡吗？', {
+							icon: 2,
+							closeBtn: 0,
+							maxWidth: '520px'
+						}, function(index) {
+							GLOBAL.getAjaxData({
+								url: '/bank/relieve',
+								data: {
+									id : _this.data('id')
+								}
+							}, function(data) {
+								layer.close(index);
+								_this.parents('li').remove();
+							});
+						});
+					});
+
+					$('#J_confirmBtn').click(function(){
+						COMMON.USER.withdrawalApplication.withdraw();
+					});
+
+					$('#J_tkBankList').on('click', '.J_withdrawLi', function(){
+						$(this).addClass('active').siblings('li').removeClass('active');
+					});
+				},
+				withdraw: function() {
+					var _money = $('#money').val();
+					var _password = $('#password').val();
+					var _id = $('.J_withdrawLi.active').data('id');
+					
+					if(_id == undefined){
+						layer.alert('请选择提款银行卡', {
+							skin: 'bett-alert-dialog',
+							icon: 2
+						});
+						return false;
+					}
+
+					if(!_money){
+						layer.alert('请输入提款金额', {
+							skin: 'bett-alert-dialog',
+							icon: 2
+						});
+						return false;
+					}
+
+					if (_money < 100 || _money > 200000) {
+						layer.alert('单笔最低提款金额为100元，<br/>单笔最高提款金额为200,0000元', {
+							skin: 'bett-alert-dialog',
+							icon: 2
+						});
+						return false;
+					}
+
+					if (!_password) {
+						layer.alert('请输入资金密码', {
+							skin: 'bett-alert-dialog',
+							icon: 2
+						});
+						return false;
+					}
+
+					// 提款
+					GLOBAL.getAjaxData({
+						url: '/withdraw/add',
+						data: {
+							user_bank_id: _id,
+							money: _money,
+							password: _password
+						}
+					}, function(data) {
+						
+					});
+				},
+				initDetail: function() {
+					// 	银行列表
+					GLOBAL.getAjaxData({
+						url: '/bank/lists'
+					}, function(data) {
+						var _str = '';
+						if (data.length) {
+							$.each(data, function(i, n) {
+								_str += '<li class="J_withdrawLi" data-id="'+ n.id +'">';
+								_str += '	<div class="t1">'+ n.bank_name +'</div>';
+								_str += '	<div class="t2">'+ n.zone1 +' - '+ n.zone2 +'</div>';
+								_str += '	<div class="t3">***************'+ n.last_number +'</div>';
+								_str += '	<div class="t4">'+ n.holder +'</div>';
+								_str += '	<div class="t5">'+ n.created +'</div>';
+								_str += '	<div class="t6"><a href="javascript:;" class="text-l-color J_cancelBankCard" data-id="'+ n.id +'">解除绑定</a></div>';
+								_str += '</li>';
+							});
+						} else {
+							_str += '<li class="empty"><p>暂时没有绑定提款卡</p></li>'
+						}
+						$('#J_tkBankList').append(_str);
+					});
+				}
+			},
+			// 提款记录
+			withdrawalRecords: {
+				init: function() {
+					COMMON.USER.initDatePick();
+					this.bindEvent();
+				},
+				bindEvent: function(d){
+					$('#J_searchListBtn').click(function() {
+						COMMON.USER.withdrawalRecords.getList();
+					});
+				},
+				renderList: function(data) {
+					var _str = '';
+					if (data.total > 0){
+						$.each(data.data, function(i, n){
+							_str += '<li>';
+							_str += '    <div class="t1">'+ n.id +'</div>';
+							_str += '    <div class="t2">'+ n.money +'</div>';
+							_str += '    <div class="t3">'+ n.bank.name +'</div>';
+							_str += '    <div class="t4">'+ n.created +'</div>';
+							_str += '    <div class="t5">'+ COMMON.USER.converRechargeStatus(n.status) +'</div>';
+							_str += '    <div class="t6">'+ n.remark +'</div>';
+							_str += '</li>';
+						});					
+					} else {
+						_str += '<li class="empty">没有找到符合条件的数据</li>';
+					}
+
+					$('#J_list').html(_str);
+				},
+				getList: function(option) {
+					option = option || {};
+					option.status = option.status || $('#J_status').next('.nice-select').find('.selected').data().value || '';
+					option.created_min = option.created_min || $('#J_startDay').val() || '';
+					option.created_max = option.created_max || $('#J_endDay').val() || '';
+					option.pageSize = option.pageSize || 10;
+					option.page = option.page || 1;
+
+					GLOBAL.getAjaxData({
+						url: '/withdraw/lists',
+						data: {
+							status: option.status,
+							created_min: option.created_min,
+							created_max: option.created_max,
+							pageSize: option.pageSize,
+							page: option.page
+						}
+					}, function(d) {
+						COMMON.USER.withdrawalRecords.renderList(d);
+						if(d.total > 10){
+							laypage({
+								cont: 'J_Paging',
+								pages: Math.ceil(d.total / d.per_page),
+								prev: '<',
+								next: '>',
+								first: false,
+								last: false,
+								skip: true, //是否开启跳页
+								groups: 10, //连续显示分页数
+								jump: function(obj) {
+									COMMON.USER.withdrawalRecords.getData({
+										page: obj.curr
+									});
+								}
+							});
+						}
+					});
+				},
+				getData: function(option){
+					option = option || {};
+					option.status = option.status || $('#J_status').next('.nice-select').find('.selected').data().value || '';
+					option.created_min = option.created_min || $('#J_startDay').val() || '';
+					option.created_max = option.created_max || $('#J_endDay').val() || '';
+					option.pageSize = option.pageSize || 10;
+					option.page = option.page || 1;
+					GLOBAL.getAjaxData({
+						url: '/withdraw/lists',
+						data: {
+							status: option.status,
+							created_min: option.created_min,
+							created_max: option.created_max,
+							pageSize: option.pageSize,
+							page: option.page
+						}
+					}, function(d) {
+						COMMON.USER.withdrawalRecords.renderList(d);
 					});
 				}
 			},
@@ -476,6 +853,10 @@
 					});
 				},
 				detail: function() {
+					if(GLOBAL.COOKIE.getCookieItem('set_fund_password')){
+						$('#fund_password,#confirm_fund_password').val('123456').prop('disabled', true);
+					}
+
 					GLOBAL.getAjaxData({
 						url: '/user/detail'
 					}, function(data) {
@@ -562,7 +943,7 @@
 						}
 					}, function(d) {
 						COMMON.USER.bettingRecord.renderList(d);
-						if(d.total > 0){
+						if(d.total > 10){
 							laypage({
 								cont: 'J_Paging',
 								pages: Math.ceil(d.total / d.per_page),
@@ -650,7 +1031,7 @@
 						}
 					}, function(d) {
 						COMMON.USER.accountDetails.renderList(d);
-						if(d.total > 0){
+						if(d.total > 10){
 							laypage({
 								cont: 'J_Paging',
 								pages: Math.ceil(d.total / d.per_page),
@@ -787,60 +1168,147 @@
 
 					$('#J_confirmBtn').click(function(){
 						var _type = $('#J_inviteType span.active').data('t');
-						console.log(_type);
-
-						// TOTO: 哪个接口？
-
-						// GLOBAL.getAjaxData({
-						// 	url: '/invite/add',
-						// 	data: {
-						// 		type : _type
-						// 	}
-						// }, function(data) {
-							
-						// });
 					});
 				}
 			},
 			// 链接管理
 			linkManagement: {
 				init: function() {
-					console.log('不知道哪个接口');
-					this.getList();
+					// this.getList();
+					this.bindEvent();
 				},
 				bindEvent: function() {
-					var clipboard = new Clipboard('.J_clipboard');
-					clipboard.on('success', function(e) {
-					    console.info('Action:', e.action);
-					    console.info('Text:', e.text);
-					    console.info('Trigger:', e.trigger);
-					    e.clearSelection();
+					// var clipboard = new Clipboard('.J_clipboard');
+					// clipboard.on('success', function(e) {
+					//     console.info('Action:', e.action);
+					//     console.info('Text:', e.text);
+					//     console.info('Trigger:', e.trigger);
+					//     e.clearSelection();
+					// });
+
+					// clipboard.on('error', function(e) {
+					//     console.error('Action:', e.action);
+					//     console.error('Trigger:', e.trigger);
+					// });
+
+					$('#J_searchListBtn').click(function() {
+						COMMON.USER.linkManagement.getList();
 					});
 
-					clipboard.on('error', function(e) {
-					    console.error('Action:', e.action);
-					    console.error('Trigger:', e.trigger);
+					$('#J_list').on('click', '.J_delLink', function(){
+						var _this = $(this);
+						var _id = _this.data('id');
+						layer.confirm('确定要删除该链接吗？', {
+							icon: 2,
+							closeBtn: 0,
+							maxWidth: '520px'
+						}, function(index) {
+							GLOBAL.getAjaxData({
+								url: '/invite/cancel',
+								data: {
+									id : _id
+								}
+							}, function(data) {
+								layer.close(index);
+								// _this.parents('li').remove();
+								COMMON.USER.linkManagement.getList();
+							});
+						});
 					});
+				},
+				renderList: function(data) {
+					console.log(data);
+					var _str = '';
+					if (data.total > 0){
+						$.each(data.data, function(i, n){
+							_str += '<li>';
+							_str += '    <div class="t1">'+ n.channel +'</div>';
+							_str += '    <div class="t2">'+ n.url +'</div>';
+							_str += '    <div class="t3">'+ n.register +'</div>';
+							_str += '    <div class="t4">'+ (n.type == 'member' ? '会员' : '代理') +'</div>';
+							_str += '    <div class="t5">'+ (n.status == 'normal'? '正常' : '取消') +'</div>';
+							_str += '    <div class="t6">'+ n.created +'</div>';
+							_str += '    <div class="t7">'+ n.term_at +'</div>';
+							if(n.status == 'normal'){
+								_str += '<div class="t8 J_delLink" data-id="'+ n.id +'">删除</div>';
+							}else{
+								_str += '<div class="t8">-</div>';
+							}
+							_str += '</li>';
+						});					
+					} else {
+						_str += '<li class="empty">没有找到符合条件的数据</li>';
+					}
+
+					$('#J_list').html(_str);
 				},
 				getList: function(option) {
 					option = option || {};
+					option.status = option.status || $('#J_status').next('.nice-select').find('.selected').data().value || '';
+					option.type = option.type || $('#J_linkType').next('.nice-select').find('.selected').data().value || '';
+					option.channel = option.channel || $('#channel').val() || '';
+					option.created_min = option.created_min || $('#J_startDay').val() || '';
+					option.created_max = option.created_max || $('#J_endDay').val() || '';
+					option.pageSize = option.pageSize || 10;
+					option.page = option.page || 1;
 
-					// GLOBAL.getAjaxData({
-					// 	url: '/invite/lists',
-					// 	data: {
-					// 		status: '',
-					// 		created_min: '',
-					// 		created_max: '',
-					// 	}
-					// }, function(data) {
-					// 	console.log(data);
-					// });
+					GLOBAL.getAjaxData({
+						url: '/invite/lists',
+						data: {
+							status: option.status,
+							type: option.type,
+							channel: option.channel,
+							created_min: option.created_min,
+							created_max: option.created_max,
+							pageSize: option.pageSize,
+							page: option.page
+						}
+					}, function(d) {
+						COMMON.USER.linkManagement.renderList(d);
+						if(d.total > 10){
+							laypage({
+								cont: 'J_Paging',
+								pages: Math.ceil(d.total / d.per_page),
+								prev: '<',
+								next: '>',
+								first: false,
+								last: false,
+								skip: true, //是否开启跳页
+								groups: 10, //连续显示分页数
+								jump: function(obj) {
+									COMMON.USER.linkManagement.getData({
+										page: obj.curr
+									});
+								}
+							});
+						}
+					});
+				},
+				getData: function(option){
+					option = option || {};
+					option.status = option.status || $('#J_status').next('.nice-select').find('.selected').data().value || '';
+					option.type = option.type || $('#J_linkType').next('.nice-select').find('.selected').data().value || '';
+					option.channel = option.channel || $('#channel').val() || '';
+					option.created_min = option.created_min || $('#J_startDay').val() || '';
+					option.created_max = option.created_max || $('#J_endDay').val() || '';
+					option.pageSize = option.pageSize || 10;
+					option.page = option.page || 1;
+					GLOBAL.getAjaxData({
+						url: '/invite/lists',
+						data: {
+							status: option.status,
+							type: option.type,
+							channel: option.channel,
+							created_min: option.created_min,
+							created_max: option.created_max,
+							pageSize: option.pageSize,
+							page: option.page
+						}
+					}, function(d) {
+						COMMON.USER.linkManagement.renderList(d);
+					});
 				}
 			},
-
-			// 链接管理
-			// /invite/lists
-			
 			// 下级管理
 			subordinateManagement: {
 				init: function() {
@@ -911,7 +1379,7 @@
 						}
 					}, function(d) {
 						COMMON.USER.subordinateManagement.renderList(d);
-						if(d.total > 0){
+						if(d.total > 10){
 							laypage({
 								cont: 'J_Paging',
 								pages: Math.ceil(d.total / d.per_page),
@@ -989,13 +1457,11 @@
 						$.each(data.data, function(i, n){
 							_str += '<li>';
 							_str += '    <div class="t1">'+ n.username +'</div>';
-							_str += '    <div class="t2">'+ n.recharge +'</div>';
-							_str += '    <div class="t3">'+ n.withdraw +'</div>';
-							_str += '    <div class="t4">'+ n.bet +'</div>';
-							_str += '    <div class="t5">返点？？？</div>';
-							_str += '    <div class="t6">'+ n.winning +'</div>';
-							_str += '    <div class="t7">活动？？？</div>';
-							_str += '    <div class="t8">盈亏？？</div>';
+							_str += '    <div class="t2">'+ n.team_recharge + '/' + n.recharge +'</div>';
+							_str += '    <div class="t3">'+ n.team_withdraw + '/' + n.withdraw +'</div>';
+							_str += '    <div class="t4">'+ n.team_bet + '/' + n.bet +'</div>';
+							_str += '    <div class="t5">'+ n.team_winning + '/' + n.winning +'</div>';
+							_str += '    <div class="t6">'+ n.team_income + '/' + n.income +'</div>';
 							_str += '</li>';
 						});					
 					} else {
@@ -1023,7 +1489,7 @@
 						}
 					}, function(d) {
 						COMMON.USER.reportManagement.renderList(d);
-						if(d.total > 0){
+						if(d.total > 10){
 							laypage({
 								cont: 'J_Paging',
 								pages: Math.ceil(d.total / d.per_page),
@@ -1084,7 +1550,7 @@
 							_str += '    <div class="t3">'+ n.username +'</div>';
 							_str += '    <div class="t4">'+ n.created +'</div>';
 							_str += '    <div class="t5">'+ n.periods.date + '-'+ n.periods.num +'</div>';
-							_str += '    <div class="t6">'+ n.periods.lottery_num +'</div>';
+							_str += '    <div class="t6">'+ (n.periods.lottery_num?n.periods.lottery_num:'-') +'</div>';
 							_str += '    <div class="t7">'+ n.money +'</div>';
 							_str += '    <div class="t8">'+ n.bonus +'</div>';
 							_str += '</li>';
@@ -1114,7 +1580,7 @@
 						}
 					}, function(d) {
 						COMMON.USER.teamBetting.renderList(d);
-						if(d.total > 0){
+						if(d.total > 10){
 							laypage({
 								cont: 'J_Paging',
 								pages: Math.ceil(d.total / d.per_page),

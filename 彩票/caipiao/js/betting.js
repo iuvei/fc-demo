@@ -268,6 +268,11 @@ $(function() {
             // Betting.calculateAmount();
         },
         bettingEvent: function() {
+            var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
+            var _subNav = $('.J_subMenu.active').data('info').split('#')[1];
+            var _currentRule = SSC_TEMPLATE[_mainNav]({
+                type : _subNav
+            });
             // 我要追号
             $('#J_chaseNumber').click(function(){
                 if($(this).hasClass('disabled')){
@@ -436,7 +441,7 @@ $(function() {
                 }
 
                 var _flag = true;
-                if($('.J_ballList').length){
+                if($('.J_ballList').length && !$('[data-row="SUM"]').length){
                     $.each($('.J_ballList'), function() {
                         var _len = $(this).find('.J_numWrp.active').length;
                         var _min = $(this).data('min');
@@ -462,7 +467,7 @@ $(function() {
                     return;
                 }
                 var _flag = true;
-                if($('.J_ballList').length){
+                if($('.J_ballList').length && !$('[data-row="SUM"]').length){
                     $.each($('.J_ballList'), function() {
                         var _len = $(this).find('.J_numWrp.active').length;
                         var _min = $(this).data('min');
@@ -500,8 +505,8 @@ $(function() {
             });
         },
         confirmCart: function(_data, type) {
-            // console.log(_data);
-            // return;
+            console.log(_data);
+            return;
             // type : confirm 确认投注    shortcut : 一键投注
             
             GLOBAL.getAjaxData({
