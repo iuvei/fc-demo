@@ -3,9 +3,10 @@
 <head>
 	<meta charset="UTF-8">
 	<title>绑定提款卡</title>
-	<link rel="stylesheet" href="../../../css/reset.css">
-	<link rel="stylesheet" href="../../../css/user_common.css">
-	<link rel="stylesheet" href="../../../css/skin/default.css" id="J_skinCss">
+	<link rel="stylesheet" href="../css/reset.css">
+	<link rel="stylesheet" href="../css/nice-select.css">
+	<link rel="stylesheet" href="../css/user_common.css">
+	<link rel="stylesheet" href="../css/skin/default.css" id="J_skinCss">
 </head>
 <body class="bg-whit">
 	<!-- 顶部 -->
@@ -148,27 +149,29 @@
 						<span class="user-form-t">银行：</span>
 						<div class="user-form-c">
 							<div class="user-bank-list fl">
-								银行下拉列表
+								<!-- 银行下拉列表 -->
+								<select id="J_bankList"></select>
 							</div>
 							<em>*</em>
 						</div>
 					</li>
 					<li>
 						<span class="user-form-t">银行卡号：</span>
-						<div class="user-form-c"><input type="text"><em>*</em></div>
+						<div class="user-form-c"><input type="text" id="card-num"><em>*</em></div>
 					</li>
 					<li>
 						<span class="user-form-t">确定卡号：</span>
-						<div class="user-form-c"><input type="text"><em>*</em></div>
+						<div class="user-form-c"><input type="text" id="cardConNum"><em>*</em></div>
 					</li>
 					<li>
 						<span class="user-form-t">所在省/市：</span>
 						<div class="user-form-c">
-							<select name="" id="" style="width:105px;">
-								<option value="">暂无优惠活动</option>
+							<select id="J_province" style="width:105px;">
+								<option value="">省</option>
 							</select>
-							<select name="" id="" style="width:105px;">
-								<option value="">暂无优惠活动</option>
+							<span class="fl" style="padding:0 5px;"> - </span>
+							<select id="J_city" style="width:105px;">
+								<option value="">市</option>
 							</select>
 							<em>*</em>
 						</div>
@@ -180,7 +183,7 @@
 				</ul>
 				<div class="user-bindcard-add">
 					<div class="bind-add">
-						<span class="btn-l-color">+ 新增</span>
+						<span class="btn-l-color" id="J_addBankCard">+ 新增</span>
 						<p>最多可绑定五张提款银行卡</p>
 					</div>
 				</div>
@@ -195,10 +198,18 @@
 	</div>
 
 
-	<script src="../../../js/jquery-1.11.1.min.js"></script>
-	<script src="../../../js/jquery.cookie.js"></script>
-	<script src="../../../js/layer/layer.js"></script>
-	<script src="../../../js/GLOBAL.js"></script>
-	<script src="../../../js/common.js"></script>
+	<script src="../js/jquery-1.11.1.min.js"></script>
+	<script src="../js/jquery-nice-select.js"></script>
+	<script src="../js/jquery.cookie.js"></script>
+	<script src="../js/layer/layer.js"></script>
+	<script src="../js/laydate/laydate.js"></script>
+	<script src="../js/laypage/laypage.js"></script>
+	<script src="../js/GLOBAL.js"></script>
+	<script src="../js/common.js"></script>
+	<script>
+		$(function(){
+			COMMON.USER.withdrawalBindcard.init();
+		});
+	</script>
 </body>
 </html>

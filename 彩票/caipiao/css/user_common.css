@@ -828,32 +828,45 @@ body.bg-whit{
 
 
 /* niceSelect 扩展 */
-.user-con .nice-select{
+.user-content .nice-select,
+.user-content .nice-select:hover,
+.user-content .nice-select:active, .user-content .nice-select.open, .user-content .nice-select:focus{
+	border: 1px solid #ededed;
+}
+.user-content .nice-select{
 	width: 130px;
 	border-radius: 0px;
 	border-color: #ededed;
 }
-.user-con .nice-select.open{
+.user-content .nice-select.open{
 	color: #fff;
 	background-color: #008698;
 }
-.user-con .nice-select.open:after{
+.user-content .nice-select.open:after{
 	border-color: #fff;
 }
-.user-con .nice-select .option.selected{
+.user-content .nice-select .option.selected{
 	font-weight: normal;
 	color: #008698;
 }
-.user-con .nice-select .option{
+.user-content .nice-select .option{
 	color: #666;
 }
-.nice-select.open .list{
+.user-content .nice-select.open .list{
 	min-width: 128px;
     border: 1px solid #008698;
     border-radius: 0px;
     margin: 0;
+    max-height: 400px;
+    overflow-y: auto;
 }
 
+.user-bank-list .nice-select{
+	width: 218px;
+}
+.user-bank-list .nice-select .option{
+	width: 214px;
+}
 
 
 

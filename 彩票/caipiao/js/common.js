@@ -310,6 +310,29 @@
 					$('select').niceSelect();
 				});
 			},
+			renderAddressList: function(pid) {
+				// 渲染地址列表
+				GLOBAL.getAjaxData({
+					url: '/zone/lists',
+					data: {
+						id : pid || ''
+					}
+				}, function(d) {
+					var _str = '';
+					if(d.length){
+						$.each(d, function(i, n){
+							_str += '<option value="'+ n.id +'">'+ n.name +'</option>';
+						});
+					}
+
+					if (pid) {
+						$('#J_city').html(_str);
+					} else {
+						$('#J_province').html(_str);
+					}
+					$('select').niceSelect();
+				});
+			},
 			initDatePick: function() {
 				var start = {
 					elem: '#J_startDay',
@@ -775,6 +798,115 @@
 						}
 					}, function(d) {
 						COMMON.USER.withdrawalRecords.renderList(d);
+					});
+				}
+			},
+			withdrawalBindcard: {
+				init: function() {
+					COMMON.USER.renderBankList();
+					COMMON.USER.renderAddressList();
+					this.bindEvent();
+				},
+				bindEvent: function(){
+					$('#J_addBankCard').click(function(){
+						// var userName = $('#card-user-name').val(); //用户姓名
+						// var cardType = $("#bank_List").find(".current").attr('data-id3'); //银行id
+						var cardNum = $('#card-num').val(); //银行卡号
+						var cardConNum = $('#card-confim-num').val(); //确认银行卡号
+
+						var provinceTxt = $("#province").find(".current").attr('data-id');
+						var cityTxt = $("#city").find(".current").attr('data-id2');
+						var province = parseInt(provinceTxt); //省
+						var city = parseInt(cityTxt); // 市/区
+						var address = $('#card-address').val(); //银行分行
+						var email = $('#card-email').val(); //安全邮箱
+						var reg = /^\d{16,19}$/;
+						if (userName == '') {
+							layer.alert('请输入提款人姓名', {
+								skin: 'bett-alert-dialog',
+								icon: 2
+							});
+							return false;
+						}
+						if (cardType == undefined) {
+							layer.alert('请输入选择银行', {
+								skin: 'bett-alert-dialog',
+								icon: 2
+							});
+							return false;
+						}
+						//验证银行卡号
+						if (cardNum == '') {
+							layer.alert('请输入银行卡号', {
+								skin: 'bett-alert-dialog',
+								icon: 2
+							});
+							return false;
+						} else if (reg.test(cardNum) == false) {
+							layer.alert('请输入16到19位的银行卡号', {
+								skin: 'bett-alert-dialog',
+								icon: 2
+							});
+							return false;
+						}
+						//验证确认银行卡号
+						if (cardConNum == '' && cardNum != '') {
+							layer.alert('请输入确认银行卡号', {
+								skin: 'bett-alert-dialog',
+								icon: 2
+							});
+							return false;
+						}
+
+						if (cardNum != cardConNum) {
+							layer.alert('确认银行卡号与银行卡号不一致', {
+								skin: 'bett-alert-dialog',
+								icon: 2
+							});
+							return false;
+						}
+
+						if (provinceTxt == undefined) {
+							layer.alert('请选择银行所在省市', {
+								skin: 'bett-alert-dialog',
+								icon: 2
+							});
+							return false;
+						}
+						if (cityTxt == undefined) {
+							layer.alert('请选择银行所在市区', {
+								skin: 'bett-alert-dialog',
+								icon: 2
+							});
+							return false;
+						}
+						if (address == '') {
+							layer.alert('请输入银行分行', {
+								skin: 'bett-alert-dialog',
+								icon: 2
+							});
+							return false;
+						}
+
+						GLOBAL.getAjaxData({
+							url: '/bank/add',
+							data: {
+								payee: '',//
+								email: '',//
+								bank_id: '',//	银行ID
+								card_number: '',//银行卡号，16或19位
+								zone1_id: '',//一级地区
+								zone2_id: '',//二级地区
+								branch: ''	//分行名
+							}
+						}, function(data) {
+							layer.alert('绑定银行卡成功', {
+								skin: 'bett-alert-dialog',
+								icon: 1,
+								time: 2000
+							});
+							// TODO:充值所有的值
+						});
 					});
 				}
 			},
