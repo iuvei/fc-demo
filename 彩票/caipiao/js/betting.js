@@ -178,7 +178,7 @@ $(function() {
                             _numlist += _ulDom;
                         }
                     } else {
-                        _numlist = '<ul data-min="' + (minSelect ? minSelect : 1) + '" data-max="' + (maxSelect ? maxSelect : 10) + '" data-row="' + rowName + '" class="row-num fl J_ballList ' + ((multipleChoice == undefined || multipleChoice) ? 'J_multipleChoice' : '') + '">';
+                        _numlist = '<ul data-start="0" data-min="' + (minSelect ? minSelect : 1) + '" data-max="' + (maxSelect ? maxSelect : 10) + '" data-row="' + rowName + '" class="row-num fl J_ballList ' + ((multipleChoice == undefined || multipleChoice) ? 'J_multipleChoice' : '') + '">';
                         var _len = numList.length - 1;
                         $.each(numList, function(a, b) {
                             if (a == _len) {
@@ -434,12 +434,49 @@ $(function() {
                 if ($(this).hasClass('disabled')) {
                     return;
                 }
+
+                var _flag = true;
+                if($('.J_ballList').length){
+                    $.each($('.J_ballList'), function() {
+                        var _len = $(this).find('.J_numWrp.active').length;
+                        var _min = $(this).data('min');
+                        if(_len < _min) {
+                            layer.alert('前玩法最多少选择'+ _min +'个号球!', {
+                                skin: 'bett-alert-dialog',
+                                icon: 2
+                            });
+                            _flag = false;
+                            return false;
+                        }
+                    });
+                }
+                if(!_flag){
+                    return;
+                }
                 Betting.addBallToCart();
             });
 
             // 一键投注
             $('#J_shortcutPlaceOrder').on('click', function(){
                 if ($(this).hasClass('disabled')) {
+                    return;
+                }
+                var _flag = true;
+                if($('.J_ballList').length){
+                    $.each($('.J_ballList'), function() {
+                        var _len = $(this).find('.J_numWrp.active').length;
+                        var _min = $(this).data('min');
+                        if(_len < _min) {
+                            layer.alert('前玩法最多少选择'+ _min +'个号球!', {
+                                skin: 'bett-alert-dialog',
+                                icon: 2
+                            });
+                        }
+                        _flag = false;
+                        return false;
+                    });
+                }
+                if(!_flag){
                     return;
                 }
                 Betting.shortcutPlaceOrder();
@@ -463,6 +500,8 @@ $(function() {
             });
         },
         confirmCart: function(_data, type) {
+            // console.log(_data);
+            // return;
             // type : confirm 确认投注    shortcut : 一键投注
             
             GLOBAL.getAjaxData({
@@ -720,6 +759,7 @@ $(function() {
                             return a - _beishu
                         }), i = m.join("") + "@" + i, j *= 1
                     }
+                    // console.log(i);
                     _data.push(_getTextRoundData(i, j));
                 }
             } else if (_currentRule.opt.type == 'mixingAny') {
@@ -998,6 +1038,7 @@ $(function() {
             Betting.renderCart(_data);
         },
         renderCart: function(data) {
+            // console.log(data);
             // 渲染购物车
             var _str = '';
             var _len = data.length;
@@ -1037,7 +1078,8 @@ $(function() {
                         _html += k.g;
                     }
                     if (k.n) {
-                        _html += k.n.split('').sort().join('') ;
+                        _html += k.n;
+                        // _html += k.n.split('').sort().join('') ;
                     }
                     if (k.n1) {
                         _html += (k.n1.split('').sort().join('')) + (k.n2 ? ' | ' : '');
@@ -1107,8 +1149,11 @@ $(function() {
                         }
                         _ajaxData[n] = _ajaxData[n].split('').sort().join('');
                     });
-                } else if(_type == 'text' || _type == 'mixing' || _type == 'sum' || _type == 'mixingAny'){
+                } else if(_type == 'text' || _type == 'mixing' || _type == 'mixingAny'){
                     _ajaxData.n = _nums;
+                } else if(_type == 'sum'){
+                    _ajaxData.n = _nums.replace(/\|/g, ',');;
+
                 } else if(_type == 'taste'){
                     $.each(_need.split('#'), function(i, n){
                         if (n) {
@@ -1229,6 +1274,7 @@ $(function() {
             } else if(_type == 'text' || _type == 'mixing'){
                 _ajaxData.n = _data[0].n.replace(/( \| )/g, ',');
             } else if(_type == 'sum'){
+                // console.log(_data[0].n);
                 _ajaxData.n = _data[0].n.replace(/(\|)/g, ',');
             } else if(_type == 'mixingAny'){
                 _ajaxData.n = _data[0].n;
@@ -1259,6 +1305,7 @@ $(function() {
             Betting.confirmCart(_items, 'shortcut');
         },
         getBettingQuantity: function(options) {
+            // console.log(options);
             // 计算选择的注数
             // options 是针对和值设置的配置：如：前三和值类型
             options = options || {};
@@ -1286,13 +1333,13 @@ $(function() {
             });
             
             _formulaList.push(_currentSelect);
-            
+
             var _selectNum = _currentRule.opt.formula(_formulaList, options);   //通过相应公式计算注数
 
             // 已选注数大于0时即可添加选号或一键投注
             if (_selectNum) {
                 // 验证是否有复选框区域且是有方案
-                if ($('#J_planNum').length && $('#J_planNum').text() == 0) {
+                if ($('#J_planNum').length && $('#J_planNum').text() == 0 || _subNav == 'All5Join' && _selectNum <= 5) {
                     return;
                 }
                 $('#J_addBallToCart,#J_shortcutPlaceOrder').removeClass('disabled');

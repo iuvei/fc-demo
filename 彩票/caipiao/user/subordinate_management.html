@@ -4,6 +4,7 @@
 	<meta charset="UTF-8">
 	<title>下级管理</title>
 	<link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/nice-select.css">
 	<link rel="stylesheet" href="../css/user_common.css">
 	<link rel="stylesheet" href="../css/skin/default.css" id="J_skinCss">
 </head>
@@ -141,20 +142,21 @@
 				<div class="user-search clearfix">
 					<div class="user-s-tt" style="width: 120px;">注册日期：</div>
 					<div class="user-s-day">
-						<input type="text">
-						<span>到：</span>
-						<input type="text">
-					</div>
+                        <input type="text" class="datepick" id="J_startDay">
+                        <span>到：</span>
+                        <input type="text" class="datepick" id="J_endDay">
+                    </div>
 					<div class="user-s-tt">类型：</div>
 					<div class="user-s-sel">
-						<select name="" id="">
-							<option value="1">全部用户</option>
+						<select id="range">
+                            <option value="all">所有下线</option>
+							<option value="only">当前下线</option>
 						</select>
 					</div>
-					<div class="user-s-btn fr">查询</div>
+					<div class="user-s-btn fr" id="J_searchListBtn">查询</div>
 				</div>
 
-				<p class="user-report-tt">用户名：<span>ds88888888 &gt; drt &gt; drll</span></p>
+                <p class="user-report-tt">用户名：<span id="J_userNames"></span></p>
 
 
 				<div class="user-table user-xjgl">
@@ -166,17 +168,16 @@
 						<li class="t5">不活跃天数</li>
 						<li class="t6">注册时间</li>
 					</ul>
-					<ul class="user-table-c">
+					<ul class="user-table-c" id="J_list">
 						<!-- <li class="empty">没有找到符合条件的数据</li> -->
-						<li>
+						<!-- <li>
 							<div class="t1">das2132</div>
 							<div class="t2">0.00</div>
 							<div class="t3">0.00</div>
 							<div class="t4">0.00</div>
 							<div class="t5">0.00</div>
 							<div class="t6">0.00</div>
-						</li>
-						
+						</li> -->
 					</ul>
 					<div class="user-table-f">
 						<p>总下级人数：<span>0</span></p>
@@ -185,7 +186,7 @@
 				</div>
 			</div>
 
-			<p>这里是分页</p>
+			<div id="J_Paging"></div>
 		</div>
 	</div>
 
@@ -196,6 +197,7 @@
 	</div>
 
 	<script src="../js/jquery-1.11.1.min.js"></script>
+    <script src="../js/jquery-nice-select.js"></script>
     <script src="../js/jquery.cookie.js"></script>
     <script src="../js/layer/layer.js"></script>
     <script src="../js/laydate/laydate.js"></script>
@@ -204,6 +206,7 @@
     <script src="../js/common.js"></script>
     <script>
         $(function(){
+            $('select').niceSelect();
             COMMON.USER.subordinateManagement.init();
         });
     </script>

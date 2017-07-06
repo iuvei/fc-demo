@@ -243,7 +243,7 @@
 		renderHistory: function(){
 			var _url = GLOBAL.getRequestURL();
 			GLOBAL.getAjaxData({
-				url: 'lottery/lists',
+				url: '/lottery/lists',
 				data : {
 					id : _url.id,
 					pageSize : 10
@@ -838,6 +838,9 @@
 				}
 			},
 
+			// 链接管理
+			// /invite/lists
+			
 			// 下级管理
 			subordinateManagement: {
 				init: function() {
@@ -852,7 +855,7 @@
 						COMMON.USER.subordinateManagement.getList();
 					});
 
-					$('#J_list').on('click', '.t1', function(){
+					$('#J_list').on('click', '.t2', function(){
 						$('#J_userNames').html($('#J_userNames').html() + '<span class="J_name">&gt;' + $(this).html() + '</span>');
 						COMMON.USER.subordinateManagement.getData({
 							username : $(this).html()
@@ -873,14 +876,12 @@
 					if (data.total > 0){
 						$.each(data.data, function(i, n){
 							_str += '<li>';
-							_str += '    <div class="t1">'+ n.username +'</div>';
-							_str += '    <div class="t2">'+ n.recharge +'</div>';
-							_str += '    <div class="t3">'+ n.withdraw +'</div>';
-							_str += '    <div class="t4">'+ n.bet +'</div>';
-							_str += '    <div class="t5">返点？？？</div>';
-							_str += '    <div class="t6">'+ n.winning +'</div>';
-							_str += '    <div class="t7">活动？？？</div>';
-							_str += '    <div class="t8">盈亏？？</div>';
+							_str += '    <div class="t1">'+ n.id +'</div>';
+							_str += '    <div class="t2">'+ n.username +'</div>';
+							_str += '    <div class="t3">'+ n.balance +'</div>';
+							_str += '    <div class="t4">'+ n.invite_num +'</div>';
+							_str += '    <div class="t5">'+ n.inactive +'</div>';
+							_str += '    <div class="t6">'+ n.created +'</div>';
 							_str += '</li>';
 						});					
 					} else {
@@ -892,17 +893,19 @@
 				getList: function(option) {
 					option = option || {};
 					option.username = option.username || $('#username').val() || '';
-					option.date_min = option.date_min || $('#J_startDay').val() || '';
-					option.date_max = option.date_max || $('#J_endDay').val() || '';
+					option.range = option.range || $('#range').next('.nice-select').find('.selected').data().value || '';
+					option.created_min = option.created_min || $('#J_startDay').val() || '';
+					option.created_max = option.created_max || $('#J_endDay').val() || '';
 					option.pageSize = option.pageSize || 10;
 					option.page = option.page || 1;
 
 					GLOBAL.getAjaxData({
-						url: '/invite/users',
+						url: '/user/branch',
 						data: {
 							username: option.username,
-							date_min: option.date_min,
-							date_max: option.date_max,
+							range: option.range,
+							created_min: option.created_min,
+							created_max: option.created_max,
 							pageSize: option.pageSize,
 							page: option.page
 						}
@@ -930,16 +933,18 @@
 				getData: function(option){
 					option = option || {};
 					option.username = option.username || $('#username').val() || '';
-					option.date_min = option.date_min || $('#J_startDay').val() || '';
-					option.date_max = option.date_max || $('#J_endDay').val() || '';
+					option.range = option.range || $('#range').next('.nice-select').find('.selected').data().value || '';
+					option.created_min = option.created_min || $('#J_startDay').val() || '';
+					option.created_max = option.created_max || $('#J_endDay').val() || '';
 					option.pageSize = option.pageSize || 10;
 					option.page = option.page || 1;
 					GLOBAL.getAjaxData({
-						url: '/invite/users',
+						url: '/user/branch',
 						data: {
 							username: option.username,
-							date_min: option.date_min,
-							date_max: option.date_max,
+							range: option.range,
+							created_min: option.created_min,
+							created_max: option.created_max,
 							pageSize: option.pageSize,
 							page: option.page
 						}
@@ -948,7 +953,6 @@
 					});
 				}
 			},
-
 			// 报表管理
 			reportManagement: {
 				init: function() {
