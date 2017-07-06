@@ -110,11 +110,11 @@
 				<dt><em class="icon icon-user"></em><span>个人</span><i class="icon"></i></dt>
 				<dd><a href="../user/profile.html" class="active">我的资料</a></dd>
 				<dd><a href="../user/funds_detail.html">资金详情</a></dd>
-				<dd><a href="../user/betting_ record.html">投注记录</a></dd>
-				<dd><a href="../user/chase_record.html">追号记录</a></dd>
-				<dd><a href="../user/account_ details.html">账变明细</a></dd>
+				<dd><a href="../user/betting_record.html">投注记录</a></dd>
+				<!-- <dd><a href="../user/chase_record.html">追号记录</a></dd> -->
+				<dd><a href="../user/account_details.html">账变明细</a></dd>
 				<dd><a href="../user/login_password.html">登录密码</a></dd>
-				<dd><a href="#">资金密码</a></dd>
+				<dd><a href="../user/capital_password.html">资金密码</a></dd>
 			</dl>
 			<dl>
 				<dt><em class="icon icon-dl"></em><span>代理</span><i class="icon"></i></dt>
@@ -142,34 +142,34 @@
 					<ul class="user-form">
 						<li>
 							<span class="user-form-t">提款人姓名：</span>
-							<div class="user-form-c"><input type="text"><em>*</em></div>
+							<div class="user-form-c"><input type="text" id="payee"><em>*</em></div>
 						</li>
 						<li>
 							<span class="user-form-t">昵称：</span>
-							<div class="user-form-c"><input type="text"></div>
+							<div class="user-form-c"><input type="text" id="nickname"></div>
 						</li>
 						<li>
 							<span class="user-form-t">资金密码：</span>
-							<div class="user-form-c"><input type="text"><em>*</em></div>
+							<div class="user-form-c"><input type="password" id="fund_password"><em>*</em></div>
 						</li>
 						<li>
 							<span class="user-form-t">手机号码：</span>
-							<div class="user-form-c"><input type="text"></div>
+							<div class="user-form-c"><input type="text" id="cellphone"></div>
 						</li>
 						<li>
 							<span class="user-form-t">确认资金密码：</span>
-							<div class="user-form-c"><input type="text"><em>*</em></div>
+							<div class="user-form-c"><input type="password" id="confirm_fund_password"><em>*</em></div>
 						</li>
 						<li>
 							<span class="user-form-t">QQ号码：</span>
-							<div class="user-form-c"><input type="text"></div>
+							<div class="user-form-c"><input type="text" id="qq"></div>
 						</li>
 						<li>
 							<span class="user-form-t">安全邮箱：</span>
-							<div class="user-form-c"><input type="text"><em>*</em></div>
+							<div class="user-form-c"><input type="text" id="email"><em>*</em></div>
 						</li>
 					</ul>
-					<div class="user-profile-btn btn-l-color abs">确认</div>
+					<div class="user-profile-btn btn-l-color abs" id="J_confirmBtn">确认</div>
 				</div>
 			</div>
 			<div class="user-tips">
@@ -184,11 +184,15 @@
 		<div class="w1200">© 大圣彩版权所有 |  创新博弈，成功从大圣彩开始</div>
 	</div>
 
-
 	<script src="../../../js/jquery-1.11.1.min.js"></script>
 	<script src="../../../js/jquery.cookie.js"></script>
 	<script src="../../../js/layer/layer.js"></script>
 	<script src="../../../js/GLOBAL.js"></script>
 	<script src="../../../js/common.js"></script>
+	<script>
+		$(function(){
+			COMMON.USER.profile.init();
+		});
+	</script>
 </body>
 </html>

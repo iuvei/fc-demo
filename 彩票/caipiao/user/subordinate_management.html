@@ -3,9 +3,9 @@
 <head>
 	<meta charset="UTF-8">
 	<title>下级管理</title>
-	<link rel="stylesheet" href="../../../css/reset.css">
-	<link rel="stylesheet" href="../../../css/user_common.css">
-	<link rel="stylesheet" href="../../../css/skin/default.css" id="J_skinCss">
+	<link rel="stylesheet" href="../css/reset.css">
+	<link rel="stylesheet" href="../css/user_common.css">
+	<link rel="stylesheet" href="../css/skin/default.css" id="J_skinCss">
 </head>
 <body class="bg-whit">
 	<!-- 顶部 -->
@@ -106,15 +106,15 @@
                 <dd><a href="../user/withdrawal_records.html">提款记录</a></dd>
                 <dd><a href="../user/withdrawal_bindcard.html">绑定提款卡</a></dd>
             </dl>
-            <dl class="open">
+            <dl>
                 <dt><em class="icon icon-user"></em><span>个人</span><i class="icon"></i></dt>
                 <dd><a href="../user/profile.html">我的资料</a></dd>
                 <dd><a href="../user/funds_detail.html">资金详情</a></dd>
-                <dd><a href="../user/betting_ record.html">投注记录</a></dd>
-                <dd><a href="../user/chase_record.html">追号记录</a></dd>
-                <dd><a href="../user/account_ details.html">账变明细</a></dd>
+                <dd><a href="../user/betting_record.html">投注记录</a></dd>
+                <!-- <dd><a href="../user/chase_record.html">追号记录</a></dd> -->
+                <dd><a href="../user/account_details.html">账变明细</a></dd>
                 <dd><a href="../user/login_password.html">登录密码</a></dd>
-                <dd><a href="#">资金密码</a></dd>
+                <dd><a href="../user/capital_password.html">资金密码</a></dd>
             </dl>
             <dl class="open">
                 <dt><em class="icon icon-dl"></em><span>代理</span><i class="icon"></i></dt>
@@ -195,11 +195,17 @@
 		<div class="w1200">© 大圣彩版权所有 |  创新博弈，成功从大圣彩开始</div>
 	</div>
 
-
-	<script src="../../../js/jquery-1.11.1.min.js"></script>
-	<script src="../../../js/jquery.cookie.js"></script>
-	<script src="../../../js/layer/layer.js"></script>
-	<script src="../../../js/GLOBAL.js"></script>
-	<script src="../../../js/common.js"></script>
+	<script src="../js/jquery-1.11.1.min.js"></script>
+    <script src="../js/jquery.cookie.js"></script>
+    <script src="../js/layer/layer.js"></script>
+    <script src="../js/laydate/laydate.js"></script>
+    <script src="../js/laypage/laypage.js"></script>
+    <script src="../js/GLOBAL.js"></script>
+    <script src="../js/common.js"></script>
+    <script>
+        $(function(){
+            COMMON.USER.subordinateManagement.init();
+        });
+    </script>
 </body>
 </html>

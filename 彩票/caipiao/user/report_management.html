@@ -3,9 +3,9 @@
 <head>
 	<meta charset="UTF-8">
 	<title>报表管理</title>
-	<link rel="stylesheet" href="../../../css/reset.css">
-	<link rel="stylesheet" href="../../../css/user_common.css">
-	<link rel="stylesheet" href="../../../css/skin/default.css" id="J_skinCss">
+	<link rel="stylesheet" href="../css/reset.css">
+	<link rel="stylesheet" href="../css/user_common.css">
+	<link rel="stylesheet" href="../css/skin/default.css" id="J_skinCss">
 </head>
 <body class="bg-whit">
 	<!-- 顶部 -->
@@ -16,7 +16,7 @@
 				<div class="fl">暂时没有滚动通告</div>
 			</div>
 			<div class="fr header-user">
-				<p class="fl">您好，<span id="J_headerUserName"></span></p>
+				<p class="fl">您好，<span id="J_headerUserName" data-n=""></span></p>
 				<b class="fl">|</b>
 				<div class="fl"><span id="J_totalBalance">总余额 ￥<i class="J_balance"></i></span><span class="cup show" id="J_cutoverBalance" data-balance="">显示</span></div>
 				<b class="fl">|</b>
@@ -106,15 +106,15 @@
                 <dd><a href="../user/withdrawal_records.html">提款记录</a></dd>
                 <dd><a href="../user/withdrawal_bindcard.html">绑定提款卡</a></dd>
             </dl>
-            <dl class="open">
+            <dl>
                 <dt><em class="icon icon-user"></em><span>个人</span><i class="icon"></i></dt>
                 <dd><a href="../user/profile.html">我的资料</a></dd>
                 <dd><a href="../user/funds_detail.html">资金详情</a></dd>
-                <dd><a href="../user/betting_ record.html">投注记录</a></dd>
-                <dd><a href="../user/chase_record.html">追号记录</a></dd>
-                <dd><a href="../user/account_ details.html">账变明细</a></dd>
+                <dd><a href="../user/betting_record.html">投注记录</a></dd>
+                <!-- <dd><a href="../user/chase_record.html">追号记录</a></dd> -->
+                <dd><a href="../user/account_details.html">账变明细</a></dd>
                 <dd><a href="../user/login_password.html">登录密码</a></dd>
-                <dd><a href="#">资金密码</a></dd>
+                <dd><a href="../user/capital_password.html">资金密码</a></dd>
             </dl>
             <dl class="open">
                 <dt><em class="icon icon-dl"></em><span>代理</span><i class="icon"></i></dt>
@@ -141,18 +141,18 @@
 				<div class="user-search clearfix">
 					<div class="user-s-tt">账号：</div>
 					<div class="user-s-inp">
-						<input type="text">
+						<input type="text" id="username">
 					</div>
 					<div class="user-s-tt">日期：</div>
 					<div class="user-s-day">
-						<input type="text">
-						<span>到：</span>
-						<input type="text">
-					</div>
-					<div class="user-s-btn fr">查询</div>
+                        <input type="text" class="datepick" id="J_startDay">
+                        <span>到：</span>
+                        <input type="text" class="datepick" id="J_endDay">
+                    </div>
+					<div class="user-s-btn fr" id="J_searchListBtn">查询</div>
 				</div>
 
-				<p class="user-report-tt">用户名：<span>ds88888888 &gt; drt &gt; drll</span></p>
+				<p class="user-report-tt">用户名：<span id="J_userNames"></span></p>
 
 
 				<div class="user-table user-bbgl">
@@ -166,9 +166,9 @@
 						<li class="t7">活动</li>
 						<li class="t8">盈亏</li>
 					</ul>
-					<ul class="user-table-c">
+					<ul class="user-table-c" id="J_list">
 						<!-- <li class="empty">没有找到符合条件的数据</li> -->
-						<li>
+						<!-- <li>
 							<div class="t1">das2132</div>
 							<div class="t2">0.00</div>
 							<div class="t3">0.00</div>
@@ -177,8 +177,7 @@
 							<div class="t6">0.00</div>
 							<div class="t7">0.00</div>
 							<div class="t8">0.00</div>
-						</li>
-						
+						</li> -->
 					</ul>
 					<!-- <div class="user-table-f">
 						<p>链接数量合计：<span>0</span></p>
@@ -187,7 +186,7 @@
 				</div>
 			</div>
 
-			<p>这里是分页</p>
+			<div id="J_Paging"></div>
 		</div>
 	</div>
 
@@ -198,10 +197,17 @@
 	</div>
 
 
-	<script src="../../../js/jquery-1.11.1.min.js"></script>
-	<script src="../../../js/jquery.cookie.js"></script>
-	<script src="../../../js/layer/layer.js"></script>
-	<script src="../../../js/GLOBAL.js"></script>
-	<script src="../../../js/common.js"></script>
+    <script src="../js/jquery-1.11.1.min.js"></script>
+    <script src="../js/jquery.cookie.js"></script>
+    <script src="../js/layer/layer.js"></script>
+    <script src="../js/laydate/laydate.js"></script>
+    <script src="../js/laypage/laypage.js"></script>
+    <script src="../js/GLOBAL.js"></script>
+    <script src="../js/common.js"></script>
+    <script>
+        $(function(){
+            COMMON.USER.reportManagement.init();
+        });
+    </script>
 </body>
 </html>

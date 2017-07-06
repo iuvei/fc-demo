@@ -2,21 +2,21 @@
 
 ##个人
     个人
-    ├── 我的资料    //    personal/profile.html
-    ├── 资金详情    //    personal/funds_detail.html
-    ├── 投注记录    //    personal/betting_ record.html
-    ├── 追号记录    //    personal/chase_record.html
-    ├── 账变明细    //    personal/account_ details.html
-    ├── 登录密码    //    personal/login_password.html
-    └── 资金密码    //      
+    ├── 我的资料  √  // profile.html
+    ├── 资金详情  √  // funds_detail.html
+    ├── 投注记录  √  // betting_record.html
+    ├── 追号记录  √  // chase_record.html   【暂时屏蔽】
+    ├── 账变明细  √  // account_ details.html
+    ├── 登录密码  √  // login_password.html
+    └── 资金密码  √  // capital_password.html
 
 ##代理
     代理
-    ├── 链接注册    //      proxy/link_registration.html
-    ├── 链接管理    //      proxy/link_management.html
-    ├── 下级管理    //      proxy/subordinate_management.html
-    ├── 报表管理    //      proxy/report_management.html
-    └── 团队投注    //      proxy/team_betting.html
+    ├── 链接注册    // link_registration.html 【接口？？】
+    ├── 链接管理    // link_management.html
+    ├── 下级管理    // subordinate_management.html
+    ├── 报表管理  √ // report_management.html
+    └── 团队投注  √ // team_betting.html 【筛选条件】
 
 ##充值
     充值

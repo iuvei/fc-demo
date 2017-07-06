@@ -111,11 +111,11 @@
 				<dt><em class="icon icon-user"></em><span>个人</span><i class="icon"></i></dt>
 				<dd><a href="../user/profile.html">我的资料</a></dd>
 				<dd><a href="../user/funds_detail.html">资金详情</a></dd>
-				<dd><a href="../user/betting_ record.html">投注记录</a></dd>
-				<dd><a href="../user/chase_record.html">追号记录</a></dd>
+				<dd><a href="../user/betting_record.html">投注记录</a></dd>
+				<!-- <dd><a href="../user/chase_record.html">追号记录</a></dd> -->
 				<dd><a href="../user/account_ details.html" class="active">账变明细</a></dd>
 				<dd><a href="../user/login_password.html">登录密码</a></dd>
-				<dd><a href="#">资金密码</a></dd>
+				<dd><a href="../user/capital_password.html">资金密码</a></dd>
 			</dl>
 			<dl>
 				<dt><em class="icon icon-dl"></em><span>代理</span><i class="icon"></i></dt>
@@ -142,7 +142,7 @@
 				<div class="user-search clearfix">
 					<!-- <div class="user-s-tt">账户：</div>
 					<div class="user-s-sel">
-						<select name="" id="">
+						<select id="">
 							<option value="111">全部</option>
 							<option value="111">处理中</option>
 							<option value="111">审核失败</option>
@@ -151,12 +151,10 @@
 					</div> -->
 					<div class="user-s-tt">类型：</div>
 					<div class="user-s-sel">
-						<select name="" id="">
-							<option value="111">全部</option>
-							<option value="111">全部</option>
-							<option value="111">全部</option>
-							<option value="111">全部</option>
-							<option value="111">全部</option>
+						<select id="J_status">
+							<option value="">全部</option>
+							<option value="pay">支付</option>
+							<option value="winning">中介</option>
 						</select>
 					</div>
 					<div class="user-s-tt">日期：</div>
@@ -165,7 +163,7 @@
 						<span>到：</span>
 						<input type="text" class="datepick" id="J_endDay">
 					</div>
-					<div class="user-s-btn fr">查询</div>
+					<div class="user-s-btn fr" id="J_searchListBtn">查询</div>
 				</div>
 
 
@@ -177,21 +175,20 @@
 						<li class="t4">金额</li>
 						<li class="t5">状态</li>
 					</ul>
-					<ul class="user-table-c">
-						<li class="empty">没有找到符合条件的数据</li>
+					<ul class="user-table-c" id="J_list">
+						<!-- <li class="empty">没有找到符合条件的数据</li>
 						<li>
 							<div class="t1">3123123</div>
 							<div class="t2">3223233</div>
 							<div class="t3">2017-06-03</div>
 							<div class="t4">100.00</div>
 							<div class="t5">中奖</div>
-						</li>
+						</li> -->
 					</ul>
 				</div>
 			</div>
 
-			<p>这里是分页</p>
-			
+			<div id="J_Paging"></div>
 		</div>
 	</div>
 
@@ -206,10 +203,16 @@
 	<script src="../js/jquery-nice-select.js"></script>
 	<script src="../js/jquery.cookie.js"></script>
 	<script src="../js/layer/layer.js"></script>
-	<script src="../js/laypage/laypage.js"></script>
 	<script src="../js/laydate/laydate.js"></script>
+	<script src="../js/laypage/laypage.js"></script>
 	<script src="../js/GLOBAL.js"></script>
 	<script src="../js/common.js"></script>
-	<script src="../js/user.js"></script>
+
+	<script>
+		$(function(){
+			$('select').niceSelect();
+			COMMON.USER.accountDetails.init();
+		});
+	</script>
 </body>
 </html>

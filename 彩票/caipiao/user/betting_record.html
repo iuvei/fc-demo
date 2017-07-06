@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>团队投注</title>
+	<title>投注记录</title>
 	<link rel="stylesheet" href="../css/reset.css">
 	<link rel="stylesheet" href="../css/nice-select.css">
 	<link rel="stylesheet" href="../css/user_common.css">
@@ -107,23 +107,23 @@
                 <dd><a href="../user/withdrawal_records.html">提款记录</a></dd>
                 <dd><a href="../user/withdrawal_bindcard.html">绑定提款卡</a></dd>
             </dl>
-            <dl>
+            <dl class="open">
                 <dt><em class="icon icon-user"></em><span>个人</span><i class="icon"></i></dt>
                 <dd><a href="../user/profile.html">我的资料</a></dd>
                 <dd><a href="../user/funds_detail.html">资金详情</a></dd>
-                <dd><a href="../user/betting_record.html">投注记录</a></dd>
+                <dd><a href="../user/betting_record.html" class="active">投注记录</a></dd>
                 <!-- <dd><a href="../user/chase_record.html">追号记录</a></dd> -->
                 <dd><a href="../user/account_details.html">账变明细</a></dd>
                 <dd><a href="../user/login_password.html">登录密码</a></dd>
                 <dd><a href="../user/capital_password.html">资金密码</a></dd>
             </dl>
-            <dl class="open">
+            <dl>
                 <dt><em class="icon icon-dl"></em><span>代理</span><i class="icon"></i></dt>
                 <dd><a href="../user/link_registration.html">链接注册</a></dd>
                 <dd><a href="../user/link_management.html">链接管理</a></dd>
                 <dd><a href="../user/subordinate_management.html">下级管理</a></dd>
                 <dd><a href="../user/report_management.html">报表管理</a></dd>
-                <dd><a href="../user/team_betting.html" class="active">团队投注</a></dd>
+                <dd><a href="../user/team_betting.html">团队投注</a></dd>
             </dl>
             <dl>
                 <dt><em class="icon icon-kf"></em><span>客服</span><i class="icon"></i></dt>
@@ -136,17 +136,25 @@
 		<div class="user-content fl">
 			<div class="user-con">
 				<div class="user-tt">
-					<span>团队投注</span>
+					<span>投注记录</span>
 				</div>
 				
 				<div class="user-search clearfix">
-					<div class="user-s-tt">账号：</div>
-					<div class="user-s-inp">
-						<input type="text" id="username">
-					</div>
-					<div class="user-s-tt">范围：</div>
+					<div class="user-s-tt">状态：</div>
 					<div class="user-s-sel">
-						<select name="" id="">
+						<select id="J_status">
+							<option value="">全部</option>
+							<option value="wait">等待支付</option>
+							<option value="pay">已经支付</option>
+							<option value="expire">过期</option>
+							<option value="retreat">撤销</option>
+							<option value="regret">未中奖</option>
+							<option value="winning">中奖</option>
+						</select>
+					</div>
+					<div class="user-s-tt">彩种：</div>
+					<div class="user-s-sel">
+						<select id="">
 							<option value="111">全部</option>
 						</select>
 					</div>
@@ -159,10 +167,6 @@
 					<div class="user-s-btn fr" id="J_searchListBtn">查询</div>
 				</div>
 				<div class="user-search clearfix betting-search">
-					<div class="user-s-tt">彩种：</div>
-					<div class="user-s-inp">
-						<input type="text">
-					</div>
 					<div class="user-s-tt">订单：</div>
 					<div class="user-s-inp">
 						<input type="text">
@@ -171,39 +175,45 @@
 					<div class="user-s-inp">
 						<input type="text">
 					</div>
-					<div class="user-s-tt">状态：</div>
+					<!-- <div class="user-s-tt">追号：</div>
 					<div class="user-s-sel">
-						<select id="J_teamStatus">
+						<select id="">
 							<option value="111">全部</option>
 						</select>
-					</div>
+					</div> -->
 				</div>
 
 
-				<div class="user-table team-betting">
+				<div class="user-table betting-record">
 					<ul class="user-table-t">
 						<li class="t1">游戏类型</li>
 						<li class="t2">订单编号</li>
-						<li class="t3">用户名</li>
-						<li class="t4">投注时间</li>
-						<li class="t5">游戏奖期</li>
-						<li class="t6">开奖号码</li>
-						<li class="t7">投注金额（元）</li>
-						<li class="t8">中奖金额（元）</li>
+						<li class="t3">投注事件</li>
+						<li class="t4">投注期号</li>
+						<li class="t5">追号</li>
+						<li class="t6">投注金额</li>
+						<li class="t7">中奖金额</li>
+						<li class="t8">状态</li>
+						<!-- <li class="t9">状态</li> -->
 					</ul>
 					<ul class="user-table-c" id="J_list">
-						<!-- <li class="empty">没有找到符合条件的数据</li> -->
-						<!-- <li>
+						<!-- <li class="empty">没有找到符合条件的数据</li>
+						<li>
 							<div class="t1">重庆时时彩</div>
 							<div class="t2">BT4869</div>
-							<div class="t3">testxxx</div>
+							<div class="t3">06-30 15:06:32</div>
 							<div class="t4">20170630-046</div>
-							<div class="t5">20170630-046</div>
-							<div class="t6">123123</div>
+							<div class="t5">-</div>
+							<div class="t6">100.00</div>
 							<div class="t7">100.00</div>
 							<div class="t8">100.00</div>
 						</li> -->
 					</ul>
+					<div class="user-table-f">
+						<p>投注金额合计：<span>0.00</span></p>
+						<!-- <p>有效投注金额合计：<span>0.00</span></p> -->
+						<p>中奖金额合计：<span>0.00</span></p>
+					</div>
 				</div>
 			</div>
 
@@ -211,12 +221,10 @@
 		</div>
 	</div>
 
-
 	<!-- 底部 -->
 	<div id="footer" class="footer dark-color">
 		<div class="w1200">© 大圣彩版权所有 |  创新博弈，成功从大圣彩开始</div>
 	</div>
-
 	<script src="../js/jquery-1.11.1.min.js"></script>
 	<script src="../js/jquery-nice-select.js"></script>
 	<script src="../js/jquery.cookie.js"></script>
@@ -225,10 +233,11 @@
 	<script src="../js/laypage/laypage.js"></script>
 	<script src="../js/GLOBAL.js"></script>
 	<script src="../js/common.js"></script>
+
 	<script>
 		$(function(){
 			$('select').niceSelect();
-			COMMON.USER.teamBetting.init();
+			COMMON.USER.bettingRecord.init();
 		});
 	</script>
 </body>

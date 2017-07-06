@@ -86,3 +86,16 @@ body .layui-layer-btn .layui-layer-btn0{
     border-color: #3661a2;
     background-color: #3661a2;
 }
+/* 分页 */
+#J_Paging .laypageskin_default .laypage_curr{
+    background-color: #3661a2;
+    color: #fff;
+}
+#J_Paging .laypage_main a:hover{
+        border-color: #3661a2;
+    color: #3661a2;
+}
+#J_Paging .laypage_main button{
+    background-color: #3661a2;
+    color: #fff;
+}

@@ -3,9 +3,10 @@
 <head>
 	<meta charset="UTF-8">
 	<title>链接管理</title>
-	<link rel="stylesheet" href="../../../css/reset.css">
-	<link rel="stylesheet" href="../../../css/user_common.css">
-	<link rel="stylesheet" href="../../../css/skin/default.css" id="J_skinCss">
+	<link rel="stylesheet" href="../css/reset.css">
+	<link rel="stylesheet" href="../css/nice-select.css">
+	<link rel="stylesheet" href="../css/user_common.css">
+	<link rel="stylesheet" href="../css/skin/default.css" id="J_skinCss">
 </head>
 <body class="bg-whit">
 	<!-- 顶部 -->
@@ -106,15 +107,15 @@
                 <dd><a href="../user/withdrawal_records.html">提款记录</a></dd>
                 <dd><a href="../user/withdrawal_bindcard.html">绑定提款卡</a></dd>
             </dl>
-            <dl class="open">
+            <dl>
                 <dt><em class="icon icon-user"></em><span>个人</span><i class="icon"></i></dt>
                 <dd><a href="../user/profile.html">我的资料</a></dd>
                 <dd><a href="../user/funds_detail.html">资金详情</a></dd>
-                <dd><a href="../user/betting_ record.html">投注记录</a></dd>
-                <dd><a href="../user/chase_record.html">追号记录</a></dd>
-                <dd><a href="../user/account_ details.html">账变明细</a></dd>
+                <dd><a href="../user/betting_record.html">投注记录</a></dd>
+                <!-- <dd><a href="../user/chase_record.html">追号记录</a></dd> -->
+                <dd><a href="../user/account_details.html">账变明细</a></dd>
                 <dd><a href="../user/login_password.html">登录密码</a></dd>
-                <dd><a href="#">资金密码</a></dd>
+                <dd><a href="../user/capital_password.html">资金密码</a></dd>
             </dl>
             <dl class="open">
                 <dt><em class="icon icon-dl"></em><span>代理</span><i class="icon"></i></dt>
@@ -140,21 +141,21 @@
 				
 				<div class="user-search clearfix">
 					<div class="user-s-tt">渠道：</div>
-					<div class="user-s-sel">
-						<select name="" id="">
-							<option value="111">全部</option>
-						</select>
+					<div class="user-s-inp">
+						<input type="text">
 					</div>
 					<div class="user-s-tt">类型：</div>
 					<div class="user-s-sel">
-						<select name="" id="">
-							<option value="111">全部</option>
+						<select id="J_linkType">
+							<option value="">全部</option>
 						</select>
 					</div>
 					<div class="user-s-tt">状态：</div>
 					<div class="user-s-sel">
-						<select name="" id="">
-							<option value="111">全部</option>
+						<select id="J_linkStatus">
+							<option value="">全部</option>
+							<option value="normal">正常</option>
+							<option value="cancel">取消</option>
 						</select>
 					</div>
 					<div class="user-s-btn fr">查询</div>
@@ -204,26 +205,18 @@
 	</div>
 
 
-	<script src="../../../js/jquery-1.11.1.min.js"></script>
-	<script src="../../../js/jquery.cookie.js"></script>
-	<script src="../../../js/layer/layer.js"></script>
-	<script src="../../../js/clipboard.min.js"></script>
-	<script src="../../../js/GLOBAL.js"></script>
-	<script src="../../../js/common.js"></script>
+	<script src="../js/jquery-1.11.1.min.js"></script>
+	<script src="../js/jquery-nice-select.js"></script>
+	<script src="../js/jquery.cookie.js"></script>
+	<script src="../js/layer/layer.js"></script>
+	<!-- <script src="../js/laydate/laydate.js"></script> -->
+	<script src="../js/laypage/laypage.js"></script>
+	<script src="../js/GLOBAL.js"></script>
+	<script src="../js/common.js"></script>
 	<script>
 		$(function(){
-			var clipboard = new Clipboard('.J_clipboard');
-			clipboard.on('success', function(e) {
-			    console.info('Action:', e.action);
-			    console.info('Text:', e.text);
-			    console.info('Trigger:', e.trigger);
-			    e.clearSelection();
-			});
-
-			clipboard.on('error', function(e) {
-			    console.error('Action:', e.action);
-			    console.error('Trigger:', e.trigger);
-			});
+			$('select').niceSelect();
+			COMMON.USER.linkManagement.init();
 		});	
 	</script>
 </body>

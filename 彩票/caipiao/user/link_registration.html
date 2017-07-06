@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>链接注册</title>
-    <link rel="stylesheet" href="../../../css/reset.css">
-    <link rel="stylesheet" href="../../../css/user_common.css">
-    <link rel="stylesheet" href="../../../css/skin/default.css" id="J_skinCss">
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/user_common.css">
+    <link rel="stylesheet" href="../css/skin/default.css" id="J_skinCss">
 </head>
 <body class="bg-whit">
     <!-- 顶部 -->
@@ -106,15 +106,15 @@
                 <dd><a href="../user/withdrawal_records.html">提款记录</a></dd>
                 <dd><a href="../user/withdrawal_bindcard.html">绑定提款卡</a></dd>
             </dl>
-            <dl class="open">
+            <dl>
                 <dt><em class="icon icon-user"></em><span>个人</span><i class="icon"></i></dt>
                 <dd><a href="../user/profile.html">我的资料</a></dd>
                 <dd><a href="../user/funds_detail.html">资金详情</a></dd>
-                <dd><a href="../user/betting_ record.html">投注记录</a></dd>
-                <dd><a href="../user/chase_record.html">追号记录</a></dd>
-                <dd><a href="../user/account_ details.html">账变明细</a></dd>
+                <dd><a href="../user/betting_record.html">投注记录</a></dd>
+                <!-- <dd><a href="../user/chase_record.html">追号记录</a></dd> -->
+                <dd><a href="../user/account_details.html">账变明细</a></dd>
                 <dd><a href="../user/login_password.html">登录密码</a></dd>
-                <dd><a href="#">资金密码</a></dd>
+                <dd><a href="../user/capital_password.html">资金密码</a></dd>
             </dl>
             <dl class="open">
                 <dt><em class="icon icon-dl"></em><span>代理</span><i class="icon"></i></dt>
@@ -141,8 +141,8 @@
                 <div class="user-link-reg clearfix rel">
                     <div class="link-reg-bar">
                         <div class="link-reg-tt">注册类型：</div>
-                        <div class="link-reg-con">
-                            <span>会员</span><span class="active">代理</span>
+                        <div class="link-reg-con" id="J_inviteType">
+                            <span data-t="member" class="active">会员</span><span data-t="agent">代理</span>
                         </div>
                         <div class="link-reg-tt">注册账号：</div>
                         <div class="link-reg-con">
@@ -163,35 +163,35 @@
                             <ul class="reg-sider-list">
                                 <li>
                                     <span class="reg-sider-check fl"><em class="active"></em>时时彩（传统）</span>
-                                    <div class="fl">滑动条 </div>
+                                    <div class="fl"><img src="../images/drag_bar.png" alt=""> </div>
                                     <span class="reg-sider-num">1700</span>
                                     <a href="javascript:;" class="fl reg-sider-btn">－</a>
                                     <a href="javascript:;" class="fl reg-sider-btn">＋</a>
                                 </li>
                                 <li>
                                     <span class="reg-sider-check fl"><em class="active"></em>时时彩（智盈）</span>
-                                    <div class="fl">滑动条 </div>
+                                    <div class="fl"><img src="../images/drag_bar.png" alt=""> </div>
                                     <span class="reg-sider-num">1700</span>
                                     <a href="javascript:;" class="fl reg-sider-btn">－</a>
                                     <a href="javascript:;" class="fl reg-sider-btn">＋</a>
                                 </li>
                                 <li>
                                     <span class="reg-sider-check fl"><em></em>11选5</span>
-                                    <div class="fl">滑动条 </div>
+                                    <div class="fl"><img src="../images/drag_bar.png" alt=""> </div>
                                     <span class="reg-sider-num">1700</span>
                                     <a href="javascript:;" class="fl reg-sider-btn">－</a>
                                     <a href="javascript:;" class="fl reg-sider-btn">＋</a>
                                 </li>
                                 <li>
                                     <span class="reg-sider-check fl"><em></em>低频彩</span>
-                                    <div class="fl">滑动条 </div>
+                                    <div class="fl"><img src="../images/drag_bar.png" alt=""> </div>
                                     <span class="reg-sider-num">1700</span>
                                     <a href="javascript:;" class="fl reg-sider-btn">－</a>
                                     <a href="javascript:;" class="fl reg-sider-btn">＋</a>
                                 </li>
                                 <li>
                                     <span class="reg-sider-check fl"><em></em>PK10</span>
-                                    <div class="fl">滑动条 </div>
+                                    <div class="fl"><img src="../images/drag_bar.png" alt=""> </div>
                                     <span class="reg-sider-num">1700</span>
                                     <a href="javascript:;" class="fl reg-sider-btn">－</a>
                                     <a href="javascript:;" class="fl reg-sider-btn">＋</a>
@@ -200,32 +200,8 @@
                         </div>
                     </div>
                     
-                    <div class="user-link-btn btn-l-color abs">确认注册</div>
+                    <div class="user-link-btn btn-l-color abs" id="J_confirmBtn">确认注册</div>
                 </div>
-                
-                <!-- <div class="user-transfer rel clearfix">
-                    <ul class="user-form">
-                        <li style="height: 80px;">
-                            <span class="user-form-t">充值金额：</span>
-                            <div class="user-form-c">
-                                <input type="text" value="1000">
-                                <ul class="quoat-list">
-                                    <li class="active">1000元</li>
-                                    <li>5000元</li>
-                                    <li class="disabled">10000元</li>
-                                    <li class="disabled">50000元</li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <span class="user-form-t">支付方式：</span>
-                            <div class="user-form-c">
-                                <input type="text" value="支付宝转账" disabled="disabled">
-                            </div>
-                        </li>
-                    </ul>
-                    <div class="user-transfer-btn btn-l-color abs">确认</div>
-                </div> -->
             </div>
         </div>
     </div>
@@ -236,11 +212,15 @@
         <div class="w1200">© 大圣彩版权所有 |  创新博弈，成功从大圣彩开始</div>
     </div>
 
-
-    <script src="../../../js/jquery-1.11.1.min.js"></script>
-    <script src="../../../js/jquery.cookie.js"></script>
-    <script src="../../../js/layer/layer.js"></script>
-    <script src="../../../js/GLOBAL.js"></script>
-    <script src="../../../js/common.js"></script>
+    <script src="../js/jquery-1.11.1.min.js"></script>
+    <script src="../js/jquery.cookie.js"></script>
+    <script src="../js/layer/layer.js"></script>
+    <script src="../js/GLOBAL.js"></script>
+    <script src="../js/common.js"></script>
+    <script>
+        $(function(){
+            COMMON.USER.linkRegistration.init();
+        });
+    </script>
 </body>
 </html>
