@@ -69,7 +69,8 @@
 
 			// 走势图
 			$('#J_trendChart').click(function() {
-				// window.open('/caipiao/page/chart.html?name=qq_fen_fen');
+				var _url = GLOBAL.getRequestURL();
+				window.location.href = 'chart.html?id=' + _url.id;
 			});
 
 			// 遗漏
