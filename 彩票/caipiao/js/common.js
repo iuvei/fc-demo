@@ -1,8 +1,16 @@
 // $(function() {
 	var COMMON = {
 		isIndex: false,
+		isChart: false,
+		isDeatil: false,
 		timer: null,
 		timer2: null,
+		chartW: [0,0,0,0,0,0,0,0,0,0],
+		chartQ: [0,0,0,0,0,0,0,0,0,0],
+		chartB: [0,0,0,0,0,0,0,0,0,0],
+		chartS: [0,0,0,0,0,0,0,0,0,0],
+		chartG: [0,0,0,0,0,0,0,0,0,0],
+		chartLast: [0,0,0],
 		init: function() {
 			COMMON.setSkin();
 			COMMON.getUrlParam();
@@ -44,10 +52,10 @@
 			// 显示、隐藏余额
 			$('#J_cutoverBalance').click(function() {
 				if ($(this).hasClass('show')) {
-					$(this).removeClass('show').html('隐藏');
+					$(this).removeClass('show').html('显示');
 					$('#J_totalBalance').html('余额已隐藏');
 				} else {
-					$(this).addClass('show').html('显示');
+					$(this).addClass('show').html('隐藏');
 					$('#J_totalBalance').html('总余额 ￥<i>' + $(this).data('balance') + '</i>');
 				}
 			});
@@ -61,7 +69,45 @@
 
 			// 走势图
 			$('#J_trendChart').click(function() {
-				window.open('/caipiao/page/chart.html?name=qq_fen_fen');
+				// window.open('/caipiao/page/chart.html?name=qq_fen_fen');
+			});
+
+			// 遗漏
+			$('#J_missBtn').click(function() {
+				if ($(this).find('i').hasClass('active')) {
+					$(this).find('i').removeClass('active');
+					$(".ch-row-contner .numCount-wrp ul").addClass("noNumber")
+				} else {
+					$(this).find('i').addClass('active');
+					$(".ch-row-contner .numCount-wrp ul").removeClass("noNumber")
+				}
+			});
+
+			// 折现
+			if (!GLOBAL.lessThenIE8()) {
+				$('#J_polyline').click(function() {
+					if ($(this).find('i').hasClass('active')) {
+						$(this).find('i').removeClass('active');
+						$("canvas").hide();
+					} else {
+						$(this).find('i').addClass('active');
+						$("canvas").show();
+					}
+				});
+			} else {
+				$('#J_polyline').hide();
+			}
+
+			// 修改期数
+			$('.J_recently').click(function() {
+				var _this = $(this);
+				var _pageSize = _this.data('size');
+				
+				_this.addClass('active').siblings().removeClass('active');
+				
+				COMMON.renderHistory({
+					pageSize: _pageSize
+				});
 			});
 		},
 		setSkin: function() {
@@ -139,7 +185,7 @@
 					second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
 				} else {
 					// TODO: 结束提示
-					if (!COMMON.isIndex) {
+					if (COMMON.isDeatil || COMMON.isChart) {
 						layer.alert('第<span style="padding:0 5px;">' + $('#J_betTimer').html() + '</span>期已结束<br/>请留意投注期号。', {
 							skin: 'bett-alert-dialog',
 							icon: 2,
@@ -222,7 +268,6 @@
 			return str;
 		},
 		lotteryNum: function(_id, num, d) {
-			
 			clearTimeout(COMMON.timer);
 			// window.clearInterval(t);
 			//处理开奖号
@@ -241,13 +286,23 @@
 				}, 10000);
 			}
 		},
-		renderHistory: function(){
+		renderHistory: function(option){
+			option = option || {};
 			var _url = GLOBAL.getRequestURL();
+			// var _pageSize = 10;
+			if (COMMON.isChart) {
+				if(!option.pageSize){
+					option.pageSize = $('.J_recently.active').data('size') || 30;
+				}
+			} else {
+				option.pageSize = 10;
+			}
+
 			GLOBAL.getAjaxData({
 				url: '/lottery/lists',
 				data : {
 					id : _url.id,
-					pageSize : 10
+					pageSize : option.pageSize
 				}
 			}, function(d) {
 				var _list1 = '';
@@ -261,32 +316,206 @@
 						_list1 += '<dd>'+ val.date +'-'+ val.num +'</dd>';
 						_list2 += '<dd>' + val.lottery_num[0] + val.lottery_num[1] + val.lottery_num[2] + val.lottery_num[3] + val.lottery_num[4] + '</dd>';
 					}
-					_list3 += '<li><span>'+ val.date +'-'+ val.num +'</span><em>' + val.lottery_num[0] + val.lottery_num[1] + val.lottery_num[2] + val.lottery_num[3] + val.lottery_num[4] + '</em></li>';
+					if (k < 10) {
+						_list3 += '<li><span>'+ val.date +'-'+ val.num +'</span><em>' + val.lottery_num[0] + val.lottery_num[1] + val.lottery_num[2] + val.lottery_num[3] + val.lottery_num[4] + '</em></li>';
+					}
 				});
 
 				$('#J_lastThreeDrawResult1').append(_list1);
 				$('#J_lastThreeDrawResult2').append(_list2);
 				$('#J_historyList').html(_list3);
+
+				
+				// 走势页面
+				if(COMMON.isChart){
+					var _str = '';
+					var _w = 0;
+					if (d.data.length) {
+						var _d = '';
+						$.each(d.data, function(i, n){
+							_d = n.date.replace(/\-/g, '');
+							_str += '<div class="ch-row-contner " id="'+ _d +'-'+ n.num +'">';
+							_str += '    <div class="firstdatail po-middle">';
+							_str += '        <ul class="ch-drawNumb po-middle">';
+							_str += '            <li>'+ _d +'-'+ n.num +'</li>';
+							_str += '        </ul>';
+							_str += '        <ul class="winning-Num po-middle">';
+							_str += '            <li>'+ n.lottery_num[0] +'</li>';
+							_str += '            <li>'+ n.lottery_num[1] +'</li>';
+							_str += '            <li>'+ n.lottery_num[2] +'</li>';
+							_str += '            <li>'+ n.lottery_num[3] +'</li>';
+							_str += '            <li>'+ n.lottery_num[4] +'</li>';
+							_str += '        </ul>';
+							_str += '    </div>';
+							_str += '    <div class="numCount-wrp po-middle">';
+							_str += '<ul class="winning-1 po-middle">';
+							_str += _getNums(n.lottery_num[0], 'w');
+							_str += '</ul>';
+							_str += '<ul class="winning-2 po-middle">';
+							_str += _getNums(n.lottery_num[1], 'q');
+							_str += '</ul>';
+							_str += '<ul class="winning-3 po-middle">';
+							_str += _getNums(n.lottery_num[2], 'b');
+							_str += '</ul>';
+							_str += '<ul class="winning-4 po-middle">';
+							_str += _getNums(n.lottery_num[3], 's');
+							_str += '</ul>';
+							_str += '<ul class="winning-5 po-middle">';
+							_str += _getNums(n.lottery_num[4], 'g');
+							_str += '</ul>';
+							_str += '</div>';
+							_str += '	<div class="lastDetail-wrp po-middle">';
+							_str += '        <ul class="J_chartLastTd">';
+
+							if(n.lottery_num[2] == n.lottery_num[3] && n.lottery_num[3] == n.lottery_num[4]){
+			                    _str += '<li class="orangeCheck J_wss1"></li><li class="J_wss2">1</li><li class="J_wss3">1</li>';
+			                } else {
+				                if(n.lottery_num[2] == n.lottery_num[3] || n.lottery_num[2] == n.lottery_num[4] || n.lottery_num[3] == n.lottery_num[4]) {
+				                    _str += '<li class="J_wss1">1</li><li class="bleCheck J_wss2"></li><li class="J_wss3">1</li>';
+				                } else {
+				                    _str += '<li class="J_wss1">1</li><li class="J_wss2">1</li><li class="orangeCheck J_wss3"></li>';
+				                }
+			                }
+
+							_str += '            <li>'+ (Number(n.lottery_num[2]) + Number(n.lottery_num[3]) + Number(n.lottery_num[4])) +'</li>';
+							_str += '        </ul>';
+							_str += '    </div>';
+							_str += '</div>';
+						});
+
+
+						/**
+						 * [_getNums description]
+						 * @param  {[type]} num [中奖号码]
+						 * @param  {[type]} parity [奇偶, 0:hit-blue，1:hit-red]
+						 * @return {[type]}        [description]
+						 */
+						function _getNums(num, parity) {
+							var _li = '';
+							var _class = 'hit-blue';
+							if(parity == 'q' || parity == 's'){
+								_class = 'hit-red';
+							}
+
+							for (var i = 0;i < 10; i++) {
+								if(i == num){
+									_li += '<li id="'+ i +'" class="J_'+ parity + '_'+ i +' '+ _class +'">'+ i +'</li>';
+								} else {
+									_li += '<li id="'+ i +'" class="J_'+ parity + '_'+ i+'">1</li>';
+								}
+							}
+							return _li;
+						}
+					}
+
+					$('#J_chartBox').html(_str);
+
+					// 修改遗漏值
+					COMMON.chartW = [0,0,0,0,0,0,0,0,0,0];
+					COMMON.chartQ = [0,0,0,0,0,0,0,0,0,0];
+					COMMON.chartB = [0,0,0,0,0,0,0,0,0,0];
+					COMMON.chartS = [0,0,0,0,0,0,0,0,0,0];
+					COMMON.chartG = [0,0,0,0,0,0,0,0,0,0];
+					COMMON.chartLast = [0,0,0];
+
+					$('.winning-1 li').each(function(i, n){
+						$('.J_w_'+ i ).each(function(k, v){
+							if($(this).hasClass('hit-blue') || $(this).hasClass('hit-red')){
+								COMMON.chartW[i] = 0;
+							} else {
+								COMMON.chartW[i] = COMMON.chartW[i] + 1;
+								$(this).html(COMMON.chartW[i]);
+							}
+						});
+					});
+
+					$('.winning-2 li').each(function(i, n){
+						$('.J_q_'+ i ).each(function(k, v){
+							if($(this).hasClass('hit-blue') || $(this).hasClass('hit-red')){
+								COMMON.chartQ[i] = 0;
+							} else {
+								COMMON.chartQ[i] = COMMON.chartQ[i] + 1;
+								$(this).html(COMMON.chartQ[i]);
+							}
+						});
+					});
+
+					$('.winning-3 li').each(function(i, n){
+						$('.J_b_'+ i ).each(function(k, v){
+							if($(this).hasClass('hit-blue') || $(this).hasClass('hit-red')){
+								COMMON.chartB[i] = 0;
+							} else {
+								COMMON.chartB[i] = COMMON.chartB[i] + 1;
+								$(this).html(COMMON.chartB[i]);
+							}
+						});
+					});
+
+					$('.winning-4 li').each(function(i, n){
+						$('.J_s_'+ i ).each(function(k, v){
+							if($(this).hasClass('hit-blue') || $(this).hasClass('hit-red')){
+								COMMON.chartS[i] = 0;
+							} else {
+								COMMON.chartS[i] = COMMON.chartS[i] + 1;
+								$(this).html(COMMON.chartS[i]);
+							}
+						});
+					});
+
+					$('.winning-5 li').each(function(i, n){
+						$('.J_g_'+ i ).each(function(k, v){
+							if($(this).hasClass('hit-blue') || $(this).hasClass('hit-red')){
+								COMMON.chartG[i] = 0;
+							} else {
+								COMMON.chartG[i] = COMMON.chartG[i] + 1;
+								$(this).html(COMMON.chartG[i]);
+							}
+						});
+					});
+
+					$('.J_chartLastTd li').each(function(i, n) {
+						$('.J_wss' + i).each(function(k, v) {
+							if ($(this).hasClass('orangeCheck') || $(this).hasClass('bleCheck')) {
+								COMMON.chartLast[i] = 0;
+							} else {
+								COMMON.chartLast[i] = COMMON.chartLast[i] + 1;
+								$(this).html(COMMON.chartLast[i]);
+							}
+						});
+					});
+
+					COMMON.CHART.init();
+				}
 			});
 		},
 		getUrlParam: function() {
 			var _url = GLOBAL.getRequestURL();
 			var _userNav = $('#J_userNav').length;
+			var _chartBox = $('#J_chartBox').length;
 
-			if (!_url.name && !_userNav) {
-				// 判断是否为首页或者详情页面
+			if (!_url.name && !_userNav && !_chartBox) {
+				console.log('========')
+				// 判断是否为首页或者详情页面 或者走势页面
 				COMMON.isIndex = true;
 			}
 
 			if (COMMON.isIndex) {
 				COMMON.homeBallInfo();
 			} else {
-				if (!_url.name) {
+				if (_userNav) {
 					// 用户中心
-					// console.log(12);
-					// location.href = '/index.html';
-				} else {
+				}
+
+				if (_chartBox) {
+					// 走势
+					COMMON.isChart = true;
+					COMMON.getBallInfo(_url.id);
+					COMMON.renderHistory();
+				}
+
+				if (_url.name) {
 					// 详情页
+					COMMON.isDeatil = true;
 					COMMON.getBallInfo(_url.id);
 				}
 
@@ -307,7 +536,7 @@
 						});
 					}
 					$('#J_bankList').html(_str);
-					$('select').niceSelect();
+					// $('select').niceSelect();
 				});
 			},
 			renderAddressList: function(pid) {
@@ -330,7 +559,6 @@
 					} else {
 						$('#J_province').html(_str);
 					}
-					$('select').niceSelect();
 				});
 			},
 			initDatePick: function() {
@@ -801,13 +1029,20 @@
 					});
 				}
 			},
+			// 绑定银行卡
 			withdrawalBindcard: {
 				init: function() {
 					COMMON.USER.renderBankList();
 					COMMON.USER.renderAddressList();
 					this.bindEvent();
+
 				},
 				bindEvent: function(){
+					$('#J_province').on('change',function(){
+						var _id = $(this).val();
+						COMMON.USER.renderAddressList(_id);
+					});
+
 					$('#J_addBankCard').click(function(){
 						// var userName = $('#card-user-name').val(); //用户姓名
 						// var cardType = $("#bank_List").find(".current").attr('data-id3'); //银行id
@@ -993,7 +1228,6 @@
 						url: '/user/detail'
 					}, function(data) {
 						// TODO：资金密码 + 确认资金密码是否有返回？？？
-						console.log(data);
 						if(data.payee){
 							$('#payee').val(data.payee).prop('disabled', true);;
 						}
@@ -1752,6 +1986,116 @@
 						COMMON.USER.teamBetting.renderList(d);
 					});
 				}
+			}
+		},
+		CHART : {
+			holder: {
+				winningNumber: [], //单行中奖号码
+				canvasColumns: []
+			},
+			init: function(options) {
+				options = options || {};
+				options.length = options.length || 5; //默认5列有折线
+				options.hasDiscounted = (options.hasDiscounted != undefined) ? options.hasDiscounted : true; //是否有折现
+
+				for (var i = options.length - 1; i >= 0; i--) {
+					COMMON.CHART.holder.winningNumber[i] = '';
+				}
+
+				if(!GLOBAL.lessThenIE8() && options.hasDiscounted){
+					// 绘制折线
+					COMMON.CHART.draw(COMMON.CHART.holder.winningNumber);
+				}
+			},
+			getBetHistory: function(options) {
+				options = options || {};
+	            options.page = options.page || 1;
+	            options.pageSize = options.pageSize || 30;
+
+				 GLOBAL.getAjaxData({
+	                url: '/bet/lists',
+	                data: {
+	                    page: options.page,
+	                    pageSize: options.pageSize
+	                }
+	            }, function(data) {
+	            });
+			},
+			draw: function(a) {
+				COMMON.CHART.clearCanvas();
+				COMMON.CHART.collectBalls(a);
+				COMMON.CHART.canvasDirection(COMMON.CHART.holder.canvasColumns)
+			},
+			collectBalls: function(a) {
+				for (var i = a.length - 1; i >= 0; i--) {
+					COMMON.CHART.holder.canvasColumns[i] = [];
+					$(".ch-row-contner .numCount-wrp ul.winning-" + (i + 1) + " li").each(function() {
+						var a = {};
+						var c = $(this);
+						if (c.hasClass("hit-blue")) {
+							a.number = $(this).text();
+							a.color = "blue";
+							a.offset = c.offset();
+							COMMON.CHART.holder.canvasColumns[i].push(a);
+						}
+
+						if (c.hasClass("hit-red")) {
+							a.number = $(this).text();
+							a.color = "red";
+							a.offset = c.offset();
+							COMMON.CHART.holder.canvasColumns[i].push(a);
+						}
+					})
+				}
+			},
+			canvasDirection: function(a) {
+				for (var b = 0; b < a.length; b++) {
+					for (var c = a[b], d = 0; d < c.length - 1; d++) {
+						var e = c[d + 1].offset.left - c[d].offset.left;
+						e > 0 ? COMMON.CHART.canvasProperties(c[d], c[d + 1], "right", b + "_" + d) : e < 0 ? COMMON.CHART.canvasProperties(c[d], c[d + 1], "left", b + "_" + d) : 0 == e && COMMON.CHART.canvasProperties(c[d], c[d + 1], "straight", b + "_" + d)
+					}
+				}
+			},
+			canvasProperties: function(a, b, c, d) {
+				var e = {};
+				switch (e.id = d, e.provideClass = a.color, e.height = 41, c) {
+					case "right":
+						e.style = "position: absolute; visibility: visible; top: " + (a.offset.top + 11) + "px; left: " + (a.offset.left + 11) + "px;", e.width = Math.abs(a.offset.left - b.offset.left);
+						break;
+					case "left":
+						e.style = "position: absolute; visibility: visible; top: " + (a.offset.top + 11) + "px; left: " + (b.offset.left + 11) + "px;", e.width = Math.abs(a.offset.left - b.offset.left);
+						break;
+					case "straight":
+						e.style = "position: absolute; visibility: visible; top: " + (a.offset.top + 10) + "px; left: " + (a.offset.left + 10) + "px;", e.width = 2
+				}
+				COMMON.CHART.createCanvas(e, c)
+			},
+			createCanvas: function(a, b) {
+				var c = document.createElement("canvas");
+				"undefined" != typeof G_vmlCanvasManager && G_vmlCanvasManager.initElement(c), c.className = a.provideClass, c.width = a.width, c.height = a.height, c.style.cssText = a.style, c.id = a.id;
+				var d = document.getElementById("chartBody"),
+					e = document.getElementById("foot");
+
+				d.insertBefore(c, e), COMMON.CHART.drawLine(c, b)
+			},
+			drawLine: function(a, b) {
+				var c, d, e, f, g;
+				switch ("blue" == a.className ? c = "#54B8FD" : "red" == a.className && (c = "#FEA4A4"), b) {
+					case "right":
+						d = 0, e = 0, f = a.width, g = a.height;
+						break;
+					case "left":
+						d = a.width, e = 0, f = 0, g = a.height;
+						break;
+					case "straight":
+						d = 0, e = 0, f = 2, g = a.height
+				}
+				var h = document.getElementById(a.id);
+				var i = h.getContext("2d");
+				i.beginPath(), i.moveTo(d, e), i.lineTo(f, g), i.lineWidth = 2, i.strokeStyle = c, i.stroke()
+			},
+			clearCanvas: function() {
+				$('canvas').remove();
 			}
 		}
 	}

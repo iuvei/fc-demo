@@ -78,15 +78,17 @@
 }
 .chart-lastWrp.po-middle {
 	float: right;
-	width: 120px;
+	// width: 120px;
+    width: 144px;
 	padding-top: 24px;
 }
 .chart-lastWrp.po-middle li {
 	display: inline-block;
 	font-size: 13px;
-	left: -10px;
+	// left: -10px;
 	letter-spacing: -1px;
-	margin: 0 2px 0 3px;
+    // margin: 0 2px 0 3px;
+	margin: 0 -6px 0 15px;
 	position: relative;
 	float: left;
 }
@@ -248,10 +250,10 @@
 	width: 33px;
 	float: left;
 }
-.yellowCheck {
+.bleCheck {
 	background: url("../images/chart-sprite.png") repeat scroll 270px -1px;
 }
-.greenCheck {
+.orangeCheck {
 	background: url("../images/chart-sprite.png") repeat scroll 294px -1px;
 }
 

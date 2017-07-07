@@ -261,8 +261,15 @@ body.bg-whit{
 	height: 34px;
 	line-height: 34px;
 	border: 1px solid #ededed;
+	float: left;
 }
-.user-form-c select option{}
+.user-form-c select:focus{
+	// background-color: red;
+}
+.user-form-c select option{
+	height: 40px;
+	line-height: 40px;
+}
 .user-bank-list{}
 .user-transfer-btn{
 	width: 178px;
@@ -422,13 +429,14 @@ body.bg-whit{
 }
 /* 绑定提款卡 */
 .user-bindcard{
-	background-color: #fff;
-	color: #666;
-	font-size: 16px;
-	padding-top: 37px;
-	padding-left: 40px;
-	height: 670px;
-	margin-bottom: 85px;
+    background-color: #fff;
+    color: #666;
+    font-size: 16px;
+    padding-top: 37px;
+    padding-left: 40px;
+    height: 685px;
+    margin-bottom: 60px;
+    overflow: hidden;
 }
 .user-bindcard .user-form{}
 .user-bindcard .user-form li{

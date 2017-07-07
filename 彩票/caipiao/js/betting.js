@@ -505,8 +505,8 @@ $(function() {
             });
         },
         confirmCart: function(_data, type) {
-            console.log(_data);
-            return;
+            // console.log(_data);
+            // return;
             // type : confirm 确认投注    shortcut : 一键投注
             
             GLOBAL.getAjaxData({
