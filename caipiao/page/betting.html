@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>投注</title>
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/nice-select.css">
+    <link rel="stylesheet" href="../css/betting.css">
+    <link rel="stylesheet" href="../css/skin/default.css" id="J_skinCss">
+</head>
+<body>
+
+<!-- <input type="hidden" value="" id="zhushu">
+<input type="hidden" value="" id="nums">
+<input type="hidden" value="" id="price">
+<input type="hidden" value="" id="tzNum">
+<input type="hidden" value="" id="enable">
+<input type="hidden" value="" id="ballType">
+<input type="hidden" value="" id="allPages">
+<input type="hidden" value="" id="ballId"> -->
+
+    <input type="hidden" value="" id="orderId">
+
+    <!-- 顶部 -->
+    <div id="header" class="header dark-color">
+        <div class="w1200 clearfix rel">
+            <div class="fl header-post">
+                <em class="icon fl"></em>
+                <div class="fl">暂时没有滚动通告</div>
+            </div>
+            <div class="fr header-user">
+                <p class="fl">您好，<span id="J_headerUserName"></span></p>
+                <b class="fl">|</b>
+                <div class="fl"><span id="J_totalBalance">总余额 ￥<i class="J_balance"></i></span><span class="cup show" id="J_cutoverBalance" data-balance="">显示</span></div>
+                <b class="fl">|</b>
+                <span class="fl cup">充值</span>
+                <span class="fl cup">提款</span>
+                <em class="fl icon icon-signout cup" id="J_signOut"></em>
+                <em class="fl icon icon-refresh cup" id="J_refresh"></em>
+            </div>
+
+            <div class="skin" id="J_skin">
+                <span>皮肤</span>
+                <em></em>
+                <ul>
+                    <li class="J_setSkin skin-default" data-skin="default"></li>
+                    <li class="J_setSkin skin-blue" data-skin="blue"></li>
+                    <!-- <li class="J_setSkin skin-red" data-skin="red"></li>
+                    <li class="J_setSkin skin-black" data-skin="black"></li> -->
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- below-header -->
+    <div class="below-header w1200 clearfix">
+        <div class="below-logo fl">
+            <img src="" alt="" id="J_productLogo">
+        </div>
+        <div class="below-count fl">
+            <div class="fl below-phase">
+                <p>剩余投注时间</p>
+                <p>第<span class="text-l-color" id="J_betTimer"></span>期</p>
+            </div>
+            <div class="fl below-count-num" id="J_countDownNum">
+                <em>0</em><em>0</em><span>:</span><em>0</em><em>0</em><span>:</span><em>0</em><em>0</em>
+            </div>
+        </div>
+        <div class="below-num fl">
+            <div class="fl below-phase">
+                <p>开奖号码</p>
+                <p>第<span class="text-l-color" id="J_dataNum"></span>期</p>
+            </div>
+            <div class="fl below-prize-num" id="J_drawResult">
+                <em>0</em>
+                <em>0</em>
+                <em>0</em>
+                <em>0</em>
+                <em>0</em>
+            </div>
+        </div>
+        <div class="below-history fl rel">
+            <dl class="history-issue fl" id="J_lastThreeDrawResult1">
+                <dt>开奖期号</dt>
+                <!-- <dd>20170621-052</dd>
+                <dd>20170621-052</dd>
+                <dd>20170621-052</dd> -->
+            </dl>
+            <dl class="history-trend fr" id="J_lastThreeDrawResult2">
+                <dt class="cup" id="J_trendChart"><em class="icon fl"></em>走势图</dt>
+                <!-- <dd>25466</dd>
+                <dd>25466</dd>
+                <dd>25466</dd> -->
+            </dl>
+            <ul class="below-history-box abs" id="J_historyList">
+                <!-- <li><span>20170621-052</span><em>33567</em></li>
+                <li><span>20170621-052</span><em>33567</em></li>
+                <li><span>20170621-052</span><em>33567</em></li>
+                <li><span>20170621-052</span><em>33567</em></li> -->
+            </ul>
+        </div>
+    </div>
+    
+    <!-- betting -->
+    <div class="betting w1200">
+        <div class="betting-menu light-color">
+            <span class="J_withChild active" data-info="5#All_5#0">五星</span>
+            <span class="J_withChild" data-info="8#First_4#1">前四</span>
+            <span class="J_withChild" data-info="4#Last_4#2">后四</span>
+            <span class="J_withChild" data-info="7#First_3#3">前三</span>
+            <span class="J_withChild" data-info="9#Middle_3#4">中三</span>
+            <span class="J_withChild" data-info="3#Last_3#5">后三</span>
+            <span class="J_withChild" data-info="6#First_2#6">前二</span>
+            <span class="J_withChild" data-info="2#Last_2#7">后二</span>
+            <span class="J_withChild" data-info="1#Last_1#8">一星</span>
+            <span class="J_withChild" data-info="12#Any_Place#9">不定位</span>
+            <span class="J_withChild" data-info="11#Fun#10">趣味</span>
+            <span class="J_withChild" data-info="10#Any#12">任选</span>
+        </div>
+        
+        <div class="betting-sub-menu active" id="J_subMenuList">
+            <dl>
+                <dt>直选：</dt>
+                <dd id="J_All5Straight" class="J_subMenu active" data-info="31#All5Straight#2">五星直选</dd>
+                <dd id="J_All5Straight_Single" class="J_subMenu" data-info="80#All5Straight_Single#2">五星直选（单式）</dd>
+                <dd id="J_All5All" class="J_subMenu" data-info="32#All5All#2">五星通选</dd>
+                <dd id="J_All5All_Single" class="J_subMenu" data-info="81#All5All_Single#2">五星通选（单式）</dd>
+                <dd id="J_All5Join" class="J_subMenu" data-info="33#All5Join#2">五星连选</dd>
+                <dd id="J_All5Join_Single" class="J_subMenu" data-info="82#All5Join_Single#2">五星连选（单式）</dd>
+            </dl>
+            <dl>
+                <dt>组选：</dt>
+                <dd id="J_AllCom120" class="J_subMenu" data-info="1601#AllCom120#2">五星组选120</dd>
+                <dd id="J_AllCom60" class="J_subMenu" data-info="1602#AllCom60#2">五星组选60</dd>
+                <dd id="J_AllCom30" class="J_subMenu" data-info="1603#AllCom30#2">五星组选30</dd>
+                <dd id="J_AllCom20" class="J_subMenu" data-info="1604#AllCom20#2">五星组选20</dd>
+                <dd id="J_AllCom10" class="J_subMenu" data-info="1605#AllCom10#2">五星组选10</dd>
+                <dd id="J_AllCom5" class="J_subMenu" data-info="1606#AllCom5#2">五星组选5</dd>
+            </dl>
+        </div>
+
+        <div class="betting-rule">
+            <div class="betting-rule-box rel">
+                <span class="dark-color" id="J_bettRule">玩法说明</span>
+                <p>最高奖金：<em id="J_maxBonus">170000.0000</em>元</p>
+                <div class="abs border-l-color" id="J_bettingRule">从万位、千位、百位、十位、个位中分别选择1个或多个号码投注，号码和顺序都相同，即为中奖。 如：万位选择1，千位选择2，百位选择3，十位选择4，个位选择5，开奖号码为12345，即为中奖。</div>
+            </div>
+        </div>
+
+        <div class="betting-box" id="J_bettingBox">
+            <div id="J_selectArea">
+                <!-- <ul class="bet-row">
+                    <li>
+                        <div class="icon fl row-tt">万位</div>
+                        <ul class="row-num fl">
+                            <li class="J_numWrp">0</li>
+                            <li class="J_numWrp">1</li>
+                            <li class="J_numWrp">2</li>
+                            <li class="J_numWrp">3</li>
+                            <li class="J_numWrp">4</li>
+                            <li class="J_numWrp">5</li>
+                            <li class="J_numWrp">6</li>
+                            <li class="J_numWrp">7</li>
+                            <li class="J_numWrp">8</li>
+                            <li class="J_numWrp last">9</li>
+                        </ul>
+                        <ul class="row-text fr">
+                            <li class="J_all">全</li>
+                            <li class="J_big">大</li>
+                            <li class="J_small">小</li>
+                            <li class="J_ji">奇</li>
+                            <li class="J_ou">偶</li>
+                            <li class="J_clear">清</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <div class="icon fl row-tt">千位</div>
+                        <ul class="row-num fl">
+                            <li class="J_numWrp">0</li>
+                            <li class="J_numWrp">1</li>
+                            <li class="J_numWrp">2</li>
+                            <li class="J_numWrp">3</li>
+                            <li class="J_numWrp">4</li>
+                            <li class="J_numWrp">5</li>
+                            <li class="J_numWrp">6</li>
+                            <li class="J_numWrp">7</li>
+                            <li class="J_numWrp">8</li>
+                            <li class="J_numWrp last">9</li>
+                        </ul>
+                        <ul class="row-text fr">
+                            <li class="J_all">全</li>
+                            <li class="J_big">大</li>
+                            <li class="J_small">小</li>
+                            <li class="J_ji">奇</li>
+                            <li class="J_ou">偶</li>
+                            <li class="J_clear">清</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <div class="icon fl row-tt">百位</div>
+                        <ul class="row-num fl">
+                            <li class="J_numWrp">0</li>
+                            <li class="J_numWrp">1</li>
+                            <li class="J_numWrp">2</li>
+                            <li class="J_numWrp">3</li>
+                            <li class="J_numWrp">4</li>
+                            <li class="J_numWrp">5</li>
+                            <li class="J_numWrp">6</li>
+                            <li class="J_numWrp">7</li>
+                            <li class="J_numWrp">8</li>
+                            <li class="J_numWrp last">9</li>
+                        </ul>
+                        <ul class="row-text fr">
+                            <li class="J_all">全</li>
+                            <li class="J_big">大</li>
+                            <li class="J_small">小</li>
+                            <li class="J_ji">奇</li>
+                            <li class="J_ou">偶</li>
+                            <li class="J_clear">清</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <div class="icon fl row-tt">十位</div>
+                        <ul class="row-num fl">
+                            <li class="J_numWrp">0</li>
+                            <li class="J_numWrp">1</li>
+                            <li class="J_numWrp">2</li>
+                            <li class="J_numWrp">3</li>
+                            <li class="J_numWrp">4</li>
+                            <li class="J_numWrp">5</li>
+                            <li class="J_numWrp">6</li>
+                            <li class="J_numWrp">7</li>
+                            <li class="J_numWrp">8</li>
+                            <li class="J_numWrp last">9</li>
+                        </ul>
+                        <ul class="row-text fr">
+                            <li class="J_all">全</li>
+                            <li class="J_big">大</li>
+                            <li class="J_small">小</li>
+                            <li class="J_ji">奇</li>
+                            <li class="J_ou">偶</li>
+                            <li class="J_clear">清</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <div class="icon fl row-tt">个位</div>
+                        <ul class="row-num fl">
+                            <li class="J_numWrp">0</li>
+                            <li class="J_numWrp">1</li>
+                            <li class="J_numWrp">2</li>
+                            <li class="J_numWrp">3</li>
+                            <li class="J_numWrp">4</li>
+                            <li class="J_numWrp">5</li>
+                            <li class="J_numWrp">6</li>
+                            <li class="J_numWrp">7</li>
+                            <li class="J_numWrp">8</li>
+                            <li class="J_numWrp last">9</li>
+                        </ul>
+                        <ul class="row-text fr">
+                            <li class="J_all">全</li>
+                            <li class="J_big">大</li>
+                            <li class="J_small">小</li>
+                            <li class="J_ji">奇</li>
+                            <li class="J_ou">偶</li>
+                            <li class="J_clear">清</li>
+                        </ul>
+                    </li>
+                </ul> -->
+            </div>
+            <div class="bet-wrp clearfix">
+                <p class="ber-wrp-num fl">您选择了<i id="J_selectionBallStakes">0</i>注</p>
+                <div class="bet-wrp-multiple fl">
+                    <em class="fl cut noselect" id="J_beishuCut">-</em>
+                    <input type="text" class="fl" value="1" id="J_beishu">
+                    <em class="fl add noselect" id="J_beishuAdd">+</em>
+                    <span class="fl">倍</span>
+                </div>
+                <div class="bet-wrp-unit fl">
+                    <select id="J_unit" class="fl" data-txt="1#1#yuan" data-val="元">
+                        <option value="1#1#yuan">元</option>
+                        <option value="2#0.1#jiao">角</option>
+                        <option value="3#0.01#fen">分</option>
+                        <option value="4#0.001#li">厘</option>
+                    </select>
+                    <p class="fl">共<span id="J_selectionBallAmount">0.0000</span>元</p>
+                </div>
+                <!-- <div class="bet-wrp-rebate fl">
+                    <p class="fl">奖金返点</p>
+                    <select id="J_rebate" data-val="1700" data-txt="1700/0.00%">
+                        <option value="1700">1700/0.00%</option>
+                        <option value="170">170/0.00%</option>
+                    </select>
+                </div> -->
+                <div class="bet-wrp-btn fr">
+                    <span class="fl btn-d-color mr10 bet-btn disabled" id="J_addBallToCart">添加选号</span>
+                    <span class="fl btn-d-color bet-btn disabled" id="J_shortcutPlaceOrder">一键投注</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="bet-list clearfix">
+            <div class="bet-list-switch">
+                <span class="active">当前投注</span>
+                <span>投注历史</span>
+            </div>
+            <div class="bet-list-box clearfix">
+                <div class="fl rel">
+                    <div class="bet-list-tt">
+                        <p class="t1">玩法类型</p>
+                        <p class="t2">投注号码</p>
+                        <p class="t3">模式</p>
+                        <p class="t4">注数</p>
+                        <p class="t5">倍数</p>
+                        <p class="t6">投注金额（元）</p>
+                        <p class="t7">操作</p>
+                    </div>
+                    <div class="bet-list-con" style="">
+                        <ul id="J_betList">
+                            <!-- <li class="clearfix">
+                                <div class="t1">后三直选</div>
+                                <div class="t2">8 | 7 | 6... <span class="cm_number hide">56789|56789|56789|56789|56789</span></div>
+                                <div class="t3">元</div>
+                                <div class="t4">1</div>
+                                <div class="t5">1</div>
+                                <div class="t6">2.0000</div>
+                                <div class="t7"><em class="icon icon-del J_delNums"></em></div>
+                            </li>
+                            <li class="clearfix">
+                                <div class="t1">后三直选</div>
+                                <div class="t2">8 | 7 | 6... <span class="cm_number hide">56789|56789|56789|56789|56789</span></div>
+                                <div class="t3">元</div>
+                                <div class="t4">1</div>
+                                <div class="t5">1</div>
+                                <div class="t6">2.0000</div>
+                                <div class="t7"><em class="icon icon-del J_delNums"></em></div>
+                            </li>
+                            <li class="clearfix">
+                                <div class="t1">后三直选</div>
+                                <div class="t2">8 | 7 | 6... <span class="cm_number hide">56789|56789|56789|56789|56789</span></div>
+                                <div class="t3">元</div>
+                                <div class="t4">1</div>
+                                <div class="t5">1</div>
+                                <div class="t6">2.0000</div>
+                                <div class="t7"><em class="icon icon-del J_delNums"></em></div>
+                            </li>
+                            <li class="clearfix">
+                                <div class="t1">后三直选</div>
+                                <div class="t2">8 | 7 | 6... <span class="cm_number hide">56789|56789|56789|56789|56789</span></div>
+                                <div class="t3">元</div>
+                                <div class="t4">1</div>
+                                <div class="t5">1</div>
+                                <div class="t6">2.0000</div>
+                                <div class="t7"><em class="icon icon-del J_delNums"></em></div>
+                            </li> -->
+                        </ul>
+                    </div>
+                    
+                    <div class="bet-betting">
+                        <span class="bet-btn fr btn-red disabled" id="J_confirmBets">确认投注</span>
+                        <span class="bet-btn fr btn-add-num mr10 disabled" id="J_chaseNumber">我要追号</span>
+                        <p class="fr">已选<span id="J_totalNum">0</span>注&nbsp;&nbsp;&nbsp;&nbsp;金额￥<span id="J_totalSum">0.0000</span>元</p>
+                    </div>
+                </div>
+                <div class="fr bet-btns">
+                    <span class="bet-btn J_machineSelection" data-i="1">机选1注</span>
+                    <span class="bet-btn J_machineSelection" data-i="5">机选5注</span>
+                    <span class="bet-btn" id="J_clearCart">一键清空</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部 -->
+    <div id="footer" class="footer dark-color">
+        <div class="w1200">© 大圣彩版权所有 |  创新博弈，成功从大圣彩开始</div>
+    </div>
+
+    <script src="../js/jquery-1.11.1.min.js"></script>
+    <script src="../js/jquery.cookie.js"></script>
+    <script src="../js/jquery.placeholder.min.js"></script>
+    <script src="../js/jquery-nice-select.js"></script>
+    <script src="../js/layer/layer.js"></script>
+    <script src="../js/GLOBAL.js"></script>
+    <script src="../js/template.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/betting.js"></script>
+</body>
+</html>

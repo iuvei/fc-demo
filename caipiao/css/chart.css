@@ -1,0 +1,331 @@
+// body * {
+// 	font-size: 15px;
+// }
+// * {
+// 	font-family: Arial, "Microsoft YaHei", serif\9;
+// 	font-size: 15px;
+// 	letter-spacing: 1px;
+// }
+// ul {
+// 	list-style: none;
+// }
+// .page_content {
+// 	box-shadow: 5px 0 24px rgba(0, 0, 0, 0.12) inset;
+// 	padding-bottom: 44px;
+// 	padding-top: 6px;
+// }
+// .big_wrapper {
+// 	margin: 0 auto;
+// 	position: relative;
+// 	width: 1346px;
+// }
+// .wrapper {
+// 	margin: 0 auto;
+// 	position: relative;
+// 	width: 1200px;
+// }
+// .chart-wrap {
+// 	padding-top: 30px;
+// }
+
+
+
+/* chart */
+.chart-top{
+    height: 63px;
+    line-height: 63px;
+
+}
+.chart-issue{margin-right: 20px;}
+.chart-issue-c{
+    margin-right: 30px;
+}
+.chart-switch{}
+.chart-check{
+    margin-right: 15px;
+}
+.chart-check i{
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 2px;
+    cursor: pointer;
+    background-color: #cdcdcd;
+    float: left;
+    margin: 21px 2px 0 0;
+}
+.chart-box{
+    background-color: #fff;
+    margin-bottom: 23px;
+}
+.chart-wrp {
+	border: 1px solid #ddd;
+	border-radius: 6px;
+}
+.top-title {
+	border-bottom: 1px solid #ddd;
+	background-color: #e9e9e9;
+	// padding-top: 10px;
+}
+.po-middle {
+	display: inline-block;
+	vertical-align: middle;
+}
+.firstTwo-wrp {
+	text-align: center;
+	// width: 192px;
+	float: left;
+}
+.chart-lastWrp.po-middle {
+	float: right;
+	// width: 120px;
+    width: 144px;
+	padding-top: 24px;
+}
+.chart-lastWrp.po-middle li {
+	display: inline-block;
+	font-size: 13px;
+	// left: -10px;
+	letter-spacing: -1px;
+    // margin: 0 2px 0 3px;
+	margin: 0 -6px 0 15px;
+	position: relative;
+	float: left;
+}
+.top-title div, .top-title span {
+	font-size: 13px;
+}
+.top-title span{
+	display: block;
+	margin-top: 15px;
+	margin-bottom: 10px;
+}
+.top-title ul{
+    margin-top: 5px;
+    overflow: hidden;
+}
+.chart-lastWrp.po-middle ul{
+	overflow: inherit;
+}
+.sm-ch.po-middle {
+    text-align: center;
+    width: 111px;
+    border-right: 1px solid #ddd;
+    height: 70px;
+    line-height: 70px;
+    float: left;
+}
+.mm-ch.po-middle{
+    width: 70px;
+    border-right: 1px solid #ddd;
+    height: 70px;
+    line-height: 70px;
+    float: left;
+}
+.game-type-list {
+	// left: 5px;
+	// max-width: 1000px;
+	// min-width: 850px;
+	position: relative;
+	text-align: center;
+}
+.ch-chart {
+	display: inline-block;
+    text-align: center;
+    float: left;
+    border-right: 1px solid #ddd;
+    height: 70px;
+    width: 175px;
+}
+.ch-chart li {
+    font-size: 12px;
+    display: inline-block;
+    height: 20px;
+    letter-spacing: -1px;
+    line-height: 20px;
+    margin-bottom: 0;
+    margin-right: -3px;
+    position: relative;
+    text-align: center;
+    text-indent: -1px;
+    width: 20px;
+    z-index: 3;
+    float: left;
+}
+.ch-row-contner {
+	border-bottom: 1px solid #e9e9e9;
+	cursor: default;
+	overflow: hidden;
+}
+.ch-row-contner:hover {
+	background: #d8ebfc none repeat scroll 0 0;
+}
+.ch-row-contner * {
+	font-size: 12px;
+}
+.firstdatail.po-middle {
+	text-align: center;
+	// width: 182px;
+	float: left;
+}
+.ch-drawNumb.po-middle {
+	text-align: center;
+    width: 111px;
+    height: 40px;
+    line-height: 40px;
+    border-right: 1px solid #ddd;
+    float: left;
+}
+.winning-Num.po-middle{
+	width: 70px;
+	height: 40px;
+    line-height: 40px;
+    border-right: 1px solid #ddd;
+}
+.winning-Num li {
+	// color: #e66161;
+	display: inline-block;
+	// letter-spacing: 0;
+}
+.numCount-wrp.po-middle {
+	// left: 5px;
+	// max-width: 1030px;
+	// min-width: 860px;
+	position: relative;
+	text-align: center;
+}
+.numCount-wrp.po-middle .po-middle {
+    float: left;
+    width: 175px;
+    height: 40px;
+    line-height: 40px;
+    border-right: 1px solid #ddd;
+    padding-top: 10px;
+}
+.numCount-wrp .po-middle > li {
+	display: inline-block;
+	height: 20px;
+	letter-spacing: -1px;
+	line-height: 20px;
+	margin-bottom: 0;
+	margin-right: -3px;
+	position: relative;
+	text-align: center;
+	text-indent: -1px;
+	width: 20px;
+	z-index: 3;
+	float: left;
+}
+.numCount-wrp .noNumber li {
+    visibility: hidden;
+}
+.game-3D .po-middle li {
+    margin-bottom: 0;
+    margin-right: 8.8px;
+    margin-top: 0;
+}
+.hit-blue, .hit-red {
+	visibility: visible !important;
+}
+.hit-blue {
+	background: url("../images/chart-sprite.png") repeat scroll -118px 0;
+	border-radius: 100%;
+	color: #fff;
+}
+.hit-red {
+	background: url("../images/chart-sprite.png") repeat scroll 205px 0;
+	border-radius: 100%;
+	color: #fff;
+}
+.lastDetail-wrp.po-middle {
+	width: 134px;
+	float: right;
+}
+.lastDetail-wrp li {
+	display: inline-block;
+	height: 20px;
+	margin-top: 13px;
+	text-align: center;
+	vertical-align: bottom;
+	width: 33px;
+	float: left;
+}
+.bleCheck {
+	background: url("../images/chart-sprite.png") repeat scroll 270px -1px;
+}
+.orangeCheck {
+	background: url("../images/chart-sprite.png") repeat scroll 294px -1px;
+}
+
+
+/* =========================================================== */
+/* ==================  11选5 =============================== */
+/* =========================================================== */
+.my11X5 .firstTwo-wrp.po-middle {
+	width: 191px;
+}
+.my11X5 .sm-ch.po-middle {
+	left: -15px;
+	position: relative;
+}
+.my11X5 .ch-chart.chart1 li {
+	margin: 0 3px 0 2px;
+}
+.my11X5 .firstdatail .po-middle {
+	float: left;
+}
+.numCount-wrp.po-middle .po-middle.game-11X5 {
+	margin-right: 0px;
+}
+.my11X5 .winning-Num.po-middle li {
+	float: left;
+}
+.my11X5 .firstdatail.po-middle {
+	padding-top: 5px;
+}
+.my11X5 .numCount-wrp.po-middle {
+	padding-top: 3px;
+}
+.my11X5 .ch-chart {
+	float: left;
+}
+.my11X5 .winning-1.po-middle li {
+	margin: 0 1px;
+}
+.chart-below-cntent .ch-chart li {
+	// display: inline-block;
+	// font-size: 12px;
+	// left: -9px;
+	// margin: 0 -1.5px 0 0.8px;
+	// position: relative;
+	// width: 17px;
+}
+#chartBody .game-11X5 li {
+	box-sizing: border-box;
+	height: 26px;
+	line-height: 26px;
+	margin: 0 3px;
+	width: 35px;
+}
+.box-green, .box-vlt, .box-yellow {
+	color: #fff;
+	visibility: visible !important;
+}
+.box-vlt {
+	background: url(../images/chart-sprite.png) no-repeat scroll -176px -1px;
+}
+.box-green {
+	background: url(../images/chart-sprite.png) no-repeat scroll -221px -1px;
+}
+.box-yellow {
+	background: url(../images/chart-sprite.png) no-repeat scroll -266px -1px;
+}
+.chart-below-cntent .top-title {
+	border: 0 none;
+}
+.top-title.my11X5 .chart1 {
+	margin-right: 15px;
+}
+.my11X5 .numCount-wrp.po-middle .winning-1 {
+	margin-right: 15px;
+}

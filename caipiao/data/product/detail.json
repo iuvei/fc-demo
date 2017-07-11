@@ -1,0 +1,20 @@
+{
+	"status": "success",
+	"message": {
+		"id": 2,
+		"name": "\u817e\u8baf\u5206\u5206\u5f69",
+		"code": "qq_fen_fen",
+		"logo": "",
+		"periods": {
+			"id": 47696,
+			"date": "20170627",
+			"num": "1312",
+			"lottery_surplus": 10
+		},
+		"prev_periods": {
+			"date": "20170627",
+			"num": "1311",
+			"lottery_num": "74731"
+		}
+	}
+}

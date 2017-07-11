@@ -1,0 +1,13 @@
+{
+	"status": "success",
+	"message": {
+		"username": "test",
+		"balance": "2068.0000",
+		"nickname": "",
+		"qq": "",
+		"payee": "\u674e\u56db",
+		"cellphone": "",
+		"email": "a123456@qq.com",
+		"set_fund_password": true
+	}
+}

@@ -1,0 +1,107 @@
+.below-line{
+    height: 1px;
+    background-color: #3661a2;
+}
+.text-l-color,
+.betting-sub-menu dd:hover,
+.betting-sub-menu dd.active,
+.user-nav dl dd a.active,
+.user-tips-t,
+a.text-l-color,
+.text-l-color,
+.user-funds-tt li.active{
+    color: #3661a2;
+}
+.chart-issue-c.active,
+.text-d-color{
+    color: #244c88;
+}
+.dark-color,
+.btn-d-color,
+.btn-add-num,
+.chart-check i.active,
+.bet-btns span:hover{
+    background-color: #244c88;
+}
+.betting-menu span:hover,
+.betting-menu span.active{
+    background-color: #fff;
+    color: #3661a2;
+}
+.light-color,
+.border-l-color,
+.btn-l-color,
+.user-header,
+.user-nav dl dt{
+    background-color: #3661a2;
+}
+.btn-red.disabled,
+.bet-btn.disabled,
+.btn-d-color.disabled,
+.btn-l-color.disabled{
+    color: #fff;
+    background-color: #9f9f9f;
+    cursor: no-drop;
+}
+
+/* 详情页选择 */
+.row-num li.active,
+.row-num li:hover{
+    color: #fff;
+    background-position: -250px -200px;
+}
+.row-text li.active,
+.row-text li:hover{
+    color: #fff;
+    background-color: #3661a2;
+    border-color: #3661a2;
+}
+.bet-list-switch span{
+    border: 1px solid #3661a2;
+}
+.bet-list-switch span.active{
+    color: #fff;
+    border-color: #244c88;
+    background-color: #244c88;
+}
+.link-reg-con span.active,
+.bet-checkbox > div > i.active{
+    color: #fff;
+    background-color: #3661a2;
+}
+
+/* 会员中心 */
+.user-tt span{
+    border-bottom: 2px solid #3661a2;
+    color: #3661a2;
+}
+.user-s-btn{
+    background-color: #3661a2;
+}
+.user-ljgl .user-table-c li > div.t2{
+    color: #244c88;
+}
+
+/* layer 扩展 */
+body .layui-layer-btn .layui-layer-btn0{
+    border-color: #3661a2;
+    background-color: #3661a2;
+}
+/* 分页 */
+#J_Paging .laypageskin_default .laypage_curr{
+    background-color: #3661a2;
+    color: #fff;
+}
+#J_Paging .laypage_main a:hover{
+        border-color: #3661a2;
+    color: #3661a2;
+}
+#J_Paging .laypage_main button{
+    background-color: #3661a2;
+    color: #fff;
+}
+
+.chosen-container .chosen-results li.highlighted {
+    background-color: #3661a2;
+    color: #fff
+}
