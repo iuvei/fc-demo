@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<title>团队投注</title>
 	<link rel="stylesheet" href="../css/reset.css">
-	<link rel="stylesheet" href="../css/nice-select.css">
+	<link rel="stylesheet" href="../css/chose.css">
 	<link rel="stylesheet" href="../css/user_common.css">
 	<link rel="stylesheet" href="../css/skin/default.css" id="J_skinCss">
 </head>
@@ -19,7 +19,7 @@
 			<div class="fr header-user">
 				<p class="fl">您好，<span id="J_headerUserName"></span></p>
 				<b class="fl">|</b>
-				<div class="fl"><span id="J_totalBalance">总余额 ￥<i class="J_balance"></i></span><span class="cup show" id="J_cutoverBalance" data-balance="">显示</span></div>
+				<div class="fl"><span id="J_totalBalance">总余额 ￥<i class="J_balance"></i></span><span class="cup show" id="J_cutoverBalance" data-balance="">隐藏</span></div>
 				<b class="fl">|</b>
 				<span class="fl cup J_pageJump" data-page="recharge_online">充值</span>
 				<span class="fl cup J_pageJump" data-page="withdrawal_application">提款</span>
@@ -147,7 +147,7 @@
 					<div class="user-s-tt">范围：</div>
 					<div class="user-s-sel">
 						<select name="" id="">
-							<option value="111">全部</option>
+							<option value="">全部</option>
 						</select>
 					</div>
 					<div class="user-s-tt">日期：</div>
@@ -174,7 +174,10 @@
 					<div class="user-s-tt">状态：</div>
 					<div class="user-s-sel">
 						<select id="J_teamStatus">
-							<option value="111">全部</option>
+							<option value="">全部</option>
+							<option value="wait">等待支付</option>
+							<option value="winning">中奖</option>
+							<option value="regret">未中奖</option>
 						</select>
 					</div>
 				</div>
@@ -218,7 +221,7 @@
 	</div>
 
 	<script src="../js/jquery-1.11.1.min.js"></script>
-	<script src="../js/jquery-nice-select.js"></script>
+	<script src="../js/chosen.jquery.min.js"></script>
 	<script src="../js/jquery.cookie.js"></script>
 	<script src="../js/layer/layer.js"></script>
 	<script src="../js/laydate/laydate.js"></script>
@@ -227,7 +230,7 @@
 	<script src="../js/common.js"></script>
 	<script>
 		$(function(){
-			$('select').niceSelect();
+			$('select').chosen();
 			COMMON.USER.teamBetting.init();
 		});
 	</script>

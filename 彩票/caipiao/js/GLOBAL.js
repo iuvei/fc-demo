@@ -289,5 +289,20 @@ var GLOBAL = {
 			isIE = UA.indexOf('MSIE') > -1,
 			v = isIE ? /\d+/.exec(UA.split(';')[1]) : 'no ie';
 		return v <= 9;
-	}
+	},
+	alert: function(msg, time, icon) {
+		if(time){
+			layer.alert(msg, {
+				skin: 'bett-alert-dialog',
+				icon: icon || 2,
+				time: time
+			});
+		} else {
+			layer.alert(msg, {
+				skin: 'bett-alert-dialog',
+				icon: icon || 2
+			});
+		}
+	},
+
 };

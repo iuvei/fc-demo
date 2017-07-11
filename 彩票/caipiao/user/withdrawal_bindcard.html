@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<title>绑定提款卡</title>
 	<link rel="stylesheet" href="../css/reset.css">
-	<!-- <link rel="stylesheet" href="../css/nice-select.css"> -->
+	<link rel="stylesheet" href="../css/chose.css">
 	<link rel="stylesheet" href="../css/user_common.css">
 	<link rel="stylesheet" href="../css/skin/default.css" id="J_skinCss">
 </head>
@@ -19,7 +19,7 @@
 			<div class="fr header-user">
 				<p class="fl">您好，<span id="J_headerUserName"></span></p>
 				<b class="fl">|</b>
-				<div class="fl"><span id="J_totalBalance">总余额 ￥<i class="J_balance"></i></span><span class="cup show" id="J_cutoverBalance" data-balance="">显示</span></div>
+				<div class="fl"><span id="J_totalBalance">总余额 ￥<i class="J_balance"></i></span><span class="cup show" id="J_cutoverBalance" data-balance="">隐藏</span></div>
 				<b class="fl">|</b>
 				<span class="fl cup J_pageJump" data-page="recharge_online">充值</span>
 				<span class="fl cup J_pageJump" data-page="withdrawal_application">提款</span>
@@ -143,7 +143,7 @@
 				<ul class="user-form">
 					<li>
 						<span class="user-form-t">充值金额：</span>
-						<div class="user-form-c"><input type="text"><em>*</em></div>
+						<div class="user-form-c"><input type="text" id=""><em>*</em></div>
 					</li>
 					<li>
 						<span class="user-form-t">银行：</span>
@@ -157,20 +157,19 @@
 					</li>
 					<li>
 						<span class="user-form-t">银行卡号：</span>
-						<div class="user-form-c"><input type="text" id="card-num"><em>*</em></div>
+						<div class="user-form-c"><input type="text" id="J_cardNum"><em>*</em></div>
 					</li>
 					<li>
 						<span class="user-form-t">确定卡号：</span>
-						<div class="user-form-c"><input type="text" id="cardConNum"><em>*</em></div>
+						<div class="user-form-c"><input type="text" id="J_cardConNum"><em>*</em></div>
 					</li>
 					<li>
 						<span class="user-form-t">所在省/市：</span>
 						<div class="user-form-c">
-							<select id="J_province" style="width:105px;">
+							<select id="J_province" style="width:106px;">
 								<option value="">省</option>
 							</select>
-							<span class="fl" style="padding:0 5px;"> - </span>
-							<select id="J_city" style="width:105px;">
+							<select id="J_city" style="width:106px;">
 								<option value="">市</option>
 							</select>
 							<em>*</em>
@@ -178,7 +177,7 @@
 					</li>
 					<li>
 						<span class="user-form-t">银行分行：</span>
-						<div class="user-form-c"><input type="text"><em>*</em></div>
+						<div class="user-form-c"><input type="text" id="branch"><em>*</em></div>
 					</li>
 				</ul>
 				<div class="user-bindcard-add">
@@ -199,7 +198,7 @@
 
 
 	<script src="../js/jquery-1.11.1.min.js"></script>
-	<!-- <script src="../js/jquery-nice-select.js"></script> -->
+	<script src="../js/chosen.jquery.min.js"></script>
 	<script src="../js/jquery.cookie.js"></script>
 	<script src="../js/layer/layer.js"></script>
 	<script src="../js/laydate/laydate.js"></script>

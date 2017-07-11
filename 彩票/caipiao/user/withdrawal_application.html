@@ -18,7 +18,7 @@
 			<div class="fr header-user">
 				<p class="fl">您好，<span id="J_headerUserName"></span></p>
 				<b class="fl">|</b>
-				<div class="fl"><span id="J_totalBalance">总余额 ￥<i class="J_balance"></i></span><span class="cup show" id="J_cutoverBalance" data-balance="">显示</span></div>
+				<div class="fl"><span id="J_totalBalance">总余额 ￥<i class="J_balance"></i></span><span class="cup show" id="J_cutoverBalance" data-balance="">隐藏</span></div>
 				<b class="fl">|</b>
 				<span class="fl cup J_pageJump" data-page="recharge_online">充值</span>
 				<span class="fl cup J_pageJump" data-page="withdrawal_application">提款</span>
@@ -193,7 +193,7 @@
 						</div>
 						<div class="">
 							<span class="user-tk-tt">资金密码：</span>
-							<input type="text" class="user-tk-inp" id="password">
+							<input type="password" class="user-tk-inp" id="password">
 						</div>
 						<div>
 							<span class="btn-l-color user-tk-btn fr" id="J_confirmBtn">确认提款</span>
@@ -221,16 +221,6 @@
 	<script src="../js/layer/layer.js"></script>
 	<script src="../js/GLOBAL.js"></script>
 	<script src="../js/common.js"></script>
-
-	<script src="../js/jquery-1.11.1.min.js"></script>
-	<!-- <script src="../js/jquery-nice-select.js"></script> -->
-	<script src="../js/jquery.cookie.js"></script>
-	<script src="../js/layer/layer.js"></script>
-	<!-- <script src="../js/laydate/laydate.js"></script> -->
-	<!-- <script src="../js/laypage/laypage.js"></script> -->
-	<script src="../js/GLOBAL.js"></script>
-	<script src="../js/common.js"></script>
-
 	<script>
 		$(function(){
 			COMMON.USER.withdrawalApplication.init();

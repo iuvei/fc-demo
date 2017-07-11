@@ -196,7 +196,7 @@ body.bg-whit{
 .user-czjl .t6{width: 163px;}
 .user-czjl div.t6{font-size: 12px;}
 .user-czjl .t7{width: 90px;}
-.user-czjl .t8{width: 120px;}
+.user-czjl .t8{width: 120px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;}
 
 /* 提款记录 */
 .user-tkjl .t1{width: 112px;}
@@ -205,7 +205,7 @@ body.bg-whit{
 .user-tkjl .t4{width: 140px;}
 .user-tkjl div.t4{font-size: 12px;}
 .user-tkjl .t5{width: 178px;}
-.user-tkjl .t6{width: 166px;}
+.user-tkjl .t6{width: 166px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;}
 
 .user-table-f{
 	background-color: #fff;
@@ -227,25 +227,33 @@ body.bg-whit{
 	height: 530px;
 	padding-top: 34px;
 	padding-left: 38px;
+	color: #666;
+}
+.user-transfer-tt{
+	font-size: 20px;
+	font-weight: bold;
+	margin-bottom: 20px;
 }
 .user-form{
 	float: left;
-	color: #666;
 }
 .user-form > li{
 	margin-bottom: 37px;
 	float: left;
 	width: 100%;
 }
+.user-form > li.nomb{
+	margin-bottom: 10px;
+}
 .user-form-t{
 	height: 36px;
 	line-height: 36px;
-	/*font-weight: bold;*/
 	float: left;
 }
 .user-form-c{
 	float: left;
 }
+.user-form-c > p{line-height: 36px;}
 .user-form-c{}
 .user-form-c input[type="text"],
 .user-form-c input[type="password"]{
@@ -326,6 +334,34 @@ body.bg-whit{
 	border-color: #ededed;
 	background-color: #ededed;
     cursor: no-drop;
+}
+.wechart{}
+.wechart > p{
+	color: #666;
+	line-height: 26px;
+    letter-spacing: 2px;
+}
+.wechart > p span{}
+.wechart h6{
+	font-size: 18px;
+	color: #666;
+	font-weight: normal;
+	line-height: 50px;
+	margin-bottom: 30px;
+    letter-spacing: 2px;
+}
+.qr-code{
+	text-align: center;
+}
+.qr-code img{
+	display: inline-block;
+	width: 220px;
+	height: 220px;
+	margin-bottom: 28px;
+}
+.qr-code p{
+	font-size: 18px;
+	color: #333;
 }
 /* 线上支付 */
 .online{

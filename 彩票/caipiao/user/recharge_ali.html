@@ -3,9 +3,9 @@
 <head>
 	<meta charset="UTF-8">
 	<title>支付宝转账</title>
-	<link rel="stylesheet" href="../../../css/reset.css">
-	<link rel="stylesheet" href="../../../css/user_common.css">
-	<link rel="stylesheet" href="../../../css/skin/default.css" id="J_skinCss">
+	<link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/user_common.css">
+    <link rel="stylesheet" href="../css/skin/default.css" id="J_skinCss">
 </head>
 <body class="bg-whit">
 	<!-- 顶部 -->
@@ -18,7 +18,7 @@
 			<div class="fr header-user">
 				<p class="fl">您好，<span id="J_headerUserName"></span></p>
 				<b class="fl">|</b>
-				<div class="fl"><span id="J_totalBalance">总余额 ￥<i class="J_balance"></i></span><span class="cup show" id="J_cutoverBalance" data-balance="">显示</span></div>
+				<div class="fl"><span id="J_totalBalance">总余额 ￥<i class="J_balance"></i></span><span class="cup show" id="J_cutoverBalance" data-balance="">隐藏</span></div>
 				<b class="fl">|</b>
 				<span class="fl cup J_pageJump" data-page="recharge_online">充值</span>
 				<span class="fl cup J_pageJump" data-page="withdrawal_application">提款</span>
@@ -138,29 +138,29 @@
 					<span>支付宝转账</span>
 				</div>
 				
-				<div class="user-transfer rel clearfix alipay">
-					<ul class="user-form">
-						<li style="height: 80px;">
-							<span class="user-form-t">充值金额：</span>
-							<div class="user-form-c">
-								<input type="text" value="1000">
-								<ul class="quoat-list">
-									<li class="active">1000元</li>
-									<li>5000元</li>
-									<li class="disabled">10000元</li>
-									<li class="disabled">50000元</li>
-								</ul>
-							</div>
-						</li>
-						<li>
-							<span class="user-form-t">支付方式：</span>
-							<div class="user-form-c">
-								<input type="text" value="支付宝转账" disabled="disabled">
-							</div>
-						</li>
-					</ul>
-					<div class="user-transfer-btn btn-l-color abs">确认</div>
-				</div>
+				<div class="user-transfer rel clearfix wechart">
+                    <ul class="user-form">
+                        <li style="height: 80px;">
+                            <span class="user-form-t">充值金额：</span>
+                            <div class="user-form-c">
+                                <input type="text" value="1000" id="J_quoatInp">
+                                <ul class="quoat-list" id="J_quoatList">
+                                    <li class="active" data-n="1000">1000元</li>
+                                    <li data-n="5000">5000元</li>
+                                    <li data-n="10000">10000元</li>
+                                    <li data-n="50000">50000元</li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="user-form-t">支付方式：</span>
+                            <div class="user-form-c">
+                                <input type="text" value="微信支付" disabled="disabled">
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="user-transfer-btn btn-l-color abs" id="J_confirmBtn">确认</div>
+                </div>
 			</div>
 		</div>
 	</div>
@@ -172,10 +172,15 @@
 	</div>
 
 
-	<script src="../../../js/jquery-1.11.1.min.js"></script>
-	<script src="../../../js/jquery.cookie.js"></script>
-	<script src="../../../js/layer/layer.js"></script>
-	<script src="../../../js/GLOBAL.js"></script>
-	<script src="../../../js/common.js"></script>
+	<script src="../js/jquery-1.11.1.min.js"></script>
+    <script src="../js/jquery.cookie.js"></script>
+    <script src="../js/layer/layer.js"></script>
+    <script src="../js/GLOBAL.js"></script>
+    <script src="../js/common.js"></script>
+    <script>
+        $(function(){
+            COMMON.USER.rechargeWechat.init();
+        });
+    </script>
 </body>
 </html>

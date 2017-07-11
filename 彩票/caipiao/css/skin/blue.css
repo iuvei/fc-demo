@@ -100,3 +100,8 @@ body .layui-layer-btn .layui-layer-btn0{
     background-color: #3661a2;
     color: #fff;
 }
+
+.chosen-container .chosen-results li.highlighted {
+    background-color: #3661a2;
+    color: #fff
+}

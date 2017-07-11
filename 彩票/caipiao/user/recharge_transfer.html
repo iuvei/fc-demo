@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<title>网银转账</title>
 	<link rel="stylesheet" href="../css/reset.css">
-	<link rel="stylesheet" href="../css/nice-select.css">
+    <link rel="stylesheet" href="../css/chose.css">
 	<link rel="stylesheet" href="../css/user_common.css">
 	<link rel="stylesheet" href="../css/skin/default.css" id="J_skinCss">
 </head>
@@ -19,7 +19,7 @@
 			<div class="fr header-user">
 				<p class="fl">您好，<span id="J_headerUserName"></span></p>
 				<b class="fl">|</b>
-				<div class="fl"><span id="J_totalBalance">总余额 ￥<i class="J_balance"></i></span><span class="cup show" id="J_cutoverBalance" data-balance="">显示</span></div>
+				<div class="fl"><span id="J_totalBalance">总余额 ￥<i class="J_balance"></i></span><span class="cup show" id="J_cutoverBalance" data-balance="">隐藏</span></div>
 				<b class="fl">|</b>
 				<span class="fl cup J_pageJump" data-page="recharge_online">充值</span>
 				<span class="fl cup J_pageJump" data-page="withdrawal_application">提款</span>
@@ -140,12 +140,29 @@
 				</div>
 				
 				<div class="user-transfer rel clearfix">
+                    <p class="user-transfer-tt">确认充值信息</p>
 					<ul class="user-form">
-						<li>
+                        <li class="nomb">
+                            <span class="user-form-t">收款银行：</span>
+                            <div class="user-form-c"><p>工商银行</p></div>
+                        </li>
+                        <li class="nomb">
+                            <span class="user-form-t">收款账户名：</span>
+                            <div class="user-form-c"><p>李世民</p></div>
+                        </li>
+                        <li class="nomb">
+                            <span class="user-form-t">收款卡号：</span>
+                            <div class="user-form-c"><p>2323241231232132</p></div>
+                        </li>
+                        <li class="nomb">
+                            <span class="user-form-t">开户行地址：</span>
+                            <div class="user-form-c"><p>工商银行湖北支行</p></div>
+                        </li>
+						<li class="nomb">
 							<span class="user-form-t">充值金额：</span>
 							<div class="user-form-c"><input type="text" id="J_quoatInp"></div>
 						</li>
-						<li>
+						<!-- <li>
 							<span class="user-form-t">选择优惠：</span>
 							<div class="user-form-c">
 								<select name="" id="">
@@ -160,7 +177,7 @@
 									<select id="J_bankList"></select>
 								</div>
 							</div>
-						</li>
+						</li> -->
 					</ul>
 					<div class="user-transfer-btn btn-l-color abs" id="J_confirmBtn">确认</div>
 				</div>
@@ -180,7 +197,7 @@
 
 
 	<script src="../js/jquery-1.11.1.min.js"></script>
-	<script src="../js/jquery-nice-select.js"></script>
+	<script src="../js/chosen.jquery.min.js"></script>
 	<script src="../js/jquery.cookie.js"></script>
 	<script src="../js/layer/layer.js"></script>
 	<script src="../js/GLOBAL.js"></script>
