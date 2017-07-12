@@ -31,6 +31,46 @@
  * sumType : 和值类型
  */
 var TEMPLATE = {
+    factorial: function(a) {
+        for (var b = 1, c = 1; c <= a; c += 1) b *= c;
+        return b
+    },
+    first2StraightOf11X5: function(a, b) {
+        for (var c = 0, d = 0; d < a.length; d++)
+            if ("" != a[d])
+                for (var e = 0; e < b.length; e++) "" != b[e] && a[d] != b[e] && c++;
+        return c
+    },
+    first3StraightOf11X5: function(a, b, c) {
+        for (var d = 0, e = 0; e < a.length; e++)
+            if ("" != a[e])
+                for (var f = 0; f < b.length; f++)
+                    if ("" != b[f] && a[e] != b[f])
+                        for (var g = 0; g < c.length; g++) "" != c[g] && a[e] != c[g] && b[f] != c[g] && d++;
+        return d
+    },
+    first4StraightOf11X5: function(a, b, c, d) {
+        for (var e = 0, f = 0; f < a.length; f++)
+            if ("" != a[f])
+                for (var g = 0; g < b.length; g++)
+                    if ("" != b[g] && a[f] != b[g])
+                        for (var h = 0; h < c.length; h++)
+                            if ("" != c[h] && a[f] != c[h] && b[g] != c[h])
+                                for (var i = 0; i < d.length; i++) "" != d[i] && a[f] != d[i] && b[g] != d[i] && c[h] != d[i] && e++;
+        return e
+    },
+    first5StraightOf11X5: function(a, b, c, d, e) {
+        for (var f = 0, g = 0; g < a.length; g++)
+            if ("" != a[g])
+                for (var h = 0; h < b.length; h++)
+                    if ("" != b[h] && a[g] != b[h])
+                        for (var i = 0; i < c.length; i++)
+                            if ("" != c[i] && a[g] != c[i] && b[h] != c[i])
+                                for (var j = 0; j < d.length; j++)
+                                    if ("" != d[j] && a[g] != d[j] && b[h] != d[j] && c[i] != d[j])
+                                        for (var k = 0; k < e.length; k++) "" != d[j] && a[g] != e[k] && b[h] != e[k] && c[i] != e[k] && d[j] != e[k] && f++;
+        return f
+    },
     sumAndPoint: function(x, options, type) {
         // 和值求注数
         var c = TEMPLATE.getSubNumList(type);
@@ -110,25 +150,25 @@ var TEMPLATE = {
         var a = {};
         switch (subNav) {
             case "Any2_11X5_Single":
-                a.bits = ["ANY"], a.miBall = 2, a.stakes = 1, a.len = 4, a.digit = "", a.eg = "01 02 03,01 02 03\n01 02 03;01 02 03";
+                a.bits = ["NONE"], a.miBall = 2, a.stakes = 1, a.len = 4, a.digit = "", a.eg = "01 02 03,01 02 03\n01 02 03;01 02 03";
                 break;
             case "Any3_11X5_Single":
-                a.bits = ["ANY"], a.miBall = 3, a.stakes = 1, a.len = 6, a.digit = "", a.eg = "01 02 03,01 02 03\n01 02 03;01 02 03";
+                a.bits = ["NONE"], a.miBall = 3, a.stakes = 1, a.len = 6, a.digit = "", a.eg = "01 02 03,01 02 03\n01 02 03;01 02 03";
                 break;
             case "Any4_11X5_Single":
-                a.bits = ["ANY"], a.miBall = 4, a.stakes = 1, a.len = 8, a.digit = "", a.eg = "01 02 03 04,01 02 03 04\n01 02 03 04;01 02 03 04";
+                a.bits = ["NONE"], a.miBall = 4, a.stakes = 1, a.len = 8, a.digit = "", a.eg = "01 02 03 04,01 02 03 04\n01 02 03 04;01 02 03 04";
                 break;
             case "Any5_11X5_Single":
-                a.bits = ["ANY"], a.miBall = 5, a.stakes = 1, a.len = 10, a.digit = "", a.eg = "01 02 03 04 05,01 02 03 04 05\n01 02 03 04 05;01 02 03 04 05";
+                a.bits = ["NONE"], a.miBall = 5, a.stakes = 1, a.len = 10, a.digit = "", a.eg = "01 02 03 04 05,01 02 03 04 05\n01 02 03 04 05;01 02 03 04 05";
                 break;
             case "Any6_11X5_Single":
-                a.bits = ["ANY"], a.miBall = 6, a.stakes = 1, a.len = 12, a.digit = "", a.eg = "01 02 03 04 05 06,01 02 03 04 05 06\n01 02 03 04 05 06;01 02 03 04 05 06";
+                a.bits = ["NONE"], a.miBall = 6, a.stakes = 1, a.len = 12, a.digit = "", a.eg = "01 02 03 04 05 06,01 02 03 04 05 06\n01 02 03 04 05 06;01 02 03 04 05 06";
                 break;
             case "Any7_11X5_Single":
-                a.bits = ["ANY"], a.miBall = 7, a.stakes = 1, a.len = 14, a.digit = "", a.eg = "01 02 03 04 05 06 07,01 02 03 04 05 06 07\n01 02 03 04 05 06 07;01 02 03 04 05 06 07";
+                a.bits = ["NONE"], a.miBall = 7, a.stakes = 1, a.len = 14, a.digit = "", a.eg = "01 02 03 04 05 06 07,01 02 03 04 05 06 07\n01 02 03 04 05 06 07;01 02 03 04 05 06 07";
                 break;
             case "Any8_11X5_Single":
-                a.bits = ["ANY"], a.miBall = 8, a.stakes = 1, a.len = 16, a.digit = "", a.eg = "01 02 03 04 05 06 07 08,01 02 03 04 05 06 07 08\n01 02 03 04 05 06 07 08;01 02 03 04 05 06 07 08";
+                a.bits = ["NONE"], a.miBall = 8, a.stakes = 1, a.len = 16, a.digit = "", a.eg = "01 02 03 04 05 06 07 08,01 02 03 04 05 06 07 08\n01 02 03 04 05 06 07 08;01 02 03 04 05 06 07 08";
                 break;
             case "First3Straight_11X5_Single":
                 a.bits = ["FIRST", "SECOND", "THIRD"], a.miBall = 1, a.stakes = 1, a.len = 6, a.digit = "", a.eg = "01 02 03,01 02 03\n01 02 03;01 02 03";
@@ -2145,9 +2185,10 @@ var TEMPLATE = {
             numList: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11'],
             numNameList: ['FIRST', 'SECOND', 'THIRD', 'FOURTH', 'FIFTH'],
             quickFast: true,
-            type: 'ball',
+            type: '',
             formula: null,
             minSelect: 1,
+            maxSelect: 11,
             ajaxType: ''
         };
         var _maxBonus = '';
@@ -2156,41 +2197,87 @@ var TEMPLATE = {
             _maxBonus = '3.7333';
             _rule = '从01-11中任意选择1个或多个号码投注，只要5个开奖号码中包含所选号码，即为中奖。 如：选择02，开奖号码为***02*，即为中奖。';
             _opt.numNameList = ['NONE#任选一'];
+            _opt.type = '11x5';
+            _opt.formula = function(a){
+                return a[a.length - 1][a[0]].length;
+            }
             break;
             case 'Any2_11X5':
             _maxBonus = '9.3333';
             _rule = '从01-11中任意选择2个或多个号码投注，只要5个开奖号码中包含所选号码，即为中奖。 如：选择07 06，开奖号码为 * 07 * 06 *，即为中奖。';
             _opt.numNameList = ['NONE#任选二'];
+            _opt.type = '11x5';
+            _opt.minSelect = 2;
+            _opt.formula = function(a){
+                var b = a[a.length - 1][a[0]].length;
+                return b >= 2 ? TEMPLATE.factorial(1 * b) / (TEMPLATE.factorial(1 * b - 2) * TEMPLATE.factorial(2)) : 0
+            }
             break;
             case 'Any3_11X5':
             _maxBonus = '28.0000';
             _rule = '从01-11中任意选择3个或多个号码投注，只要5个开奖号码中包含所选号码，即为中奖。 如：选择07 04 11，开奖号码为 * 04 11 07 *，即为中奖。';
             _opt.numNameList = ['NONE#任选三'];
+            _opt.type = '11x5';
+            _opt.minSelect = 3;
+            _opt.formula = function(a){
+                var b = a[a.length - 1][a[0]].length;
+                return b >= 3 ? TEMPLATE.factorial(1 * b) / (TEMPLATE.factorial(1 * b - 3) * TEMPLATE.factorial(3)) : 0
+            }
             break;
             case 'Any4_11X5':
             _maxBonus = '112.0000';
             _rule = '从01-11中任意选择4个或多个号码投注，只要5个开奖号码中包含所选号码，即为中奖。 如：选择05 04 08 03，开奖号码为08 04 * 05 03，即为中奖。';
             _opt.numNameList = ['NONE#任选四'];
+            _opt.type = '11x5';
+            _opt.minSelect = 4;
+            _opt.formula = function(a){
+                var b = a[a.length - 1][a[0]].length;
+                return b >= 4 ? TEMPLATE.factorial(1 * b) / (TEMPLATE.factorial(1 * b - 4) * TEMPLATE.factorial(4)) : 0
+            }
             break;
             case 'Any5_11X5':
             _maxBonus = '784.0000';
             _rule = '从01-11中任意选择5个或多个号码投注，只要5个开奖号码中包含所选号码，即为中奖。 如：选择05 04 11 03 08，开奖号码为08 04 11 05 03，即为中奖。';
             _opt.numNameList = ['NONE#任选五'];
+            _opt.type = '11x5';
+            _opt.minSelect = 5;
+            _opt.formula = function(a){
+                var b = a[a.length - 1][a[0]].length;
+                return b >= 5 ? TEMPLATE.factorial(1 * b) / (TEMPLATE.factorial(1 * b - 5) * TEMPLATE.factorial(5)) : 0
+            }
             break;
             case 'Any6_11X5':
             _maxBonus = '130.6667';
             _rule = '从01-11中任意选择6个或多个号码投注，只要5个开奖号码中包含所选号码，即为中奖。 如：选择05 10 04 11 03 08，开奖号码为08 04 11 05 03，即为中奖。';
             _opt.numNameList = ['NONE#任选六'];
+            _opt.type = '11x5';
+            _opt.minSelect = 6;
+            _opt.formula = function(a){
+                var b = a[a.length - 1][a[0]].length;
+                return b >= 6 ? TEMPLATE.factorial(1 * b) / (TEMPLATE.factorial(1 * b - 6) * TEMPLATE.factorial(6)) : 0
+            }
             break;
             case 'Any7_11X5':
             _maxBonus = '37.3333';
             _rule = '从01-11中任意选择7个或多个号码投注，只要5个开奖号码中包含所选号码，即为中奖。 如：选择05 04 10 11 03 08 09，开奖号码为08 04 11 05 03，即为中奖。';
             _opt.numNameList = ['NONE#任选七'];
+            _opt.type = '11x5';
+            _opt.minSelect = 7;
+            _opt.formula = function(a){
+                var b = a[a.length - 1][a[0]].length;
+                return b >= 7 ? TEMPLATE.factorial(1 * b) / (TEMPLATE.factorial(1 * b - 7) * TEMPLATE.factorial(7)) : 0
+            }
             break;
             case 'Any8_11X5':
             _maxBonus = '14.0000';
             _rule = '从01-11中任意选择8个或多个号码投注，只要5个开奖号码中包含所选号码，即为中奖。 如：选择05 04 11 03 08 10 09 01，开奖号码为08 04 11 05 03，即为中奖。';
             _opt.numNameList = ['NONE#任选八'];
+            _opt.type = '11x5';
+            _opt.minSelect = 8;
+            _opt.formula = function(a){
+                var b = a[a.length - 1][a[0]].length;
+                return b >= 8 ? TEMPLATE.factorial(1 * b) / (TEMPLATE.factorial(1 * b - 8) * TEMPLATE.factorial(8)) : 0
+            }
             break;
             case 'Any2_11X5_Single':
             _maxBonus = '9.3333';
@@ -2310,6 +2397,9 @@ var TEMPLATE = {
             case 'OECounts_11X5':
             _maxBonus = '784.0000';
             _rule = '从6种不同的单双组合中任意选择1个或多个组合投注，只要当期开奖号码的单双个数与所选单双组合一致，即为中奖。 如：选择0单5双，开奖号码02，04，06，08，10五个双数，即中一等奖。如：选择5单0双，开奖号码01，03，05，07，09五个单数，即中二等奖。如：选择1单4双，开奖号码01，02，04，06，08一个单数四个双数，即中三等奖。如：选择4单1双，开奖号码01，03，05，07，08四个单数一个双数，即中四等奖。如：选择2单3双，开奖号码01，03，04，06，08二个单数三个双数，即中五等奖。如：选择3单2双，开奖号码01，03，05，06，08三个单数二个双数，即中六等奖。';
+
+
+
             break;
         }
 
@@ -2339,7 +2429,7 @@ var TEMPLATE = {
             numList: ['03', '04', '05', '06', '07', '08', '09'],
             numNameList: ['NONE#猜中位'],
             quickFast: true,
-            type: 'ball',
+            type: 'czwBall',
             formula: null,
             minSelect: 1,
             ajaxType: ''
@@ -2349,6 +2439,9 @@ var TEMPLATE = {
             case 'rdDigit_11X5':
             _maxBonus = '28.0000';
             _rule = '从03-09中选择1个或多个号码投注，所选号码与当期开奖号码按照大小顺序排列后的第3个号码相同，即为中奖。 如：选择08，开奖号码为11，04，09，05，08，按开奖号码的数字大小排列为04，05，08，09，11，中间数08，即为中奖。中奖且中间数为03或09时，为一等奖；中奖且中间数为04或08时，为二等奖；中奖且中间数为05或07时，为三等奖；中奖且中间数为06时，为四等奖。';
+            _opt.formula = function(a){
+                return a[a.length - 1][a[0]].length
+            }
             break;
         }
 
@@ -2381,6 +2474,7 @@ var TEMPLATE = {
             type: 'ball',
             formula: null,
             minSelect: 1,
+            maxSelect: 11,
             ajaxType: ''
         };
         var _maxBonus = '';
@@ -2389,6 +2483,12 @@ var TEMPLATE = {
             _maxBonus = '1680.0000';
             _rule = '从01-11中选择3个不重复的号码组成一注，所选号码与当期开奖号码中的前三位号码相同，且顺序一致，即为中奖。 如：第一位选择01，第二位选择02，第三位选择03，开奖号码为01，02，03 * *，即为中奖。';
             _opt.numNameList = ['FIRST#第一位', 'SECOND#第二位', 'THIRD#第三位'];
+            _opt.formula = function(a){
+                var b = a[a.length - 1][a[0]],
+                    c = a[a.length - 1][a[1]],
+                    d = a[a.length - 1][a[2]];
+                return TEMPLATE.first3StraightOf11X5(b, c, d)
+            }
             break;
             case 'First3Straight_11X5_Single':
             _maxBonus = '1680.0000';
@@ -2403,6 +2503,11 @@ var TEMPLATE = {
             _maxBonus = '280.0000';
             _rule = '从01-11中选择3个号码投注，所选号码与开奖号码中的前三个号码相同，顺序不限，即为中奖。 如：选择01 02 03，若开奖号码为01 02 03 * *，01 03 02 * *，02 01 03 * *，02 03 01 * *，03 01 02 * *，03 02 01 * *，即为中奖。';
             _opt.numNameList = ['NONE#组选'];
+            _opt.minSelect = 3;
+            _opt.formula = function(a){
+                var b = a[a.length - 1][a[0]].length;
+                return b >= 3 ? TEMPLATE.factorial(1 * b) / (TEMPLATE.factorial(1 * b - 3) * TEMPLATE.factorial(3)) : 0
+            }
             break;
             case 'First3Com_11X5_Single':
             _maxBonus = '280.0000';
@@ -2458,6 +2563,11 @@ var TEMPLATE = {
             _maxBonus = '186.6667';
             _rule = '从01-11中选择2个不重复的号码组成一注，所选号码与当期开奖号码中的前两个号码相同，且顺序一致，即为中奖。 如：第一位选择01，第二位选择02，开奖号码为01 02 * * *，即为中奖。';
             _opt.numNameList = ['FIRST#第一位', 'SECOND#第二位'];
+            _opt.formula = function(a){
+                var b = a[a.length - 1][a[0]],
+                    c = a[a.length - 1][a[1]];
+                return TEMPLATE.first2StraightOf11X5(b, c)
+            }
             break;
             case 'First2Straight_11X5_Single':
             _maxBonus = '186.6667';
@@ -2472,6 +2582,11 @@ var TEMPLATE = {
             _maxBonus = '93.3333';
             _rule = '从01-11中选择2个号码投注，所选号码与开奖号码中的前两个号码相同，顺序不限，即为中奖。 如：选择01 02，开奖号码为02 01 * * * 或 01 02 * * *，即为中奖。';
             _opt.numNameList = ['NONE#组选'];
+            _opt.minSelect = 2;
+            _opt.formula = function(a){
+                var b = a[a.length - 1][a[0]].length;
+                return b >= 2 ? TEMPLATE.factorial(1 * b) / (TEMPLATE.factorial(1 * b - 2) * TEMPLATE.factorial(2)) : 0
+            }
             break;
             case 'First2Com_11X5_Single':
             _maxBonus = '93.3333';
@@ -2519,6 +2634,7 @@ var TEMPLATE = {
             type: 'ball',
             formula: null,
             minSelect: 1,
+            maxSelect: 11,
             ajaxType: ''
         };
         var _maxBonus = '';
@@ -2526,6 +2642,9 @@ var TEMPLATE = {
             case 'First3AnyPlace_11X5':
             _maxBonus = '6.2221';
             _rule = '从01-11中选择1个或多个号码投注，只要开奖号码的前三个号码中包含所选号码，顺序不限，即为中奖。';
+            _opt.formula = function(a){
+                return a[a.length - 1][a[0]].length
+            }
             break;
         }
 
@@ -2558,6 +2677,7 @@ var TEMPLATE = {
             type: 'ball',
             formula: null,
             minSelect: 1,
+            maxSelect: 11,
             ajaxType: ''
         };
         var _maxBonus = '';
@@ -2566,6 +2686,9 @@ var TEMPLATE = {
             _maxBonus = '18.6667';
             _rule = '从第一位、第二位、第三位中选择1个或多个号码投注，所选号码与开奖号码相同，且顺序一致，即为中奖。 如：第一位选择01，开奖号码为01 * * * *，即为中奖。如：第二位选择05，开奖号码为* 05 * * *，即为中奖。如：第三位选择07，开奖号码为* * 07 * *，即为中奖。';
             _opt.numNameList = ['FIRST#第一位', 'SECOND#第二位', 'THIRD#第三位'];
+            _opt.formula = function(a){
+                return a[a.length - 1][a[0]].length + a[a.length - 1][a[1]].length + a[a.length - 1][a[2]].length
+            }
             break;
         }
 

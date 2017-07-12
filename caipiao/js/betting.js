@@ -2,6 +2,7 @@ $(function() {
     var Betting = {
         textArea: [],   //用来存放textarea已选的号码
         singleStakesPrice: 2,   //默认一注的单价
+        playCode: 'SSC',    //彩种
         init: function() {
             // type 彩种类型
             // 1: 时时彩
@@ -12,12 +13,16 @@ $(function() {
 
             if(_type == 1){
                 TEMPLATE.renderSSC.init();
+                // Betting.playCode = '';
             } else if(_type == 2) {
                 TEMPLATE.render11X5.init();
+                Betting.playCode = '11X5';
             } else if(_type == 3) {
                 TEMPLATE.render3D.init();
+                Betting.playCode = '';
             } else if(_type == 4) {
                 TEMPLATE.renderPK10.init();
+                Betting.playCode = 'PK10';
             }
 
             $('select').niceSelect();
@@ -311,6 +316,7 @@ $(function() {
             // 清空选号
             $('#J_bettingBox').on('click', '#J_clearTextarea', function(){
                 $('#J_ballInputArea').val('');
+                Betting.resetBettingBox();
             });
 
             // 任选投注位置选中
@@ -463,10 +469,7 @@ $(function() {
                         var _len = $(this).find('.J_numWrp.active').length;
                         var _min = $(this).data('min');
                         if(_len < _min) {
-                            layer.alert('前玩法最多少选择'+ _min +'个号球!', {
-                                skin: 'bett-alert-dialog',
-                                icon: 2
-                            });
+                            GLOBAL.alert('前玩法最多少选择'+ _min +'个号球!');
                             _flag = false;
                             return false;
                         }
@@ -489,13 +492,10 @@ $(function() {
                         var _len = $(this).find('.J_numWrp.active').length;
                         var _min = $(this).data('min');
                         if(_len < _min) {
-                            layer.alert('前玩法最多少选择'+ _min +'个号球!', {
-                                skin: 'bett-alert-dialog',
-                                icon: 2
-                            });
+                            GLOBAL.alert('前玩法最多少选择'+ _min +'个号球!');
+                            _flag = false;
+                            return false;
                         }
-                        _flag = false;
-                        return false;
                     });
                 }
                 if(!_flag){
@@ -558,209 +558,291 @@ $(function() {
             var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
             var _subNav = $('.J_subMenu.active').data('info').split('#')[1];
 
+
+            var k = {};
+            var _formulaList = [];      //公式列表
+
+            
+
+
             if($('.J_ballList').length){
+                // $('.J_ballList').each(function(i){
+                //     var _this = $(this);
+                //     _formulaList[i] = _this.data('row');
+                //     _currentSelect[_this.data('row')] = _this.find('.J_numWrp.active').text();
+                // });
+                
+                // _formulaList.push(_currentSelect);
+                
+
                 $('.J_ballList').each(function(i){
                     var _this = $(this);
-                    _formulaList[i] = _this.data('row');
-                    _currentSelect[_this.data('row')] = _this.find('.J_numWrp.active').text();
+                    var _row = _this.data('row');
+                    _formulaList[i] = _row;
                 });
-                
-                _formulaList.push(_currentSelect);
+
+                for (var i = 0; i < _formulaList.length; i++) {
+                    if("11X5" == Betting.playCode || "PK10" == Betting.playCode && -1 == Betting.indexOf("BSOE_PK10")) {
+                        k[_formulaList[i]] = [];
+                        $.each($('[data-row="'+ _formulaList[i] +'"]').find('.J_numWrp.active'), function(x, y) {
+                            k[_formulaList[i]].push($(this).text());
+                        });
+                        k[_formulaList[i]] = $('[data-row="'+ _formulaList[i] +'"]').find('.J_numWrp.active').text();
+                    } else {
+                        k[_formulaList[i]] = $('[data-row="'+ _formulaList[i] +'"]').find('.J_numWrp.active').text();
+                    }
+                }
+
+                _formulaList.push(k);
+
             } else {
                 _formulaList = TEMPLATE.allManualEntryEvents(_subNav).bits;
             }
             var a = _formulaList;   //公式列表
-            var _minSelect = 1;  //????这个是什么意思？？最小选择数量？
+
+            // console.log(a);
+
             var _currentRule = TEMPLATE[_mainNav]({
                 type : _subNav
             });
+            var _minSelect =  _currentRule.opt.minSelect || 1;  //????这个是什么意思？？最小选择数量？
 
             var _amount = 0;    //一注的价格
             var _data = [];
-           
+            var _miBall = TEMPLATE.allManualEntryEvents(_subNav).miBall;
+console.log(_subNav);
             if (_currentRule.opt.type == 'text') {
-                var _miBall = TEMPLATE.allManualEntryEvents(_subNav).miBall;
                 // 默认设置为SSC
-                for (var _ddddd = {}, e = 'SSC', f = 0; f < a.length; f++){
+                for (var _ddddd = {}, e = Betting.playCode, f = 0; f < a.length; f++){
                     _ddddd[a[f]] = "11X5" == e || "PK10" == e ? [] : "";
                 }
                 a.push(_ddddd);
 
+                // console.log(a);
+                // console.log(a.length);
+                // console.log(_miBall);
+                // var b = TEMPLATE[_mainNav]({
+                //     type : _subNav
+                // }).opt.minSelect;
 
-                if ("Any2Com_SSC_Single" != _subNav && a.length - 1 > 1 && 1 * _miBall == 0 && _subNav.indexOf("Any") > -1){
-                    for (var j = 0; j < 1 * _times; j++) {
-                        for (var p = Betting.numberRandom(0, 4, 1 * _subNav.charAt(3)), l = new Array(5), k = "", q = 0; q < p.length; q++) l[p[q]] = Betting.numberRandom(0, 9, 1)[0];
-                        for (var r = 0; r < l.length; r++) null == l[r] ? k += "_#" : k += "_" + l[r];
-                        var o = j == 1 * _times - 1;
+                // console.log(b);
 
-                        _data.push(_getTextRoundData(k, 1));
+                if(Betting.playCode == '11X5'){
+                    for (var h = a.length - 1 == 1 ? 1 * _miBall : a.length - 1, i = a.length - 1 == 1 ? "-" : "_", j = 0; j < 1 * _times; j++) {
+                        for (var k = "", l = Betting.numberRandom(1, 11, h), m = 0; m < l.length; m++) k += i + Betting.addZero(l[m] + "", 2);
+                            console.log(k);
+                        var n = 1,
+                            o = j == 1 * _times - 1;
+                        _data.push(_getTextRoundData(k.substring(1), 1));
                     }
-                }
-                if ("Any2Com_SSC_Single" == _subNav) {
-                    for (var s = [], l = Betting.arrRandom(1, 98, 1 * _times, 2, !0), j = 0; j < 1 * _times; j++) {
-                        var p = Betting.numberRandom(1, 5, 2);
-                        p.sort(function(a, b) {
-                            return a - b
-                        }), s.push(p.join(""))
+                } else if (Betting.playCode == 'PK10') {
+                    for (var h = a.length - 1 == 1 ? 1 * _miBall : a.length - 1, i = a.length - 1 == 1 ? "-" : "_", j = 0; j < 1 * _times; j++) {
+                        for (var k = "", l = Betting.numberRandom(1, 10, h), m = 0; m < l.length; m++) k += i + Betting.addZero(l[m] + "", 2);
+                        var n = 1,
+                            o = j == 1 * _times - 1;
+                        // lott.createBetCart(k.substring(1), 1, f, c, n, o)
+                        _data.push(_getTextRoundData(k.substring(1), 1));
                     }
-                    for (var q = 0; q < s.length; q++) {
-                        var k = s[q] + "@" + l[q],
-                            o = q == s.length - 1;
+                } else {
+                    if ("Any2Com_SSC_Single" != _subNav && a.length - 1 > 1 && 1 * _miBall == 0 && _subNav.indexOf("Any") > -1){
+                        for (var j = 0; j < 1 * _times; j++) {
+                            for (var p = Betting.numberRandom(0, 4, 1 * _subNav.charAt(3)), l = new Array(5), k = "", q = 0; q < p.length; q++) l[p[q]] = Betting.numberRandom(0, 9, 1)[0];
+                            for (var r = 0; r < l.length; r++) null == l[r] ? k += "_#" : k += "_" + l[r];
+                            var o = j == 1 * _times - 1;
 
-                        _data.push(_getTextRoundData(k, 1));
+                            _data.push(_getTextRoundData(k, 1));
+                        }
                     }
-                }
-                if ("Any2Com_SSC_Single" != _subNav && a.length - 1 == 1 && 1 * _miBall >= 1){
-                    for (var j = 0; j < 1 * _times; j++) {
-                        var k = "";
-                        k = Betting.numberRandom(0, 9, 1 * _miBall).join("");
-                        var n = 1;
-                        _subNav.indexOf("3Com3") > -1 && (n = 2), _subNav.indexOf("3StraightCom") > -1 && (n = 6), _subNav.indexOf("3ComAnyCode1") > -1 && (n = 55);
-                        var o = j == 1 * _times - 1;
-                        lott.createBetCart(k, 1, f, c, n, o)
-                    }
-                }
-                if ("Any2Com_SSC_Single" != _subNav && a.length - 1 > 1 && 1 * _miBall == 1){
-                    for (var j = 0; j < 1 * _times; j++) {
-                        for (var k = "", q = 0; q < a.length - 1; q++) k += "_" + Betting.numberRandom(0, 9, 1)[0];
-                        var n = 1;
-                        _subNav.indexOf("Join") > -1 && (n = 1 * _subNav.charAt(_subNav.indexOf("Join") - 1)), _subNav.indexOf("3ComAnyCode2") > -1 && (n = 10);
-                        var o = j == 1 * _times - 1;
+                    if ("Any2Com_SSC_Single" == _subNav) {
+                        for (var s = [], l = Betting.arrRandom(1, 98, 1 * _times, 2, !0), j = 0; j < 1 * _times; j++) {
+                            var p = Betting.numberRandom(1, 5, 2);
+                            p.sort(function(a, b) {
+                                return a - b
+                            }), s.push(p.join(""))
+                        }
+                        for (var q = 0; q < s.length; q++) {
+                            var k = s[q] + "@" + l[q],
+                                o = q == s.length - 1;
 
-                        _data.push(_getTextRoundData(k, n));
+                            _data.push(_getTextRoundData(k, 1));
+                        }
+                    }
+                    if ("Any2Com_SSC_Single" != _subNav && a.length - 1 == 1 && 1 * _miBall >= 1){
+                        for (var j = 0; j < 1 * _times; j++) {
+                            var k = "";
+                            k = Betting.numberRandom(0, 9, 1 * _miBall).join("");
+                            var n = 1;
+                            _subNav.indexOf("3Com3") > -1 && (n = 2), _subNav.indexOf("3StraightCom") > -1 && (n = 6), _subNav.indexOf("3ComAnyCode1") > -1 && (n = 55);
+                            var o = j == 1 * _times - 1;
+                            console.log(k, 1, f, c, n, o);
+                            // lott.createBetCart(k, 1, f, c, n, o)
+                        }
+                    }
+                    if ("Any2Com_SSC_Single" != _subNav && a.length - 1 > 1 && 1 * _miBall == 1){
+                        for (var j = 0; j < 1 * _times; j++) {
+                            for (var k = "", q = 0; q < a.length - 1; q++) k += "_" + Betting.numberRandom(0, 9, 1)[0];
+                            var n = 1;
+                            _subNav.indexOf("Join") > -1 && (n = 1 * _subNav.charAt(_subNav.indexOf("Join") - 1)), _subNav.indexOf("3ComAnyCode2") > -1 && (n = 10);
+                            var o = j == 1 * _times - 1;
+
+                            _data.push(_getTextRoundData(k, n));
+                        }
                     }
                 }
             } else if(_currentRule.opt.type == 'ball'){
-                if (_subNav.indexOf("AllCom") > -1 || _subNav.indexOf("L4Com") > -1 || _subNav.indexOf("F4Com") > -1 || 0 == _subNav.indexOf("Any4Com")) {
-
-                    if ("AllCom120" == _subNav || "F4Com24" == _subNav || "L4Com24" == _subNav || "Any4Com24_SSC" == _subNav){
-                        for (var f = 0; f < 1 * _times; f++) {
-                            var g = "";
-                            var b = TEMPLATE[_mainNav]({
-                                type : _subNav
-                            }).opt.minSelect;
+                if(Betting.playCode == '11X5'){
+                    if("FixedPlace_11X5" == _subNav){
+                        // 11选5 定位胆
+                        for (var b = _beishu, c = _times, d = 0; d < 1 * c; d++) {
+                            var e = _subNav.indexOf("5Fixed_PK10") > -1 ? 10 : 11,
+                                f = Betting.addZero(Betting.numberRandom(1, e, 1)[0] + "", 2),
+                                g = "";
+                            g = "First5Fixed_PK10" == _subNav ? Betting.numberRandom(0, 4, 1)[0] + "" : "Last5Fixed_PK10" == _subNav ? Betting.numberRandom(5, 9, 1)[0] + "" : Betting.numberRandom(2, 4, 1)[0] + "";
+                            var h = d == 1 * c - 1;
+                            // console.log(f, 1, b, g, 1, h);
+                            // lott.createBetCart(f, 1, b, g, 1, h)
+                            _data.push(_getTextRoundData(f, 1));
+                        }
+                    } else {
+                        for (var e = _beishu, f = _times, g = a.length - 1 == 1 ? 1 * (_miBall ? _miBall : _minSelect) : a.length - 1, h = a.length - 1 == 1 ? "-" : "_", i = _subNav.indexOf("_PK10") > -1 ? 10 : 11, j = 0; j < 1 * f; j++) {
+                            for (var k = "", l = Betting.numberRandom(1, i, g), m = 0; m < l.length; m++) k += h + Betting.addZero(l[m] + "", 2);
+                            var n = j == 1 * f - 1;
                             
-
-                            g = Betting.numberRandom(0, 9, 1 * b).join("");
-                            var h = 1,
-                                i = f == 1 * _times - 1;
-                            if ("Any4Com24_SSC" == _subNav) {
-                                var j = Betting.numberRandom(1, 5, 4);
-                                j.sort(function(a, b) {
-                                    return a - b
-                                }), g = j.join("") + "@" + g, h *= 1
-                            }
-                            
-                            _data.push(_getTextRoundData(g, h));
+                            // console.log(k)
+                            // console.log(k.substring(1), 1, e, c, 1, n);
+                            _data.push(_getTextRoundData(k.substring(1), 1));
+                            // lott.createBetCart(k.substring(1), 1, e, c, 1, n)
                         }
                     }
-                    if ("AllCom60" == _subNav || "AllCom20" == _subNav || "F4Com12" == _subNav || "L4Com12" == _subNav || "Any4Com12_SSC" == _subNav){
-                        var b = TEMPLATE[_mainNav]({
+                } else if(Betting.playCode == 'SSC'){
+                    if (_subNav.indexOf("AllCom") > -1 || _subNav.indexOf("L4Com") > -1 || _subNav.indexOf("F4Com") > -1 || 0 == _subNav.indexOf("Any4Com")) {
+                        if ("AllCom120" == _subNav || "F4Com24" == _subNav || "L4Com24" == _subNav || "Any4Com24_SSC" == _subNav){
+                            for (var f = 0; f < 1 * _times; f++) {
+                                var g = "";
+                                var b = TEMPLATE[_mainNav]({
+                                    type : _subNav
+                                }).opt.minSelect;
+                                
+
+                                g = Betting.numberRandom(0, 9, 1 * b).join("");
+                                var h = 1,
+                                    i = f == 1 * _times - 1;
+                                if ("Any4Com24_SSC" == _subNav) {
+                                    var j = Betting.numberRandom(1, 5, 4);
+                                    j.sort(function(a, b) {
+                                        return a - b
+                                    }), g = j.join("") + "@" + g, h *= 1
+                                }
+                                
+                                _data.push(_getTextRoundData(g, h));
+                            }
+                        }
+                        if ("AllCom60" == _subNav || "AllCom20" == _subNav || "F4Com12" == _subNav || "L4Com12" == _subNav || "Any4Com12_SSC" == _subNav){
+                            var b = TEMPLATE[_mainNav]({
+                                    type : _subNav
+                                }).opt.teamMinSelect;
+                            for (var f = 0; f < 1 * _times; f++) {
+                                var k = 3;
+                                "AllCom60" == _subNav && (k = 4);
+                                for (var l = Betting.numberRandom(0, k - 1, 1)[0], j = Betting.numberRandom(0, 9, k), g = j[1 * l] + "_", m = 0; m < j.length; m++) m != 1 * l && (g += j[m]);
+                                var h = 1,
+                                    i = f == 1 * _times - 1;
+                                if ("Any4Com12_SSC" == _subNav) {
+                                    var j = Betting.numberRandom(1, 5, 4);
+                                    j.sort(function(a, b) {
+                                        return a - b
+                                    }), g = j.join("") + "@" + g, h *= 1
+                                }
+
+                                _data.push(_getTextRoundData(g, h));
+                            }
+                        }
+                        if ("AllCom30" == _subNav){
+                            for (var f = 0; f < 1 * _times; f++) {
+                                for (var n = Betting.numberRandom(0, 2, 1)[0], j = Betting.numberRandom(0, 9, 3), g = "", m = 0; m < j.length; m++) m != 1 * n && (g += j[m]);
+                                g += "_" + j[1 * n];
+                                var h = 1,
+                                    i = f == 1 * _times - 1;
+
+                                _data.push(_getTextRoundData(g));
+                            }
+                        }
+                        if ("AllCom10" == _subNav || "AllCom5" == _subNav || "F4Com6" == _subNav || "L4Com6" == _subNav || "F4Com4" == _subNav || "L4Com4" == _subNav || "Any4Com6_SSC" == _subNav || "Any4Com4_SSC" == _subNav){
+                            var _teamMinSelect = TEMPLATE[_mainNav]({
                                 type : _subNav
                             }).opt.teamMinSelect;
-                        for (var f = 0; f < 1 * _times; f++) {
-                            var k = 3;
-                            "AllCom60" == _subNav && (k = 4);
-                            for (var l = Betting.numberRandom(0, k - 1, 1)[0], j = Betting.numberRandom(0, 9, k), g = j[1 * l] + "_", m = 0; m < j.length; m++) m != 1 * l && (g += j[m]);
-                            var h = 1,
-                                i = f == 1 * _times - 1;
-                            if ("Any4Com12_SSC" == _subNav) {
-                                var j = Betting.numberRandom(1, 5, 4);
-                                j.sort(function(a, b) {
-                                    return a - b
-                                }), g = j.join("") + "@" + g, h *= 1
+
+                            for (var f = 0; f < 1 * _times; f++) {
+                                var o = "_";
+                                "F4Com6" != _subNav && "L4Com6" != _subNav && "Any4Com6_SSC" != _subNav || (o = "");
+                                var g = Betting.numberRandom(0, 9, 2).join(o),
+                                    h = 1,
+                                    i = f == 1 * _times - 1;
+                                if ("Any4Com6_SSC" == _subNav || "Any4Com4_SSC" == _subNav) {
+                                    var j = Betting.numberRandom(1, 5, 4);
+                                    j.sort(function(a, _teamMinSelect) {
+                                        return a - _teamMinSelect
+                                    }), g = j.join("") + "@" + g, h *= 1
+                                }
+
+                                _data.push(_getTextRoundData(g, h));
                             }
-
-                            _data.push(_getTextRoundData(g, h));
                         }
-                    }
-                    if ("AllCom30" == _subNav){
-                        for (var f = 0; f < 1 * _times; f++) {
-                            for (var n = Betting.numberRandom(0, 2, 1)[0], j = Betting.numberRandom(0, 9, 3), g = "", m = 0; m < j.length; m++) m != 1 * n && (g += j[m]);
-                            g += "_" + j[1 * n];
-                            var h = 1,
-                                i = f == 1 * _times - 1;
+                    } else if("FixedPlace" == _subNav  || "Last1Straight" == _subNav){
+                        for (var e = 0; e < 1 * _times; e++) {
+                            var f = "";
+                            f = Betting.numberRandom(0, 4, 1)[0] + "";
+                            var g = Betting.numberRandom(0, 9, 1)[0] + "",
+                                h = e == 1 * _times - 1;
 
-                            _data.push(_getTextRoundData(g));
+                            if ("FixedPlace" == _subNav) {
+                                _data.push(_getTextRoundData(g, 1, f));
+                            } else {
+                                _data.push(_getTextRoundData(g, 1, 0));
+                            }
                         }
-                    }
-                    if ("AllCom10" == _subNav || "AllCom5" == _subNav || "F4Com6" == _subNav || "L4Com6" == _subNav || "F4Com4" == _subNav || "L4Com4" == _subNav || "Any4Com6_SSC" == _subNav || "Any4Com4_SSC" == _subNav){
-                        var _teamMinSelect = TEMPLATE[_mainNav]({
+                    } else {
+                        _minSelect = TEMPLATE[_mainNav]({
                             type : _subNav
-                        }).opt.teamMinSelect;
+                        }).opt.minSelect;
 
-                        for (var f = 0; f < 1 * _times; f++) {
-                            var o = "_";
-                            "F4Com6" != _subNav && "L4Com6" != _subNav && "Any4Com6_SSC" != _subNav || (o = "");
-                            var g = Betting.numberRandom(0, 9, 2).join(o),
-                                h = 1,
-                                i = f == 1 * _times - 1;
-                            if ("Any4Com6_SSC" == _subNav || "Any4Com4_SSC" == _subNav) {
-                                var j = Betting.numberRandom(1, 5, 4);
-                                j.sort(function(a, _teamMinSelect) {
-                                    return a - _teamMinSelect
-                                }), g = j.join("") + "@" + g, h *= 1
+                        if (a.length - 1 > 1 && 1 * _minSelect == 0 && _subNav.indexOf("Any") > -1){
+                            for (var g = 0; g < 1 * _times; g++) {
+                                for (var h = Betting.numberRandom(0, 4, 1 * _subNav.charAt(3)), i = new Array(5), j = "", k = 0; k < h.length; k++) i[h[k]] = Betting.numberRandom(0, 9, 1)[0];
+                                for (var l = 0; l < i.length; l++) null == i[l] ? j += "_#" : j += "_" + i[l];
+                                var m = g == 1 * _times - 1;
+
+                                _data.push(_getTextRoundData(j, 1));
                             }
-
-                            _data.push(_getTextRoundData(g, h));
                         }
-                    }
-
-                } else if("FixedPlace" == _subNav  || "Last1Straight" == _subNav){
-
-                    for (var e = 0; e < 1 * _times; e++) {
-                        var f = "";
-                        f = Betting.numberRandom(0, 4, 1)[0] + "";
-                        var g = Betting.numberRandom(0, 9, 1)[0] + "",
-                            h = e == 1 * _times - 1;
-
-                        if ("FixedPlace" == _subNav) {
-                            _data.push(_getTextRoundData(g, 1, f));
-                        } else {
-                            _data.push(_getTextRoundData(g, 1, 0));
-                        }
-                    }
-                } else {
-                    _minSelect = TEMPLATE[_mainNav]({
-                        type : _subNav
-                    }).opt.minSelect;
-
-                    if (a.length - 1 > 1 && 1 * _minSelect == 0 && _subNav.indexOf("Any") > -1){
-                        for (var g = 0; g < 1 * _times; g++) {
-                            for (var h = Betting.numberRandom(0, 4, 1 * _subNav.charAt(3)), i = new Array(5), j = "", k = 0; k < h.length; k++) i[h[k]] = Betting.numberRandom(0, 9, 1)[0];
-                            for (var l = 0; l < i.length; l++) null == i[l] ? j += "_#" : j += "_" + i[l];
-                            var m = g == 1 * _times - 1;
-
-                            _data.push(_getTextRoundData(j, 1));
-                        }
-                    }
-                    if (a.length - 1 == 1 && 1 * _minSelect >= 1){
-                        for (var g = 0; g < 1 * _times; g++) {
-                            var j = "";
-                            j = Betting.numberRandom(0, 9, 1 * _minSelect).join("");
-                            var n = 1;
-                            _subNav.indexOf("3Com3") > -1 && (n = 2), _subNav.indexOf("3StraightCom") > -1 && (n = 6), _subNav.indexOf("3ComAnyCode1") > -1 && (n = 55);
-                            var m = g == 1 * _times - 1;
-                            if (0 == _subNav.indexOf("Any3Com") || "Any2Com_SSC" == _subNav) {
-                                var h = Betting.numberRandom(1, 5, 1 * _subNav.charAt(3));
-                                h.sort(function(a, _minSelect) {
-                                    return a - _minSelect
-                                }), j = h.join("") + "@" + j, n *= 1
+                        if (a.length - 1 == 1 && 1 * _minSelect >= 1){
+                            for (var g = 0; g < 1 * _times; g++) {
+                                var j = "";
+                                j = Betting.numberRandom(0, 9, 1 * _minSelect).join("");
+                                var n = 1;
+                                _subNav.indexOf("3Com3") > -1 && (n = 2), _subNav.indexOf("3StraightCom") > -1 && (n = 6), _subNav.indexOf("3ComAnyCode1") > -1 && (n = 55);
+                                var m = g == 1 * _times - 1;
+                                if (0 == _subNav.indexOf("Any3Com") || "Any2Com_SSC" == _subNav) {
+                                    var h = Betting.numberRandom(1, 5, 1 * _subNav.charAt(3));
+                                    h.sort(function(a, _minSelect) {
+                                        return a - _minSelect
+                                    }), j = h.join("") + "@" + j, n *= 1
+                                }
+                                _data.push(_getTextRoundData(j, n));
                             }
-                            _data.push(_getTextRoundData(j, n));
                         }
-                    }
 
-                    if (a.length - 1 > 1 && 1 * _minSelect == 1) {
-                        for (var g = 0; g < 1 * _times; g++) {
-                            for (var j = "", k = 0; k < a.length - 1; k++){
-                                j += "_" + Betting.numberRandom(0, 9, 1)[0];  
+                        if (a.length - 1 > 1 && 1 * _minSelect == 1) {
+                            for (var g = 0; g < 1 * _times; g++) {
+                                for (var j = "", k = 0; k < a.length - 1; k++){
+                                    j += "_" + Betting.numberRandom(0, 9, 1)[0];  
+                                }
+                                var n = 1;
+                                _subNav.indexOf("Join") > -1 && (n = 1 * _subNav.charAt(_subNav.indexOf("Join") - 1)), _subNav.indexOf("3ComAnyCode2") > -1 && (n = 10);
+                                var m = g == 1 * _times - 1;
+
+                                _data.push(_getTextRoundData(j, n));
                             }
-                            var n = 1;
-                            _subNav.indexOf("Join") > -1 && (n = 1 * _subNav.charAt(_subNav.indexOf("Join") - 1)), _subNav.indexOf("3ComAnyCode2") > -1 && (n = 10);
-                            var m = g == 1 * _times - 1;
-
-                            _data.push(_getTextRoundData(j, n));
                         }
                     }
                 }
@@ -849,13 +931,59 @@ $(function() {
                     }
                     _data.push(_getTextRoundData(j, a.stakes));
                 }
+            } else if (_currentRule.opt.type == 'czwBall') {
+                // 11选5猜中位
+                for (var b = _beishu, c = _times, d = Betting.numberRandom(3, 9, 1 * c), e = 0; e < d.length; e++) {
+                    var f = Betting.addZero(d[e] + "", 2),
+                        g = e == d.length - 1;
+                    _data.push(_getTextRoundData(f, 1));
+                }
+            } else {
+                if("11X5" == Betting.playCode && "FixedPlace_11X5" == _subNav) {
+                    console.log(0);
+                    // lott.add11X5BallToCartOfAlone(a)
+                } else {
+                    _minSelect = TEMPLATE[_mainNav]({
+                        type : _subNav
+                    }).opt.minSelect;
+
+                    if("SSC" == Betting.playCode && (_subNav.indexOf("AllCom") > -1 || _subNav.indexOf("L4Com") > -1 || _subNav.indexOf("F4Com") > -1 || 0 == _subNav.indexOf("Any4Com"))) {
+                        console.log(1);
+                        // lott.addBallToCartOf5O4StarCom(a, d, e)
+                    } else {
+                        if("PK10" == Betting.playCode && _subNav.indexOf("BSOE_PK10") > -1) {
+                            console.log(2);
+                            // lott.addBallToCartOfPk10Bose(a)
+                        } else {
+                            if("PK10" == Betting.playCode && _subNav.indexOf("5Fixed_PK10") > -1) {
+                                console.log(3);
+                                // lott.add11X5BallToCartOfAlone(a)   
+                            } else {
+                                if("11X5" == Betting.playCode || "PK10" == g && -1 == _subNav.indexOf("BSOE_PK10") && -1 == _subNav.indexOf("5Fixed_PK10")) {
+                                    for (var e = _beishu, f = _times, g = a.length - 1 == 1 ? 1 * _minSelect : a.length - 1, h = a.length - 1 == 1 ? "-" : "_", i = _subNav.indexOf("_PK10") > -1 ? 10 : 11, j = 0; j < 1 * f; j++) {
+                                        for (var k = "", l = Betting.numberRandom(1, i, g), m = 0; m < l.length; m++) k += h + Betting.addZero(l[m] + "", 2);
+                                        var n = j == 1 * f - 1;
+                                        console.log(k);
+                                        // console.log(k.substring(1), 1, e, '', 1, n);
+                                        // lott.createBetCart(k.substring(1), 1, e, c, 1, n)
+                                        _data.push(_getTextRoundData(k.substring(1), 1));
+                                    }
+                                } else {
+                                    console.log(5);
+                                    // lott.addBallToCart(a, d, e)
+                                }
+                            }
+                        }
+                    }
+                }
+                // _data.push(_getTextRoundData(g, 1));
             }
 
             function _getTextRoundData(j, num, type) {
                 // j : 数值
                 // num : 倍数
                 // type : 位置 01234 = 个十百千万
-
+console.log(j, num, type);
                 var _ddd = {};
                 var _need = '';
 
@@ -887,10 +1015,15 @@ $(function() {
                     if(_currentRule.opt.type == 'taste') {
                         _ddd.w = _transText(j.split('_').join('').split('')[_FIRST.parent('li').index()]);
                     } else {
+                        // console.log(j);
                         if (type == 4) {
                             _ddd.w = j;
                         } else{
-                            _ddd.w = j.split('_').join('').split('')[_FIRST.parent('li').index()];
+                            if(Betting.playCode == '11X5') {
+                                _ddd.w = j.split('_')[_FIRST.parent('li').index()];
+                            } else {
+                                _ddd.w = j.split('_').join('').split('')[_FIRST.parent('li').index()];
+                            }
                         }
                     }
                     if(_ddd.w == '#'){
@@ -912,7 +1045,11 @@ $(function() {
                         if (type == 3) {
                             _ddd.q = j;
                         } else {
-                            _ddd.q = j.split('_').join('').split('')[_SECOND.parent('li').index()];
+                            if(Betting.playCode == '11X5') {
+                                _ddd.q = j.split('_')[_SECOND.parent('li').index()];
+                            } else {
+                                _ddd.q = j.split('_').join('').split('')[_SECOND.parent('li').index()];
+                            }
                         }
                     }
                     if(_ddd.q == '#'){
@@ -931,7 +1068,11 @@ $(function() {
                     if (type == 2) {
                         _ddd.b = j;
                     } else {
-                        _ddd.b = j.split('_').join('').split('')[_THIRD.parent('li').index()];
+                        if(Betting.playCode == '11X5') {
+                            _ddd.b = j.split('_')[_THIRD.parent('li').index()];
+                        } else {
+                            _ddd.b = j.split('_').join('').split('')[_THIRD.parent('li').index()];
+                        }
                     }
 
                     if(_ddd.b == '#'){
@@ -953,7 +1094,11 @@ $(function() {
                         if (type == 1) {
                             _ddd.s = j;
                         } else {
-                            _ddd.s = j.split('_').join('').split('')[_FOURTH.parent('li').index()];
+                            if(Betting.playCode == '11X5') {
+                                _ddd.s = j.split('_')[_FOURTH.parent('li').index()];
+                            } else {
+                                _ddd.s = j.split('_').join('').split('')[_FOURTH.parent('li').index()];
+                            }
                         }
                     }
                     if(_ddd.s == '#'){
@@ -975,7 +1120,11 @@ $(function() {
                         if (type == 0) {
                             _ddd.g = j;
                         } else {
-                            _ddd.g = j.split('_').join('').split('')[_FIFTH.parent('li').index()];
+                            if(Betting.playCode == '11X5') {
+                                _ddd.g = j.split('_')[_FIFTH.parent('li').index()];
+                            } else {
+                                _ddd.g = j.split('_').join('').split('')[_FIFTH.parent('li').index()];
+                            }
                         }
                     }
                     if(_ddd.g == '#'){
@@ -1009,9 +1158,17 @@ $(function() {
                     _ddd.hex = _hex;
                 }
 
-
                 if($('#J_ballInputArea').length || $('[data-row="NONE"]').length) {
-                    _ddd.n = j.split('_').join('').replace(/\#/g,'').split('').sort().join('');
+                    if(Betting.playCode == '11X5'){
+                        console.log(j);
+                        if($('#J_ballInputArea').length){
+                            _ddd.n = j.split('_').join(' | ');
+                        } else {
+                            _ddd.n = j;
+                        }
+                    } else {
+                        _ddd.n = j.split('_').join('').replace(/\#/g,'').split('').sort().join('');
+                    }
                     // _ddd.n = j.split('_').join('');
                     _need += 'n';
                 }
@@ -1060,7 +1217,7 @@ $(function() {
             Betting.renderCart(_data);
         },
         renderCart: function(data) {
-            // console.log(data);
+            console.log(data);
             // 渲染购物车
             var _str = '';
             var _len = data.length;
@@ -1343,18 +1500,44 @@ $(function() {
                 type : _subNav
             });
 
+            var k = {};
             var _type = _currentRule.opt.type; //选择模式 ball:选号   text:文本域
             var _formulaList = [];      //公式列表
-            var _currentSelect = [];    //当前已选号码的集合
-
+            // var _currentSelect = [];    //当前已选号码的集合
 
             $('.J_ballList').each(function(i){
                 var _this = $(this);
-                _formulaList[i] = _this.data('row');
-                _currentSelect[_this.data('row')] = _this.find('.J_numWrp.active').text();
+                var _row = _this.data('row');
+                _formulaList[i] = _row;
+                // _currentSelect[_row] = _this.find('.J_numWrp.active').text();
+                // 1474
             });
+
+            for (var i = 0; i < _formulaList.length; i++) {
+                if("11X5" == Betting.playCode || "PK10" == Betting.playCode && -1 == Betting.indexOf("BSOE_PK10")) {
+                    k[_formulaList[i]] = [];
+                    $.each($('[data-row="'+ _formulaList[i] +'"]').find('.J_numWrp.active'), function(x, y) {
+                        k[_formulaList[i]].push($(this).text());
+                    });
+                    // _currentSelect[_row][i] = _this.find('.J_numWrp.active').text();
+                } else {
+                    k[_formulaList[i]] = $('[data-row="'+ _formulaList[i] +'"]').find('.J_numWrp.active').text();
+                    // _currentSelect[_row] = ;
+                    // k[_row] = ""
+                }
+            }
+
+
+            // console.log(k);
+            // console.log(_currentSelect);
+            // console.log(_formulaList);
             
-            _formulaList.push(_currentSelect);
+            _formulaList.push(k);
+            // _formulaList.push(_currentSelect);
+
+            console.log(_formulaList);
+
+            // return;
 
             var _selectNum = _currentRule.opt.formula(_formulaList, options);   //通过相应公式计算注数
 
@@ -1395,33 +1578,105 @@ $(function() {
             _d.num = $('#J_selectionBallStakes').text();    //投注注数
             _d.ajaxType = _opt.ajaxType;
 
-            if (_opt.type == 'ball' || _opt.type == 'taste' || _rule.opt.type == 'sum' || _rule.opt.type == 'mixingAny') {
+            if (_opt.type == 'ball' || _opt.type == 'taste' || _opt.type == 'sum' || _opt.type == 'mixingAny' || _opt.type == '11x5' || _opt.type == 'czwBall') {
+                console.log(1);
                 var _n = '';
                 var _need = '';
                 $.each(_opt.numNameList, function(i, n) {
                     if (n.split('#')[0] == 'FIRST') { //万
-                        _d.w = $('[data-row="FIRST"] .J_numWrp.active').text();
+                        // _d.w = $('[data-row="FIRST"] .J_numWrp.active').text();
+                        if(Betting.playCode == '11X5'){
+                            var x = '';
+                            $.each($('[data-row="FIRST"] .J_numWrp.active'), function(){
+                                x += '-' + $(this).text();
+                            });
+                            _d.w = x.substr(1);
+                        } else {
+                            _d.w = $('[data-row="FIRST"] .J_numWrp.active').text();
+                        }
                         _need += 'w#';
                     } else if(n.split('#')[0] == 'SECOND') {  //千
-                        _d.q = $('[data-row="SECOND"] .J_numWrp.active').text();
+                        // _d.q = $('[data-row="SECOND"] .J_numWrp.active').text();
+                        if(Betting.playCode == '11X5'){
+                            var x = '';
+                            $.each($('[data-row="SECOND"] .J_numWrp.active'), function(){
+                                x += '-' + $(this).text();
+                            });
+                            _d.q = x.substr(1);
+                        } else {
+                            _d.q = $('[data-row="SECOND"] .J_numWrp.active').text();
+                        }
                         _need += 'q#';
                     } else if(n.split('#')[0] == 'THIRD') {   //百
-                        _d.b = $('[data-row="THIRD"] .J_numWrp.active').text();
+                        // _d.b = $('[data-row="THIRD"] .J_numWrp.active').text();
+                        if(Betting.playCode == '11X5'){
+                            var x = '';
+                            $.each($('[data-row="THIRD"] .J_numWrp.active'), function(){
+                                x += '-' + $(this).text();
+                            });
+                            _d.b = x.substr(1);
+                        } else {
+                            _d.b = $('[data-row="THIRD"] .J_numWrp.active').text();
+                        }
                         _need += 'b#';
                     } else if(n.split('#')[0] == 'FOURTH') {  //十
-                        _d.s = $('[data-row="FOURTH"] .J_numWrp.active').text();
+                        // _d.s = $('[data-row="FOURTH"] .J_numWrp.active').text();
+                        if(Betting.playCode == '11X5'){
+                            var x = '';
+                            $.each($('[data-row="FOURTH"] .J_numWrp.active'), function(){
+                                x += '-' + $(this).text();
+                            });
+                            _d.s = x.substr(1);
+                        } else {
+                            _d.s = $('[data-row="FOURTH"] .J_numWrp.active').text();
+                        }
                         _need += 's#';
                     } else if(n.split('#')[0] == 'FIFTH') {   //个
-                        _d.g = $('[data-row="FIFTH"] .J_numWrp.active').text();
+                        // _d.g = $('[data-row="FIFTH"] .J_numWrp.active').text();
+                        if(Betting.playCode == '11X5'){
+                            var x = '';
+                            $.each($('[data-row="FIFTH"] .J_numWrp.active'), function(){
+                                x += '-' + $(this).text();
+                            });
+                            _d.g = x.substr(1);
+                        } else {
+                            _d.g = $('[data-row="FIFTH"] .J_numWrp.active').text();
+                        }
                         _need += 'g';
                     } else if(n.split('#')[0] == 'NONE') {   //组选就一个值
-                        _d.n = $('[data-row="NONE"] .J_numWrp.active').text();
+                        if(Betting.playCode == '11X5'){
+                            var x = '';
+                            $.each($('[data-row="NONE"] .J_numWrp.active'), function(){
+                                x += '-' + $(this).text();
+                            });
+                            _d.n = x.substr(1);
+                        } else {
+                            _d.n = $('[data-row="NONE"] .J_numWrp.active').text();
+                        }
                         _need += 'n';
                     } else if(n.split('#')[0] == 'NONE1') {   //组选就一个值
-                        _d.n1 = $('[data-row="NONE1"] .J_numWrp.active').text();
+                        // _d.n1 = $('[data-row="NONE1"] .J_numWrp.active').text();
+                        if(Betting.playCode == '11X5'){
+                            var x = '';
+                            $.each($('[data-row="NONE1"] .J_numWrp.active'), function(){
+                                x += '-' + $(this).text();
+                            });
+                            _d.n1 = x.substr(1);
+                        } else {
+                            _d.n1 = $('[data-row="NONE1"] .J_numWrp.active').text();
+                        }
                         _need += 'n1#';
                     } else if(n.split('#')[0] == 'NONE2') {   //组选就一个值
-                        _d.n2 = $('[data-row="NONE2"] .J_numWrp.active').text();
+                        // _d.n2 = $('[data-row="NONE2"] .J_numWrp.active').text();
+                        if(Betting.playCode == '11X5'){
+                            var x = '';
+                            $.each($('[data-row="NONE2"] .J_numWrp.active'), function(){
+                                x += '-' + $(this).text();
+                            });
+                            _d.n2 = x.substr(1);
+                        } else {
+                            _d.n2 = $('[data-row="NONE2"] .J_numWrp.active').text();
+                        }
                         _need += 'n2';
                     } else if(n.split('#')[0] == 'SUM') {   //和值
                         var _sum = '';
@@ -1454,11 +1709,24 @@ $(function() {
                 } else {
                     _ball = Betting.textArea[0].ball;
                 }
+                console.log(_ball);
 
-                var _ballList = _ball.split(',');
+                var _ballList = [];
+
+                if(Betting.playCode == '11X5'){
+                    _ballList = _ball.split('_');
+                } else {
+                    _ballList = _ball.split(',');
+                }
+
                 var _nums = '';
                 $.each(_ballList, function(i, n){
-                    _nums += n.split('_').join('');
+                    if(Betting.playCode == '11X5'){
+                        _nums += n;
+                        // _nums += n.split('_');
+                    } else {
+                        _nums += n.split('_').join('');
+                    }
                     if (_ballList.length > 1 && i < _ballList.length - 1) {
                         _nums += ' | ';
                     }
@@ -1486,6 +1754,7 @@ $(function() {
             }
 
             _data.push(_d);
+            // console.log(_data);
 
             return _data;
         },
@@ -1515,6 +1784,26 @@ $(function() {
             Betting.renderSelectArea();
         },
         quicklySelect: function(elm, need, not) {
+            var _subNav = $('.J_subMenu.active').data('info').split('#')[1];
+            if(Betting.playCode == '11X5' || Betting.playCode == 'PK10' && -1 == _subNav.indexOf("BSOE_PK10")) {
+                if(need == ':odd' && not == ':even'){
+                    not = ':odd';
+                    need = ':even';
+                } else if(need == ':even' && not == ':odd'){
+                    need = ':odd';
+                    not = ':even';
+                }
+
+                if(_subNav == 'rdDigit_11X5'){
+                    if(need == ':gt(4)'){
+                        need = ':gt(2)';
+                    } else if(need == ':lt(5)'){
+                        need = ':lt(3)';
+                        not = ':gt(2)';
+                    }
+                }
+            }
+
             var list = $(elm).parent().prev().find('.J_numWrp');
             if (need && not) {
                 list.filter(not).removeClass('active');
@@ -1616,7 +1905,9 @@ $(function() {
                 a = false;
             }
 
-            if ("Any2_Single" == _subNav || "Any3_Single" == _subNav || "Any4_Single" == _subNav || "Any3Com_SSC" == _subNav || "Any2Com_SSC_Single" == _subNav) {
+            if ("11X5" == Betting.playCode || "PK10" == Betting.playCode) {
+                Betting.calculateESFManualEntryStakes(b, Betting.playCode);
+            } else if ("Any2_Single" == _subNav || "Any3_Single" == _subNav || "Any4_Single" == _subNav || "Any3Com_SSC" == _subNav || "Any2Com_SSC_Single" == _subNav) {
                 var d = $('#J_nowChoseNum').text();
 
                 if (b.len > 1 * d){
@@ -1787,6 +2078,50 @@ $(function() {
         assemblyAnyBetBall: function(a, b) {
             for (var c = ["#", "#", "#", "#", "#"], d = 0; d < a.length; d++) c[b[d] - 1] = a.charAt(d);
             return c.join("_")
+        },
+        ESFManualEntryDisassemble: function(a, b) {
+            if (/[A-Za-z\u4E00-\u9FFF]/.test(a)){
+                $('#J_ballInputArea').blur();
+                return  0;
+            }
+            var c;
+            return c = "11X5" == b ? a.replace(/[^\d\r\n\f,;]+/g, "") : a.replace(/[^\d\r\n\f\s,;]+/g, ""), c = c.replace(/[^\d\d]+/g, "@"), ("@" == c.substring(c.length - 1) ? c.substring(0, c.length - 1) : c).split("@")
+        },
+        esfEntryRegular: function(a, b) {
+            for (var c = /^0[1-9]|1[01]*$/, d = 0; d < a.length; d++) {
+                if (!c.test(a[d])) return !1;
+                for (var e = 0; e < b.length; e++)
+                    if (d != e && a[d] == b[e]) return !1
+            }
+            return !0
+        },
+        calculateESFManualEntryStakes: function(a, b) {
+            console.log('calculateESFManualEntryStakes');
+            Betting.textArea = [];
+            var _subNav = $('.J_subMenu.active').data('info').split('#')[1];
+            var c = $("#J_ballInputArea").val(),
+                d = Betting.ESFManualEntryDisassemble(c, b);
+            if (0 != d.length) {
+                for (var e = 0, f = [], g = 0; g < d.length; g++) {
+                    var h = "",
+                        i = "",
+                        j = "";
+                    /^[0-9]*$/.test(d[g]) && d[g].length == 1 * a.len && (4 == d[g].length && ("First2Straight_11X5_Single" == _subNav || "First2_PK10_Single" == _subNav ? (j = d[g].replace(/(?=(\d{2})+(\D|$))/g, "$2_").substring(1), h = j.split("_"), i = j.split("_")) : (j = d[g].replace(/(?=(\d{2})+(\D|$))/g, "$2-").substring(1), h = j.split("-"), i = j.split("-"))), 6 == d[g].length && ("First3Straight_11X5_Single" == _subNav || "First3_PK10_Single" == _subNav ? (j = d[g].replace(/(?=(\d{2})+(\D|$))/g, "$2_").substring(1), h = j.split("_"), i = j.split("_")) : (j = d[g].replace(/(?=(\d{2})+(\D|$))/g, "$2-").substring(1), h = j.split("-"), i = j.split("-"))), 8 != d[g].length && 10 != d[g].length && 12 != d[g].length && 14 != d[g].length && 16 != d[g].length || ("First4_PK10_Single" == _subNav || "First5_PK10_Single" == _subNav ? (j = d[g].replace(/(?=(\d{2})+(\D|$))/g, "$2_").substring(1), h = j.split("_"), i = j.split("_")) : (j = d[g].replace(/(?=(\d{2})+(\D|$))/g, "$2-").substring(1), h = j.split("-"), i = j.split("-"))), Betting.esfEntryRegular(h, i) && (f.push(j), e += 1 * a.stakes))
+                }
+                if (f.length > 0) {
+                    var k = {
+                        ball: f.join(","),
+                        stakes: e,
+                        type: 2,
+                        digit: a.digit
+                    };
+                    "PK10" == b && (k.type = 1), Betting.textArea.push(k)
+                }
+                // console.log(e);
+                // console.log(Betting.textArea);
+                // lott.calculateAmount(e)
+                Betting.calculateAmount(e);
+            }
         },
         calculateSSCAnyManualEntryStakes: function(a) {
             // 时时彩任选的时候文本域事件
