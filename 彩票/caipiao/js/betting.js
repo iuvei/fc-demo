@@ -121,108 +121,129 @@ $(function() {
             var options = _data.opt;
             var _str = '';
 
-            // 复选框
-            if (options.haveCheckbox) {
-                // options.defaultCheck //默认选中个数
-                _str += '<div class="clearfix bet-checkbox">';
-                _str += '<div class="fl">';
-                _str += '<i class="J_CheckBox" data-id="1">万位</i><i class="J_CheckBox" data-id="2">千位</i><i class="J_CheckBox" data-id="3">百位</i><i class="J_CheckBox" data-id="4">十位</i><i class="J_CheckBox" data-id="5">个位</i>';
-                _str += '</div><p class="fl">提示：至少选<span id="J_minChoseNum">'+ options.defaultCheck +'</span>个位置,您已选了<span id="J_nowChoseNum">'+ options.defaultCheck +'</span>个位置，系统将自动生成<span id="J_planNum">1</span>个方案。</p>';
-                _str += '</div>';
-            }
-
-            //号码
-            if (options.numNameList.length) {
-                _str += '<ul class="bet-row">';
-                $.each(options.numNameList, function(i, v) {
-                    var _tt = '';
-                    if(v.split('#').length > 1) {
-                        _tt = v.split('#')[1];
-                    } else {
-                        _tt = v;
-                    }
-                    switch (v) {
-                        case 'FIFTH':
-                            _tt = '个位'
-                            break;
-                        case 'FOURTH':
-                            _tt = '十位'
-                            break;
-                        case 'THIRD':
-                            _tt = '百位'
-                            break;
-                        case 'SECOND':
-                            _tt = '千位'
-                            break;
-                        case 'FIRST':
-                            _tt = '万位'
-                            break;
-                        default:
-                        break
-                    }
-                    _str += '<li>';
-                    _str += '<div class="icon fl row-tt">' + _tt + '</div>';
-                    if (options.numList.length) {
-                        _str += _getNumList(options.numList, options.multipleChoice, v.split('#')[0], options.maxSelect, options.minSelect);
-                    }
-                    if (options.quickFast) {
-                        _str += '<ul class="row-text fr">';
-                        if (!options.noAllFastBtn) {
-                            _str += '<li class="J_all">全</li>';
-                        }
-                        _str += '<li class="J_big">大</li>';
-                        _str += '<li class="J_small">小</li>';
-                        _str += '<li class="J_ji">奇</li>';
-                        _str += '<li class="J_ou">偶</li>';
-                        _str += '<li class="J_clear">清</li>';
-                        _str += '</ul>';
-                    }
-                    _str += '</li>';
-                });
-
+console.log(_subNav);
+            if (_subNav == 'OECounts_11X5') {
+                // 定单双
+                _str += '<ul class="clearfix single-double J_ballList J_multipleChoice" data-row="NONE" data-max="6" data-min="1">';
+                _str += '<li class="J_numWrp">0单5双</li>';
+                _str += '<li class="J_numWrp">1单4双</li>';
+                _str += '<li class="J_numWrp">2单3双</li>';
+                _str += '<li class="J_numWrp">3单2双</li>';
+                _str += '<li class="J_numWrp">4单1双</li>';
+                _str += '<li class="J_numWrp last">5单0双</li>';
                 _str += '</ul>';
+            } else if (_subNav.indexOf('Dragon_Tiger') > -1) {
+                _str += '<div class="clearfix">';
+                _str += '<div class="icon fl row-tt" style="font-size: 15px;margin-top: 65px;">龙VS虎</div>';
+                _str += '<ul class="dragon-tiger J_ballList" data-row="NONE" data-max="1" data-min="1">';
+                _str += '<li class="J_numWrp no1" data-v="龙"></li>';
+                _str += '<li class="J_numWrp no2" data-v="虎"></li>';
+                _str += '</ul>';
+                _str += '</div>';
+            } else {
+                // 复选框
+                if (options.haveCheckbox) {
+                    // options.defaultCheck //默认选中个数
+                    _str += '<div class="clearfix bet-checkbox">';
+                    _str += '<div class="fl">';
+                    _str += '<i class="J_CheckBox" data-id="1">万位</i><i class="J_CheckBox" data-id="2">千位</i><i class="J_CheckBox" data-id="3">百位</i><i class="J_CheckBox" data-id="4">十位</i><i class="J_CheckBox" data-id="5">个位</i>';
+                    _str += '</div><p class="fl">提示：至少选<span id="J_minChoseNum">'+ options.defaultCheck +'</span>个位置,您已选了<span id="J_nowChoseNum">'+ options.defaultCheck +'</span>个位置，系统将自动生成<span id="J_planNum">1</span>个方案。</p>';
+                    _str += '</div>';
+                }
 
-                function _getNumList(numList, multipleChoice, rowName, maxSelect, minSelect) {
-                    var _numlist = '';
-                    if (numList.length > 12) {
-                        var _ulDom = '';
-                        for (var i = 0, _le = numList.length; i < _le; i += 12) {
-                            _ulDom = '<ul data-start="'+ i +'" data-min="' + (minSelect ? minSelect : 1) + '" data-max="' + (maxSelect ? maxSelect : 12) + '" data-row="' + rowName + '" class="'+ (i ? 'row-many' : '') +' row-num fl J_ballList ' + ((multipleChoice == undefined || multipleChoice) ? 'J_multipleChoice' : '') + '">';
-                            var _lenxx = numList.slice(i, i + 12).length - 1;
-                            $.each(numList.slice(i, i + 12), function(a, b) {
-                                if (a == _lenxx) {
-                                    _ulDom += '<li class="J_numWrp last">' + b + '</li>';
+                //号码
+                if (options.numNameList.length) {
+                    _str += '<ul class="bet-row">';
+                    $.each(options.numNameList, function(i, v) {
+                        var _tt = '';
+                        if(v.split('#').length > 1) {
+                            _tt = v.split('#')[1];
+                        } else {
+                            _tt = v;
+                        }
+                        switch (v) {
+                            case 'FIFTH':
+                                _tt = '个位'
+                                break;
+                            case 'FOURTH':
+                                _tt = '十位'
+                                break;
+                            case 'THIRD':
+                                _tt = '百位'
+                                break;
+                            case 'SECOND':
+                                _tt = '千位'
+                                break;
+                            case 'FIRST':
+                                _tt = '万位'
+                                break;
+                            default:
+                            break
+                        }
+                        _str += '<li>';
+                        _str += '<div class="icon fl row-tt">' + _tt + '</div>';
+                        if (options.numList.length) {
+                            _str += _getNumList(options.numList, options.multipleChoice, v.split('#')[0], options.maxSelect, options.minSelect);
+                        }
+                        if (options.quickFast) {
+                            _str += '<ul class="row-text fr">';
+                            if (!options.noAllFastBtn) {
+                                _str += '<li class="J_all">全</li>';
+                            }
+                            _str += '<li class="J_big">大</li>';
+                            _str += '<li class="J_small">小</li>';
+                            _str += '<li class="J_ji">奇</li>';
+                            _str += '<li class="J_ou">偶</li>';
+                            _str += '<li class="J_clear">清</li>';
+                            _str += '</ul>';
+                        }
+                        _str += '</li>';
+                    });
+                    _str += '</ul>';
+
+                    function _getNumList(numList, multipleChoice, rowName, maxSelect, minSelect) {
+                        var _numlist = '';
+                        if (numList.length > 12) {
+                            var _ulDom = '';
+                            for (var i = 0, _le = numList.length; i < _le; i += 12) {
+                                _ulDom = '<ul data-start="'+ i +'" data-min="' + (minSelect ? minSelect : 1) + '" data-max="' + (maxSelect ? maxSelect : 12) + '" data-row="' + rowName + '" class="'+ (i ? 'row-many' : '') +' row-num fl J_ballList ' + ((multipleChoice == undefined || multipleChoice) ? 'J_multipleChoice' : '') + '">';
+                                var _lenxx = numList.slice(i, i + 12).length - 1;
+                                $.each(numList.slice(i, i + 12), function(a, b) {
+                                    if (a == _lenxx) {
+                                        _ulDom += '<li class="J_numWrp last">' + b + '</li>';
+                                    } else {
+                                        _ulDom += '<li class="J_numWrp">' + b + '</li>';
+                                    }
+                                });
+                                _ulDom += '</ul>';
+                                _numlist += _ulDom;
+                            }
+                        } else {
+                            _numlist = '<ul data-start="0" data-min="' + (minSelect ? minSelect : 1) + '" data-max="' + (maxSelect ? maxSelect : 10) + '" data-row="' + rowName + '" class="row-num fl J_ballList ' + ((multipleChoice == undefined || multipleChoice) ? 'J_multipleChoice' : '') + '">';
+                            var _len = numList.length - 1;
+                            $.each(numList, function(a, b) {
+                                if (a == _len) {
+                                    _numlist += '<li class="J_numWrp last">' + b + '</li>';
                                 } else {
-                                    _ulDom += '<li class="J_numWrp">' + b + '</li>';
+                                    _numlist += '<li class="J_numWrp">' + b + '</li>';
                                 }
                             });
-                            _ulDom += '</ul>';
-                            _numlist += _ulDom;
+                            _numlist += '</ul>';
                         }
-                    } else {
-                        _numlist = '<ul data-start="0" data-min="' + (minSelect ? minSelect : 1) + '" data-max="' + (maxSelect ? maxSelect : 10) + '" data-row="' + rowName + '" class="row-num fl J_ballList ' + ((multipleChoice == undefined || multipleChoice) ? 'J_multipleChoice' : '') + '">';
-                        var _len = numList.length - 1;
-                        $.each(numList, function(a, b) {
-                            if (a == _len) {
-                                _numlist += '<li class="J_numWrp last">' + b + '</li>';
-                            } else {
-                                _numlist += '<li class="J_numWrp">' + b + '</li>';
-                            }
-                        });
-                        _numlist += '</ul>';
+                        return _numlist;
                     }
-                    return _numlist;
+                }
+
+                // 文本域
+                if (options.haveTextarea) {
+                    _str += '<div class="clearfix rel">';
+                    if (GLOBAL.lessThenIE9()) {
+                        _str += '<div id="J_forIe89" class="forIe89">'+ options.placeholder +'</div>';
+                    }
+                    _str += '<textarea cols="40" rows="6" id="J_ballInputArea" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" placeholder="' + options.placeholder + '"></textarea><div class="fl rel bet-btns bet-upload"><div><input id="J_uploadFile" type="file" accept="text/plain" name="file"></div><span class="bet-btn rel" id="">选择文件</span><span class="bet-btn" id="J_clearTextarea">清空选号</span></div></div>';
                 }
             }
 
-            // 文本域
-            if (options.haveTextarea) {
-                _str += '<div class="clearfix rel">';
-                if (GLOBAL.lessThenIE9()) {
-                    _str += '<div id="J_forIe89" class="forIe89">'+ options.placeholder +'</div>';
-                }
-                _str += '<textarea cols="40" rows="6" id="J_ballInputArea" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" placeholder="' + options.placeholder + '"></textarea><div class="fl rel bet-btns bet-upload"><div><input id="J_uploadFile" type="file" accept="text/plain" name="file"></div><span class="bet-btn rel" id="">选择文件</span><span class="bet-btn" id="J_clearTextarea">清空选号</span></div></div>';
-            }
 
             $('#J_selectArea').html(_str);
 
@@ -290,11 +311,11 @@ $(function() {
             // Betting.calculateAmount();
         },
         bettingEvent: function() {
-            var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
-            var _subNav = $('.J_subMenu.active').data('info').split('#')[1];
-            var _currentRule = TEMPLATE[_mainNav]({
-                type : _subNav
-            });
+            // var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
+            // var _subNav = $('.J_subMenu.active').data('info').split('#')[1];
+            // var _currentRule = TEMPLATE[_mainNav]({
+            //     type : _subNav
+            // });
             // 我要追号
             $('#J_chaseNumber').click(function(){
                 if($(this).hasClass('disabled')){
@@ -459,17 +480,21 @@ $(function() {
 
             // 添加选号
             $('#J_addBallToCart').on('click', function(){
+                var _subNav = $('.J_subMenu.active').data('info').split('#')[1];
                 if ($(this).hasClass('disabled')) {
                     return;
                 }
 
                 var _flag = true;
-                if($('.J_ballList').length && !$('[data-row="SUM"]').length){
+                // console.log(_subNav);
+                // console.log(_subNav.indexOf("Any") != 0)
+
+                if($('.J_ballList').length && !$('[data-row="SUM"]').length && (_subNav != 'FixedPlace_11X5' && _subNav.indexOf("Any") != 0)){
                     $.each($('.J_ballList'), function() {
                         var _len = $(this).find('.J_numWrp.active').length;
                         var _min = $(this).data('min');
                         if(_len < _min) {
-                            GLOBAL.alert('前玩法最多少选择'+ _min +'个号球!');
+                            GLOBAL.alert('当前玩法最多少选择'+ _min +'个号球!');
                             _flag = false;
                             return false;
                         }
@@ -483,16 +508,18 @@ $(function() {
 
             // 一键投注
             $('#J_shortcutPlaceOrder').on('click', function(){
+                var _subNav = $('.J_subMenu.active').data('info').split('#')[1];
                 if ($(this).hasClass('disabled')) {
                     return;
                 }
                 var _flag = true;
-                if($('.J_ballList').length && !$('[data-row="SUM"]').length){
+                // if($('.J_ballList').length && !$('[data-row="SUM"]').length){
+                if($('.J_ballList').length && !$('[data-row="SUM"]').length && (_subNav != 'FixedPlace_11X5' && _subNav.indexOf("Any") != 0)){
                     $.each($('.J_ballList'), function() {
                         var _len = $(this).find('.J_numWrp.active').length;
                         var _min = $(this).data('min');
                         if(_len < _min) {
-                            GLOBAL.alert('前玩法最多少选择'+ _min +'个号球!');
+                            GLOBAL.alert('当前玩法最多少选择'+ _min +'个号球!');
                             _flag = false;
                             return false;
                         }
@@ -582,7 +609,7 @@ $(function() {
                 });
 
                 for (var i = 0; i < _formulaList.length; i++) {
-                    if("11X5" == Betting.playCode || "PK10" == Betting.playCode && -1 == Betting.indexOf("BSOE_PK10")) {
+                    if("11X5" == Betting.playCode || "PK10" == Betting.playCode && -1 == _subNav.indexOf("BSOE_PK10")) {
                         k[_formulaList[i]] = [];
                         $.each($('[data-row="'+ _formulaList[i] +'"]').find('.J_numWrp.active'), function(x, y) {
                             k[_formulaList[i]].push($(this).text());
@@ -610,7 +637,7 @@ $(function() {
             var _amount = 0;    //一注的价格
             var _data = [];
             var _miBall = TEMPLATE.allManualEntryEvents(_subNav).miBall;
-console.log(_subNav);
+// console.log(_subNav);
             if (_currentRule.opt.type == 'text') {
                 // 默认设置为SSC
                 for (var _ddddd = {}, e = Betting.playCode, f = 0; f < a.length; f++){
@@ -690,8 +717,24 @@ console.log(_subNav);
                     }
                 }
             } else if(_currentRule.opt.type == 'ball'){
-                if(Betting.playCode == '11X5'){
-                    if("FixedPlace_11X5" == _subNav){
+                if (Betting.playCode == '11X5') {
+                    if("OECounts_11X5" == _subNav){
+                        // 11选5 定单双
+                        var b = _beishu,
+                            c = _times,
+                            d = [5, 14, 23, 32, 41, 50];
+                        d.sort(function() {
+                            return .5 - Math.random()
+                        });
+                        console.log(d);
+                        for (var e = 0; e < 1 * c; e++) {
+                            var f = Betting.addZero(d[e] + "", 2),
+                                g = e == 1 * c - 1;
+                            // console.log(f, 1, b, "", 1, g);
+                            _data.push(_getTextRoundData(f, 1));
+                            // lott.createBetCart(f, 1, b, "", 1, g)
+                        }
+                    } else if("FixedPlace_11X5" == _subNav){
                         // 11选5 定位胆
                         for (var b = _beishu, c = _times, d = 0; d < 1 * c; d++) {
                             var e = _subNav.indexOf("5Fixed_PK10") > -1 ? 10 : 11,
@@ -938,6 +981,16 @@ console.log(_subNav);
                         g = e == d.length - 1;
                     _data.push(_getTextRoundData(f, 1));
                 }
+            } else if (_currentRule.opt.type == 'dragonTiger') {
+                // PK10 龙虎斗
+                for (var b = _beishu, c = _times, d = 0; d < 1 * c; d++) {
+                    var e = Betting.numberRandom(0, 9, 1)[0],
+                        f = 1 * e < 5 ? '0' : '1',
+                        g = d == 1 * c - 1;
+                    // console.log(f, 1, b, "", 1, g);
+                    _data.push(_getTextRoundData(f, 1));
+                    // lott.createBetCart(f, 1, b, "", 1, g)
+                }
             } else {
                 if("11X5" == Betting.playCode && "FixedPlace_11X5" == _subNav) {
                     console.log(0);
@@ -983,7 +1036,7 @@ console.log(_subNav);
                 // j : 数值
                 // num : 倍数
                 // type : 位置 01234 = 个十百千万
-console.log(j, num, type);
+// console.log(j, num, type);
                 var _ddd = {};
                 var _need = '';
 
@@ -1160,12 +1213,42 @@ console.log(j, num, type);
 
                 if($('#J_ballInputArea').length || $('[data-row="NONE"]').length) {
                     if(Betting.playCode == '11X5'){
-                        console.log(j);
-                        if($('#J_ballInputArea').length){
-                            _ddd.n = j.split('_').join(' | ');
+                        // console.log(j);
+                        // console.log(_subNav);
+                        if(_subNav == 'OECounts_11X5'){
+                            // [5, 14, 23, 32, 41, 50]
+                            switch(j){
+                                case '05':
+                                _ddd.n = '0单5双';
+                                break;
+                                case '14':
+                                _ddd.n = '1单4双';
+                                break;
+                                case '23':
+                                _ddd.n = '2单3双';
+                                break;
+                                case '32':
+                                _ddd.n = '3单2双';
+                                break;
+                                case '41':
+                                _ddd.n = '4单1双';
+                                break;
+                                case '50':
+                                _ddd.n = '5单0双';
+                                break;
+                            }
                         } else {
-                            _ddd.n = j;
+                            if($('#J_ballInputArea').length){
+                                _ddd.n = j.split('_').join(' | ');
+                            } else {
+                                _ddd.n = j;
+                            }
                         }
+                    } else if(Betting.playCode == 'PK10') {
+                        if(_currentRule.opt.type == 'dragonTiger') {
+                            _ddd.n = (j == '0' ? '龙' : '虎');
+                        }
+
                     } else {
                         _ddd.n = j.split('_').join('').replace(/\#/g,'').split('').sort().join('');
                     }
@@ -1217,7 +1300,7 @@ console.log(j, num, type);
             Betting.renderCart(_data);
         },
         renderCart: function(data) {
-            console.log(data);
+            // console.log(data);
             // 渲染购物车
             var _str = '';
             var _len = data.length;
@@ -1514,7 +1597,7 @@ console.log(j, num, type);
             });
 
             for (var i = 0; i < _formulaList.length; i++) {
-                if("11X5" == Betting.playCode || "PK10" == Betting.playCode && -1 == Betting.indexOf("BSOE_PK10")) {
+                if("11X5" == Betting.playCode || "PK10" == Betting.playCode && -1 == _subNav.indexOf("BSOE_PK10")) {
                     k[_formulaList[i]] = [];
                     $.each($('[data-row="'+ _formulaList[i] +'"]').find('.J_numWrp.active'), function(x, y) {
                         k[_formulaList[i]].push($(this).text());
@@ -1531,12 +1614,9 @@ console.log(j, num, type);
             // console.log(k);
             // console.log(_currentSelect);
             // console.log(_formulaList);
-            
             _formulaList.push(k);
             // _formulaList.push(_currentSelect);
-
-            console.log(_formulaList);
-
+            // console.log(_formulaList);
             // return;
 
             var _selectNum = _currentRule.opt.formula(_formulaList, options);   //通过相应公式计算注数
@@ -1578,8 +1658,7 @@ console.log(j, num, type);
             _d.num = $('#J_selectionBallStakes').text();    //投注注数
             _d.ajaxType = _opt.ajaxType;
 
-            if (_opt.type == 'ball' || _opt.type == 'taste' || _opt.type == 'sum' || _opt.type == 'mixingAny' || _opt.type == '11x5' || _opt.type == 'czwBall') {
-                console.log(1);
+            if (_opt.type == 'ball' || _opt.type == 'taste' || _opt.type == 'sum' || _opt.type == 'mixingAny' || _opt.type == '11x5' || _opt.type == 'czwBall' || _opt.type == 'dragonTiger') {
                 var _n = '';
                 var _need = '';
                 $.each(_opt.numNameList, function(i, n) {
@@ -1650,9 +1729,14 @@ console.log(j, num, type);
                                 x += '-' + $(this).text();
                             });
                             _d.n = x.substr(1);
+                        } else if (Betting.playCode == 'PK10') {
+                            if(_opt.type == 'dragonTiger'){
+                                _d.n = $('[data-row="NONE"] .J_numWrp.active').data('v');
+                            }
                         } else {
                             _d.n = $('[data-row="NONE"] .J_numWrp.active').text();
                         }
+                        console.log(_d.n);
                         _need += 'n';
                     } else if(n.split('#')[0] == 'NONE1') {   //组选就一个值
                         // _d.n1 = $('[data-row="NONE1"] .J_numWrp.active').text();
@@ -1732,7 +1816,7 @@ console.log(j, num, type);
                     }
                 });
                 _d.n = _nums;
-            }
+            } 
 
             if (_opt.haveCheckbox) {
                 var _hex = '';
@@ -1925,7 +2009,7 @@ console.log(j, num, type);
             }
         },
         bindUploadEvent: function() {
-            var _subNav = $('.J_subMenu.active').data('info').split('#')[1];
+            // var _subNav = $('.J_subMenu.active').data('info').split('#')[1];
             // var a = true;
             // var b = TEMPLATE.allManualEntryEvents(_subNav);
             // if (_subNav == 'Last3Com' || _subNav == 'First3Com' || _subNav == 'Middle3Com' || _subNav == 'Last3Com_LF' || _subNav == 'P3Com_LF' || _subNav == 'Any3Com_SSC') {

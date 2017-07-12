@@ -2384,8 +2384,8 @@ var TEMPLATE = {
             defaultCheck: 2,
             haveTextarea: false,
             placeholder: '',
-            numList: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
-            numNameList: ['FIRST', 'SECOND', 'THIRD', 'FOURTH', 'FIFTH'],
+            numList: [],
+            numNameList: ['NONE'],
             quickFast: true,
             type: 'ball',
             formula: null,
@@ -2397,9 +2397,9 @@ var TEMPLATE = {
             case 'OECounts_11X5':
             _maxBonus = '784.0000';
             _rule = '从6种不同的单双组合中任意选择1个或多个组合投注，只要当期开奖号码的单双个数与所选单双组合一致，即为中奖。 如：选择0单5双，开奖号码02，04，06，08，10五个双数，即中一等奖。如：选择5单0双，开奖号码01，03，05，07，09五个单数，即中二等奖。如：选择1单4双，开奖号码01，02，04，06，08一个单数四个双数，即中三等奖。如：选择4单1双，开奖号码01，03，05，07，08四个单数一个双数，即中四等奖。如：选择2单3双，开奖号码01，03，04，06，08二个单数三个双数，即中五等奖。如：选择3单2双，开奖号码01，03，05，06，08三个单数二个双数，即中六等奖。';
-
-
-
+            _opt.formula = function(a){
+                return a[a.length - 1][a[0]].length
+            }
             break;
         }
 
@@ -3268,12 +3268,15 @@ var TEMPLATE = {
             haveTextarea: false,
             placeholder: '',
             numList: [],
-            numNameList: [],
+            numNameList: ['NONE'],
             quickFast: true,
-            type: 'ball',
+            type: 'dragonTiger',
             formula: null,
             minSelect: 1,
-            ajaxType: ''
+            ajaxType: '',
+            formula: function(a){
+                return a[a.length - 1][a[0]].length
+            }
         };
         var _maxBonus = '3.4000';
         switch (options.type) {
@@ -3324,18 +3327,34 @@ var TEMPLATE = {
         renderHeader: function() {
             // 渲染PK10相关DOM结构
             var _str = '';
-            _str += '<div class="below-num fl">';
-            _str += '    <div class="fl below-phase">';
-            _str += '        <p>开奖号码</p>';
-            _str += '        <p>第<span class="text-l-color" id="J_dataNum"></span>期</p>';
-            _str += '    </div>';
-            _str += '    <div class="fl below-prize-num" id="J_drawResult">';
-            _str += '        <em>0</em>';
-            _str += '        <em>0</em>';
-            _str += '        <em>0</em>';
-            _str += '        <em>0</em>';
-            _str += '        <em>0</em>';
-            _str += '    </div>';
+            _str += '<div class="pk10-head fl">';
+            // _str += '<img src="../images/pk.png">';
+            // _str += '<div>';
+            _str += '<p class="pk10-phase">第<span class="text-l-color" id="J_dataNum"></span>期</p>';
+            _str += '<div class="pk10-prize-num" id="J_drawResult">';
+            _str += '   <em>01</em>'
+            _str += '   <em>01</em>'
+            _str += '   <em>01</em>'
+            _str += '   <em>01</em>'
+            _str += '   <em>01</em>'
+            _str += '   <em>01</em>'
+            _str += '   <em>01</em>'
+            _str += '   <em>01</em>'
+            _str += '   <em>01</em>'
+            _str += '   <em>01</em>'
+            // _str += '</div>';
+            _str += '</div>';
+            // _str += '    <div class="fl below-phase">';
+            // _str += '        <p>开奖号码</p>';
+            // _str += '        <p>第<span class="text-l-color" id="J_dataNum"></span>期</p>';
+            // _str += '    </div>';
+            // _str += '    <div class="fl below-prize-num" id="J_drawResult">';
+            // _str += '        <em>0</em>';
+            // _str += '        <em>0</em>';
+            // _str += '        <em>0</em>';
+            // _str += '        <em>0</em>';
+            // _str += '        <em>0</em>';
+            // _str += '    </div>';
             _str += '</div>';
             _str += '<div class="below-history fl rel">';
             _str += '    <dl class="history-issue fl" id="J_lastThreeDrawResult1">';

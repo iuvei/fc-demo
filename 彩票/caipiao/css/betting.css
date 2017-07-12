@@ -172,6 +172,33 @@
     float: left;
     border-radius: 2px;
 }
+/* 定单双 */
+.single-double{
+    margin: 40px 0 60px 60px;
+    text-align: center;
+    height: 60px;
+    background-color: #fff;
+    padding-top: 8px;
+    width: 934px;
+    border-radius: 30px;
+}
+.single-double li{
+    display: inline-block;
+    width: 112px;
+    height: 44px;
+    line-height: 44px;
+    background-color: #fff;
+    text-align: center;
+    margin-right: 50px;
+    border-radius: 22px;
+    cursor: pointer;
+    border: 1px solid #b8b8b8;
+    font-size: 22px;
+    color: #545454;
+}
+.single-double li.last{
+    margin-right: 0;
+}
 .bet-wrp{
     font-size: 18px;
     color: #515151;
@@ -476,4 +503,32 @@
     line-height: 25px;
     padding: 10px;
     z-index: 1;
+}
+/* PK10 */
+.dragon-tiger{
+    margin: 10px 0 20px 0;
+}
+.dragon-tiger li{
+    display: inline-block;
+    width: 151px;
+    height: 151px;
+    background-color: red;
+    border-radius: 50%;
+    margin-right: 10px;
+    cursor: pointer;
+    background: url(../images/dragon_tiger.png) no-repeat;
+}
+.dragon-tiger li.no1{
+    background-position: 0px 0px;
+}
+.dragon-tiger li.no2{
+    background-position: 0px -151px;
+}
+.dragon-tiger li.no1:hover,
+.dragon-tiger li.no1.active{
+    background-position: -151px 0px;
+}
+.dragon-tiger li.no2:hover,
+.dragon-tiger li.no2.active{
+    background-position: -151px -151px;
 }
