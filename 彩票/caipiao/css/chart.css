@@ -261,14 +261,29 @@
 /* =========================================================== */
 /* ==================  11选5 =============================== */
 /* =========================================================== */
-.my11X5 .firstTwo-wrp.po-middle {
-	width: 191px;
+.my11X5 .mm-ch.po-middle,
+.my11X5 .winning-Num.po-middle{
+    width: 149px;
 }
-.my11X5 .sm-ch.po-middle {
-	left: -15px;
-	position: relative;
+.top-title.my11X5 .chart1,
+.my11X5 .numCount-wrp.po-middle .winning-1{
+    width: 280px;
 }
-.my11X5 .ch-chart.chart1 li {
+.my11X5 .ch-chart.chart2.game-11X5,
+.my11X5 .winning-2.po-middle.game-11X5{
+    width: 220px;
+}
+.my11X5 .ch-chart.chart3.game-11X5,
+.my11X5 .winning-3.po-middle.game-11X5{
+    width: 220px;
+}
+.my11X5 .ch-chart.chart4.game-11X5,
+.my11X5 .winning-4.po-middle.game-11X5{
+    width: 220px;
+    border-right: none;
+}
+.my11X5 .ch-chart.chart1 li,
+.my11X5 .winning-1.po-middle li{
 	margin: 0 3px 0 2px;
 }
 .my11X5 .firstdatail .po-middle {
@@ -277,35 +292,16 @@
 .numCount-wrp.po-middle .po-middle.game-11X5 {
 	margin-right: 0px;
 }
-.my11X5 .winning-Num.po-middle li {
-	float: left;
-}
-.my11X5 .firstdatail.po-middle {
-	padding-top: 5px;
-}
-.my11X5 .numCount-wrp.po-middle {
-	padding-top: 3px;
-}
 .my11X5 .ch-chart {
 	float: left;
-}
-.my11X5 .winning-1.po-middle li {
-	margin: 0 1px;
-}
-.chart-below-cntent .ch-chart li {
-	// display: inline-block;
-	// font-size: 12px;
-	// left: -9px;
-	// margin: 0 -1.5px 0 0.8px;
-	// position: relative;
-	// width: 17px;
 }
 #chartBody .game-11X5 li {
 	box-sizing: border-box;
 	height: 26px;
 	line-height: 26px;
-	margin: 0 3px;
+    margin-right: 1px;
 	width: 35px;
+    letter-spacing: 1px;
 }
 .box-green, .box-vlt, .box-yellow {
 	color: #fff;
@@ -323,9 +319,6 @@
 .chart-below-cntent .top-title {
 	border: 0 none;
 }
-.top-title.my11X5 .chart1 {
-	margin-right: 15px;
-}
-.my11X5 .numCount-wrp.po-middle .winning-1 {
-	margin-right: 15px;
-}
+/* =========================================================== */
+/* ==================  PK10 =============================== */
+/* =========================================================== */

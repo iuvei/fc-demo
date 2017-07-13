@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>走势</title>
+	<link rel="stylesheet" href="./css/reset.css">
+	<link rel="stylesheet" href="./css/chart.css">
+	<link rel="stylesheet" href="./css/skin/default.css" id="J_skinCss">
+</head>
+<body id="chartBody" class="chart-page">
+	<!-- 顶部 -->
+	<div id="header" class="header dark-color">
+		<div class="w1200 clearfix rel">
+			<div class="fl header-post">
+				<em class="icon fl"></em>
+				<div class="fl">暂时没有滚动通告</div>
+			</div>
+			<div class="fr header-user">
+				<p class="fl">您好，<span id="J_headerUserName"></span></p>
+				<b class="fl">|</b>
+				<div class="fl"><span id="J_totalBalance">总余额 ￥<i class="J_balance"></i></span><span class="cup show" id="J_cutoverBalance" data-balance="">隐藏</span></div>
+				<b class="fl">|</b>
+				<span class="fl cup J_pageJump" data-page="recharge_online">充值</span>
+				<span class="fl cup J_pageJump" data-page="withdrawal_application">提款</span>
+				<em class="fl icon icon-signout cup" id="J_signOut"></em>
+				<em class="fl icon icon-refresh cup" id="J_refresh"></em>
+			</div>
+
+			<!-- <div class="skin" id="J_skin">
+				<span>皮肤</span>
+				<em></em>
+				<ul>
+					<li class="J_setSkin skin-default" data-skin="default"></li>
+					<li class="J_setSkin skin-blue" data-skin="blue"></li>
+					<li class="J_setSkin skin-red" data-skin="red"></li>
+					<li class="J_setSkin skin-black" data-skin="black"></li>
+				</ul>
+			</div> -->
+		</div>
+	</div>
+
+	<!-- below-header -->
+	<div class="below-header w1200 clearfix">
+        <div class="below-logo fl">
+            <img src="" alt="" id="J_productLogo">
+        </div>
+        <div class="below-count fl">
+            <div class="fl below-phase">
+                <p>剩余投注时间</p>
+                <p>第<span class="text-l-color" id="J_betTimer"></span>期</p>
+            </div>
+            <div class="fl below-count-num" id="J_countDownNum">
+                <em>0</em><em>0</em><span>:</span><em>0</em><em>0</em><span>:</span><em>0</em><em>0</em>
+            </div>
+        </div>
+        <div class="below-num fl">
+            <div class="fl below-phase">
+                <p>开奖号码</p>
+                <p>第<span class="text-l-color" id="J_dataNum"></span>期</p>
+            </div>
+            <div class="fl below-prize-num" id="J_drawResult">
+                <em>0</em>
+                <em>0</em>
+                <em>0</em>
+                <em>0</em>
+                <em>0</em>
+            </div>
+        </div>
+        <div class="below-history fl rel">
+            <dl class="history-issue fl" id="J_lastThreeDrawResult1">
+                <dt>开奖期号</dt>
+                <!-- <dd>20170621-052</dd>
+                <dd>20170621-052</dd>
+                <dd>20170621-052</dd> -->
+            </dl>
+            <dl class="history-trend fr" id="J_lastThreeDrawResult2">
+                <dt class="cup" id="J_trendChart"><em class="icon fl"></em>走势图</dt>
+                <!-- <dd>25466</dd>
+                <dd>25466</dd>
+                <dd>25466</dd> -->
+            </dl>
+            <ul class="below-history-box abs" id="J_historyList">
+                <!-- <li><span>20170621-052</span><em>33567</em></li>
+                <li><span>20170621-052</span><em>33567</em></li>
+                <li><span>20170621-052</span><em>33567</em></li>
+                <li><span>20170621-052</span><em>33567</em></li> -->
+            </ul>
+        </div>
+    </div>
+	<div class="below-line"></div>
+	
+	<!-- chart -->
+	<div class="chart-top w1200 clearfix">
+		<div class="chart-issue fl">
+			<span>期数：</span>
+			<span class="J_recently cup chart-issue-c active" data-size="30">近30期</span>
+			<span class="J_recently cup chart-issue-c" data-size="50">近50期</span>
+			<span class="J_recently cup chart-issue-c" data-size="100">近100期</span>
+		</div>
+		<div class="chart-switch fl">
+			<div class="chart-check fl cup" id="J_missBtn"><i class="active"></i>遗漏</div>
+			<!-- <div class="chart-check fl cup" id="J_polyline"><i class="active"></i>折线</div> -->
+		</div>
+	</div>
+	<div class="chart-box w1200">
+	    <!-- <div class="chart-wrp"> -->
+		    <div class="top-title my11X5">
+		        <div class="firstTwo-wrp po-middle">
+		            <div class="sm-ch po-middle">期号</div>
+		            <div class="mm-ch po-middle">开奖号码</div></div>
+		        <div class="game-type-list po-middle">
+		            <div class="ch-chart chart1">
+		                <span>号码分布</span>
+		                <ul>
+		                    <li>1</li>
+		                    <li>2</li>
+		                    <li>3</li>
+		                    <li>4</li>
+		                    <li>5</li>
+		                    <li>6</li>
+		                    <li>7</li>
+		                    <li>8</li>
+		                    <li>9</li>
+		                    <li>10</li>
+		                    <li>11</li></ul>
+		            </div>
+		            <div class="ch-chart chart2 game-11X5">
+		                <span>大小比</span>
+		                <ul>
+		                    <li>0:5</li>
+		                    <li>1:4</li>
+		                    <li>2:3</li>
+		                    <li>3:2</li>
+		                    <li>4:1</li>
+		                    <li>5:0</li></ul>
+		            </div>
+		            <div class="ch-chart chart3 game-11X5">
+		                <span>奇偶比</span>
+		                <ul>
+		                    <li>0:5</li>
+		                    <li>1:4</li>
+		                    <li>2:3</li>
+		                    <li>3:2</li>
+		                    <li>4:1</li>
+		                    <li>5:0</li></ul>
+		            </div>
+		            <div class="ch-chart chart4 game-11X5">
+		                <span>质合比</span>
+		                <ul>
+		                    <li>0:5</li>
+		                    <li>1:4</li>
+		                    <li>2:3</li>
+		                    <li>3:2</li>
+		                    <li>4:1</li>
+		                    <li>5:0</li></ul>
+		            </div>
+		        </div>
+		    </div>
+		    <div class="ch-row-contner my11X5" id="20170713-18">
+		        <div class="firstdatail po-middle">
+		            <ul class="ch-drawNumb po-middle">
+		                <li>20170713-18</li></ul>
+		            <ul class="winning-Num po-middle">
+		                <li>05</li>
+		                <li>02</li>
+		                <li>11</li>
+		                <li>10</li>
+		                <li>07</li></ul>
+		        </div>
+		        <div class="numCount-wrp po-middle">
+		            <ul class="winning-1 po-middle">
+		                <li id="1">1</li>
+		                <li id="2" class="hit-blue">02</li>
+		                <li id="3">1</li>
+		                <li id="4">1</li>
+		                <li id="5" class="hit-blue">05</li>
+		                <li id="6">1</li>
+		                <li id="7" class="hit-blue">07</li>
+		                <li id="8">1</li>
+		                <li id="9">1</li>
+		                <li id="10" class="hit-blue">10</li>
+		                <li id="11" class="hit-blue">11</li></ul>
+		            <ul class="winning-2 po-middle game-11X5">
+		                <li id="0">1</li>
+		                <li id="1">1</li>
+		                <li id="2">1</li>
+		                <li id="3" class="box-vlt">3:2</li>
+		                <li id="4">1</li>
+		                <li id="5">1</li></ul>
+		            <ul class="winning-3 po-middle game-11X5">
+		                <li id="0">1</li>
+		                <li id="1">1</li>
+		                <li id="2">1</li>
+		                <li id="3" class="box-green">3:2</li>
+		                <li id="4">1</li>
+		                <li id="5">1</li></ul>
+		            <ul class="winning-3 po-middle game-11X5">
+		                <li id="0">1</li>
+		                <li id="1" class="box-yellow">1:4</li>
+		                <li id="2">1</li>
+		                <li id="3">1</li>
+		                <li id="4">1</li>
+		                <li id="5">1</li></ul>
+		        </div>
+		    </div>
+		    <div class="ch-row-contner my11X5" id="20170713-18">
+		        <div class="firstdatail po-middle">
+		            <ul class="ch-drawNumb po-middle">
+		                <li>20170713-18</li></ul>
+		            <ul class="winning-Num po-middle">
+		                <li>05</li>
+		                <li>02</li>
+		                <li>11</li>
+		                <li>10</li>
+		                <li>07</li></ul>
+		        </div>
+		        <div class="numCount-wrp po-middle">
+		            <ul class="winning-1 po-middle">
+		                <li id="1">1</li>
+		                <li id="2" class="hit-blue">02</li>
+		                <li id="3">1</li>
+		                <li id="4">1</li>
+		                <li id="5" class="hit-blue">05</li>
+		                <li id="6">1</li>
+		                <li id="7" class="hit-blue">07</li>
+		                <li id="8">1</li>
+		                <li id="9">1</li>
+		                <li id="10" class="hit-blue">10</li>
+		                <li id="11" class="hit-blue">11</li></ul>
+		            <ul class="winning-2 po-middle game-11X5">
+		                <li id="0">1</li>
+		                <li id="1">1</li>
+		                <li id="2">1</li>
+		                <li id="3" class="box-vlt">3:2</li>
+		                <li id="4">1</li>
+		                <li id="5">1</li></ul>
+		            <ul class="winning-3 po-middle game-11X5">
+		                <li id="0">1</li>
+		                <li id="1">1</li>
+		                <li id="2">1</li>
+		                <li id="3" class="box-green">3:2</li>
+		                <li id="4">1</li>
+		                <li id="5">1</li></ul>
+		            <ul class="winning-3 po-middle game-11X5">
+		                <li id="0">1</li>
+		                <li id="1" class="box-yellow">1:4</li>
+		                <li id="2">1</li>
+		                <li id="3">1</li>
+		                <li id="4">1</li>
+		                <li id="5">1</li></ul>
+		        </div>
+		    </div>
+			<div class="chart-below-cntent">
+		        <div class="top-title my11X5">
+		            <div class="firstTwo-wrp po-middle">
+		                <div class="sm-ch po-middle">期号</div>
+		                <div class="mm-ch po-middle">开奖号码</div></div>
+		            <div class="game-type-list po-middle">
+		                <div class="ch-chart chart1">
+		                    <span>号码分布</span>
+		                    <ul>
+		                        <li>1</li>
+		                        <li>2</li>
+		                        <li>3</li>
+		                        <li>4</li>
+		                        <li>5</li>
+		                        <li>6</li>
+		                        <li>7</li>
+		                        <li>8</li>
+		                        <li>9</li>
+		                        <li>10</li>
+		                        <li>11</li></ul>
+		                </div>
+		                <div class="ch-chart chart2 game-11X5">
+		                    <span>大小比</span>
+		                    <ul>
+		                        <li>0:5</li>
+		                        <li>1:4</li>
+		                        <li>2:3</li>
+		                        <li>3:2</li>
+		                        <li>4:1</li>
+		                        <li>5:0</li></ul>
+		                </div>
+		                <div class="ch-chart chart3 game-11X5">
+		                    <span>奇偶比</span>
+		                    <ul>
+		                        <li>0:5</li>
+		                        <li>1:4</li>
+		                        <li>2:3</li>
+		                        <li>3:2</li>
+		                        <li>4:1</li>
+		                        <li>5:0</li></ul>
+		                </div>
+		                <div class="ch-chart chart4 game-11X5">
+		                    <span>质合比</span>
+		                    <ul>
+		                        <li>0:5</li>
+		                        <li>1:4</li>
+		                        <li>2:3</li>
+		                        <li>3:2</li>
+		                        <li>4:1</li>
+		                        <li>5:0</li></ul>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		<!-- </div> -->
+	</div>
+	
+
+	<!-- 底部 -->
+	<div id="footer" class="footer dark-color">
+		<div class="w1200">© 大圣彩版权所有 |  创新博弈，成功从大圣彩开始</div>
+	</div>
+
+	<script src="./js/jquery-1.11.1.min.js"></script>
+    <script src="./js/jquery.cookie.js"></script>
+    <script src="./js/layer/layer.js"></script>
+    <script src="./js/GLOBAL.js"></script>
+    <!-- <script src="./js/common.js"></script> -->
+	<!-- <script src="./js/chart.js"></script> -->
+    <!-- <script src="./js/template.js"></script> -->
+    <!-- <script src="./js/betting.js"></script> -->
+    <!-- <script src="./js/common.js"></script> -->
+</body>
+</html>

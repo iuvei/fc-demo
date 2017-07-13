@@ -274,6 +274,7 @@ var TEMPLATE = {
                 break;
             case "First5_PK10_Single":
                 a.bits = ["FIRST", "SECOND", "THIRD", "FOURTH", "FIFTH"], a.miBall = 1, a.stakes = 1, a.len = 10, a.digit = "", a.eg = "0102030405 0102030405\n0102030405,0102030405\n0102030405;0102030405";
+                break;
             case "Last3Com":
                 a.digit = "";a.stakes = 1,a.len = 3,a.eg = "122 123 211\n123,241,212\n122;221";
                 break;
@@ -2909,6 +2910,9 @@ var TEMPLATE = {
             case 'First1_PK10':
             _maxBonus = '17.0000';
             _rule = '从冠军投注的1个号码与开奖号码中的第1位数号码相同，视为中奖。如：投注方案：01 开奖号码：01*********，即中猜前一。';
+            _opt.formula = function(a){
+                return a[a.length - 1][a[0]].length
+            }
             break;
         }
 
@@ -2947,10 +2951,15 @@ var TEMPLATE = {
         switch (options.type) {
             case 'First2_PK10':
             _opt.numNameList = ['FIRST#冠军', 'SECOND#亚军'];
+            _opt.formula = function(a){
+                var b = a[a.length - 1][a[0]],
+                    c = a[a.length - 1][a[1]];
+                return TEMPLATE.first2StraightOf11X5(b, c)
+            }
             break;
             case 'First2_PK10_Single':
             _opt.haveTextarea = true;
-            _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、逗号[,]或者分号[;]隔开\n支持格式如下:\n01 02, 01 02\n0102,0102\n0102;0102\n';
+            _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、逗号[,]或者分号[;]隔开\n支持格式如下:\n0102, 0102\n0102,0102\n0102;0102\n';
             _opt.numList = [];
             _opt.type = 'text';
             _opt.numNameList = [];
@@ -2993,10 +3002,16 @@ var TEMPLATE = {
         switch (options.type) {
             case 'First3_PK10':
             _opt.numNameList = ['FIRST#冠军', 'SECOND#亚军', 'THIRD#季军'];
+            _opt.formula = function(a){
+                var b = a[a.length - 1][a[0]],
+                    c = a[a.length - 1][a[1]],
+                    d = a[a.length - 1][a[2]];
+                return TEMPLATE.first3StraightOf11X5(b, c, d)
+            }
             break;
             case 'First3_PK10_Single':
             _opt.haveTextarea = true;
-            _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、逗号[,]或者分号[;]隔开\n支持格式如下:\n01 02 03, 01 02 03\n010203,010203\n010203;010203\n';
+            _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、逗号[,]或者分号[;]隔开\n支持格式如下:\n010203 010203\n010203,010203\n010203;010203\n';
             _opt.numList = [];
             _opt.type = 'text';
             _opt.numNameList = [];
@@ -3039,10 +3054,17 @@ var TEMPLATE = {
         switch (options.type) {
             case 'First4_PK10':
             _opt.numNameList = ['FIRST#冠军', 'SECOND#亚军', 'THIRD#季军', 'FOURTH#第四名'];
+            _opt.formula = function(a){
+                var b = a[a.length - 1][a[0]],
+                    c = a[a.length - 1][a[1]],
+                    d = a[a.length - 1][a[2]],
+                    e = a[a.length - 1][a[3]];
+                return TEMPLATE.first4StraightOf11X5(b, c, d, e)
+            }
             break;
             case 'First4_PK10_Single':
             _opt.haveTextarea = true;
-            _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、逗号[,]或者分号[;]隔开\n支持格式如下:\n01 02 03 04, 01 02 03 04\n01020304,01020304\n01020304;01020304\n';
+            _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、逗号[,]或者分号[;]隔开\n支持格式如下:\n01020304, 01020304\n01020304,01020304\n01020304;01020304\n';
             _opt.numList = [];
             _opt.type = 'text';
             _opt.numNameList = [];
@@ -3085,10 +3107,18 @@ var TEMPLATE = {
         switch (options.type) {
             case 'First5_PK10':
             _opt.numNameList = ['FIRST#冠军', 'SECOND#亚军', 'THIRD#季军', 'FOURTH#第四名', 'FIFTH#第五名'];
+            _opt.formula = function(a){
+                var b = a[a.length - 1][a[0]],
+                    c = a[a.length - 1][a[1]],
+                    d = a[a.length - 1][a[2]],
+                    e = a[a.length - 1][a[3]],
+                    f = a[a.length - 1][a[4]];
+                return TEMPLATE.first5StraightOf11X5(b, c, d, e, f)
+            }
             break;
             case 'First5_PK10_Single':
             _opt.haveTextarea = true;
-            _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、逗号[,]或者分号[;]隔开\n支持格式如下:\n01 02 03 04 05, 01 02 03 04 05\n0102030405,0102030405\n0102030405;0102030405\n';
+            _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、逗号[,]或者分号[;]隔开\n支持格式如下:\n0102030405 0102030405\n0102030405,0102030405\n0102030405;0102030405\n';
             _opt.numList = [];
             _opt.type = 'text';
             _opt.numNameList = [];
@@ -3132,10 +3162,16 @@ var TEMPLATE = {
             case 'First5Fixed_PK10':
             _rule = '从冠军位开始选择最少一个,最多十个位置，任意1个位置或者多个位置上选择1个号码，所选号码与相同位置上的开奖号码一致，即为中奖。如：投注方案：01（冠军），开奖号码：01**********即中定位胆。';
             _opt.numNameList = ['FIRST#冠军', 'SECOND#亚军', 'THIRD#季军', 'FOURTH#第四名', 'FIFTH#第五名'];
+            _opt.formula = function(a){
+                return a[a.length - 1][a[0]].length + a[a.length - 1][a[1]].length + a[a.length - 1][a[2]].length + a[a.length - 1][a[3]].length + a[a.length - 1][a[4]].length
+            }
             break;
             case 'Last5Fixed_PK10':
             _rule = '从第六位开始选择最少一个,最多十个位置，任意1个位置或者多个位置上选择1个号码，所选号码与相同位置上的开奖号码一致，即为中奖。如：投注方案：06（第六名），开奖号码：******06****即中定位胆。';
             _opt.numNameList = ['FIRST#第六名', 'SECOND#第七名', 'THIRD#第八名', 'FOURTH#第九名', 'FIFTH#第十名'];
+            _opt.formula = function(a){
+                return a[a.length - 1][a[0]].length + a[a.length - 1][a[1]].length + a[a.length - 1][a[2]].length + a[a.length - 1][a[3]].length + a[a.length - 1][a[4]].length
+            }
             break;
         }
 
@@ -3165,8 +3201,8 @@ var TEMPLATE = {
             placeholder: '',
             numList: [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19],
             numNameList: [],
-            quickFast: true,
-            type: 'ball',
+            quickFast: false,
+            type: 'sum',
             formula: null,
             minSelect: 1,
             ajaxType: ''
@@ -3175,17 +3211,32 @@ var TEMPLATE = {
         switch (options.type) {
             case 'First2Sum_PK10':
             _rule = '从3-19中任意选择至少一个号码组成一组，开奖号码前二位之和与所选的号码一致即为中奖，顺序不限。如：投注3，开奖号码：0102**********（顺序不限），即中冠亚和值。';
-            _opt.numNameList = ['NONE#冠亚和'];
+            _opt.numNameList = ['SUM#冠亚和'];
+            _opt.formula = function(x, options){
+                var _num = TEMPLATE.sumAndPoint(x, options, '2rpk');
+                return _num;
+            };
+            _opt.sumType = '2rpk';
             break;
             case 'First3Sum_PK10':
             _rule = '从6-27中任意选择至少一个号码组成一组，开奖号码前三位之和与所选的号码一致即为中奖，顺序不限。如：投注8，开奖号码：01、02、05*******，即中冠亚季和值。';
-            _opt.numNameList = ['NONE#冠亚季和'];
+            _opt.numNameList = ['SUM#冠亚季和'];
+            _opt.formula = function(x, options){
+                var _num = TEMPLATE.sumAndPoint(x, options, '3rpk');
+                return _num;
+            };
+            _opt.sumType = '3rpk';
             _maxBonus = '204.0000'
             _opt.numList = [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27];
             break;
             case 'FirstLastSum_PK10':
             _rule = '从3-19中任意选择至少一个号码组成一组，开奖号码冠军和第十名之和与所选的号码一致即为中奖，顺序不限。如：投注8，开奖号码：02*******06，即首尾和值。';
-            _opt.numNameList = ['NONE#首尾和'];
+            _opt.numNameList = ['SUM#首尾和'];
+            _opt.formula = function(x, options){
+                var _num = TEMPLATE.sumAndPoint(x, options, '2rpk');
+                return _num;
+            };
+            _opt.sumType = '2rpk';
             break;
         }
 
@@ -3216,7 +3267,7 @@ var TEMPLATE = {
             numList: [],
             numNameList: [],
             quickFast: true,
-            type: 'ball',
+            type: 'taste',
             formula: null,
             minSelect: 1,
             ajaxType: ''
@@ -3228,12 +3279,18 @@ var TEMPLATE = {
                 _opt.numList = ['大', '小', '单', '双'];
                 _opt.numNameList = ['FIRST#冠军', 'SECOND#亚军', 'THIRD#季军', 'FOURTH#第四名', 'FIFTH#第五名'],
                 _opt.quickFast = false;
+                _opt.formula = function(a){
+                    return a[a.length - 1][a[0]].length + a[a.length - 1][a[1]].length + a[a.length - 1][a[2]].length + a[a.length - 1][a[3]].length + a[a.length - 1][a[4]].length
+                }
                 break;
             case 'Last5BSOE_PK10':
                 _rule = '从第六、第七、第八、第九、第十名中的“大、小、单、双”中至少选一个组成一注。如：投注第十名双，开奖号码：*********08，即中第十名大小单双。';
                 _opt.numList = ['大', '小', '单', '双'];
                 _opt.numNameList = ['FIRST#第六名', 'SECOND#第七名', 'THIRD#第八名', 'FOURTH#第九名', 'FIFTH#第十名'],
                 _opt.quickFast = false;
+                _opt.formula = function(a){
+                    return a[a.length - 1][a[0]].length + a[a.length - 1][a[1]].length + a[a.length - 1][a[2]].length + a[a.length - 1][a[3]].length + a[a.length - 1][a[4]].length
+                }
                 break;
             case 'First2SumBSOE_PK10':
                 _rule = '从冠亚和值“大、小、单、双”至少选择一个号码形态进行投注，所选的号码与对应开奖号码和值一致则中奖。如投注方案：小，开奖号码：0506*******（顺序不限）则中冠亚和值大小单双。（注：3至11为小，12至19为大）';
@@ -3241,6 +3298,9 @@ var TEMPLATE = {
                 _opt.numList = ['大', '小', '单', '双'];
                 _opt.numNameList = ['NONE#冠亚和'];
                 _opt.quickFast = false;
+                _opt.formula = function(a){
+                    return a[a.length - 1][a[0]].length
+                }
                 break;
         }
 
@@ -3283,22 +3343,37 @@ var TEMPLATE = {
             case 'Dragon_Tiger_1_VS_10':
             _rule = '龙虎是由两两名次进行号码PK，冠军、亚军、第三名、第四名、第五名为龙，第六名、第七名、第八名、第九名、第十名为虎，若冠军车号大于第十名，则为龙，反之则为虎..以此类推。如投注举例:投注第一名VS第十名，投注内容：[龙]，开奖比赛结果第一名为05，第十名为04，即为中奖。';
             _opt.numNameList = ['NONE#龙vs虎'];
+            _opt.formula = function(a){
+                return a[a.length - 1][a[0]].length
+            }
             break;
             case 'Dragon_Tiger_2_VS_9':
             _rule = '龙虎是由两两名次进行号码PK，冠军、亚军、第三名、第四名、第五名为龙，第六名、第七名、第八名、第九名、第十名为虎，若亚军车号大于第九名，则为龙，反之则为虎..以此类推。如投注举例:投注第二名VS第九名，投注内容：[龙]，开奖比赛结果第二名为05，第九名为04，即为中奖。';
             _opt.numNameList = ['NONE#龙vs虎'];
+            _opt.formula = function(a){
+                return a[a.length - 1][a[0]].length
+            }
             break;
             case 'Dragon_Tiger_3_VS_8':
             _rule = '龙虎是由两两名次进行号码PK，冠军、亚军、第三名、第四名、第五名为龙，第六名、第七名、第八名、第九名、第十名为虎，若第三名车号大于第八名，则为龙，反之则为虎..以此类推。如投注举例:投注第三名VS第八名，投注内容：[龙]，开奖比赛结果第三名为05，第八名为04，即为中奖。';
             _opt.numNameList = ['NONE#龙vs虎'];
+            _opt.formula = function(a){
+                return a[a.length - 1][a[0]].length
+            }
             break;
             case 'Dragon_Tiger_4_VS_7':
             _rule = '龙虎是由两两名次进行号码PK，冠军、亚军、第三名、第四名、第五名为龙，第六名、第七名、第八名、第九名、第十名为虎，若第四名车号大于第七名，则为龙，反之则为虎..以此类推。如投注举例:投注第四名VS第七名，投注内容：[龙]，开奖比赛结果第四名为05，第七名为04，即为中奖。';
             _opt.numNameList = ['NONE#龙vs虎'];
+            _opt.formula = function(a){
+                return a[a.length - 1][a[0]].length
+            }
             break;
             case 'Dragon_Tiger_5_VS_6':
             _rule = '龙虎是由两两名次进行号码PK，冠军、亚军、第三名、第四名、第五名为龙，第六名、第七名、第八名、第九名、第十名为虎，若第五名车号大于第六名，则为龙，反之则为虎..以此类推。如投注举例:投注第五名VS第六名，投注内容：[龙]，开奖比赛结果第五名为05，第六名为04，即为中奖。';
             _opt.numNameList = ['NONE#龙vs虎'];
+            _opt.formula = function(a){
+                return a[a.length - 1][a[0]].length
+            }
             break;
         }
 

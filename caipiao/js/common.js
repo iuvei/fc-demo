@@ -68,9 +68,9 @@
 			});
 
 			// 走势图
-			$('#J_trendChart').click(function() {
+			$('body').on('click', '#J_trendChart', function(){
 				var _url = GLOBAL.getRequestURL();
-				window.location.href = 'chart.html?id=' + _url.id;
+				window.location.href = 'chart.html?id=' + _url.id + '&type=' + _url.type;
 			});
 
 			// 遗漏
@@ -282,6 +282,13 @@
 					COMMON.getBallInfo();
 				}, 10000);
 			}
+		},
+		renderChartTable: function() {
+			var _url = GLOBAL.getRequestURL();
+			var _type = _url.type;
+
+			// TODO:
+			console.log(_type);
 		},
 		renderHistory: function(option){
 			option = option || {};
@@ -507,6 +514,7 @@
 					// 走势
 					COMMON.isChart = true;
 					COMMON.getBallInfo(_url.id);
+					COMMON.renderChartTable();
 					COMMON.renderHistory();
 				}
 
