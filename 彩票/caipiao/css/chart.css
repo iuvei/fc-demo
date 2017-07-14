@@ -322,3 +322,126 @@
 /* =========================================================== */
 /* ==================  PK10 =============================== */
 /* =========================================================== */
+
+
+
+
+
+
+
+.pk10 .mainChart {
+    overflow: scroll;
+}
+.pk10 .chart-wrp {
+    width: 2440px;
+}
+.pk10 .firstTwo-wrp {
+    margin-right: 2px;
+    width: 322px;
+}
+.pk10 .top-title .sm-ch.po-middle {
+    left: -70px;
+    position: relative;
+}
+.pk10 .game-type-list {
+    left: 5px;
+    max-width: 100%;
+    min-width: 850px;
+    position: relative;
+    text-align: center;
+}
+.pk10 .ch-chart li {
+    display: inline-block;
+    font-size: 12px;
+    left: -9px;
+    position: relative;
+    width: 18.2px;
+}
+.pk10 .chart-lastWrp.po-middle {
+    float: none;
+    margin: 0;
+    text-align: center;
+    width: 300px;
+}
+.parent-pk10 {
+    display: inline-block;
+}
+.pk10 .chart-lastWrp.po-middle li {
+    display: inline-block;
+    font-size: 13px;
+    left: 0;
+    letter-spacing: -1px;
+    margin: 0 6px 0 8px;
+    position: relative;
+}
+.pk10 .firstdatail.po-middle {
+    text-align: center;
+    width: 315px;
+}
+.pk10 .winning-Num li {
+    color: #e66161;
+    display: inline-block;
+    letter-spacing: 1px;
+    margin-right: 1px;
+}
+.pk10 .numCount-wrp.po-middle {
+    left: 5px;
+    max-width: 100%;
+    min-width: 860px;
+    position: relative;
+    text-align: center;
+}
+.pk10 .numCount-wrp .po-middle > li {
+    display: inline-block;
+    height: 20px;
+    letter-spacing: -1px;
+    line-height: 20px;
+    margin-bottom: 0;
+    margin-right: -0.5px;
+    position: relative;
+    text-align: center;
+    text-indent: -1px;
+    width: 18.4px;
+    z-index: 3;
+}
+.total.firstTwo-wrp.po-middle {
+    width: 100%;
+}
+.block.po-middle {
+    border-bottom: 1px dashed #ddd;
+    display: block;
+    text-align: left;
+}
+.block.sm-ch.po-middle {
+    width: 100%;
+}
+.pk10 .block.po-middle > span {
+    display: inline-block;
+    text-align: right;
+    width: 100px !important;
+}
+.totalPk10 .sum1.red {
+    width: 205px;
+}
+.sum1 {
+    display: inline-block;
+}
+.sum1.red {
+    margin-right: 12px;
+}
+.sum1 > li {
+    display: inline-block;
+    font-size: 12px;
+    left: 10px;
+    letter-spacing: 0;
+    margin-right: 2.9px;
+    position: relative;
+    width: 15px;
+}
+
+
+
+
+
+
+
