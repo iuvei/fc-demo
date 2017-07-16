@@ -18,7 +18,7 @@ $(function() {
                 TEMPLATE.render11X5.init();
                 Betting.playCode = '11X5';
             } else if(_type == 3) {
-                TEMPLATE.render3D.init();
+                TEMPLATE.renderK3.init();
                 Betting.playCode = 'K3';
             } else if(_type == 4) {
                 TEMPLATE.renderPK10.init();
@@ -28,7 +28,12 @@ $(function() {
             $('select').niceSelect();
             Betting.bindEvent();
             Betting.bettingEvent();
-            Betting.renderSelectArea();
+
+            // if(_type != 3){
+                Betting.renderSelectArea();
+            // } else {
+            //     Betting.renderK3SelectArea();
+            // }
         },
         bindEvent: function() {
             // 历史投注换页
@@ -112,16 +117,22 @@ $(function() {
                 $('#J_bettingRule').hide();
             });
         },
+        // renderK3SelectArea: function() {
+        //     var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
+            
+        //     console.log(_mainNav);
+        // },
         renderSelectArea: function() {
             var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
-            var _subNav = $('.J_subMenu.active').data('info').split('#')[1];
+            var _subNav = ($('.J_subMenu.active').length ? $('.J_subMenu.active').data('info').split('#')[1] : _mainNav);
             var _data = TEMPLATE[_mainNav]({
                 type: _subNav
             });
             var options = _data.opt;
             var _str = '';
 
-// console.log(_subNav);
+console.log(_subNav);
+
             if (_subNav == 'OECounts_11X5') {
                 // 定单双
                 _str += '<ul class="clearfix single-double J_ballList J_multipleChoice" data-row="NONE" data-max="6" data-min="1">';
@@ -140,6 +151,15 @@ $(function() {
                 _str += '<li class="J_numWrp no2" data-v="虎"></li>';
                 _str += '</ul>';
                 _str += '</div>';
+            } else if (_subNav != 'K3_SUM' && _subNav.indexOf('K3') > -1) {
+                // 快三除和值外的dom
+                
+                if (_subNav == 'K3_singledOut') {
+                    // 单挑一骰
+
+                } else {
+                    _str += _data.dice;
+                }
             } else {
                 // 复选框
                 if (options.haveCheckbox) {
@@ -259,11 +279,11 @@ $(function() {
 
             Betting.resetBettingBox();
         },
-        resetBettingBox: function() {
+        resetBettingBox: function(templateData) {
             // 重置最高额度
             var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
-            var _subNav = $('.J_subMenu.active').data('info').split('#')[1];
-            var _data = TEMPLATE[_mainNav]({
+            var _subNav = ($('.J_subMenu.active').length ? $('.J_subMenu.active').data('info').split('#')[1] : _mainNav);
+            var _data = templateData ? templateData : TEMPLATE[_mainNav]({
                 type: _subNav
             });
             $('#J_maxBonus').html(_data.maxBonus);
@@ -312,7 +332,7 @@ $(function() {
         },
         bettingEvent: function() {
             // var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
-            // var _subNav = $('.J_subMenu.active').data('info').split('#')[1];
+            // var _subNav = ($('.J_subMenu.active').length ? $('.J_subMenu.active').data('info').split('#')[1] : _mainNav);
             // var _currentRule = TEMPLATE[_mainNav]({
             //     type : _subNav
             // });
@@ -480,7 +500,8 @@ $(function() {
 
             // 添加选号
             $('#J_addBallToCart').on('click', function(){
-                var _subNav = $('.J_subMenu.active').data('info').split('#')[1];
+                var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
+                var _subNav = ($('.J_subMenu.active').length ? $('.J_subMenu.active').data('info').split('#')[1] : _mainNav);
                 if ($(this).hasClass('disabled')) {
                     return;
                 }
@@ -508,7 +529,7 @@ $(function() {
 
             // 一键投注
             $('#J_shortcutPlaceOrder').on('click', function(){
-                var _subNav = $('.J_subMenu.active').data('info').split('#')[1];
+                var _subNav = ($('.J_subMenu.active').length ? $('.J_subMenu.active').data('info').split('#')[1] : _mainNav);
                 if ($(this).hasClass('disabled')) {
                     return;
                 }
@@ -583,7 +604,7 @@ $(function() {
             var _formulaList = [];      //公式列表
             var _currentSelect = [];    //当前已选号码的集合
             var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
-            var _subNav = $('.J_subMenu.active').data('info').split('#')[1];
+            var _subNav = ($('.J_subMenu.active').length ? $('.J_subMenu.active').data('info').split('#')[1] : _mainNav);
 
 
             var k = {};
@@ -1590,7 +1611,7 @@ $(function() {
         shortcutPlaceOrder: function() {
             var _items = [];
             var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
-            var _subNav = $('.J_subMenu.active').data('info').split('#')[1];
+            var _subNav = ($('.J_subMenu.active').length ? $('.J_subMenu.active').data('info').split('#')[1] : _mainNav);
             var _currentRule = TEMPLATE[_mainNav]({
                 type : _subNav
             });
@@ -1657,7 +1678,7 @@ $(function() {
             options.hasSelect = options.hasSelect || false;
 
             var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
-            var _subNav = $('.J_subMenu.active').data('info').split('#')[1];
+            var _subNav = ($('.J_subMenu.active').length ? $('.J_subMenu.active').data('info').split('#')[1] : _mainNav);
             var _currentRule = TEMPLATE[_mainNav]({
                 type : _subNav
             });
@@ -1719,7 +1740,7 @@ $(function() {
             // type : ball
             // 获取选择的数据
             var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
-            var _subNav = $('.J_subMenu.active').data('info').split('#')[1];
+            var _subNav = ($('.J_subMenu.active').length ? $('.J_subMenu.active').data('info').split('#')[1] : _mainNav);
 
             var _data = [];
             var _rule = TEMPLATE[_mainNav]({
@@ -1930,7 +1951,7 @@ $(function() {
         renderMaxBonus: function(mainNavType, subNavType) {
             // 渲染最高奖金
             var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
-            var _subNav = $('.J_subMenu.active').data('info').split('#')[1];
+            var _subNav = ($('.J_subMenu.active').length ? $('.J_subMenu.active').data('info').split('#')[1] : _mainNav);
             var _data = TEMPLATE[_mainNav]({
                 type: _subNav
             });
@@ -1947,13 +1968,17 @@ $(function() {
         renderSubMenu: function(mainNavType) {
             // 渲染次级菜单
             var _html = TEMPLATE[mainNavType]();
-            $('#J_subMenuList').html(_html.dom);
-            $('#J_bettingRule').html(_html.rule);
+            if (_html && _html.dom) {
+                $('#J_subMenuList').html(_html.dom);
+            }
+            if (_html && _html.rule) {
+                $('#J_bettingRule').html(_html.rule);
+            }
 
             Betting.renderSelectArea();
         },
         quicklySelect: function(elm, need, not) {
-            var _subNav = $('.J_subMenu.active').data('info').split('#')[1];
+            var _subNav = ($('.J_subMenu.active').length ? $('.J_subMenu.active').data('info').split('#')[1] : _mainNav);
             if(Betting.playCode == '11X5' || Betting.playCode == 'PK10' && -1 == _subNav.indexOf("BSOE_PK10")) {
                 if(need == ':odd' && not == ':even'){
                     not = ':odd';
@@ -2039,7 +2064,8 @@ $(function() {
                 }
             }
             // 根据选择的注数计算金额
-            var _type = $('.J_subMenu.active').data('info').split('#')[1];
+            var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
+            var _type = ($('.J_subMenu.active').length ? $('.J_subMenu.active').data('info').split('#')[1] : _mainNav);
             var _amount = 0;
 
             if (0 == _type.indexOf("Any4Com") || 0 == _type.indexOf("Any3Com") || 0 == _type.indexOf("Any3Sum") || 0 == _type.indexOf("Any2Com") || 0 == _type.indexOf("Any2Sum")) {
@@ -2067,7 +2093,8 @@ $(function() {
             return g
         },
         textAreaBallChange: function(){
-            var _subNav = $('.J_subMenu.active').data('info').split('#')[1];
+            var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
+            var _subNav = ($('.J_subMenu.active').length ? $('.J_subMenu.active').data('info').split('#')[1] : _mainNav);
             var a = true;
             // console.log(_subNav);
             var b = TEMPLATE.allManualEntryEvents(_subNav);
@@ -2106,7 +2133,7 @@ $(function() {
             }
         },
         bindUploadEvent: function() {
-            // var _subNav = $('.J_subMenu.active').data('info').split('#')[1];
+            // var _subNav = ($('.J_subMenu.active').length ? $('.J_subMenu.active').data('info').split('#')[1] : _mainNav);
             // var a = true;
             // var b = TEMPLATE.allManualEntryEvents(_subNav);
             // if (_subNav == 'Last3Com' || _subNav == 'First3Com' || _subNav == 'Middle3Com' || _subNav == 'Last3Com_LF' || _subNav == 'P3Com_LF' || _subNav == 'Any3Com_SSC') {
@@ -2281,7 +2308,8 @@ $(function() {
             console.log(a);
             console.log(b);
             Betting.textArea = [];
-            var _subNav = $('.J_subMenu.active').data('info').split('#')[1];
+            var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
+            var _subNav = ($('.J_subMenu.active').length ? $('.J_subMenu.active').data('info').split('#')[1] : _mainNav);
             var c = $("#J_ballInputArea").val(),
                 d = Betting.ESFManualEntryDisassemble(c, b);
             if (0 != d.length) {
@@ -2309,7 +2337,8 @@ $(function() {
         calculateSSCAnyManualEntryStakes: function(a) {
             // 时时彩任选的时候文本域事件
             Betting.textArea = [];
-            var _subNav = $('.J_subMenu.active').data('info').split('#')[1];
+            var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
+            var _subNav = ($('.J_subMenu.active').length ? $('.J_subMenu.active').data('info').split('#')[1] : _mainNav);
             var _nowChose = [];
             $('.J_CheckBox.active').each(function(){
                 _nowChose.push($(this).data('id') + '');

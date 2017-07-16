@@ -532,3 +532,103 @@
 .dragon-tiger li.no2.active{
     background-position: -151px -151px;
 }
+
+/* 快三 */
+.k3-sth{
+    width: 310px;
+    margin: 14px 0 40px 170px;
+}
+.k3-sth li,
+.k3-sbth li,
+.k3-ebth li,
+.k3-eth li{
+    float: left;
+    width: 138px;
+    height: 46px;
+    margin-bottom: 1px;
+    margin-right: 12px;
+    padding: 3px 3px 3px 3px;
+    border-radius: 3px;
+    cursor: pointer;
+
+
+    /*background: cornflowerblue;*/
+}
+.k3-ebth li{
+    width: 93px;
+}
+.k3-sth li:hover,
+.k3-sbth li:hover,
+.k3-ebth li:hover,
+.k3-eth li:hover{
+    background-color: #f3f7ff;
+    /*background-color: #008698;*/
+}
+.k3-sth li.active,
+.k3-sbth li.active,
+.k3-ebth li.active,
+.k3-eth li.active{
+    background-color: #008698;
+}
+.k3-sth li span,
+.k3-sbth li span,
+.k3-ebth li span,
+.k3-eth li span{
+    display: block;
+    width: 40px;
+    height: 40px;
+    float: left;
+    margin-right: 6px;
+    background-position: center center;
+}
+.k3-eth li span.last,
+.k3-sbth li span.last,
+.k3-ebth li span.last,
+.k3-sth li span.last{
+    margin-right: 0px;
+}
+.k3-sth li span.s1,
+.k3-sbth li span.s1,
+.k3-ebth li span.s1,
+.k3-eth li span.s1{background: url(../images/k3/dice-ball-1.png) no-repeat center center;}
+.k3-sth li span.s2,
+.k3-sbth li span.s2,
+.k3-ebth li span.s2,
+.k3-eth li span.s2{background: url(../images/k3/dice-ball-2.png) no-repeat center center;}
+.k3-sth li span.s3,
+.k3-sbth li span.s3,
+.k3-ebth li span.s3,
+.k3-eth li span.s3{background: url(../images/k3/dice-ball-3.png) no-repeat center center;}
+.k3-sth li span.s4,
+.k3-sbth li span.s4,
+.k3-ebth li span.s4,
+.k3-eth li span.s4{background: url(../images/k3/dice-ball-4.png) no-repeat center center;}
+.k3-sth li span.s5,
+.k3-sbth li span.s5,
+.k3-ebth li span.s5,
+.k3-eth li span.s5{background: url(../images/k3/dice-ball-5.png) no-repeat center center;}
+.k3-sth li span.s6,
+.k3-sbth li span.s6,
+.k3-ebth li span.s6,
+.k3-eth li span.s6{background: url(../images/k3/dice-ball-6.png) no-repeat center center;}
+.k3-eth{
+    width: 918px;
+    margin: 14px 0 40px 70px;
+}
+.k3-eth li.fast{
+    padding-left: 30px;
+}
+.k3-eth li.fast:hover{
+    background-color: #eee;
+}
+.k3-eth li.fast.active{
+    background-color: #f3f7ff;
+}
+.k3-sbth{
+    width: 770px;
+    margin: 14px 0 40px 150px;
+}
+.k3-ebth{
+    width: 525px;
+    margin: 14px 0 40px 200px;
+}

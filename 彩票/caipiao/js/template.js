@@ -130,6 +130,7 @@ var TEMPLATE = {
                 _arr = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]; 
             break;
             case '2rpk':
+            case 'k3sum':
                 _arr = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]; 
             break;
         }
@@ -2785,26 +2786,337 @@ var TEMPLATE = {
     },
 
         
-// █████╗███╗  
-// ╚══█╔╝█╔═█╗ 
-//   █╬╝ █║ ╚█╗
-//   ╚█╗ █║  █║
-//    ╚█╗█║  █║
-// █╗  █║█║ █╬╝
-// ╚███╬╝███╬╝ 
-//  ╚══╝ ╚══╝  
-
+// █╗  █╗█████╗
+// █║ █╬╝╚══█╔╝
+// █║█╬╝   █╬╝ 
+// ██╬╝    ╚█╗ 
+// █╔█╗     ╚█╗
+// █║╚█╗ █╗  █║
+// █║ ╚█╗╚███╬╝
+// ╚╝  ╚╝ ╚══╝ 
     
-    // 
-    render3D: {
+    K3_SUM: function(options) {
+        options = options || {};
+        options.type = options.type || 'K3_SUM';
+
+        var _rule = '';
+        var _opt = {
+            haveCheckbox: false,
+            defaultCheck: 0,
+            haveTextarea: false,
+            placeholder: '',
+            numList: ['03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18'],
+            numNameList: ['SUM'],
+            quickFast: false,
+            type: 'sum',
+            formula: null,
+            minSelect: 1,
+            maxSelect: 11,
+            ajaxType: ''
+        };
+        var _maxBonus = '15.5200';
+        switch (options.type) {
+            case 'K3_SUM':
+            _rule = '至少选择1个和值（3个号码之和）进行投注，所选和值与开奖的3个号码的和值相同即中奖';
+            _opt.numNameList = ['SUM#和值'];
+            _opt.formula = function(x, options){
+                var _num = TEMPLATE.sumAndPoint(x, options, 'k3sum');
+                return _num;
+            };
+            break;
+        }
+
+        var _str = '';
+
+        return {
+            dom: _str,
+            rule: _rule,
+            maxBonus: _maxBonus,
+            opt: _opt
+        };
+    },
+    K3_threeSame: function(options) {
+        // 三同号
+        options = options || {};
+        options.type = options.type || 'K3_threeSame';
+
+        var _rule = '';
+        var _opt = {
+            haveCheckbox: false,
+            defaultCheck: 0,
+            haveTextarea: false,
+            placeholder: '',
+            numList: [''],
+            numNameList: [''],
+            quickFast: false,
+            type: '',
+            formula: null,
+            minSelect: 1,
+            maxSelect: 11,
+            ajaxType: ''
+        };
+        var _maxBonus = '419.0400';
+        switch (options.type) {
+            case 'K3_threeSame':
+            _rule = '选择1对相同号码和1个不同号码进行单选或者多选投注，选号与开奖号相同（顺序不限）即中奖';
+            _opt.formula = function(x, options){
+                var _num = TEMPLATE.sumAndPoint(x, options, 'k3sum');
+                return _num;
+            };
+            break;
+        }
+
+        var _arr = ['666','555','444','333','222','111'];
+        var _str = '';
+
+        _str += '<ul class="k3-sth clearfix">';
+        $.each(_arr, function(i, n){
+            _str += '<li data-v="'+ n +'"><span class="s'+ n[0] +'"></span><span class="s'+ n[1] +'"></span><span class="last s'+ n[2] +'"></span></li>';
+        });
+        _str += '</ul>';
+
+        return {
+            dice: _str,
+            rule: _rule,
+            maxBonus: _maxBonus,
+            opt: _opt
+        };
+    },
+    K3_twoSame: function(options) {
+        // 二同号
+        options = options || {};
+        options.type = options.type || 'K3_twoSame';
+
+        var _rule = '';
+        var _opt = {
+            haveCheckbox: false,
+            defaultCheck: 0,
+            haveTextarea: false,
+            placeholder: '',
+            numList: [''],
+            numNameList: [''],
+            quickFast: false,
+            type: '',
+            formula: null,
+            minSelect: 1,
+            maxSelect: 11,
+            ajaxType: ''
+        };
+        var _maxBonus = '139.6800';
+        switch (options.type) {
+            case 'K3_twoSame':
+            _rule = '对所有3不同号进行单选或多选，选号与开奖号相同（顺序不限）即中奖';
+            _opt.formula = function(x, options){
+                var _num = TEMPLATE.sumAndPoint(x, options, 'k3sum');
+                return _num;
+            };
+            break;
+        }
+
+        var _arr = ['112','122','133','144','155','166','113','223','233','244','255','266','114','224','334','344','355','366','115','225','335','445','455','466','116','226','336','446','556','566','11','22','33','44','55','66'];
+        var _str = '';
+
+        _str += '<ul class="k3-eth clearfix">';
+        $.each(_arr, function(i, n){
+            if (n.length == 3) {
+                _str += '<li data-v="'+ n +'"><span class="s'+ n[0] +'"></span><span class="s'+ n[1] +'"></span><span class="last s'+ n[2] +'"></span></li>';
+            } else {
+                _str += '<li class="fast" data-v="'+ n +'"><span class="s'+ n[0] +'"></span><span class="s'+ n[1] +'"></span></li>';
+            }
+        });
+        _str += '</ul>';
+
+        return {
+            dice: _str,
+            rule: _rule,
+            maxBonus: _maxBonus,
+            opt: _opt
+        };
+    },
+    K3_threeDifferent: function(options) {
+        // 三不同号
+        options = options || {};
+        options.type = options.type || 'K3_threeDifferent';
+
+        var _rule = '';
+        var _opt = {
+            haveCheckbox: false,
+            defaultCheck: 0,
+            haveTextarea: false,
+            placeholder: '',
+            numList: [''],
+            numNameList: [''],
+            quickFast: false,
+            type: '',
+            formula: null,
+            minSelect: 1,
+            maxSelect: 11,
+            ajaxType: ''
+        };
+        var _maxBonus = '69.8400';
+        switch (options.type) {
+            case 'K3_threeDifferent':
+            _rule = '对所有2不同号进行单选或多选，选号与开奖号中任意2个号码相同即中奖';
+            _opt.formula = function(x, options){
+                var _num = TEMPLATE.sumAndPoint(x, options, 'k3sum');
+                return _num;
+            };
+            break;
+        }
+
+        var _arr = ['123','134','146','236','345','124','135','156','245','346','125','136','234','246','356','126','145','235','256','456'];
+        var _str = '';
+
+        _str += '<ul class="k3-sbth clearfix">';
+        $.each(_arr, function(i, n){
+            _str += '<li data-v="'+ n +'"><span class="s'+ n[0] +'"></span><span class="s'+ n[1] +'"></span><span class="last s'+ n[2] +'"></span></li>';
+            
+        });
+        _str += '</ul>';
+
+        return {
+            dice: _str,
+            rule: _rule,
+            maxBonus: _maxBonus,
+            opt: _opt
+        };
+    },
+    K3_twoDifferent: function(options) {
+        // 二不通号
+        options = options || {};
+        options.type = options.type || 'K3_twoDifferent';
+
+        var _rule = '';
+        var _opt = {
+            haveCheckbox: false,
+            defaultCheck: 0,
+            haveTextarea: false,
+            placeholder: '',
+            numList: [''],
+            numNameList: [''],
+            quickFast: false,
+            type: '',
+            formula: null,
+            minSelect: 1,
+            maxSelect: 11,
+            ajaxType: ''
+        };
+        var _maxBonus = '13.9680';
+        switch (options.type) {
+            case 'K3_twoDifferent':
+            _rule = '对所有2不同号进行单选或多选，选号与开奖号中任意2个号码相同即中奖';
+            _opt.formula = function(x, options){
+                var _num = TEMPLATE.sumAndPoint(x, options, 'k3sum');
+                return _num;
+            };
+            break;
+        }
+
+        var _arr = ['12','15','24','34','45','13','16','25','35','46','14','23','26','36','56'];
+        var _str = '';
+
+        _str += '<ul class="k3-ebth clearfix">';
+        $.each(_arr, function(i, n){
+            _str += '<li data-v="'+ n +'"><span class="s'+ n[0] +'"></span><span class="last s'+ n[1] +'"></span></li>';
+            
+        });
+        _str += '</ul>';
+
+        return {
+            dice: _str,
+            rule: _rule,
+            maxBonus: _maxBonus,
+            opt: _opt
+        };
+    },
+    K3_tripleNumber: function(options) {
+        // 三连号
+        options = options || {};
+        options.type = options.type || 'K3_tripleNumber';
+
+        var _rule = '';
+        var _opt = {
+            haveCheckbox: false,
+            defaultCheck: 0,
+            haveTextarea: false,
+            placeholder: '',
+            numList: [''],
+            numNameList: [''],
+            quickFast: false,
+            type: '',
+            formula: null,
+            minSelect: 1,
+            maxSelect: 11,
+            ajaxType: ''
+        };
+        var _maxBonus = '69.8400';
+        switch (options.type) {
+            case 'K3_tripleNumber':
+            _rule = '选择1个或者多个骰号，如果开奖号码中包含该号（顺序不限）即中奖';
+            _opt.formula = function(x, options){
+                var _num = TEMPLATE.sumAndPoint(x, options, 'k3sum');
+                return _num;
+            };
+            break;
+        }
+
+        var _str = '';
+
+        return {
+            dice: _str,
+            rule: _rule,
+            maxBonus: _maxBonus,
+            opt: _opt
+        };
+    },
+    K3_singledOut: function(options) {
+        // 单挑一骰
+        options = options || {};
+        options.type = options.type || 'K3_singledOut';
+
+        var _rule = '';
+        var _opt = {
+            haveCheckbox: false,
+            defaultCheck: 0,
+            haveTextarea: false,
+            placeholder: '',
+            numList: [''],
+            numNameList: [''],
+            quickFast: false,
+            type: '',
+            formula: null,
+            minSelect: 1,
+            maxSelect: 11,
+            ajaxType: ''
+        };
+        var _maxBonus = '4.6050';
+        switch (options.type) {
+            case 'K3_singledOut':
+            _rule = '选择1个或者多个骰号，如果开奖号码中包含该号（顺序不限）即中奖';
+            _opt.formula = function(x, options){
+                var _num = TEMPLATE.sumAndPoint(x, options, 'k3sum');
+                return _num;
+            };
+            break;
+        }
+
+        var _str = '';
+
+        return {
+            dice: _str,
+            rule: _rule,
+            maxBonus: _maxBonus,
+            opt: _opt
+        };
+    },
+    renderK3: {
         init: function(){
             this.renderHeader();
             this.renderMainMenu();
-            this.renderSubMenu();
             this.renderRule();
         },
         renderHeader: function() {
-            // 渲染11选5相关DOM结构
+            // 渲染快三相关DOM结构
             var _str = '';
             _str += '<div class="below-num fl">';
             _str += '    <div class="fl below-phase">';
@@ -2834,44 +3146,18 @@ var TEMPLATE = {
         },
         renderMainMenu: function() {
             var _str = '';
-            _str += '<span class="J_withChild active" data-info="901#Any_11X5#0">任选</span>';
-            _str += '<span class="J_withChild" data-info="902#OE_Counts_11X5#1">定单双</span>';
-            _str += '<span class="J_withChild" data-info="903#rd_Digit_11X5#2">猜中位</span>';
-            _str += '<span class="J_withChild" data-info="904#First_3_11X5#3">前三</span>';
-            _str += '<span class="J_withChild" data-info="905#First_2_11X5#4">前二</span>';
-            _str += '<span class="J_withChild" data-info="906#Any_Place_11X5#5">不定位</span>';
-            _str += '<span class="J_withChild" data-info="907#Fixed_Place_11X5#6">定位胆</span>';
+            _str += '<span class="J_withChild active" data-info="901#K3_SUM#0">和值</span>';
+            _str += '<span class="J_withChild" data-info="902#K3_threeSame#1">三同号</span>';
+            _str += '<span class="J_withChild" data-info="903#K3_twoSame#2">二同号</span>';
+            _str += '<span class="J_withChild" data-info="904#K3_threeDifferent#3">三不同号</span>';
+            _str += '<span class="J_withChild" data-info="905#K3_twoDifferent#4">二不同号</span>';
+            _str += '<span class="J_withChild" data-info="906#K3_tripleNumber#5">三连号</span>';
+            _str += '<span class="J_withChild" data-info="907#K3_singledOut#6">单挑一骰</span>';
             $('#J_mainMenuList').html(_str);
         },
-        renderSubMenu: function() {
-            var _str = '';
-            _str += '<dl>';
-            _str += '    <dt>复式：</dt>';
-            _str += '    <dd id="J_Any1_11X5" data-info="908#Any1_11X5#2" class="J_subMenu active">任一直选</dd>';
-            _str += '    <dd id="J_Any2_11X5" data-info="909#Any2_11X5#2" class="J_subMenu">任二直选</dd>';
-            _str += '    <dd id="J_Any3_11X5" data-info="910#Any3_11X5#2" class="J_subMenu">任三直选</dd>';
-            _str += '    <dd id="J_Any4_11X5" data-info="911#Any4_11X5#2" class="J_subMenu">任四直选</dd>';
-            _str += '    <dd id="J_Any5_11X5" data-info="912#Any5_11X5#2" class="J_subMenu">任五直选</dd>';
-            _str += '    <dd id="J_Any6_11X5" data-info="913#Any6_11X5#2" class="J_subMenu">任六直选</dd>';
-            _str += '    <dd id="J_Any7_11X5" data-info="914#Any7_11X5#2" class="J_subMenu">任七直选</dd>';
-            _str += '    <dd id="J_Any8_11X5" data-info="915#Any8_11X5#2" class="J_subMenu">任八直选</dd>';
-            _str += '</dl>';
-            _str += '<dl>';
-            _str += '    <dt>单式：</dt>';
-            _str += '    <dd id="J_Any2_11X5_Single" data-info="100#Any2_11X5_Single#2" class="J_subMenu">任二直选(单式)</dd>';
-            _str += '    <dd id="J_Any3_11X5_Single" data-info="101#Any3_11X5_Single#2" class="J_subMenu">任三直选(单式)</dd>';
-            _str += '    <dd id="J_Any4_11X5_Single" data-info="102#Any4_11X5_Single#2" class="J_subMenu">任四直选(单式)</dd>';
-            _str += '    <dd id="J_Any5_11X5_Single" data-info="103#Any5_11X5_Single#2" class="J_subMenu">任五直选(单式)</dd>';
-            _str += '    <dd id="J_Any6_11X5_Single" data-info="104#Any6_11X5_Single#2" class="J_subMenu">任六直选(单式)</dd>';
-            _str += '    <dd id="J_Any7_11X5_Single" data-info="105#Any7_11X5_Single#2" class="J_subMenu">任七直选(单式)</dd>';
-            _str += '    <dd id="J_Any8_11X5_Single" data-info="106#Any8_11X5_Single#2" class="J_subMenu">任八直选(单式)</dd>';
-            _str += '</dl>';
-
-            $('#J_subMenuList').html(_str);
-        },
         renderRule: function() {
-            $('#J_maxBonus').html('3.7333');
-            $('#J_bettingRule').html('从01-11中任意选择1个或多个号码投注，只要5个开奖号码中包含所选号码，即为中奖。 如：选择02，开奖号码为***02*，即为中奖。');
+            $('#J_maxBonus').html('15.5200');
+            $('#J_bettingRule').html('至少选择1个和值（3个号码之和）进行投注，所选和值与开奖的3个号码的和值相同即中奖');
         }
     },
     
@@ -3472,4 +3758,3 @@ var TEMPLATE = {
         }
     }
 };
-
