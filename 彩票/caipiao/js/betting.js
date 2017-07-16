@@ -35,7 +35,7 @@ $(function() {
             //     Betting.renderK3SelectArea();
             // }
         },
-        bindEvent: function() {
+        bindEvent: function() {            
             // 历史投注换页
             $('#J_betTabPagePrev').click(function(){
                 var _index = $('#J_curPage').html();
@@ -153,13 +153,7 @@ console.log(_subNav);
                 _str += '</div>';
             } else if (_subNav != 'K3_SUM' && _subNav.indexOf('K3') > -1) {
                 // 快三除和值外的dom
-                
-                if (_subNav == 'K3_singledOut') {
-                    // 单挑一骰
-
-                } else {
-                    _str += _data.dice;
-                }
+                _str += _data.dice;
             } else {
                 // 复选框
                 if (options.haveCheckbox) {
@@ -567,6 +561,28 @@ console.log(_subNav);
             $('.J_machineSelection').click(function() {
                 var i = $(this).data('i');
                 Betting.randomBalls(i);
+            });
+
+            // 快三选择色子
+            $('#J_bettingBox').on('click', '.J_dice', function(){
+                if ($(this).hasClass('active')) {
+                    $(this).removeClass('active');
+                } else {
+                    $(this).addClass('active');
+                }
+            });
+
+            $('#J_bettingBox').on('click', '.J_diceFast', function(){
+                var _this = $(this);
+                var _v = _this.data('v');
+
+                if (_this.hasClass('active')) {
+                    _this.removeClass('active');
+                    $('.J_dice[data-v*="'+ _v +'"]').removeClass('active');
+                } else {
+                    _this.addClass('active');
+                    $('.J_dice[data-v*="'+ _v +'"]').addClass('active');
+                }
             });
         },
         confirmCart: function(_data, type) {

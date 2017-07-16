@@ -2858,7 +2858,7 @@ var TEMPLATE = {
         var _maxBonus = '419.0400';
         switch (options.type) {
             case 'K3_threeSame':
-            _rule = '选择1对相同号码和1个不同号码进行单选或者多选投注，选号与开奖号相同（顺序不限）即中奖';
+            _rule = '对豹子号（111，222，333，444，555，666）进行单选或通选投注，选号与开奖号相同即中奖';
             _opt.formula = function(x, options){
                 var _num = TEMPLATE.sumAndPoint(x, options, 'k3sum');
                 return _num;
@@ -2871,7 +2871,7 @@ var TEMPLATE = {
 
         _str += '<ul class="k3-sth clearfix">';
         $.each(_arr, function(i, n){
-            _str += '<li data-v="'+ n +'"><span class="s'+ n[0] +'"></span><span class="s'+ n[1] +'"></span><span class="last s'+ n[2] +'"></span></li>';
+            _str += '<li class="J_dice" data-v="'+ n +'"><span class="s'+ n[0] +'"></span><span class="s'+ n[1] +'"></span><span class="last s'+ n[2] +'"></span></li>';
         });
         _str += '</ul>';
 
@@ -2905,7 +2905,7 @@ var TEMPLATE = {
         var _maxBonus = '139.6800';
         switch (options.type) {
             case 'K3_twoSame':
-            _rule = '对所有3不同号进行单选或多选，选号与开奖号相同（顺序不限）即中奖';
+            _rule = '选择1对相同号码和1个不同号码进行单选或者多选投注，选号与开奖号相同（顺序不限）即中奖';
             _opt.formula = function(x, options){
                 var _num = TEMPLATE.sumAndPoint(x, options, 'k3sum');
                 return _num;
@@ -2919,9 +2919,9 @@ var TEMPLATE = {
         _str += '<ul class="k3-eth clearfix">';
         $.each(_arr, function(i, n){
             if (n.length == 3) {
-                _str += '<li data-v="'+ n +'"><span class="s'+ n[0] +'"></span><span class="s'+ n[1] +'"></span><span class="last s'+ n[2] +'"></span></li>';
+                _str += '<li class="J_dice" data-v="'+ n +'"><span class="s'+ n[0] +'"></span><span class="s'+ n[1] +'"></span><span class="last s'+ n[2] +'"></span></li>';
             } else {
-                _str += '<li class="fast" data-v="'+ n +'"><span class="s'+ n[0] +'"></span><span class="s'+ n[1] +'"></span></li>';
+                _str += '<li class="J_diceFast fast" data-v="'+ n +'"><span class="s'+ n[0] +'"></span><span class="s'+ n[1] +'"></span></li>';
             }
         });
         _str += '</ul>';
@@ -2956,7 +2956,7 @@ var TEMPLATE = {
         var _maxBonus = '69.8400';
         switch (options.type) {
             case 'K3_threeDifferent':
-            _rule = '对所有2不同号进行单选或多选，选号与开奖号中任意2个号码相同即中奖';
+            _rule = '对所有3不同号进行单选或多选，选号与开奖号相同（顺序不限）即中奖';
             _opt.formula = function(x, options){
                 var _num = TEMPLATE.sumAndPoint(x, options, 'k3sum');
                 return _num;
@@ -2969,7 +2969,7 @@ var TEMPLATE = {
 
         _str += '<ul class="k3-sbth clearfix">';
         $.each(_arr, function(i, n){
-            _str += '<li data-v="'+ n +'"><span class="s'+ n[0] +'"></span><span class="s'+ n[1] +'"></span><span class="last s'+ n[2] +'"></span></li>';
+            _str += '<li class="J_dice" data-v="'+ n +'"><span class="s'+ n[0] +'"></span><span class="s'+ n[1] +'"></span><span class="last s'+ n[2] +'"></span></li>';
             
         });
         _str += '</ul>';
@@ -2982,7 +2982,7 @@ var TEMPLATE = {
         };
     },
     K3_twoDifferent: function(options) {
-        // 二不通号
+        // 二不同号
         options = options || {};
         options.type = options.type || 'K3_twoDifferent';
 
@@ -3017,7 +3017,7 @@ var TEMPLATE = {
 
         _str += '<ul class="k3-ebth clearfix">';
         $.each(_arr, function(i, n){
-            _str += '<li data-v="'+ n +'"><span class="s'+ n[0] +'"></span><span class="last s'+ n[1] +'"></span></li>';
+            _str += '<li class="J_dice" data-v="'+ n +'"><span class="s'+ n[0] +'"></span><span class="last s'+ n[1] +'"></span></li>';
             
         });
         _str += '</ul>';
@@ -3052,7 +3052,7 @@ var TEMPLATE = {
         var _maxBonus = '69.8400';
         switch (options.type) {
             case 'K3_tripleNumber':
-            _rule = '选择1个或者多个骰号，如果开奖号码中包含该号（顺序不限）即中奖';
+            _rule = '对所有3个相连的号码（123，234，345，456)进行单选或多选投注，选号与开奖号相同（顺序不限）即中奖';
             _opt.formula = function(x, options){
                 var _num = TEMPLATE.sumAndPoint(x, options, 'k3sum');
                 return _num;
@@ -3060,7 +3060,15 @@ var TEMPLATE = {
             break;
         }
 
+        var _arr = ['123','234','345','456'];
         var _str = '';
+
+        _str += '<ul class="k3-slh clearfix">';
+        $.each(_arr, function(i, n){
+            _str += '<li class="J_dice" data-v="'+ n +'"><span class="s'+ n[0] +'"></span><span class="last s'+ n[1] +'"></span><span class="last s'+ n[2] +'"></span></li>';
+            
+        });
+        _str += '</ul>';
 
         return {
             dice: _str,
@@ -3100,7 +3108,15 @@ var TEMPLATE = {
             break;
         }
 
+        var _arr = ['6','5','4','3','2','1'];
         var _str = '';
+
+        _str += '<ul class="k3-dyts clearfix">';
+        $.each(_arr, function(i, n){
+            _str += '<li class="J_dice" data-v="'+ n +'"><span class="s'+ n[0] +'"></span></li>';
+            
+        });
+        _str += '</ul>';
 
         return {
             dice: _str,

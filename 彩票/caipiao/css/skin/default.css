@@ -111,3 +111,12 @@ body .layui-layer-btn .layui-layer-btn0{
     border-color: #008698;
     background-color: #008698;
 }
+
+.k3-dyts li.active,
+.k3-sth li.active,
+.k3-sbth li.active,
+.k3-slh li.active,
+.k3-ebth li.active,
+.k3-eth li.active{
+    background-color: #008698;
+}
