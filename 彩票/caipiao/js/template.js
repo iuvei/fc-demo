@@ -130,8 +130,10 @@ var TEMPLATE = {
                 _arr = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]; 
             break;
             case '2rpk':
-            case 'k3sum':
                 _arr = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]; 
+            break;
+            case 'k3sum':
+                _arr = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]; 
             break;
         }
         return _arr;
@@ -2805,7 +2807,8 @@ var TEMPLATE = {
             defaultCheck: 0,
             haveTextarea: false,
             placeholder: '',
-            numList: ['03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18'],
+            // numList: ['03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18'],
+            numList: [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18],
             numNameList: ['SUM'],
             quickFast: false,
             type: 'sum',
@@ -2823,6 +2826,7 @@ var TEMPLATE = {
                 var _num = TEMPLATE.sumAndPoint(x, options, 'k3sum');
                 return _num;
             };
+            _opt.sumType = 'k3sum';
             break;
         }
 
@@ -2849,7 +2853,7 @@ var TEMPLATE = {
             numList: [''],
             numNameList: [''],
             quickFast: false,
-            type: '',
+            type: 'dice',
             formula: null,
             minSelect: 1,
             maxSelect: 11,
@@ -2869,9 +2873,9 @@ var TEMPLATE = {
         var _arr = ['666','555','444','333','222','111'];
         var _str = '';
 
-        _str += '<ul class="k3-sth clearfix">';
+        _str += '<ul class="J_diceList k3-sth clearfix" data-row="DICE">';
         $.each(_arr, function(i, n){
-            _str += '<li class="J_dice" data-v="'+ n +'"><span class="s'+ n[0] +'"></span><span class="s'+ n[1] +'"></span><span class="last s'+ n[2] +'"></span></li>';
+            _str += '<li id="J_dice_'+ i +'" class="J_dice" data-v="'+ n +'"><span class="s'+ n[0] +'"></span><span class="s'+ n[1] +'"></span><span class="last s'+ n[2] +'"></span></li>';
         });
         _str += '</ul>';
 
@@ -2896,7 +2900,7 @@ var TEMPLATE = {
             numList: [''],
             numNameList: [''],
             quickFast: false,
-            type: '',
+            type: 'dice',
             formula: null,
             minSelect: 1,
             maxSelect: 11,
@@ -2916,10 +2920,10 @@ var TEMPLATE = {
         var _arr = ['112','122','133','144','155','166','113','223','233','244','255','266','114','224','334','344','355','366','115','225','335','445','455','466','116','226','336','446','556','566','11','22','33','44','55','66'];
         var _str = '';
 
-        _str += '<ul class="k3-eth clearfix">';
+        _str += '<ul class="J_diceList k3-eth clearfix" data-row="DICE">';
         $.each(_arr, function(i, n){
             if (n.length == 3) {
-                _str += '<li class="J_dice" data-v="'+ n +'"><span class="s'+ n[0] +'"></span><span class="s'+ n[1] +'"></span><span class="last s'+ n[2] +'"></span></li>';
+                _str += '<li id="J_dice_'+ i +'" class="J_dice" data-v="'+ n +'"><span class="s'+ n[0] +'"></span><span class="s'+ n[1] +'"></span><span class="last s'+ n[2] +'"></span></li>';
             } else {
                 _str += '<li class="J_diceFast fast" data-v="'+ n +'"><span class="s'+ n[0] +'"></span><span class="s'+ n[1] +'"></span></li>';
             }
@@ -2947,7 +2951,7 @@ var TEMPLATE = {
             numList: [''],
             numNameList: [''],
             quickFast: false,
-            type: '',
+            type: 'dice',
             formula: null,
             minSelect: 1,
             maxSelect: 11,
@@ -2967,9 +2971,9 @@ var TEMPLATE = {
         var _arr = ['123','134','146','236','345','124','135','156','245','346','125','136','234','246','356','126','145','235','256','456'];
         var _str = '';
 
-        _str += '<ul class="k3-sbth clearfix">';
+        _str += '<ul class="J_diceList k3-sbth clearfix" data-row="DICE">';
         $.each(_arr, function(i, n){
-            _str += '<li class="J_dice" data-v="'+ n +'"><span class="s'+ n[0] +'"></span><span class="s'+ n[1] +'"></span><span class="last s'+ n[2] +'"></span></li>';
+            _str += '<li id="J_dice_'+ i +'" class="J_dice" data-v="'+ n +'"><span class="s'+ n[0] +'"></span><span class="s'+ n[1] +'"></span><span class="last s'+ n[2] +'"></span></li>';
             
         });
         _str += '</ul>';
@@ -2995,7 +2999,7 @@ var TEMPLATE = {
             numList: [''],
             numNameList: [''],
             quickFast: false,
-            type: '',
+            type: 'dice',
             formula: null,
             minSelect: 1,
             maxSelect: 11,
@@ -3015,9 +3019,9 @@ var TEMPLATE = {
         var _arr = ['12','15','24','34','45','13','16','25','35','46','14','23','26','36','56'];
         var _str = '';
 
-        _str += '<ul class="k3-ebth clearfix">';
+        _str += '<ul class="J_diceList k3-ebth clearfix" data-row="DICE">';
         $.each(_arr, function(i, n){
-            _str += '<li class="J_dice" data-v="'+ n +'"><span class="s'+ n[0] +'"></span><span class="last s'+ n[1] +'"></span></li>';
+            _str += '<li id="J_dice_'+ i +'" class="J_dice" data-v="'+ n +'"><span class="s'+ n[0] +'"></span><span class="last s'+ n[1] +'"></span></li>';
             
         });
         _str += '</ul>';
@@ -3043,7 +3047,7 @@ var TEMPLATE = {
             numList: [''],
             numNameList: [''],
             quickFast: false,
-            type: '',
+            type: 'dice',
             formula: null,
             minSelect: 1,
             maxSelect: 11,
@@ -3063,9 +3067,9 @@ var TEMPLATE = {
         var _arr = ['123','234','345','456'];
         var _str = '';
 
-        _str += '<ul class="k3-slh clearfix">';
+        _str += '<ul class="J_diceList k3-slh clearfix" data-row="DICE">';
         $.each(_arr, function(i, n){
-            _str += '<li class="J_dice" data-v="'+ n +'"><span class="s'+ n[0] +'"></span><span class="last s'+ n[1] +'"></span><span class="last s'+ n[2] +'"></span></li>';
+            _str += '<li id="J_dice_'+ i +'" class="J_dice" data-v="'+ n +'"><span class="s'+ n[0] +'"></span><span class="last s'+ n[1] +'"></span><span class="last s'+ n[2] +'"></span></li>';
             
         });
         _str += '</ul>';
@@ -3091,7 +3095,7 @@ var TEMPLATE = {
             numList: [''],
             numNameList: [''],
             quickFast: false,
-            type: '',
+            type: 'dice',
             formula: null,
             minSelect: 1,
             maxSelect: 11,
@@ -3111,9 +3115,9 @@ var TEMPLATE = {
         var _arr = ['6','5','4','3','2','1'];
         var _str = '';
 
-        _str += '<ul class="k3-dyts clearfix">';
+        _str += '<ul class="J_diceList k3-dyts clearfix" data-row="DICE">';
         $.each(_arr, function(i, n){
-            _str += '<li class="J_dice" data-v="'+ n +'"><span class="s'+ n[0] +'"></span></li>';
+            _str += '<li id="J_dice_'+ i +'" class="J_dice" data-v="'+ n +'"><span class="s'+ n[0] +'"></span></li>';
             
         });
         _str += '</ul>';

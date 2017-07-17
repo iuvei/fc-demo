@@ -131,7 +131,7 @@ $(function() {
             var options = _data.opt;
             var _str = '';
 
-console.log(_subNav);
+            console.log(_subNav);
 
             if (_subNav == 'OECounts_11X5') {
                 // 定单双
@@ -330,6 +330,7 @@ console.log(_subNav);
             // var _currentRule = TEMPLATE[_mainNav]({
             //     type : _subNav
             // });
+            
             // 我要追号
             $('#J_chaseNumber').click(function(){
                 if($(this).hasClass('disabled')){
@@ -523,6 +524,7 @@ console.log(_subNav);
 
             // 一键投注
             $('#J_shortcutPlaceOrder').on('click', function(){
+                var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
                 var _subNav = ($('.J_subMenu.active').length ? $('.J_subMenu.active').data('info').split('#')[1] : _mainNav);
                 if ($(this).hasClass('disabled')) {
                     return;
@@ -570,6 +572,10 @@ console.log(_subNav);
                 } else {
                     $(this).addClass('active');
                 }
+
+                var _len = $('.J_dice.active').length;
+
+                Betting.calculateAmount(_len);
             });
 
             $('#J_bettingBox').on('click', '.J_diceFast', function(){
@@ -583,6 +589,10 @@ console.log(_subNav);
                     _this.addClass('active');
                     $('.J_dice[data-v*="'+ _v +'"]').addClass('active');
                 }
+
+                var _len = $('.J_dice.active').length;
+
+                Betting.calculateAmount(_len);
             });
         },
         confirmCart: function(_data, type) {
@@ -628,7 +638,6 @@ console.log(_subNav);
 
             
 
-
             if($('.J_ballList').length){
                 // $('.J_ballList').each(function(i){
                 //     var _this = $(this);
@@ -658,8 +667,9 @@ console.log(_subNav);
                 }
 
                 _formulaList.push(k);
-
-            } else {
+            } else if($('.J_diceList').length){
+                // console.log(Math.floor(Math.random()*6 + 1));
+            } else if($('#J_ballInputArea').length) {
                 _formulaList = TEMPLATE.allManualEntryEvents(_subNav).bits;
             }
             var a = _formulaList;   //公式列表
@@ -674,7 +684,7 @@ console.log(_subNav);
             var _amount = 0;    //一注的价格
             var _data = [];
             var _miBall = TEMPLATE.allManualEntryEvents(_subNav).miBall;
-// console.log(_subNav);
+            // console.log(_subNav);
             if (_currentRule.opt.type == 'text') {
                 // 默认设置为SSC
                 for (var _ddddd = {}, e = Betting.playCode, f = 0; f < a.length; f++){
@@ -930,7 +940,6 @@ console.log(_subNav);
             } else if(_currentRule.opt.type == 'sum'){
                 var _balls = _currentRule.opt.numList;
                 var _ballSmallNumList = TEMPLATE.getSubNumList(_currentRule.opt.sumType);
-               
 
                 for (var g = Betting.numberRandom(_balls[0], _balls[_balls.length - 1], 1 * _times), h = 0; h < g.length; h++) {
                     var i = "",
@@ -944,7 +953,6 @@ console.log(_subNav);
                             return a - _beishu
                         }), i = m.join("") + "@" + i, j *= 1
                     }
-                    // console.log(i, j);
                     _data.push(_getTextRoundData(i, j));
                 }
             } else if (_currentRule.opt.type == 'mixingAny') {
@@ -1040,6 +1048,16 @@ console.log(_subNav);
                     // console.log(f, 1, b, "", 1, g);
                     _data.push(_getTextRoundData(f, 1));
                     // lott.createBetCart(f, 1, b, "", 1, g)
+                }
+            } else if (_currentRule.opt.type == 'dice') {
+                // Math.floor(Math.random()*6 + 1)
+                var k_l = $('.J_dice').length;
+                // console.log(k_l);
+                for (var f = 0; f < 1 * _times; f++) {
+                    var k_n = parseInt(Math.random() * k_l);
+                    var g = $('#J_dice_'+k_n).data('v') + '';
+                    // console.log(k_n, g);
+                    _data.push(_getTextRoundData(g, h));
                 }
             } else {
                 if("11X5" == Betting.playCode && "FixedPlace_11X5" == _subNav) {
@@ -1386,7 +1404,7 @@ console.log(_subNav);
                 }
 
                 if($('[data-row="SUM"]').length) {
-                    if(Betting.playCode == '11X5' || Betting.playCode == 'PK10') {
+                    if(Betting.playCode == '11X5' || Betting.playCode == 'PK10' || Betting.playCode == 'K3') {
                         _ddd.n = j;
                     } else {
                         _ddd.n = j.split('').sort().join('');
@@ -1394,17 +1412,25 @@ console.log(_subNav);
                     _need += 'n';
                 }
 
+                if($('[data-row="DICE"]').length) {
+                    // 快三 骰子
+                    _ddd.n = j;
+                }
+
                 _ddd.multiple = $('#J_beishu').val();
                 _ddd.ajaxType = _currentRule.opt.ajaxType;
                 _ddd.unit = $('#J_unit').data('txt').split('#')[2];
                 _ddd.unitName = $('#J_unit').data('val');
                 _ddd.type = _currentRule.opt.type;
-                _ddd.typeName = $('.J_subMenu.active').text();
                 _ddd.num = num ? num : 1,  //默认每次机选1;
                 _ddd.sum = Betting.formatNumber(_ddd.num * 1 * _ddd.multiple * Number($('#J_unit').data('txt').split('#')[1] * Betting.singleStakesPrice), 4);
                 _ddd.need = _need;
+                if (Betting.playCode == 'K3') {
+                    _ddd.typeName = $('.J_withChild.active').text();
+                } else {
+                    _ddd.typeName = $('.J_subMenu.active').text();
+                }
                 
-                // console.log(_ddd);
                 return _ddd;
             }
 
@@ -1497,6 +1523,7 @@ console.log(_subNav);
         resetSelectArea: function() {
             // 重置选区
             $('.J_numWrp.active').removeClass('active');
+            $('.J_dice.active').removeClass('active');
             Betting.resetBettingBox();
             if ($('#J_ballInputArea').length) {
                 $('#J_ballInputArea').val('');
@@ -1766,13 +1793,17 @@ console.log(_subNav);
             var _d = {};
 
             _d.type = _opt.type;   //选号类型
-            _d.typeName = $('.J_subMenu.active').text();    //玩法类型名称
             _d.multiple = $('#J_beishu').val(); //投注倍数
             _d.unit = $('#J_unit').data('txt').split('#')[2];   //投注金额单位：yuan,jiao,fen,li
             _d.unitName = $('#J_unit').data('val'); //投注金额单位 元角分厘
             _d.sum = $('#J_selectionBallAmount').text();    //投注金额
             _d.num = $('#J_selectionBallStakes').text();    //投注注数
             _d.ajaxType = _opt.ajaxType;
+            if (Betting.playCode == 'K3'){
+                _d.typeName = $('.J_withChild.active').text();    //玩法类型名称
+            } else {
+                _d.typeName = $('.J_subMenu.active').text();    //玩法类型名称
+            }
 
             if (_opt.type == 'ball' || _opt.type == 'taste' || _opt.type == 'sum' || _opt.type == 'mixingAny' || _opt.type == '11x5' || _opt.type == 'czwBall' || _opt.type == 'dragonTiger') {
                 var _n = '';
@@ -1899,7 +1930,7 @@ console.log(_subNav);
                 });
                 
                 _d.need = _need;  //需要的数据类型
-            } else if(_rule.opt.type == 'text' || _rule.opt.type == 'mixing'){
+            } else if(_opt.type == 'text' || _opt.type == 'mixing'){
                 // TODO : 文本域上传
                 _d.need = 'n';
 
@@ -1938,7 +1969,11 @@ console.log(_subNav);
                     }
                 });
                 _d.n = _nums;
-            } 
+            } else if(_opt.type == 'dice') {
+                // 快三
+                console.log(21);
+                
+            }
 
             if (_opt.haveCheckbox) {
                 var _hex = '';
@@ -1960,7 +1995,7 @@ console.log(_subNav);
             }
 
             _data.push(_d);
-            // console.log(_data);
+            console.log(_data);
 
             return _data;
         },
