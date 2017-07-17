@@ -1971,7 +1971,7 @@ $(function() {
                 _d.n = _nums;
             } else if(_opt.type == 'dice') {
                 // 快三
-                console.log(21);
+                console.log('todo ： 不知道要什么格式');
                 
             }
 

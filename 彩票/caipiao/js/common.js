@@ -56,7 +56,7 @@
 					$('#J_totalBalance').html('余额已隐藏');
 				} else {
 					$(this).addClass('show').html('隐藏');
-					$('#J_totalBalance').html('总余额 ￥<i>' + $(this).data('balance') + '</i>');
+					$('#J_totalBalance').html('余额 <i>￥' + $(this).data('balance') + '</i>');
 				}
 			});
 

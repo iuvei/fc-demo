@@ -3143,12 +3143,10 @@ var TEMPLATE = {
             _str += '        <p>开奖号码</p>';
             _str += '        <p>第<span class="text-l-color" id="J_dataNum"></span>期</p>';
             _str += '    </div>';
-            _str += '    <div class="fl below-prize-num" id="J_drawResult">';
-            _str += '        <em>0</em>';
-            _str += '        <em>0</em>';
-            _str += '        <em>0</em>';
-            _str += '        <em>0</em>';
-            _str += '        <em>0</em>';
+            _str += '    <div class="fl below-prize-num k3-prize" id="J_drawResult">';
+            _str += '        <em class="s1"></em>';
+            _str += '        <em class="s2"></em>';
+            _str += '        <em class="s3"></em>';
             _str += '    </div>';
             _str += '</div>';
             _str += '<div class="below-history fl rel">';
