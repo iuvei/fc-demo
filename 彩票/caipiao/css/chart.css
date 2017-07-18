@@ -426,3 +426,80 @@
 .pk10 .numCount-wrp .po-middle > li {
     width: 22px;
 }
+/* =========================================================== */
+/* ==================  K3 =============================== */
+/* =========================================================== */
+.k3 .chart-lastWrp.po-middle{
+    width: 310px;
+}
+.k3 .chart-lastWrp.po-middle li{
+    margin: 0;
+    width: 60px;
+    text-align: center;
+}
+.k3 .lastDetail-wrp.po-middle{
+    width: 310px;
+}
+.k3 .lastDetail-wrp li{
+    width: 60px;
+}
+.k3 .ch-chart li{
+    width: 29px;
+    margin: 0;
+}
+.k3 .numCount-wrp .po-middle > li{
+    width: 29px;
+    margin: 0;
+}
+.k3 .hit-blue{
+    background-position: -115px 0;
+}
+.k3 .hit-red{
+    background-position: 209px 0;
+}
+.k3-total{
+    border-bottom: 1px solid #dddddd;
+    background-color: #e9e9e9;
+}
+.k3-total > span{
+    display: block;
+    float: left;
+    height: 30px;
+    line-height: 30px;
+    width: 181px;
+    text-align: center;
+    border-right: 1px solid #ddd;
+    font-size: 14px;
+}
+.k3-total > div{
+    float: left;
+}
+.k3-total-num{
+    border-right: 1px solid #ddd;
+    overflow: hidden;
+}
+.k3-total-num li{
+    float: left;
+    height: 30px;
+    line-height: 30px;
+    width: 29px;
+    font-size: 12px;
+    text-align: center;
+}
+
+.k3-total-5{
+    width: 310px;
+}
+.k3-total-5 ul{
+    float: right;
+}
+.k3-total-5 ul li{
+    width: 60px;
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    vertical-align: bottom;
+    float: left;
+    font-size: 12px;
+}
