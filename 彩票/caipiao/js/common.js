@@ -300,8 +300,9 @@
 					option.pageSize = $('.J_recently.active').data('size') || 30;
 				}
 			} else {
+				option.pageSize = 10;
 				// if(_url.id == 1){
-					option.pageSize = 100;
+					// option.pageSize = 100;
 				// } else (_url.id == 2){
 				// 	option.pageSize = 100;
 				// }

@@ -302,6 +302,102 @@ var TEMPLATE = {
         // lott.manualEntryUI(!0, a),
         // lott.allManualEntryRandomBall(a.bits, a.miBall, a.digit)
     },
+    getChaseData: function(name, currentPeriods) {
+        currentPeriods = '20170719-100';
+        // console.log(name, currentPeriods);
+        // name : 游戏名称 如 ： chong_qing_shi_shi
+        // currentPeriods ： 当前期数 如 : 20170719-088
+        var data = {
+            totalPeriods : 0,   //一天最多的期数
+            maxPeriods : 0,     //最多可追的期数
+        };
+        var _str = '';
+        // var _now = new Date();
+        // var _y = _now.getFullYear();
+        // var _m = ((_now.getMonth() + 1) < 10 ? '0' + (_now.getMonth()+1) : (_now.getMonth()+1));
+        // var _d = (_now.getDate()< 10 ? '0' + _now.getDate() : _now.getDate());
+
+        var _d0 = getDay(0);
+        var _d1 = getDay(1);
+        var _d2 = getDay(2);
+
+        // console.log(_d0);
+        // console.log(_d1);
+        // console.log(_d2);
+
+        // var str = d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();
+        switch(name){
+            case 'chong_qing_shi_shi':
+                data.totalPeriods = 120;
+                data.maxPeriods = 240;
+                var _n = Number(currentPeriods.split('-')[1]);
+                var _lave = data.totalPeriods - _n + 1;
+                var _s = '(当前)';
+                
+                for (var i = 0; i < data.maxPeriods; i++) {
+                    if (i > 0) {
+                        _s = '';
+                    }
+
+                    if (_lave == data.totalPeriods) {
+                        if (i < data.totalPeriods) {
+                            _str += '<option value="">'+ _d0.tYear + _d0.tMonth + _d0.tDate + '-' + toThree(_n+i) + _s +'</option>';
+                        } else {
+                            _str += '<option value="">'+ _d1.tYear + _d1.tMonth + _d1.tDate + '-' + toThree(_n+i-data.totalPeriods) + '</option>';
+                        }
+                    } else {
+                        if (i < _lave) {
+                            _str += '<option value="">'+ _d0.tYear + _d0.tMonth + _d0.tDate + '-' + toThree(_n+i) + _s +'</option>';
+                        } else if(_lave <= i && i < (_lave + data.totalPeriods)){
+                            _str += '<option value="">'+ _d1.tYear + _d1.tMonth + _d1.tDate + '-' + toThree(_n+i-data.totalPeriods) + '</option>';
+                        } else {
+                            _str += '<option value="">'+ _d2.tYear + _d2.tMonth + _d2.tDate + '-' + toThree(i - data.totalPeriods - _lave + 1) + '</option>';
+                        }
+                    }
+                }
+                data.select = _str;
+            break
+        }
+
+        function toThree(num) {
+            var _n = num;
+            if (_n < 100) {
+                if (_n < 10) {
+                    _n = '00' + _n;
+                } else {
+                    _n = '0' + _n;
+                }
+            }
+            return _n;
+        }
+
+        function getDay(day) {
+            var today = new Date();
+            var targetday_milliseconds = today.getTime() + 1000 * 60 * 60 * 24 * day;
+            today.setTime(targetday_milliseconds);
+            var tYear = today.getFullYear();
+            var tMonth = today.getMonth();
+            var tDate = today.getDate();
+            tMonth = doHandleMonth(tMonth + 1);
+            tDate = doHandleMonth(tDate);
+
+            return {
+                tYear : tYear,
+                tMonth : tMonth,
+                tDate : tDate
+            }
+        }
+
+        function doHandleMonth(month) {
+            var m = month;
+            if (month.toString().length == 1) {
+                m = "0" + month;
+            }
+            return m;
+        }
+
+        return data;
+    },
 
         
 //  ████╗ ████╗ ███╗ 

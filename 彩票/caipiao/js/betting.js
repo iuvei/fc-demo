@@ -325,17 +325,119 @@ $(function() {
             // Betting.calculateAmount();
         },
         chaseEvent: function() {
+            var _url = GLOBAL.getRequestURL();
             // 切换追号类型
             $('#J_chaseTt span').click(function(){
                 var _i = $(this).index();
                 $(this).addClass('active').siblings().removeClass('active');
                 $('.J_chaseList').hide();
                 $('.J_chaseList').eq(_i).show();
+                $('.chase-dialog .chosen-container').width(240);
             });
 
+            var _data = TEMPLATE.getChaseData(_url.name, $('.J_betTimer').html());
+            // console.log(_data);
+            $('.J_periods').attr('title', '(包含当前最多追' + _data.maxPeriods + '期)').data('max', _data.maxPeriods);
+
+
             // 初始化起始下拉
-            // $('#J_chaseSelect1').html();
+            $('.J_chaseSelect').html(_data.select);
             $('select').chosen();
+
+            // 追号期数
+            $('.J_periods').off().on('keyup blur keydown focus', function() {
+                var _val = $(this).val();
+                var _max = $(this).data('max');
+                var _reg = /^[1-9]\d*$/;
+                if (!_reg.test(_val)) {
+                    GLOBAL.alert('您输入的追号期数格式不正确<br>只能输入大于或等于1的整数');
+                    $(this).val(1).blur();
+                } else {
+                    if(_val > _max){
+                        GLOBAL.alert('当前彩种的最大追号期数不能超过'+ _max +'期');
+                        $(this).val(_max).blur();
+                    }
+                }
+            });
+
+            // 间隔期数
+            $('#J_intervalNum').off().on('keyup blur keydown focus', function() {
+                var _val = $(this).val();
+                var _max = $(this).parents('.chase-condition').find('.J_periods').val();
+                console.log(_max);
+                var _reg = /^[1-9]\d*$/;
+                if (!_reg.test(_val)) {
+                    GLOBAL.alert('您输入的追号期数格式不正确<br>只能输入大于或等于1的整数');
+                    $(this).val(1).blur();
+                } else {
+                    if(_val > _max){
+                        GLOBAL.alert('间隔期数不能超过您输入的追号期数<br>目前最大间隔为'+ _max +'期');
+                        $(this).val(_max).blur();
+                    }
+                }
+            });
+
+            // 追号倍数
+            $('.J_chaseBeishu').off().on('keyup blur keydown focus', function() {
+                var _val = $(this).val();
+                var _reg = /^[1-9]\d*$/;
+                if (!_reg.test(_val)) {
+                    GLOBAL.alert('您输入的投注倍数格式不正确<br>只能输入大于或等于1的整数');
+                    $(this).val(1).blur();
+                } else {
+                    if(_val > 99999){
+                        GLOBAL.alert('您的最大投注倍数不能超过99999倍');
+                        $(this).val(99999).blur();
+                    }
+                }
+            });
+
+            // 隔期倍数
+            $('#J_intervalMultiple').off().on('keyup blur keydown focus', function() {
+                var _val = $(this).val();
+                var _reg = /^[1-9]\d*$/;
+                if (!_reg.test(_val)) {
+                    GLOBAL.alert('您输入的隔期倍数格式不正确<br>只能输入大于或等于1的整数');
+                    $(this).val(1).blur();
+                } else {
+                    if(_val > 99999){
+                        GLOBAL.alert('您的最大隔期倍数不能超过99999倍');
+                        $(this).val(99999).blur();
+                    }
+                }
+            });
+
+            // 最低利润率
+            // $('#J_lowestProfit').off().on('keyup blur keydown focus', function() {
+            //     var _val = $(this).val();
+            //     var _reg = /^[1-9]+(\.\d+)?$/;
+            //     if (!_reg.test(_val)) {
+            //         GLOBAL.alert('您输入的最低收益率格式不正确<br>只能输入正整数或小数');
+            //         $(this).val(50).blur();
+            //     }
+            // });
+
+            // 减少倍数
+            $('.J_chaseBeishuCut').click(function() {
+                var _val = $(this).siblings('.J_chaseBeishu').val();
+                if (_val <= 1) {
+                    return;
+                }
+                $(this).siblings('.J_chaseBeishu').val(_val - 1);
+                // TODO: 计算金额
+                // Betting.calculateAmount();
+            });
+
+            // 增加倍数
+            $('.J_chaseBeishuAdd').click(function() {
+                var _val = $(this).siblings('.J_chaseBeishu').val();
+                if(_val >= 99999){
+                    return;
+                }
+                $(this).siblings('.J_chaseBeishu').val(Number(_val) + 1);
+                // TODO: 计算金额
+                // Betting.calculateAmount();
+            });
         },
         bettingEvent: function() {
             // var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
