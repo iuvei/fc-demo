@@ -341,17 +341,17 @@ var TEMPLATE = {
 
                     if (_lave == data.totalPeriods) {
                         if (i < data.totalPeriods) {
-                            _str += '<option value="">'+ _d0.tYear + _d0.tMonth + _d0.tDate + '-' + toThree(_n+i) + _s +'</option>';
+                            _str += '<option value="'+ i +'">'+ _d0.tYear + _d0.tMonth + _d0.tDate + '-' + toThree(_n+i) + _s +'</option>';
                         } else {
-                            _str += '<option value="">'+ _d1.tYear + _d1.tMonth + _d1.tDate + '-' + toThree(_n+i-data.totalPeriods) + '</option>';
+                            _str += '<option value="'+ i + '">'+ _d1.tYear + _d1.tMonth + _d1.tDate + '-' + toThree(_n+i-data.totalPeriods) + '</option>';
                         }
                     } else {
                         if (i < _lave) {
-                            _str += '<option value="">'+ _d0.tYear + _d0.tMonth + _d0.tDate + '-' + toThree(_n+i) + _s +'</option>';
+                            _str += '<option value="' + i + '">'+ _d0.tYear + _d0.tMonth + _d0.tDate + '-' + toThree(_n+i) + _s +'</option>';
                         } else if(_lave <= i && i < (_lave + data.totalPeriods)){
-                            _str += '<option value="">'+ _d1.tYear + _d1.tMonth + _d1.tDate + '-' + toThree(_n+i-data.totalPeriods) + '</option>';
+                            _str += '<option value="'+ i + '">'+ _d1.tYear + _d1.tMonth + _d1.tDate + '-' + toThree(_n+i-data.totalPeriods) + '</option>';
                         } else {
-                            _str += '<option value="">'+ _d2.tYear + _d2.tMonth + _d2.tDate + '-' + toThree(i - data.totalPeriods - _lave + 1) + '</option>';
+                            _str += '<option value="'+ i + '">'+ _d2.tYear + _d2.tMonth + _d2.tDate + '-' + toThree(i - data.totalPeriods - _lave + 1) + '</option>';
                         }
                     }
                 }

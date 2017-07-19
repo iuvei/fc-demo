@@ -256,9 +256,9 @@
             <div class="bet-wrp clearfix">
                 <p class="ber-wrp-num fl">您选择了<i id="J_selectionBallStakes">0</i>注</p>
                 <div class="bet-wrp-multiple fl">
-                    <em class="fl cut noselect J_chaseBeishuCut" id="J_beishuCut">-</em>
+                    <em class="fl cut noselect" id="J_beishuCut">-</em>
                     <input type="text" class="fl" value="1" id="J_beishu">
-                    <em class="fl add noselect J_chaseBeishuAdd" id="J_beishuAdd">+</em>
+                    <em class="fl add noselect" id="J_beishuAdd">+</em>
                     <span class="fl">倍</span>
                 </div>
                 <div class="bet-wrp-unit fl">
@@ -426,8 +426,8 @@
                     <div class="chase-condition">
                         <div class="fl">
                             <span class="chase-span1 fl">起始：</span>
-                            <select id="" class="fl chase-select J_chaseSelect">
-                                <option value="1">20170703-047(当前)</option>
+                            <select class="fl chase-select J_chaseSelect" id="J_chaseSelect_1">
+                                <!-- <option value="1">20170703-047(当前)</option> -->
                             </select>
                             <span class="chase-span2 fl">追</span>
                             <input value="1" type="text" class="chase-inp fl J_periods" data-max="">
@@ -440,7 +440,7 @@
                             <em class="fl add noselect J_chaseBeishuAdd" id="">+</em>
                         </div>
                         <div class="fl" style="width:450px;">
-                            <a class="btn-l-color bet-btn fr" href="javascript:;"> 生成追号</a>
+                            <a class="btn-l-color bet-btn fr J_generateChunk" href="javascript:;" data-i="1">生成追号</a>
                         </div>
                     </div>
                     <div class="chase-list">
@@ -450,7 +450,7 @@
                             <span class="n3">当前投入(元)</span>
                             <span class="n4">累计投入(元)</span>
                         </p>
-                        <ul>
+                        <ul id="J_chaseUl_1">
                             <!-- <li>
                                 <div class="n1">20170630-056</div>
                                 <div class="n2">1</div>
@@ -490,8 +490,8 @@
                     <div class="chase-condition">
                         <div class="fl">
                             <span class="chase-span1 fl">起始：</span>
-                            <select id="" class="fl chase-select J_chaseSelect">
-                                <option value="1">20170703-047(当前)</option>
+                            <select class="fl chase-select J_chaseSelect" id="J_chaseSelect_2">
+                                <!-- <option value="1">20170703-047(当前)</option> -->
                             </select>
                             <span class="chase-span2 fl">追</span>
                             <input value="1" type="text" class="chase-inp fl J_periods" data-max="">
@@ -501,7 +501,7 @@
                         <div class="chase-multiple fl">
                             <em class="fl cut noselect J_chaseBeishuCut" id="">-</em>
                             <input type="text" class="fl J_chaseBeishu" value="1" id="">
-                            <em class="fl add nosele J_chaseBeishuAddct" id="">+</em>
+                            <em class="fl add noselect J_chaseBeishuAdd" id="">+</em>
                         </div>
                         <div class="fl" style="width:450px;">
                             <span class="chase-span2 fl">每隔</span>
@@ -509,7 +509,7 @@
                             <span class="chase-span2 fl">期</span>
                             <span class="chase-span4 fl">倍数 x </span>
                             <input value="2" type="text" class="chase-inp fl" id="J_intervalMultiple">
-                            <a class="btn-l-color bet-btn fr" href="javascript:;"> 生成追号</a>
+                            <a class="btn-l-color bet-btn fr J_generateChunk" href="javascript:;" data-i="2">生成追号</a>
                         </div>
                     </div>
                     <div class="chase-list">
@@ -519,7 +519,7 @@
                             <span class="n3">当前投入(元)</span>
                             <span class="n4">累计投入(元)</span>
                         </p>
-                        <ul>
+                        <ul id="J_chaseUl_2">
                             <!-- <li>
                                 <div class="n1">20170630-056</div>
                                 <div class="n2">1</div>
@@ -559,8 +559,8 @@
                     <div class="chase-condition">
                         <div class="fl">
                             <span class="chase-span1 fl">起始：</span>
-                            <select id="" class="fl chase-select J_chaseSelect">
-                                <option value="1">20170703-047(当前)</option>
+                            <select class="fl chase-select J_chaseSelect" id="J_chaseSelect_3">
+                                <!-- <option value="1">20170703-047(当前)</option> -->
                             </select>
                             <span class="chase-span2 fl">追</span>
                             <input value="1" type="text" class="chase-inp fl J_periods" data-max="">
@@ -576,7 +576,7 @@
                             <span class="chase-span5 fl">最低利润率</span>
                             <input value="50" type="text" class="chase-inp fl" id="J_lowestProfit">
                             <span class="chase-span2 fl">%</span>
-                            <a class="btn-l-color bet-btn fr" href="javascript:;"> 生成追号</a>
+                            <a class="btn-l-color bet-btn fr J_generateChunk" href="javascript:;" data-i="3">生成追号</a>
                         </div>
                     </div>
                     <div class="chase-list">
@@ -588,7 +588,7 @@
                             <span class="n5">当前奖金</span>
                             <span class="n6">利润率 ( % ) </span>
                         </p>
-                        <ul>
+                        <ul id="J_chaseUl_3">
                             <!-- <li>
                                 <div class="n1">20170630-056</div>
                                 <div class="n2">1</div>

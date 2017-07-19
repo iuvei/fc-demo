@@ -364,7 +364,6 @@ $(function() {
             $('#J_intervalNum').off().on('keyup blur keydown focus', function() {
                 var _val = $(this).val();
                 var _max = $(this).parents('.chase-condition').find('.J_periods').val();
-                console.log(_max);
                 var _reg = /^[1-9]\d*$/;
                 if (!_reg.test(_val)) {
                     GLOBAL.alert('您输入的追号期数格式不正确<br>只能输入大于或等于1的整数');
@@ -408,18 +407,19 @@ $(function() {
             });
 
             // 最低利润率
-            // $('#J_lowestProfit').off().on('keyup blur keydown focus', function() {
-            //     var _val = $(this).val();
-            //     var _reg = /^[1-9]+(\.\d+)?$/;
-            //     if (!_reg.test(_val)) {
-            //         GLOBAL.alert('您输入的最低收益率格式不正确<br>只能输入正整数或小数');
-            //         $(this).val(50).blur();
-            //     }
-            // });
+            $('#J_lowestProfit').off().on('blur', function() {
+                var _val = $(this).val();
+                var _reg = /^\d+(\.\d+)?$/;
+                if (_val == 0 || !_reg.test(_val)) {
+                    GLOBAL.alert('您输入的最低收益率格式不正确<br>只能输入正整数或小数');
+                    $(this).val(50).blur();
+                }
+            });
 
             // 减少倍数
             $('.J_chaseBeishuCut').click(function() {
                 var _val = $(this).siblings('.J_chaseBeishu').val();
+                console.log(_val);
                 if (_val <= 1) {
                     return;
                 }
@@ -431,12 +431,34 @@ $(function() {
             // 增加倍数
             $('.J_chaseBeishuAdd').click(function() {
                 var _val = $(this).siblings('.J_chaseBeishu').val();
+                console.log(_val);
                 if(_val >= 99999){
                     return;
                 }
                 $(this).siblings('.J_chaseBeishu').val(Number(_val) + 1);
                 // TODO: 计算金额
                 // Betting.calculateAmount();
+            });
+
+            // 生成追号
+            $('.J_generateChunk').click(function(){
+                var _i = $(this).data('i');
+                var _n = $(this).parents('.chase-condition').find('.J_periods').val();
+                var _str = '';
+                var _s = Number($('#J_chaseSelect_'+ _i +' option:selected').val());
+
+                for(var j = 0; j < _n; j++) {
+                    _str += '<li>';
+                    _str += '    <div class="n1">'+ $('#J_chaseSelect_' + _i).find('option').eq(j + _s).text().split('(')[0] +'</div>';
+                    _str += '    <div class="n2">1</div>';
+                    _str += '    <div class="n3">4.0000</div>';
+                    _str += '    <div class="n4">4.0000</div>';
+                    _str += '</li>';
+                }
+                if (_i == 3) {
+
+                }
+                $('#J_chaseUl_' + _i).html(_str);
             });
         },
         bettingEvent: function() {
