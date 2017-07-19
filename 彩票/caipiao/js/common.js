@@ -61,9 +61,10 @@
 			});
 
 			// 显示开奖历史
-			$('#J_lastThreeDrawResult1,#J_historyList').hover(function(){
+			$('#J_bettingHeader').on('mouseover', '#J_lastThreeDrawResult1,#J_historyList', function() {
 				$('#J_historyList').show();
-			}, function(){
+			});
+			$('#J_bettingHeader').on('mouseout', '#J_lastThreeDrawResult1,#J_historyList', function() {
 				$('#J_historyList').hide();
 			});
 
@@ -150,7 +151,7 @@
 					// 跳转地址
 					$('#J_jumpToPage' + val.id).attr('href', 'betting.html?name=' + val.code +'&id=' + val.id + '&type=1');
 					//彩票期数
-					$('#J_betTimer' + val.id).html(val['periods'].date + '-' + val['periods'].num);
+					$('.J_betTimer' + val.id).html(val['periods'].date + '-' + val['periods'].num);
 					//定时器处理
 					COMMON.countDown(parseInt(val.periods.lottery_surplus), val.id, val.id);
 				});
@@ -187,7 +188,7 @@
 				} else {
 					// TODO: 结束提示
 					if (COMMON.isDeatil || COMMON.isChart) {
-						GLOBAL.alert('第<span style="padding:0 5px;">' + $('#J_betTimer').html() + '</span>期已结束<br/>请留意投注期号。', 2000);
+						GLOBAL.alert('第<span style="padding:0 5px;">' + $('.J_betTimer').html() + '</span>期已结束<br/>请留意投注期号。', 2000);
 					}
 					clearInterval(COMMON.timer);
 					clearInterval(COMMON.timer2);
@@ -210,10 +211,10 @@
 					$('#J_minuteShow' + suffix).html(minute);
 					$('#J_secondShow' + suffix).html(second);
 				} else {
-					second += '';
-					$('#J_countDownNum').html('<em>' + hour.substr(0, 1) + '</em><em>' + hour.substr(1, 1) + '</em><span>:</span><em>' + minute.substr(0, 1) + '</em><em>' + minute.substr(1, 1) + '</em><span>:</span><em>' + second.substr(0, 1) + '</em><em>' + second.substr(1, 1) + '</em>');
-				}
 
+					second += '';
+					$('.J_countDownNum').html('<em>' + hour.substr(0, 1) + '</em><em>' + hour.substr(1, 1) + '</em><span>:</span><em>' + minute.substr(0, 1) + '</em><em>' + minute.substr(1, 1) + '</em><span>:</span><em>' + second.substr(0, 1) + '</em><em>' + second.substr(1, 1) + '</em>');
+				}
 				intDiff--;
 
 				// 提前10s停止投注
@@ -240,13 +241,13 @@
 			}, function(data) {
 				// TODO: 判断是详情页还是首页
 				if (COMMON.isIndex) {
-					$('#J_betTimer' + data.id).html(data['periods'].date + '-' + data['periods'].num); //彩票期数
+					$('.J_betTimer' + data.id).html(data['periods'].date + '-' + data['periods'].num); //彩票期数
 					//定时器处理
 					COMMON.countDown(parseInt(data.periods.lottery_surplus), data.id, data.id);
 				} else {
-					$('#J_productLogo').attr('src', data.logo);
+					$('.J_productLogo').attr('src', data.logo);
 					// TODO: 详情页
-					$('#J_betTimer').html(data.periods.date + '-' + COMMON.fillLenght(data.periods.num, 3, '0')); //彩票期数
+					$('.J_betTimer').html(data.periods.date + '-' + COMMON.fillLenght(data.periods.num, 3, '0')); //彩票期数
 					// $('#countDown').val(parseInt(data.periods.lottery_surplus)); //距离开奖时间 秒数
 					$('#orderId').val(data.periods.id);
 
@@ -254,6 +255,8 @@
 
 					COMMON.lotteryNum('J_drawResult', data.prev_periods.lottery_num, $id);
 					$('#J_dataNum').text(data.prev_periods.date + '-' + COMMON.fillLenght(data.prev_periods.num, 3, '0'));
+
+					COMMON.renderHistory();
 				}
 			});
 		},
@@ -274,8 +277,6 @@
 					_str += '<em>' + num[i] + '</em>';
 				};
 				$('#' + _id).html(_str);
-
-				COMMON.renderHistory();
 			} else {
 				// 没获取到最新的数据三秒获取一次
 				COMMON.timer = setTimeout(function(){
@@ -299,7 +300,11 @@
 					option.pageSize = $('.J_recently.active').data('size') || 30;
 				}
 			} else {
-				option.pageSize = 10;
+				// if(_url.id == 1){
+					option.pageSize = 100;
+				// } else (_url.id == 2){
+				// 	option.pageSize = 100;
+				// }
 			}
 
 			GLOBAL.getAjaxData({
@@ -328,7 +333,6 @@
 				$('#J_lastThreeDrawResult1').append(_list1);
 				$('#J_lastThreeDrawResult2').append(_list2);
 				$('#J_historyList').html(_list3);
-
 				
 				// 走势页面
 				if(COMMON.isChart){

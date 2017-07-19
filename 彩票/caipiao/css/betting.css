@@ -818,16 +818,16 @@
 .chase-list ul li .n5{width: 120px;}
 .chase-list p span.n6,
 .chase-list ul li .n6{width: 120px;}
-.chase-list ul{
+.chase-list > ul{
     overflow-y: scroll;
     height: 218px;
 }
-.chase-list ul li{
+.chase-list > ul li{
     height: 40px;
     line-height: 40px;
     border-bottom: 1px solid #eaeaea;
 }
-.chase-list ul li div{
+.chase-list > ul li div{
     float: left;
     text-align: center;
 }
@@ -863,5 +863,8 @@
     cursor: pointer;
 }
 .chase-footer a{
+    float: left;
+}
+.chase-dialog .chosen-container{
     float: left;
 }

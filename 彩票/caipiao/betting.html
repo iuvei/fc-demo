@@ -5,6 +5,7 @@
     <title>投注</title>
     <link rel="stylesheet" href="./css/reset.css">
     <link rel="stylesheet" href="./css/nice-select.css">
+    <link rel="stylesheet" href="./css/chose.css">
     <link rel="stylesheet" href="./css/betting.css">
     <link rel="stylesheet" href="./css/skin/default.css" id="J_skinCss">
 </head>
@@ -16,7 +17,7 @@
     <div id="header" class="header dark-color">
         <div class="w1200 clearfix rel">
             <div class="fl header-post">
-                <a href="index.html"><img src="./images/icon-logo.png" alt=""></a>
+                <a href="javascript:;"><img src="./images/icon-logo.png" alt=""></a>
                 <em class="icon fl"></em>
                 <div class="fl">暂时没有滚动通告</div>
             </div>
@@ -48,14 +49,14 @@
     <!-- below-header -->
     <div class="below-header w1200 clearfix">
         <div class="below-logo fl">
-            <img src="" alt="" id="J_productLogo">
+            <img src="" alt="" class="J_productLogo">
         </div>
         <div class="below-count fl">
             <div class="fl below-phase">
                 <p>剩余投注时间</p>
-                <p>第<span class="text-l-color" id="J_betTimer"></span>期</p>
+                <p>第<span class="text-l-color J_betTimer"></span>期</p>
             </div>
-            <div class="fl below-count-num" id="J_countDownNum">
+            <div class="fl below-count-num J_countDownNum">
                 <em>0</em><em>0</em><span>:</span><em>0</em><em>0</em><span>:</span><em>0</em><em>0</em>
             </div>
         </div>
@@ -342,7 +343,7 @@
                     
                     <div class="bet-betting">
                         <span class="bet-btn fr btn-red disabled" id="J_confirmBets">确认投注</span>
-                        <!-- <span class="bet-btn fr btn-add-num mr10 disabled" id="J_chaseNumber">我要追号</span> -->
+                        <span class="bet-btn fr btn-add-num mr10 disabled" id="J_chaseNumber">我要追号</span>
                         <p class="fr">已选<span id="J_totalNum">0</span>注&nbsp;&nbsp;&nbsp;&nbsp;金额￥<span id="J_totalSum">0.0000</span>元</p>
                     </div>
                 </div>
@@ -398,22 +399,262 @@
     </div>
 
 
-    <!-- <script id="J_chase" type="text/template""> -->
-        <!-- ds -->
-    <!-- </script> -->
+    <script id="J_chase" type="text/template"">
+        <div class="chase-dialog">
+            <div class="below-header w1200 clearfix">
+                <div class="below-logo fl">
+                    <img src="" alt="" class="J_productLogo">
+                </div>
+                <div class="below-count fl">
+                    <div class="fl below-phase">
+                        <p>剩余投注时间</p>
+                        <p>第<span class="text-l-color J_betTimer"></span>期</p>
+                    </div>
+                    <div class="fl below-count-num J_countDownNum">
+                        <em>0</em><em>0</em><span>:</span><em>0</em><em>0</em><span>:</span><em>0</em><em>0</em>
+                    </div>
+                </div>
+            </div>
 
-    <!-- <div class="chase-dialog"> -->
-        
-    <!-- </div> -->
+            <div class="chase-tt" id="J_chaseTt">
+                <span class="active">同倍追号</span>
+                <span>翻倍追号</span>
+                <span>利润率追号</span>
+            </div>
+            <div class="chase-con clearfix">
+                <div class="J_chaseList chase-list ">
+                    <div class="chase-condition">
+                        <div class="fl">
+                            <span class="chase-span1 fl">起始：</span>
+                            <select id="J_chaseSelect1" class="fl chase-select">
+                                <option value="1">20170703-047(当前)</option>
+                            </select>
+                            <span class="chase-span2 fl">追</span>
+                            <input value="1" type="text" class="chase-inp fl">
+                            <span class="chase-span3 fl">期</span>
+                            <span class="chase-span4">倍数</span>
+                        </div>
+                        <div class="chase-multiple fl">
+                            <em class="fl cut noselect" id="">-</em>
+                            <input type="text" class="fl" value="1" id="">
+                            <em class="fl add noselect" id="">+</em>
+                        </div>
+                        <div class="fl" style="width:450px;">
+                            <a class="btn-l-color bet-btn fr" href="javascript:;"> 生成追号</a>
+                        </div>
+                    </div>
+                    <div class="chase-list">
+                        <p>
+                            <span class="n1">追号期号</span>
+                            <span class="n2">倍数</span>
+                            <span class="n3">当前投入(元)</span>
+                            <span class="n4">累计投入(元)</span>
+                        </p>
+                        <ul>
+                            <!-- <li>
+                                <div class="n1">20170630-056</div>
+                                <div class="n2">1</div>
+                                <div class="n3">4.0000</div>
+                                <div class="n4">4.0000</div>
+                            </li>
+                            <li>
+                                <div class="n1">20170630-056</div>
+                                <div class="n2">1</div>
+                                <div class="n3">4.0000</div>
+                                <div class="n4">4.0000</div>
+                            </li><li>
+                                <div class="n1">20170630-056</div>
+                                <div class="n2">1</div>
+                                <div class="n3">4.0000</div>
+                                <div class="n4">4.0000</div>
+                            </li><li>
+                                <div class="n1">20170630-056</div>
+                                <div class="n2">1</div>
+                                <div class="n3">4.0000</div>
+                                <div class="n4">4.0000</div>
+                            </li><li>
+                                <div class="n1">20170630-056</div>
+                                <div class="n2">1</div>
+                                <div class="n3">4.0000</div>
+                                <div class="n4">4.0000</div>
+                            </li><li>
+                                <div class="n1">20170630-056</div>
+                                <div class="n2">1</div>
+                                <div class="n3">4.0000</div>
+                                <div class="n4">4.0000</div>
+                            </li> -->
+                        </ul>
+                    </div>
+                </div>
+                <div class="J_chaseList chase-list hide">
+                    <div class="chase-condition">
+                        <div class="fl">
+                            <span class="chase-span1 fl">起始：</span>
+                            <select id="" class="fl chase-select">
+                                <option value="1">20170703-047(当前)</option>
+                            </select>
+                            <span class="chase-span2 fl">追</span>
+                            <input value="1" type="text" class="chase-inp fl">
+                            <span class="chase-span3 fl">期</span>
+                            <span class="chase-span4">倍数</span>
+                        </div>
+                        <div class="chase-multiple fl">
+                            <em class="fl cut noselect" id="">-</em>
+                            <input type="text" class="fl" value="1" id="">
+                            <em class="fl add noselect" id="">+</em>
+                        </div>
+                        <div class="fl" style="width:450px;">
+                            <span class="chase-span2 fl">每隔</span>
+                            <input value="1" type="text" class="chase-inp fl">
+                            <span class="chase-span2 fl">期</span>
+                            <span class="chase-span4 fl">倍数 x </span>
+                            <input value="2" type="text" class="chase-inp fl">
+                            <a class="btn-l-color bet-btn fr" href="javascript:;"> 生成追号</a>
+                        </div>
+                    </div>
+                    <div class="chase-list">
+                        <p>
+                            <span class="n1">追号期号</span>
+                            <span class="n2">倍数</span>
+                            <span class="n3">当前投入(元)</span>
+                            <span class="n4">累计投入(元)</span>
+                        </p>
+                        <ul>
+                            <!-- <li>
+                                <div class="n1">20170630-056</div>
+                                <div class="n2">1</div>
+                                <div class="n3">4.0000</div>
+                                <div class="n4">4.0000</div>
+                            </li>
+                            <li>
+                                <div class="n1">20170630-056</div>
+                                <div class="n2">1</div>
+                                <div class="n3">4.0000</div>
+                                <div class="n4">4.0000</div>
+                            </li><li>
+                                <div class="n1">20170630-056</div>
+                                <div class="n2">1</div>
+                                <div class="n3">4.0000</div>
+                                <div class="n4">4.0000</div>
+                            </li><li>
+                                <div class="n1">20170630-056</div>
+                                <div class="n2">1</div>
+                                <div class="n3">4.0000</div>
+                                <div class="n4">4.0000</div>
+                            </li><li>
+                                <div class="n1">20170630-056</div>
+                                <div class="n2">1</div>
+                                <div class="n3">4.0000</div>
+                                <div class="n4">4.0000</div>
+                            </li><li>
+                                <div class="n1">20170630-056</div>
+                                <div class="n2">1</div>
+                                <div class="n3">4.0000</div>
+                                <div class="n4">4.0000</div>
+                            </li> -->
+                        </ul>
+                    </div>
+                </div>
+                <div class="J_chaseList chase-list hide">
+                    <div class="chase-condition">
+                        <div class="fl">
+                            <span class="chase-span1 fl">起始：</span>
+                            <select id="" class="fl chase-select">
+                                <option value="1">20170703-047(当前)</option>
+                            </select>
+                            <span class="chase-span2 fl">追</span>
+                            <input value="1" type="text" class="chase-inp fl">
+                            <span class="chase-span3 fl">期</span>
+                            <span class="chase-span4">倍数</span>
+                        </div>
+                        <div class="chase-multiple fl">
+                            <em class="fl cut noselect" id="">-</em>
+                            <input type="text" class="fl" value="1" id="">
+                            <em class="fl add noselect" id="">+</em>
+                        </div>
+                        <div class="fl" style="width:450px;">
+                            <span class="chase-span5 fl">最低利润率</span>
+                            <input value="50" type="text" class="chase-inp fl">
+                            <span class="chase-span2 fl">%</span>
+                            <a class="btn-l-color bet-btn fr" href="javascript:;"> 生成追号</a>
+                        </div>
+                    </div>
+                    <div class="chase-list">
+                        <p>
+                            <span class="n1">追号期号</span>
+                            <span class="n2">倍数</span>
+                            <span class="n3">当前投入(元)</span>
+                            <span class="n4">累计投入(元)</span>
+                            <span class="n5">当前奖金</span>
+                            <span class="n6">利润率 ( % ) </span>
+                        </p>
+                        <ul>
+                            <!-- <li>
+                                <div class="n1">20170630-056</div>
+                                <div class="n2">1</div>
+                                <div class="n3">4.0000</div>
+                                <div class="n4">4.0000</div>
+                                <div class="n5">1920.0000</div>
+                                <div class="n6">4872.00</div>
+                            </li>
+                            <li>
+                                <div class="n1">20170630-056</div>
+                                <div class="n2">1</div>
+                                <div class="n3">4.0000</div>
+                                <div class="n4">4.0000</div>
+                                <div class="n5">1920.0000</div>
+                                <div class="n6">4872.00</div>
+                            </li><li>
+                                <div class="n1">20170630-056</div>
+                                <div class="n2">1</div>
+                                <div class="n3">4.0000</div>
+                                <div class="n4">4.0000</div>
+                                <div class="n5">1920.0000</div>
+                                <div class="n6">4872.00</div>
+                            </li><li>
+                                <div class="n1">20170630-056</div>
+                                <div class="n2">1</div>
+                                <div class="n3">4.0000</div>
+                                <div class="n4">4.0000</div>
+                                <div class="n5">1920.0000</div>
+                                <div class="n6">4872.00</div>
+                            </li><li>
+                                <div class="n1">20170630-056</div>
+                                <div class="n2">1</div>
+                                <div class="n3">4.0000</div>
+                                <div class="n4">4.0000</div>
+                                <div class="n5">1920.0000</div>
+                                <div class="n6">4872.00</div>
+                            </li><li>
+                                <div class="n1">20170630-056</div>
+                                <div class="n2">1</div>
+                                <div class="n3">4.0000</div>
+                                <div class="n4">4.0000</div>
+                                <div class="n5">1920.0000</div>
+                                <div class="n6">4872.00</div>
+                            </li> -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="chase-footer">
+                <span>追号<em>5</em>期</span>
+                <span>共<em>20.0000</em>元</span>
+                <p><em class="active"></em>中奖后停止追号</p>
+                <a class="btn-l-color bet-btn" href="javascript:;">确认追号</a>
+            </div>
+        </div>
+    </script>
 
     <script src="./js/jquery-1.11.1.min.js"></script>
+    <script src="./js/chosen.jquery.min.js"></script>
     <script src="./js/jquery.cookie.js"></script>
     <script src="./js/jquery.placeholder.min.js"></script>
     <script src="./js/jquery-nice-select.js"></script>
     <script src="./js/layer/layer.js"></script>
     <script src="./js/GLOBAL.js"></script>
     <script src="./js/template.js"></script>
-    <!-- <script src="./js/common.js"></script> -->
+    <script src="./js/common.js"></script>
     <script src="./js/betting.js"></script>
 </body>
 </html>

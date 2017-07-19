@@ -324,6 +324,19 @@ $(function() {
             // Betting.getBettingQuantity();
             // Betting.calculateAmount();
         },
+        chaseEvent: function() {
+            // 切换追号类型
+            $('#J_chaseTt span').click(function(){
+                var _i = $(this).index();
+                $(this).addClass('active').siblings().removeClass('active');
+                $('.J_chaseList').hide();
+                $('.J_chaseList').eq(_i).show();
+            });
+
+            // 初始化起始下拉
+            // $('#J_chaseSelect1').html();
+            $('select').chosen();
+        },
         bettingEvent: function() {
             // var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
             // var _subNav = ($('.J_subMenu.active').length ? $('.J_subMenu.active').data('info').split('#')[1] : _mainNav);
@@ -337,6 +350,18 @@ $(function() {
                     return;
                 }
                 // TODO: 追号
+                layer.open({
+                    type : 1,
+                    skin : 'layui-layer-chase', // 加上边框
+                    area : '1208px', // 宽高
+                    shadeClose : true,
+                    closeBtn: 1,
+                    content : $('#J_chase').html(),
+                    success : function(layero, index) {
+                        $('.J_betTimer').html($('.J_betTimer').html());
+                        Betting.chaseEvent();
+                    }
+                });
             });
 
             // 确认投注
