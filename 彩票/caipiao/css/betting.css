@@ -838,11 +838,14 @@
     line-height: 36px;
     padding-left: 74px;
 }
-.chase-footer > span{
+.chase-footer > div{
+    width: 300px;
+}
+.chase-footer > div > span{
     float: left;
     margin-right: 20px;
 }
-.chase-footer > span em{
+.chase-footer > div > span em{
     color: #e83332;
     padding: 0 8px;
 }

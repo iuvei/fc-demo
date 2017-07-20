@@ -302,8 +302,10 @@ var TEMPLATE = {
         // lott.manualEntryUI(!0, a),
         // lott.allManualEntryRandomBall(a.bits, a.miBall, a.digit)
     },
+
+//    
     getChaseData: function(name, currentPeriods) {
-        currentPeriods = '20170719-100';
+        currentPeriods = '20170719-001';
         // console.log(name, currentPeriods);
         // name : 游戏名称 如 ： chong_qing_shi_shi
         // currentPeriods ： 当前期数 如 : 20170719-088

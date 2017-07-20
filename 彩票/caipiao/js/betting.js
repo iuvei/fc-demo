@@ -342,7 +342,7 @@ $(function() {
 
             // 初始化起始下拉
             $('.J_chaseSelect').html(_data.select);
-            $('select').chosen();
+            $('.J_chaseSelect').chosen();
 
             // 追号期数
             $('.J_periods').off().on('keyup blur keydown focus', function() {
@@ -366,8 +366,8 @@ $(function() {
                 var _max = $(this).parents('.chase-condition').find('.J_periods').val();
                 var _reg = /^[1-9]\d*$/;
                 if (!_reg.test(_val)) {
-                    GLOBAL.alert('您输入的追号期数格式不正确<br>只能输入大于或等于1的整数');
-                    $(this).val(1).blur();
+                    GLOBAL.alert('您输入的间隔期数格式不正确<br>只能输入大于或等于1的整数');
+                    $(this).val(1).blur();;
                 } else {
                     if(_val > _max){
                         GLOBAL.alert('间隔期数不能超过您输入的追号期数<br>目前最大间隔为'+ _max +'期');
@@ -412,53 +412,101 @@ $(function() {
                 var _reg = /^\d+(\.\d+)?$/;
                 if (_val == 0 || !_reg.test(_val)) {
                     GLOBAL.alert('您输入的最低收益率格式不正确<br>只能输入正整数或小数');
-                    $(this).val(50).blur();
+                    $(this).val(0).blur();
                 }
             });
 
             // 减少倍数
             $('.J_chaseBeishuCut').click(function() {
                 var _val = $(this).siblings('.J_chaseBeishu').val();
-                console.log(_val);
                 if (_val <= 1) {
                     return;
                 }
                 $(this).siblings('.J_chaseBeishu').val(_val - 1);
-                // TODO: 计算金额
-                // Betting.calculateAmount();
             });
 
             // 增加倍数
             $('.J_chaseBeishuAdd').click(function() {
                 var _val = $(this).siblings('.J_chaseBeishu').val();
-                console.log(_val);
                 if(_val >= 99999){
                     return;
                 }
                 $(this).siblings('.J_chaseBeishu').val(Number(_val) + 1);
-                // TODO: 计算金额
-                // Betting.calculateAmount();
+            });
+
+            $('#J_chaseFooterCheck').click(function(){
+                if ($(this).hasClass('active')) {
+                    $(this).removeClass('active');
+                } else {
+                    $(this).addClass('active');
+                }
             });
 
             // 生成追号
             $('.J_generateChunk').click(function(){
-                var _i = $(this).data('i');
-                var _n = $(this).parents('.chase-condition').find('.J_periods').val();
                 var _str = '';
-                var _s = Number($('#J_chaseSelect_'+ _i +' option:selected').val());
+                var _i = $(this).data('i'); //索引
+                var _n = $(this).parents('.chase-condition').find('.J_periods').val();  //追号期数
+                var _s = Number($('#J_chaseSelect_'+ _i +' option:selected').val());    //起始期号
+                var _b = $(this).parents('.chase-condition').find('.J_chaseBeishu').val();  //倍数
+
+                if(_i == 3){
+                    _b = $('#J_chaseQsBeishu').val();
+                }
+
+                var _onePrice = 0;  //单个的价格
+                var _intervalNum = $('#J_intervalNum').val();   //间隔期数
+                var _intervalMultiple = $('#J_intervalMultiple').val(); //间隔倍数
+                var _lowestProfit = $('#J_lowestProfit').val(); //最小利润
+
+                $('#J_betList li').each(function(x, y){
+                    _onePrice += Number($(this).find('.J_sums').text() * 10000 / $(this).find('.t5').text())
+                });
+                _onePrice = Number(_onePrice / 10000).toFixed(4);
 
                 for(var j = 0; j < _n; j++) {
+                    if(_i == 3 && j != 0){
+                        _b = 1;
+                    }
+                    var _n1 = Number(_onePrice * Math.pow(Number(_intervalMultiple),parseInt(j / _intervalNum)) * _b).toFixed(4);
                     _str += '<li>';
-                    _str += '    <div class="n1">'+ $('#J_chaseSelect_' + _i).find('option').eq(j + _s).text().split('(')[0] +'</div>';
-                    _str += '    <div class="n2">1</div>';
-                    _str += '    <div class="n3">4.0000</div>';
-                    _str += '    <div class="n4">4.0000</div>';
+                    _str += '<div class="n1">'+ $('#J_chaseSelect_' + _i).find('option').eq(j + _s).text().split('(')[0] +'</div>';
+                    _str += '    <div class="n2">';
+                    if(_i == 3){
+                        _str += _b;
+                    } else {
+                        _str += Math.pow(Number(_intervalMultiple),parseInt(j / _intervalNum)) * _b;
+                    }
+                    _str += '</div>';
+                    _str += '    <div class="n3">'+ _n1 +'</div>';
+                    _str += '<div class="n4"></div>';
+                    if (_i == 3) {
+                        _str += '<div class="n5">'+ Number($('#J_maxBonus').html() * 10000 * _b / 10000).toFixed(4) +'</div>';
+                        _str += '<div class="n6"></div>';
+                    }
                     _str += '</li>';
                 }
-                if (_i == 3) {
-
-                }
+                
+                $('#J_chaseFooterNum').text(_n);
                 $('#J_chaseUl_' + _i).html(_str);
+                $('#J_chaseUl_' + _i + ' li').each(function(k, v){
+                    if(k){
+                        var _n1 = $(this).find('.n3').html();
+                        var _n2 = $(this).prev('li').find('.n4').html();
+                        $(this).find('.n4').html(Number((Number(_n1) * 10000 + Number(_n2) * 10000)/10000).toFixed(4));
+                    } else {
+                        $(this).find('.n4').html($(this).find('.n3').html());
+                    }
+                    
+                    if(_i == 3){
+                        var _n4 = $(this).find('.n4').html();
+                        var _n5 = $(this).find('.n5').html();
+                        var _n = Number(((_n5 * 10000) - (_n4 * 10000)) / (_n4 * 10000) * 100).toFixed(3);
+                        $(this).find('.n6').html(_n.substring(0,_n.lastIndexOf('.')+3));
+                    }
+                });
+                $('#J_chaseFooterPrice').text($('#J_chaseUl_'+_i+' li:last').find('.n4').html());
+                $('#J_chaseConfirm').removeClass('disabled');
             });
         },
         bettingEvent: function() {

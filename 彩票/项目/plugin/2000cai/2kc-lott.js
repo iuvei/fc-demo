@@ -3350,7 +3350,7 @@ var lott = {
             lott.clearCart(), $(a).removeClass("processing")
         })
     },
-    chase: {    //追？？？
+    chase: {    //追号
         numeroList: [],
         maxChaseCount: 0,
         currNumero: "",
@@ -3413,12 +3413,15 @@ var lott = {
                             var a = $(this).attr("tab-sort");
                             switch ($(".tab li[tab-sort]").removeClass("tab-active"), $(this).addClass("tab-active"), $("div[sub-sort]").removeClass("tabShow"), $("div[sub-sort='" + a + "']").addClass("tabShow"), lott.chase.selectNumeroEvents(a), lott.chase.inputPhaseEvents(a), lott.chase.inputMultiplesChangeEvents(a), lott.chase.inputMultiplesClickEvents(a), a) {
                                 case "sameMultiples":
+                                // 同倍追号
                                     lott.chase.sameMultiplesCreateChaseEvents();
                                     break;
                                 case "addMultiples":
+                                // 翻倍追号
                                     lott.chase.addMultiplesCreateChaseEvents();
                                     break;
                                 case "profitMargin":
+                                // 利润率追号
                                     lott.chase.profitMarginCreateEvents()
                             }
                             lott.chase.refreshChaseContent(a, lott.chase.historys[a].startNumero), lott.chase.historys[a].totalAmount ? ($("#totalChasePhase").text(lott.chase.historys[a].phases), $("#totalChaseAmount").text(lott.chase.historys[a].totalAmount)) : ($("#totalChasePhase").text("0"), $("#totalChaseAmount").text("0.0000")), lott.chase.chaseBetButtonStyleListener(a)
