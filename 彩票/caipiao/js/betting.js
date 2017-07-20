@@ -324,7 +324,16 @@ $(function() {
             // Betting.getBettingQuantity();
             // Betting.calculateAmount();
         },
-        chaseEvent: function() {
+        chaseEvent: function(options) {
+            options = options || {};
+            // options.max : 最高奖金组
+            // options.model : 模式（圆角分厘（1、0.1、0.01、0.001））
+            // options.num : 投注总数
+            // options.price : 单倍投注金额
+
+            console.log(options);
+            // return;
+
             var _url = GLOBAL.getRequestURL();
             // 切换追号类型
             $('#J_chaseTt span').click(function(){
@@ -457,7 +466,7 @@ $(function() {
                 var _onePrice = 0;  //单个的价格
                 var _intervalNum = $('#J_intervalNum').val();   //间隔期数
                 var _intervalMultiple = $('#J_intervalMultiple').val(); //间隔倍数
-                var _lowestProfit = $('#J_lowestProfit').val(); //最小利润
+                var _lowestProfit = $('#J_lowestProfit').val() / 100; //最小利润
 
                 $('#J_betList li').each(function(x, y){
                     _onePrice += Number($(this).find('.J_sums').text() * 10000 / $(this).find('.t5').text())
@@ -468,6 +477,7 @@ $(function() {
                     if(_i == 3 && j != 0){
                         _b = 1;
                     }
+
                     var _n1 = Number(_onePrice * Math.pow(Number(_intervalMultiple),parseInt(j / _intervalNum)) * _b).toFixed(4);
                     _str += '<li>';
                     _str += '<div class="n1">'+ $('#J_chaseSelect_' + _i).find('option').eq(j + _s).text().split('(')[0] +'</div>';
@@ -490,19 +500,53 @@ $(function() {
                 $('#J_chaseFooterNum').text(_n);
                 $('#J_chaseUl_' + _i).html(_str);
                 $('#J_chaseUl_' + _i + ' li').each(function(k, v){
-                    if(k){
-                        var _n1 = $(this).find('.n3').html();
-                        var _n2 = $(this).prev('li').find('.n4').html();
-                        $(this).find('.n4').html(Number((Number(_n1) * 10000 + Number(_n2) * 10000)/10000).toFixed(4));
-                    } else {
-                        $(this).find('.n4').html($(this).find('.n3').html());
-                    }
-                    
+                    // 您原计划实现20期,实际实现0期
                     if(_i == 3){
-                        var _n4 = $(this).find('.n4').html();
-                        var _n5 = $(this).find('.n5').html();
-                        var _n = Number(((_n5 * 10000) - (_n4 * 10000)) / (_n4 * 10000) * 100).toFixed(3);
-                        $(this).find('.n6').html(_n.substring(0,_n.lastIndexOf('.')+3));
+                        if (k) {
+                            var _n2 = $(this).prev('li').find('.n4').html();    //之前累计投入
+                            var _bs = Math.ceil(Number((_n2*(_lowestProfit+1))/((Number(options.max) * 10000 - options.price * (_lowestProfit+1) * 10000) / 10000)));
+                            var _n1 = Number(options.price * 10000 * _bs / 10000).toFixed(4);   //当前投入
+                            var _n6 = Number(((options.max * 10000 * _bs) - ((Number(_n1) * 10000 + Number(_n2) * 10000))) / ((Number(_n1) * 10000 + Number(_n2) * 10000)) * 100).toFixed(2);
+
+                            $(this).find('.n2').html(_bs);
+                            $(this).find('.n3').html(_n1);
+                            $(this).find('.n4').html(Number((Number(_n1) * 10000 + Number(_n2) * 10000)/10000).toFixed(4));
+                            $(this).find('.n5').html(Number(options.max * 10000 * _bs / 10000).toFixed(4));
+                            $(this).find('.n6').html(_n6);
+
+
+                            // TODO: 公式好像有问题
+                            // Ps：倍数上限=投注上限（200000元）/单倍的投注金额
+                            console.log((200000 * 10000 / (Number(options.price) * 10000)));
+
+                            if(_bs > (200000 * 10000 / (Number(options.price) * 10000))){
+                                GLOBAL.alert('您原计划实现'+ _n +'期,实际实现'+ (k + 1) +'期');
+                                $('#J_chaseUl_'+_i +' li:gt('+ k +')').remove();
+                                $(this).parents('.chase-con').find('.J_periods').val(k + 1);
+                                // $('#J_chaseFooterNum').text(k+1);
+                            }
+                        } else {
+                            var _n4 = Number($(this).find('.n3').html());
+                            var _n5 = Number($(this).find('.n5').html());
+                            var _n6 = Number(((_n5 * 10000) - (_n4 * 10000)) / (_n4 * 10000) * 100).toFixed(2);
+                            // console.log(_n);
+
+                            $(this).find('.n4').html(Number(_n4).toFixed(4));
+                            $(this).find('.n6').html(_n6);
+                            // $(this).find('.n6').html(_n.substring(0,_n.lastIndexOf('.')+3));
+                            if(Number($('#J_lowestProfit').val()) > Number(_n6)){
+                                GLOBAL.alert('您原计划实现'+ _n +'期,实际实现0期');
+                                $('#J_chaseUl_'+_i).html('');
+                            }
+                        }
+                    } else {
+                        if(k){
+                            var _n1 = $(this).find('.n3').html();   //当前投入
+                            var _n2 = $(this).prev('li').find('.n4').html();    //之前累计投入
+                            $(this).find('.n4').html(Number((Number(_n1) * 10000 + Number(_n2) * 10000)/10000).toFixed(4));
+                        } else {
+                            $(this).find('.n4').html($(this).find('.n3').html());
+                        }
                     }
                 });
                 $('#J_chaseFooterPrice').text($('#J_chaseUl_'+_i+' li:last').find('.n4').html());
@@ -521,6 +565,41 @@ $(function() {
                 if($(this).hasClass('disabled')){
                     return;
                 }
+
+                var _units = [];
+                var _hasProfit = true;  //是否有利润率
+                $('#J_betList li').each(function(){
+                    _units.push($(this).data('unit'));
+                });
+
+                $.each(_units, function(i, n) {
+                    if (n.indexOf(_units[0]) == -1){
+                        _hasProfit = false;
+                        return;
+                    }
+                });
+
+                if(_hasProfit){
+                    var _model = 1;
+                    var _num = Number($('#J_totalNum').html());
+                    var _max = Number($('#J_maxBonus').html());
+
+                    switch(_units[0]){
+                        case 'yuan':
+                            _model = 1;
+                        break;
+                        case 'jiao':
+                            _model = 0.1;
+                        break;
+                        case 'fen':
+                            _model = 0.01;
+                        break;
+                        case 'li':
+                            _model = 0.001;
+                        break;
+                    }
+                }
+
                 // TODO: 追号
                 layer.open({
                     type : 1,
@@ -531,7 +610,18 @@ $(function() {
                     content : $('#J_chase').html(),
                     success : function(layero, index) {
                         $('.J_betTimer').html($('.J_betTimer').html());
-                        Betting.chaseEvent();
+                        if(!_hasProfit){
+                            $('#J_chaseTt span').eq(2).hide();
+
+                            Betting.chaseEvent();
+                        } else {
+                            Betting.chaseEvent({
+                                max : Number((_max * 10000) * _model / 10000).toFixed(4), //最高奖金组
+                                model : _model,
+                                num : _num,//投注总数
+                                price : 2 * _num * _model //单倍投注金额
+                            });
+                        }
                     }
                 });
             });
