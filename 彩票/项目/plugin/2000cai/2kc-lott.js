@@ -3603,9 +3603,9 @@ var lott = {
                 })
             }), $(document).off("click", "dt[create-chase='profitMargin']").on("click", "dt[create-chase='profitMargin']", function() {
                 var a = $("select[numero-sort='profitMargin']").val(),
-                    b = $("input[phase-sort='profitMargin']").val(),
-                    c = $('input[mult-sort="profitMargin"]').val(),
-                    d = $("#lowestYield").val();
+                    b = $("input[phase-sort='profitMargin']").val(), //追？期
+                    c = $('input[mult-sort="profitMargin"]').val(), //起始倍数
+                    d = $("#lowestYield").val();    //最低利润率
                 return 1 * c > globalVar.currentLottery.betMaxMult ? void TCG.Alert("alerts", "您的最大投注倍数不能超过" + globalVar.currentLottery.betMaxMult + "倍", "XS", function() {
                     $("input[mult-sort='profitMargin']").val(globalVar.currentLottery.betMaxMult)
                 }) : 1 * b > lott.chase.maxChaseCount ? void TCG.Alert("alerts", "当前彩种的剩余追号期数为" + lott.chase.maxChaseCount + "期", "XS", function() {

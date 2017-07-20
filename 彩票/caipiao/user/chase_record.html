@@ -3,9 +3,10 @@
 <head>
 	<meta charset="UTF-8">
 	<title>追号记录</title>
-	<link rel="stylesheet" href="../../../css/reset.css">
-	<link rel="stylesheet" href="../../../css/user_common.css">
-	<link rel="stylesheet" href="../../../css/skin/default.css" id="J_skinCss">
+	<link rel="stylesheet" href="../css/reset.css">
+	<link rel="stylesheet" href="../css/chose.css">
+	<link rel="stylesheet" href="../css/user_common.css">
+	<link rel="stylesheet" href="../css/skin/default.css" id="J_skinCss">
 </head>
 <body>
 	<!-- 顶部 -->
@@ -118,7 +119,7 @@
                 <dd><a href="../user/profile.html">我的资料</a></dd>
                 <dd><a href="../user/funds_detail.html">资金详情</a></dd>
                 <dd><a href="../user/betting_record.html">投注记录</a></dd>
-                <!-- <dd><a href="../user/chase_record.html" class="active">追号记录</a></dd> -->
+                <dd><a href="../user/chase_record.html" class="active">追号记录</a></dd>
                 <dd><a href="../user/account_details.html">账变明细</a></dd>
                 <dd><a href="../user/login_password.html">登录密码</a></dd>
                 <dd><a href="../user/capital_password.html">资金密码</a></dd>
@@ -212,11 +213,20 @@
 		<div class="w1200">© 大圣彩版权所有 |  创新博弈，成功从大圣彩开始</div>
 	</div>
 
+	<script src="../js/jquery-1.11.1.min.js"></script>
+	<script src="../js/chosen.jquery.min.js"></script>
+	<script src="../js/jquery.cookie.js"></script>
+	<script src="../js/layer/layer.js"></script>
+	<script src="../js/laydate/laydate.js"></script>
+	<script src="../js/laypage/laypage.js"></script>
+	<script src="../js/GLOBAL.js"></script>
+	<script src="../js/common.js"></script>
 
-	<script src="../../../js/jquery-1.11.1.min.js"></script>
-	<script src="../../../js/jquery.cookie.js"></script>
-	<script src="../../../js/layer/layer.js"></script>
-	<script src="../../../js/GLOBAL.js"></script>
-	<script src="../../../js/common.js"></script>
+	<script>
+		$(function(){
+			$('select').chosen();
+			// COMMON.USER.bettingRecord.init();
+		});
+	</script>
 </body>
 </html>
