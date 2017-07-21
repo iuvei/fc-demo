@@ -331,7 +331,7 @@ $(function() {
             // options.num : 投注总数
             // options.price : 单倍投注金额
 
-            console.log(options);
+            // console.log(options);
             // return;
 
             var _url = GLOBAL.getRequestURL();
@@ -565,14 +565,17 @@ $(function() {
                     return;
                 }
 
-                var _units = [];
+                var _list = [];
                 var _hasProfit = true;  //是否有利润率
                 $('#J_betList li').each(function(){
-                    _units.push($(this).data('unit'));
+                    _list.push({
+                        unit : $(this).data('unit'),
+                        ajaxtype : $(this).data('ajaxtype')
+                    });
                 });
 
-                $.each(_units, function(i, n) {
-                    if (n.indexOf(_units[0]) == -1){
+                $.each(_list, function(i, n) {
+                    if (n.unit.indexOf(_list[0].unit) == -1 || n.ajaxtype.indexOf(_list[0].ajaxtype) == -1){
                         _hasProfit = false;
                         return;
                     }
@@ -583,7 +586,7 @@ $(function() {
                     var _num = Number($('#J_totalNum').html());
                     var _max = Number($('#J_maxBonus').html());
 
-                    switch(_units[0]){
+                    switch(_list[0].unit){
                         case 'yuan':
                             _model = 1;
                         break;
@@ -882,8 +885,8 @@ $(function() {
             });
         },
         confirmCart: function(_data, type) {
-            // console.log(_data);
-            // return;
+            console.log(_data);
+            return;
             // type : confirm 确认投注    shortcut : 一键投注
             
             GLOBAL.getAjaxData({

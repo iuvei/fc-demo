@@ -332,34 +332,34 @@ var TEMPLATE = {
             case 'chong_qing_shi_shi':
                 data.totalPeriods = 120;
                 data.maxPeriods = 240;
-                var _n = Number(currentPeriods.split('-')[1]);
-                var _lave = data.totalPeriods - _n + 1;
-                var _s = '(当前)';
-                
-                for (var i = 0; i < data.maxPeriods; i++) {
-                    if (i > 0) {
-                        _s = '';
-                    }
-
-                    if (_lave == data.totalPeriods) {
-                        if (i < data.totalPeriods) {
-                            _str += '<option value="'+ i +'">'+ _d0.tYear + _d0.tMonth + _d0.tDate + '-' + toThree(_n+i) + _s +'</option>';
-                        } else {
-                            _str += '<option value="'+ i + '">'+ _d1.tYear + _d1.tMonth + _d1.tDate + '-' + toThree(_n+i-data.totalPeriods) + '</option>';
-                        }
-                    } else {
-                        if (i < _lave) {
-                            _str += '<option value="' + i + '">'+ _d0.tYear + _d0.tMonth + _d0.tDate + '-' + toThree(_n+i) + _s +'</option>';
-                        } else if(_lave <= i && i < (_lave + data.totalPeriods)){
-                            _str += '<option value="'+ i + '">'+ _d1.tYear + _d1.tMonth + _d1.tDate + '-' + toThree(_n+i-data.totalPeriods) + '</option>';
-                        } else {
-                            _str += '<option value="'+ i + '">'+ _d2.tYear + _d2.tMonth + _d2.tDate + '-' + toThree(i - data.totalPeriods - _lave + 1) + '</option>';
-                        }
-                    }
-                }
-                data.select = _str;
             break
         }
+        var _n = Number(currentPeriods.split('-')[1]);
+        var _lave = data.totalPeriods - _n + 1;
+        var _s = '(当前)';
+        
+        for (var i = 0; i < data.maxPeriods; i++) {
+            if (i > 0) {
+                _s = '';
+            }
+
+            if (_lave == data.totalPeriods) {
+                if (i < data.totalPeriods) {
+                    _str += '<option value="'+ i +'">'+ _d0.tYear + _d0.tMonth + _d0.tDate + '-' + toThree(_n+i) + _s +'</option>';
+                } else {
+                    _str += '<option value="'+ i + '">'+ _d1.tYear + _d1.tMonth + _d1.tDate + '-' + toThree(_n+i-data.totalPeriods) + '</option>';
+                }
+            } else {
+                if (i < _lave) {
+                    _str += '<option value="' + i + '">'+ _d0.tYear + _d0.tMonth + _d0.tDate + '-' + toThree(_n+i) + _s +'</option>';
+                } else if(_lave <= i && i < (_lave + data.totalPeriods)){
+                    _str += '<option value="'+ i + '">'+ _d1.tYear + _d1.tMonth + _d1.tDate + '-' + toThree(_n+i-data.totalPeriods) + '</option>';
+                } else {
+                    _str += '<option value="'+ i + '">'+ _d2.tYear + _d2.tMonth + _d2.tDate + '-' + toThree(i - data.totalPeriods - _lave + 1) + '</option>';
+                }
+            }
+        }
+        data.select = _str;
 
         function toThree(num) {
             var _n = num;
@@ -2303,6 +2303,7 @@ var TEMPLATE = {
             _opt.formula = function(a){
                 return a[a.length - 1][a[0]].length;
             }
+            _opt.ajaxType = 'any1t1';
             break;
             case 'Any2_11X5':
             _maxBonus = '9.3333';
@@ -2314,6 +2315,7 @@ var TEMPLATE = {
                 var b = a[a.length - 1][a[0]].length;
                 return b >= 2 ? TEMPLATE.factorial(1 * b) / (TEMPLATE.factorial(1 * b - 2) * TEMPLATE.factorial(2)) : 0
             }
+            _opt.ajaxType = 'any2t2';
             break;
             case 'Any3_11X5':
             _maxBonus = '28.0000';
@@ -2325,6 +2327,7 @@ var TEMPLATE = {
                 var b = a[a.length - 1][a[0]].length;
                 return b >= 3 ? TEMPLATE.factorial(1 * b) / (TEMPLATE.factorial(1 * b - 3) * TEMPLATE.factorial(3)) : 0
             }
+            _opt.ajaxType = 'any3t3';
             break;
             case 'Any4_11X5':
             _maxBonus = '112.0000';
@@ -2336,6 +2339,7 @@ var TEMPLATE = {
                 var b = a[a.length - 1][a[0]].length;
                 return b >= 4 ? TEMPLATE.factorial(1 * b) / (TEMPLATE.factorial(1 * b - 4) * TEMPLATE.factorial(4)) : 0
             }
+            _opt.ajaxType = 'any4t4';
             break;
             case 'Any5_11X5':
             _maxBonus = '784.0000';
@@ -2347,6 +2351,7 @@ var TEMPLATE = {
                 var b = a[a.length - 1][a[0]].length;
                 return b >= 5 ? TEMPLATE.factorial(1 * b) / (TEMPLATE.factorial(1 * b - 5) * TEMPLATE.factorial(5)) : 0
             }
+            _opt.ajaxType = 'any5t5';
             break;
             case 'Any6_11X5':
             _maxBonus = '130.6667';
@@ -2358,6 +2363,7 @@ var TEMPLATE = {
                 var b = a[a.length - 1][a[0]].length;
                 return b >= 6 ? TEMPLATE.factorial(1 * b) / (TEMPLATE.factorial(1 * b - 6) * TEMPLATE.factorial(6)) : 0
             }
+            _opt.ajaxType = 'any6t5';
             break;
             case 'Any7_11X5':
             _maxBonus = '37.3333';
@@ -2369,6 +2375,7 @@ var TEMPLATE = {
                 var b = a[a.length - 1][a[0]].length;
                 return b >= 7 ? TEMPLATE.factorial(1 * b) / (TEMPLATE.factorial(1 * b - 7) * TEMPLATE.factorial(7)) : 0
             }
+            _opt.ajaxType = 'any7t5';
             break;
             case 'Any8_11X5':
             _maxBonus = '14.0000';
@@ -2380,6 +2387,8 @@ var TEMPLATE = {
                 var b = a[a.length - 1][a[0]].length;
                 return b >= 8 ? TEMPLATE.factorial(1 * b) / (TEMPLATE.factorial(1 * b - 8) * TEMPLATE.factorial(8)) : 0
             }
+            
+            _opt.ajaxType = 'any8t5';
             break;
             case 'Any2_11X5_Single':
             _maxBonus = '9.3333';
@@ -2389,6 +2398,7 @@ var TEMPLATE = {
             _opt.numList = [];
             _opt.type = 'text';
             _opt.numNameList = [];
+            _opt.ajaxType = 'anyS2t2';
             break;
             case 'Any3_11X5_Single':
             _maxBonus = '28.0000';
@@ -2398,6 +2408,7 @@ var TEMPLATE = {
             _opt.numList = [];
             _opt.type = 'text';
             _opt.numNameList = [];
+            _opt.ajaxType = 'anyS3t3';
             break;
             case 'Any4_11X5_Single':
             _maxBonus = '112.0000';
@@ -2407,6 +2418,7 @@ var TEMPLATE = {
             _opt.numList = [];
             _opt.type = 'text';
             _opt.numNameList = [];
+            _opt.ajaxType = 'anyS4t4';
             break;
             case 'Any5_11X5_Single':
             _maxBonus = '784.0000';
@@ -2416,6 +2428,7 @@ var TEMPLATE = {
             _opt.numList = [];
             _opt.type = 'text';
             _opt.numNameList = [];
+            _opt.ajaxType = 'anyS5t5';
             break;
             case 'Any6_11X5_Single':
             _maxBonus = '130.6667';
@@ -2425,6 +2438,7 @@ var TEMPLATE = {
             _opt.numList = [];
             _opt.type = 'text';
             _opt.numNameList = [];
+            _opt.ajaxType = 'anyS6t5';
             break;
             case 'Any7_11X5_Single':
             _maxBonus = '37.3333';
@@ -2434,6 +2448,7 @@ var TEMPLATE = {
             _opt.numList = [];
             _opt.type = 'text';
             _opt.numNameList = [];
+            _opt.ajaxType = 'anyS7t5';
             break;
             case 'Any8_11X5_Single':
             _maxBonus = '14.0000';
@@ -2443,6 +2458,7 @@ var TEMPLATE = {
             _opt.numList = [];
             _opt.type = 'text';
             _opt.numNameList = [];
+            _opt.ajaxType = 'anyS8t5';
             break;
         }
 
@@ -2492,7 +2508,7 @@ var TEMPLATE = {
             type: 'ball',
             formula: null,
             minSelect: 1,
-            ajaxType: ''
+            ajaxType: 'sd'
         };
         var _maxBonus = '';
         switch (options.type) {
@@ -2536,7 +2552,7 @@ var TEMPLATE = {
             minSelect: 1,
             ajaxType: ''
         };
-        var _maxBonus = '';
+        var _maxBonus = 'center';
         switch (options.type) {
             case 'rdDigit_11X5':
             _maxBonus = '28.0000';
@@ -2591,6 +2607,7 @@ var TEMPLATE = {
                     d = a[a.length - 1][a[2]];
                 return TEMPLATE.first3StraightOf11X5(b, c, d)
             }
+            _opt.ajaxType = 'before3';
             break;
             case 'First3Straight_11X5_Single':
             _maxBonus = '1680.0000';
@@ -2600,6 +2617,7 @@ var TEMPLATE = {
             _opt.numList = [];
             _opt.type = 'text';
             _opt.numNameList = [];
+            _opt.ajaxType = 'beforeS3';
             break;
             case 'First3Com_11X5':
             _maxBonus = '280.0000';
@@ -2610,6 +2628,7 @@ var TEMPLATE = {
                 var b = a[a.length - 1][a[0]].length;
                 return b >= 3 ? TEMPLATE.factorial(1 * b) / (TEMPLATE.factorial(1 * b - 3) * TEMPLATE.factorial(3)) : 0
             }
+            _opt.ajaxType = 'before3G';
             break;
             case 'First3Com_11X5_Single':
             _maxBonus = '280.0000';
@@ -2619,6 +2638,7 @@ var TEMPLATE = {
             _opt.numList = [];
             _opt.type = 'text';
             _opt.numNameList = [];
+            _opt.ajaxType = 'beforeS3G';
             break;
         }
 
@@ -2670,6 +2690,7 @@ var TEMPLATE = {
                     c = a[a.length - 1][a[1]];
                 return TEMPLATE.first2StraightOf11X5(b, c)
             }
+            _opt.ajaxType = 'before2';
             break;
             case 'First2Straight_11X5_Single':
             _maxBonus = '186.6667';
@@ -2679,6 +2700,7 @@ var TEMPLATE = {
             _opt.numList = [];
             _opt.type = 'text';
             _opt.numNameList = [];
+            _opt.ajaxType = 'beforeS2';
             break;
             case 'First2Com_11X5':
             _maxBonus = '93.3333';
@@ -2689,6 +2711,7 @@ var TEMPLATE = {
                 var b = a[a.length - 1][a[0]].length;
                 return b >= 2 ? TEMPLATE.factorial(1 * b) / (TEMPLATE.factorial(1 * b - 2) * TEMPLATE.factorial(2)) : 0
             }
+            _opt.ajaxType = 'before2G';
             break;
             case 'First2Com_11X5_Single':
             _maxBonus = '93.3333';
@@ -2698,6 +2721,7 @@ var TEMPLATE = {
             _opt.numList = [];
             _opt.type = 'text';
             _opt.numNameList = [];
+            _opt.ajaxType = 'beforeS2G';
             break;
         }
 
@@ -2737,7 +2761,7 @@ var TEMPLATE = {
             formula: null,
             minSelect: 1,
             maxSelect: 11,
-            ajaxType: ''
+            ajaxType: 'anyB3'
         };
         var _maxBonus = '';
         switch (options.type) {
@@ -2780,7 +2804,7 @@ var TEMPLATE = {
             formula: null,
             minSelect: 1,
             maxSelect: 11,
-            ajaxType: ''
+            ajaxType: 'sure'
         };
         var _maxBonus = '';
         switch (options.type) {
@@ -2913,7 +2937,7 @@ var TEMPLATE = {
             formula: null,
             minSelect: 1,
             maxSelect: 11,
-            ajaxType: ''
+            ajaxType: 'sum'
         };
         var _maxBonus = '15.5200';
         switch (options.type) {
@@ -2948,14 +2972,14 @@ var TEMPLATE = {
             defaultCheck: 0,
             haveTextarea: false,
             placeholder: '',
-            numList: [''],
+            numList: [],
             numNameList: [''],
             quickFast: false,
             type: 'dice',
             formula: null,
             minSelect: 1,
             maxSelect: 11,
-            ajaxType: ''
+            ajaxType: 'repeat3'
         };
         var _maxBonus = '419.0400';
         switch (options.type) {
@@ -3002,7 +3026,7 @@ var TEMPLATE = {
             formula: null,
             minSelect: 1,
             maxSelect: 11,
-            ajaxType: ''
+            ajaxType: 'repeat2'
         };
         var _maxBonus = '139.6800';
         switch (options.type) {
@@ -3053,7 +3077,7 @@ var TEMPLATE = {
             formula: null,
             minSelect: 1,
             maxSelect: 11,
-            ajaxType: ''
+            ajaxType: 'differ3'
         };
         var _maxBonus = '69.8400';
         switch (options.type) {
@@ -3101,7 +3125,7 @@ var TEMPLATE = {
             formula: null,
             minSelect: 1,
             maxSelect: 11,
-            ajaxType: ''
+            ajaxType: 'differ2'
         };
         var _maxBonus = '13.9680';
         switch (options.type) {
@@ -3149,7 +3173,7 @@ var TEMPLATE = {
             formula: null,
             minSelect: 1,
             maxSelect: 11,
-            ajaxType: ''
+            ajaxType: 'join3'
         };
         var _maxBonus = '69.8400';
         switch (options.type) {
@@ -3197,7 +3221,7 @@ var TEMPLATE = {
             formula: null,
             minSelect: 1,
             maxSelect: 11,
-            ajaxType: ''
+            ajaxType: 'any1'
         };
         var _maxBonus = '4.6050';
         switch (options.type) {
