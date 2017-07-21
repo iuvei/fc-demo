@@ -416,12 +416,12 @@ $(function() {
             });
 
             // 最低利润率
-            $('#J_lowestProfit').off().on('blur', function() {
+            $('#J_lowestProfit').off().on('change', function() {
                 var _val = $(this).val();
-                var _reg = /^\d+(\.\d+)?$/;
-                if (_val == 0 || !_reg.test(_val)) {
+                var _reg = /^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$/;
+                if (!_reg.test(_val)) {
                     GLOBAL.alert('您输入的最低收益率格式不正确<br>只能输入正整数或小数');
-                    $(this).val(0).blur();
+                    $(this).val(0);
                 }
             });
 
@@ -515,13 +515,12 @@ $(function() {
                             $(this).find('.n6').html(_n6);
 
 
-                            // TODO: 公式好像有问题
                             // Ps：倍数上限=投注上限（200000元）/单倍的投注金额
-                            console.log((200000 * 10000 / (Number(options.price) * 10000)));
+                            // console.log(_bs, (200000 * 10000 / (Number(options.price) * 10000)));
 
-                            if(_bs > (200000 * 10000 / (Number(options.price) * 10000))){
-                                GLOBAL.alert('您原计划实现'+ _n +'期,实际实现'+ (k + 1) +'期');
-                                $('#J_chaseUl_'+_i +' li:gt('+ k +')').remove();
+                            if(_bs && _bs > (200000 * 10000 / (Number(options.price) * 10000))){
+                                GLOBAL.alert('您原计划实现'+ _n +'期,实际实现'+ k +'期');
+                                $('#J_chaseUl_'+_i +' li:gt('+ (k-1) +')').remove();
                                 $(this).parents('.chase-con').find('.J_periods').val(k + 1);
                                 // $('#J_chaseFooterNum').text(k+1);
                             }

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>追号记录</title>
+	<title>投注详情</title>
 	<link rel="stylesheet" href="../css/reset.css">
 	<link rel="stylesheet" href="../css/chose.css">
 	<link rel="stylesheet" href="../css/user_common.css">
@@ -142,11 +142,11 @@
 
 		<div class="user-content fl">
 			<div class="user-con">
-				<div class="user-tt">
+				<!-- <div class="user-tt">
 					<span>追号记录</span>
-				</div>
+				</div> -->
 				
-				<div class="user-search clearfix">
+				<!-- <div class="user-search clearfix">
 					<div class="user-s-tt">状态：</div>
 					<div class="user-s-sel">
 						<select name="" id="">
@@ -166,40 +166,70 @@
 						<input type="text">
 					</div>
 					<div class="user-s-btn fr">查询</div>
-				</div>
+				</div> -->
 
-
-				<div class="user-table chase-record">
-					<ul class="user-table-t">
-						<li class="t1">游戏类型</li>
-						<li class="t2">订单编号</li>
-						<li class="t3">起始期号</li>
-						<li class="t4">截至期号</li>
-						<li class="t5">计划期数</li>
-						<li class="t6">实际期数</li>
-						<li class="t7">投注金额</li>
-						<li class="t8">中奖金额</li>
-						<li class="t9">状态</li>
-					</ul>
-					<ul class="user-table-c">
-						<li class="empty">没有找到符合条件的数据</li>
+				<div class="chase-detail-t clearfix">
+					<img src="../images/logo/cqssc.png" alt="">
+					<ul>
 						<li>
-							<div class="t1">重庆时时彩</div>
-							<div class="t2 J_pageJump" data-page="chase_order">BT4869</div>
-							<div class="t3">17-06-30</div>
-							<div class="t4">17-06-30</div>
-							<div class="t5">17-06-30</div>
-							<div class="t6">100.00</div>
-							<div class="t7">100.00</div>
-							<div class="t8">0.00</div>
-							<div class="t9">中奖</div>
+							<span>订单编号：</span>
+							<p class="text-l-color">BP26CZ</p>
+						</li>
+						<li>
+							<span>投注时间：</span>
+							<p>2017-06-30  11:20:30</p>
+						</li>
+						<li>
+							<span>投注注数：</span>
+							<p>3</p>
+						</li>
+						<li>
+							<span>投注期号：</span>
+							<p>20170630-046</p>
+						</li>
+						<li>
+							<span>中奖金额：</span>
+							<p>0.0233</p>
+						</li>
+						<li>
+							<span>订单状态：</span>
+							<p>已中奖</p>
+						</li>
+						<li>
+							<span>开奖号码：</span>
+							<p><em>3</em><em>3</em><em>3</em><em>3</em><em>3</em></p>
 						</li>
 					</ul>
-					<div class="user-table-f">
-						<p>计划投注金额合计：<span>0.00</span></p>
-						<p>有效投注金额合计：<span>0.00</span></p>
-						<p>中奖金额合计：<span>0.00</span></p>
-					</div>
+				</div>
+
+				<div class="user-table chase-detail">
+					<ul class="user-table-t">
+						<li class="t1">游戏玩法</li>
+						<li class="t2">投注内容</li>
+						<li class="t3">投注注数</li>
+						<li class="t4">系列/模式/倍数</li>
+						<li class="t5">投注金额</li>
+						<li class="t6">中奖金额</li>
+					</ul>
+					<ul class="user-table-c">
+						<!-- <li class="empty">没有找到符合条件的数据</li> -->
+						<li>
+							<div class="t1">前三直选</div>
+							<div class="t2">..2</div>
+							<div class="t3">1</div>
+							<div class="t4">1956 / 分 / 1</div>
+							<div class="t5">0.2</div>
+							<div class="t6">-</div>
+						</li>
+						<li>
+							<div class="t1">前三直选</div>
+							<div class="t2">..2</div>
+							<div class="t3">1</div>
+							<div class="t4">1956 / 分 / 1</div>
+							<div class="t5">0.2</div>
+							<div class="t6">100.00</div>
+						</li>
+					</ul>
 				</div>
 			</div>
 
@@ -220,7 +250,7 @@
 	<script src="../js/laydate/laydate.js"></script>
 	<script src="../js/laypage/laypage.js"></script>
 	<script src="../js/GLOBAL.js"></script>
-	<script src="../js/common.js"></script>
+	<!-- <script src="../js/common.js"></script> -->
 
 	<script>
 		$(function(){
