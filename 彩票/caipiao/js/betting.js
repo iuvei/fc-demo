@@ -376,7 +376,7 @@ $(function() {
                 var _reg = /^[1-9]\d*$/;
                 if (!_reg.test(_val)) {
                     GLOBAL.alert('您输入的间隔期数格式不正确<br>只能输入大于或等于1的整数');
-                    $(this).val(1).blur();;
+                    $(this).val(1).blur();
                 } else {
                     if(_val > _max){
                         GLOBAL.alert('间隔期数不能超过您输入的追号期数<br>目前最大间隔为'+ _max +'期');
@@ -1821,6 +1821,9 @@ $(function() {
         },
         getConfirmData: function() {
             var _items = [];
+            var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
+            var _subNav = ($('.J_subMenu.active').length ? $('.J_subMenu.active').data('info').split('#')[1] : _mainNav);
+
             $('#J_betList li').each(function(x, y){
                 var _ajaxData = {};
                 var _this = $(this);
@@ -1838,14 +1841,78 @@ $(function() {
                 }
 
                 if (_type == 'ball') {
-                    $.each(_need.split('#'), function(i, n){
-                        if (n) {
-                            _ajaxData[n] = _this.data(n) + '';
+                    if(Betting.playCode == '11X5'){
+                        if(_subNav == 'First3Straight_11X5' || _subNav == 'First2Straight_11X5' || _subNav == 'FixedPlace_11X5'){
+                            // 11选5前三直选 前二直选 定胆位
+                            _ajaxData.one = '';
+                            _ajaxData.two = '';
+                            if(_subNav != 'First2Straight_11X5'){
+                                _ajaxData.three = '';
+                            }
+                            $.each(_need.split('#'), function(i, n){
+                                switch(n){
+                                    case 'w':
+                                        if(_nums.indexOf('|') > -1) {
+                                            _ajaxData.one = _nums.split('|')[0].replace(/\-/g, ' ');
+                                        } else {
+                                            if(_this.data('w')){
+                                                _ajaxData.one = _nums;
+                                            }
+                                        }
+                                    break;
+                                    case 'q':
+                                        if(_nums.indexOf('|') > -1) {
+                                            _ajaxData.two = _nums.split('|')[1].replace(/\-/g, ' ');
+                                        } else {
+                                            if(_this.data('q')){
+                                                _ajaxData.two = _nums;
+                                            }
+                                        }
+                                    break;
+                                    case 'b':
+                                        if(_nums.indexOf('|') > -1) {
+                                            _ajaxData.three = _nums.split('|')[2].replace(/\-/g, ' ');
+                                        } else {
+                                            if(_this.data(b)){
+                                                _ajaxData.three = _nums;
+                                            }
+                                        }
+                                    break;
+                                }
+                            });
+                        } else {
+                            // 11选5定单双 前三组选 前二组选 前三不定位
+                            var _dds = '';
+                            $.each(_nums.split('-'), function(i, n){
+                                if (n && _subNav == 'OECounts_11X5') {
+                                    _dds += (i == 0 ? '' : ' ') + n[0];
+                                } else{
+                                    _dds += (i == 0 ? '' : ' ') + n;
+                                }
+                            });
+                            _ajaxData.n = _dds;
                         }
-                        _ajaxData[n] = _ajaxData[n].split('').sort().join('');
-                    });
+                    } else {
+                        $.each(_need.split('#'), function(i, n){
+                            if (n) {
+                                _ajaxData[n] = _this.data(n) + '';
+                            }
+                            _ajaxData[n] = _ajaxData[n].split('').sort().join('');
+                        });
+                    }
                 } else if(_type == 'text' || _type == 'mixing' || _type == 'mixingAny'){
-                    _ajaxData.n = _nums;
+                    if(Betting.playCode == '11X5'){
+                        console.log(_nums);
+                        if(_subNav.indexOf('First') > -1){
+                            //11选5 前二 前三 单式
+                            _ajaxData.n = _nums.replace(/\|/g, ' ').replace(/\-/g, ' ').replace(/\,/g, '|');
+                        } else {
+                            // 11选5任选单式
+                            _ajaxData.n = _nums.replace(/\-/g, ' ').replace(/\,/g, '|');
+                        }
+                    } else {
+                        _ajaxData.n = _nums;
+                    }
                 } else if(_type == 'sum'){
                     if(_ajaxData.type == 'sum'){
                         // 快三和值
@@ -1875,7 +1942,9 @@ $(function() {
                     }
                 } else if(_type == 'dice'){
                     _ajaxData.c = _nums;
-                    // _ajaxData.c = _data[0].n.replace(/\ \|\ /g, '|');
+                } else if(_type == '11x5' || _type == 'czwBall'){
+                    console.log(_nums);
+                    _ajaxData.n = _nums.replace(/\-/g, ' ');
                 }
 
                 _items.push(_ajaxData);
@@ -1972,13 +2041,58 @@ $(function() {
             console.log(_data);
 
             if (_type == 'ball') {
-                $.each(_data[0].need.split('#'), function(i, n){
-                    if (n) {
-                        _ajaxData[n] = _data[0][n];
+                if(Betting.playCode == '11X5'){
+                    if(_subNav == 'First3Straight_11X5' || _subNav == 'First2Straight_11X5' || _subNav == 'FixedPlace_11X5'){
+                        // 11选5前三直选 前二直选 定胆位
+                        _ajaxData.one = '';
+                        _ajaxData.two = '';
+                        if(_subNav != 'First2Straight_11X5'){
+                            _ajaxData.three = '';
+                        }
+                        $.each(_data[0].need.split('#'), function(i, n){
+                            switch(n){
+                                case 'w':
+                                    _ajaxData.one = _data[0].w.replace(/\-/g, ' ');
+                                break;
+                                case 'q':
+                                    _ajaxData.two = _data[0].q.replace(/\-/g, ' ');
+                                break;
+                                case 'b':
+                                    _ajaxData.three = _data[0].b.replace(/\-/g, ' ');
+                                break;
+                            }
+                        });
+                    } else {
+                        // 11选5定单双 前三组选 前二组选 前三不定位
+                        var _dds = '';
+                        $.each(_data[0].n.split('-'), function(i, n){
+                            if (n && _subNav == 'OECounts_11X5') {
+                                _dds += (i == 0 ? '' : ' ') + n[0];
+                            } else{
+                                _dds += (i == 0 ? '' : ' ') + n;
+                            }
+                        });
+                        _ajaxData.n = _dds;
                     }
-                });
+                } else {
+                    $.each(_data[0].need.split('#'), function(i, n){
+                        if (n) {
+                            _ajaxData[n] = _data[0][n];
+                        }
+                    });
+                }
             } else if(_type == 'text' || _type == 'mixing'){
-                _ajaxData.n = _data[0].n.replace(/( \| )/g, ',');
+                if(Betting.playCode == '11X5'){
+                    if(_subNav.indexOf('First') > -1){
+                        //11选5 前二 前三 单式
+                        _ajaxData.n = _data[0].n.replace(/\ \| /g, ' ').replace(/\-/g, ' ').replace(/\,/g, '|');
+                    } else {
+                        // 11选5任选单式
+                        _ajaxData.n = _data[0].n.replace(/\-/g, ' ').replace(/\,/g, '|');
+                    }
+                } else {
+                    _ajaxData.n = _data[0].n.replace(/( \| )/g, ',');
+                }
             } else if(_type == 'sum'){
                 if(_subNav == 'K3_SUM'){
                     // 快三和值
@@ -2012,6 +2126,8 @@ $(function() {
                 }
             } else if(_type == 'dice'){
                 _ajaxData.c = _data[0].n.replace(/\ /g, '');
+            } else if(_type == '11x5' || _type == 'czwBall'){
+                _ajaxData.n = _data[0].n.replace(/\-/g, ' ');
             }
 
             _items.push(_ajaxData);
@@ -2462,7 +2578,7 @@ $(function() {
             var a = true;
             // console.log(_subNav);
             var b = TEMPLATE.allManualEntryEvents(_subNav);
-            console.log(b);
+            // console.log(b);
             if (_subNav == 'Last3Com' || _subNav == 'First3Com' || _subNav == 'Middle3Com' || _subNav == 'Last3Com_LF' || _subNav == 'P3Com_LF' || _subNav == 'Any3Com_SSC') {
                 a = false;
             }
@@ -2668,7 +2784,7 @@ $(function() {
             return !0
         },
         calculateESFManualEntryStakes: function(a, b) {
-            console.log('calculateESFManualEntryStakes');
+            // console.log('calculateESFManualEntryStakes');
             console.log(a);
             console.log(b);
             Betting.textArea = [];

@@ -2550,7 +2550,7 @@ var TEMPLATE = {
             type: 'czwBall',
             formula: null,
             minSelect: 1,
-            ajaxType: ''
+            ajaxType: 'center'
         };
         var _maxBonus = 'center';
         switch (options.type) {
