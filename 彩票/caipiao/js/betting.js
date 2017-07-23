@@ -1813,6 +1813,7 @@ $(function() {
             // 重置选区
             $('.J_numWrp.active').removeClass('active');
             $('.J_dice.active').removeClass('active');
+            $('.J_diceFast.active').removeClass('active');
             Betting.resetBettingBox();
             if ($('#J_ballInputArea').length) {
                 $('#J_ballInputArea').val('');
@@ -1846,8 +1847,12 @@ $(function() {
                 } else if(_type == 'text' || _type == 'mixing' || _type == 'mixingAny'){
                     _ajaxData.n = _nums;
                 } else if(_type == 'sum'){
-                    _ajaxData.n = _nums.replace(/\|/g, ',');;
-
+                    if(_ajaxData.type == 'sum'){
+                        // 快三和值
+                        _ajaxData.c = _nums;
+                    } else {
+                        _ajaxData.n = _nums.replace(/\|/g, ',');
+                    }
                 } else if(_type == 'taste'){
                     $.each(_need.split('#'), function(i, n){
                         if (n) {
@@ -1868,6 +1873,9 @@ $(function() {
                         }
                         return _num;
                     }
+                } else if(_type == 'dice'){
+                    _ajaxData.c = _nums;
+                    // _ajaxData.c = _data[0].n.replace(/\ \|\ /g, '|');
                 }
 
                 _items.push(_ajaxData);
@@ -1959,6 +1967,10 @@ $(function() {
                 _ajaxData.hex = _data[0].hex.split('').join(',');
             }
 
+
+            console.log(_type, _subNav);
+            console.log(_data);
+
             if (_type == 'ball') {
                 $.each(_data[0].need.split('#'), function(i, n){
                     if (n) {
@@ -1968,8 +1980,14 @@ $(function() {
             } else if(_type == 'text' || _type == 'mixing'){
                 _ajaxData.n = _data[0].n.replace(/( \| )/g, ',');
             } else if(_type == 'sum'){
-                // console.log(_data[0].n);
-                _ajaxData.n = _data[0].n.replace(/(\|)/g, ',');
+                if(_subNav == 'K3_SUM'){
+                    // 快三和值
+                    _ajaxData.c = _data[0].n.replace(/(\ )/g, '');
+                }else{
+                    console.log(_data[0].n)
+                    _ajaxData.n = _data[0].n.replace(/(\ \| )/g, ',');
+                    console.log(_ajaxData.n);
+                }
             } else if(_type == 'mixingAny'){
                 _ajaxData.n = _data[0].n;
             } else if(_type == 'taste'){
@@ -1992,6 +2010,8 @@ $(function() {
                     }
                     return _num;
                 }
+            } else if(_type == 'dice'){
+                _ajaxData.c = _data[0].n.replace(/\ /g, '');
             }
 
             _items.push(_ajaxData);
@@ -2210,7 +2230,7 @@ $(function() {
                             if (i == $('[data-row="SUM"] .J_numWrp.active').length - 1) {
                                 _sum += $(this).text();
                             } else {
-                                _sum += $(this).text() +'|';
+                                _sum += $(this).text() +' | ';
                             }
                         });
                         _d.n = _sum;
@@ -2260,8 +2280,12 @@ $(function() {
                 _d.n = _nums;
             } else if(_opt.type == 'dice') {
                 // 快三
-                console.log('todo ： 不知道要什么格式');
-                
+                _d.need = 'n';
+                var _nums = '';
+                $('.J_dice.active').each(function(i, n){
+                    _nums += (i == 0 ? '' : ' | ') + $(this).data('v');
+                });
+                _d.n = _nums;
             }
 
             if (_opt.haveCheckbox) {
@@ -2284,7 +2308,7 @@ $(function() {
             }
 
             _data.push(_d);
-            console.log(_data);
+            // console.log(_data);
 
             return _data;
         },
