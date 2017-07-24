@@ -450,9 +450,9 @@ var TEMPLATE = {
                 _opt.type = 'text';
                 // a.miBall = 1, a.stakes = 1, a.len = 5, a.digit = "",
                 _opt.numNameList = [];
-                // _opt.formula = function(a){
+                _opt.formula = function(a){
                 //     return console.log('对应 allManualEntryEvents');
-                // };
+                };
                 _opt.ajaxType = 'allS5';
                 break;
             case 'All5All':
@@ -474,9 +474,9 @@ var TEMPLATE = {
                 _opt.type = 'text';
                 // a.miBall = 1, a.stakes = 1, a.len = 5, a.digit = ""
                 _opt.numNameList = [];
-                // _opt.formula = function(a){
+                _opt.formula = function(a){
                 //     return console.log('对应 allManualEntryEvents');
-                // };
+                };
                 _opt.ajaxType = 'variedS5';
                 break;
             case 'All5Join':
@@ -493,9 +493,9 @@ var TEMPLATE = {
                 _opt.numList = [];
                 _opt.type = 'text';
                 _opt.numNameList = [];
-                // _opt.formula = function(a){
+                _opt.formula = function(a){
                 //     return console.log('对应 allManualEntryEvents');
-                // };
+                };
                 _opt.ajaxType = 'joinS5';
                 break;
             case 'AllCom120':
@@ -641,9 +641,9 @@ var TEMPLATE = {
                 _opt.numList = [];
                 _opt.type = 'text';
                 _opt.numNameList = [];
-                // _opt.formula = function(a){
+                _opt.formula = function(a){
                 //     return console.log('对应 allManualEntryEvents');
-                // };
+                };
                 _opt.ajaxType = 'allS4b';
                 break;
             case 'First4Join':
@@ -660,9 +660,9 @@ var TEMPLATE = {
                 _opt.numList = [];
                 _opt.type = 'text';
                 _opt.numNameList = [];
-                // _opt.formula = function(a){
+                _opt.formula = function(a){
                 //     return console.log('对应 allManualEntryEvents');
-                // };
+                };
                 _opt.ajaxType = 'joinS4b';
                 break;
             case 'F4Com24':
@@ -772,9 +772,9 @@ var TEMPLATE = {
                 _opt.numList = [];
                 _opt.type = 'text';
                 _opt.numNameList = [];
-                // _opt.formula = function(a){
+                _opt.formula = function(a){
                 //     return console.log('对应 allManualEntryEvents');
-                // };
+                };
                 _opt.ajaxType = 'allS4';
                 break;
             case 'Last4Join':
@@ -791,9 +791,9 @@ var TEMPLATE = {
                 _opt.numList = [];
                 _opt.type = 'text';
                 _opt.numNameList = [];
-                // _opt.formula = function(a){
+                _opt.formula = function(a){
                 //     return console.log('对应 allManualEntryEvents');
-                // };
+                };
                 _opt.ajaxType = 'joinS4';
                 break;
             case 'L4Com24':
@@ -903,9 +903,9 @@ var TEMPLATE = {
                 _opt.numList = [];
                 _opt.type = 'text';
                 _opt.numNameList = [];
-                // _opt.formula = function(a){
+                _opt.formula = function(a){
                 //     return console.log('对应 allManualEntryEvents');
-                // };
+                };
                 _opt.ajaxType = 'allS3b';
                 break;
             case 'First3Join':
@@ -922,9 +922,9 @@ var TEMPLATE = {
                 _opt.numList = [];
                 _opt.type = 'text';
                 _opt.numNameList = [];
-                // _opt.formula = function(a){
+                _opt.formula = function(a){
                 //     return console.log('对应 allManualEntryEvents');
-                // };
+                };
                 _opt.ajaxType = 'joinS3b';
                 break;
             case 'First3StraightCom':
@@ -1044,9 +1044,9 @@ var TEMPLATE = {
                 _opt.numList = [];
                 _opt.type = 'text';
                 _opt.numNameList = [];
-                // _opt.formula = function(a){
+                _opt.formula = function(a){
                 //     return console.log('对应 allManualEntryEvents');
-                // };
+                };
                 _opt.ajaxType = 'allS3m';
                 break;
             case 'Middle3Join':
@@ -1063,9 +1063,9 @@ var TEMPLATE = {
                 _opt.numList = [];
                 _opt.type = 'text';
                 _opt.numNameList = [];
-                // _opt.formula = function(a){
+                _opt.formula = function(a){
                 //     return console.log('对应 allManualEntryEvents');
-                // };
+                };
                 _opt.ajaxType = 'joinS3m';
                 break;
             case 'Middle3StraightCom':
@@ -1183,9 +1183,9 @@ var TEMPLATE = {
                 _opt.numList = [];
                 _opt.type = 'text';
                 _opt.numNameList = [];
-                // _opt.formula = function(a){
+                _opt.formula = function(a){
                 //     return console.log('对应 allManualEntryEvents');
-                // };
+                };
                 _opt.ajaxType = 'allS3';
                 break;
             case 'Last3Join':
@@ -1202,9 +1202,9 @@ var TEMPLATE = {
                 _opt.numList = [];
                 _opt.type = 'text';
                 _opt.numNameList = [];
-                // _opt.formula = function(a){
+                _opt.formula = function(a){
                 //     return console.log('对应 allManualEntryEvents');
-                // };
+                };
                 _opt.ajaxType = 'joinS3';
                 break;
             case 'Last3StraightCom':
@@ -1323,9 +1323,9 @@ var TEMPLATE = {
                 _opt.numList = [];
                 _opt.type = 'text';
                 _opt.numNameList = [];
-                // _opt.formula = function(a){
+                _opt.formula = function(a){
                 //     return console.log('对应 allManualEntryEvents');
-                // };
+                };
                 _opt.ajaxType = 'allS2b';
                 break;
             case 'First2Join':
@@ -1342,9 +1342,9 @@ var TEMPLATE = {
                 _opt.numList = [];
                 _opt.type = 'text';
                 _opt.numNameList = [];
-                // _opt.formula = function(a){
+                _opt.formula = function(a){
                 //     return console.log('对应 allManualEntryEvents');
-                // };
+                };
                 _opt.ajaxType = 'joinS2b';
                 break;
             case 'First2Sum':
@@ -1428,9 +1428,9 @@ var TEMPLATE = {
                 _opt.numList = [];
                 _opt.type = 'text';
                 _opt.numNameList = [];
-                // _opt.formula = function(a){
+                _opt.formula = function(a){
                 //     return console.log('对应 allManualEntryEvents');
-                // };
+                };
                 _opt.ajaxType = 'allS2';
                 break;
             case 'Last2Join':
@@ -1447,9 +1447,9 @@ var TEMPLATE = {
                 _opt.numList = [];
                 _opt.type = 'text';
                 _opt.numNameList = [];
-                // _opt.formula = function(a){
+                _opt.formula = function(a){
                 //     return console.log('对应 allManualEntryEvents');
-                // };
+                };
                 _opt.ajaxType = 'joinS2';
                 break;
             case 'Last2Sum':
@@ -1921,9 +1921,9 @@ var TEMPLATE = {
                 _opt.numList = [];
                 _opt.type = 'text';
                 _opt.numNameList = [];
-                // _opt.formula = function(a){
-                //     return console.log('对应 allManualEntryEvents');
-                // };
+                _opt.formula = function(a){
+                    // return console.log('对应 allManualEntryEvents');
+                };
                 _opt.ajaxType = 'anyS2';
                 break;
             case 'Any3':
@@ -1946,9 +1946,9 @@ var TEMPLATE = {
                 // a.miBall = 0,a.stakes = 1, a.len = 3, a.digit = "",
                 _opt.type = 'text';
                 _opt.numNameList = [];
-                // _opt.formula = function(a){
+                _opt.formula = function(a){
                 //     return console.log('对应 allManualEntryEvents');
-                // };
+                };
                 _opt.ajaxType = 'anyS3';
                 break;
             case 'Any4':
@@ -1971,9 +1971,9 @@ var TEMPLATE = {
                 _opt.numList = [];
                 _opt.type = 'text';
                 _opt.numNameList = [];
-                // _opt.formula = function(a){
+                _opt.formula = function(a){
                 //     return console.log('对应 allManualEntryEvents');
-                // };
+                };
                 _opt.ajaxType = 'anyS4';
                 break;
             case 'Any2Com_SSC':
@@ -1999,9 +1999,9 @@ var TEMPLATE = {
                 _opt.type = 'text';
                 _opt.minSelect = 2;
                 _opt.numNameList = [];
-                // _opt.formula = function(a){
+                _opt.formula = function(a){
                 //     return console.log('对应 allManualEntryEvents');
-                // };
+                };
                 _opt.ajaxType = 'ganyS2';
                 break;
             case 'Any2Sum_SSC':
