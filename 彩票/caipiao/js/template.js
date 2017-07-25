@@ -31,6 +31,38 @@
  * sumType : 和值类型
  */
 var TEMPLATE = {
+    _transTextDT: function(num) {
+        // return num == 1 ? '龙' : '虎';
+    },
+    _exchangeToNumDT: function(name) {
+        return name == '龙' ? '0' : '1';
+    },
+    _transText: function(num){
+        var _txt = '';
+        if(num == 0 || num == '0'){
+            _txt = '大'
+        } else if(num == 1 || num == '1') {
+            _txt = '小';
+        } else if(num == 2 || num == '2') {
+            _txt = '单';
+        } else if(num == 3 || num == '3') {
+            _txt = '双';
+        }
+        return _txt;
+    },
+    _exchangeToNum: function(name){
+        var _num = '0';
+        if(name == '大'){
+            _num = '0';
+        } else if (name == '小') {
+            _num = '1';
+        } else if (name == '单') {
+            _num = '2';
+        } else if (name == '双') {
+            _num = '3';
+        }
+        return _num;
+    },
     factorial: function(a) {
         for (var b = 1, c = 1; c <= a; c += 1) b *= c;
         return b
@@ -3653,6 +3685,7 @@ var TEMPLATE = {
                 return _num;
             };
             _opt.sumType = '2rpk';
+            _opt.ajaxType = 'sum1a2';
             break;
             case 'First3Sum_PK10':
             _rule = '从6-27中任意选择至少一个号码组成一组，开奖号码前三位之和与所选的号码一致即为中奖，顺序不限。如：投注8，开奖号码：01、02、05*******，即中冠亚季和值。';
@@ -3664,6 +3697,7 @@ var TEMPLATE = {
             _opt.sumType = '3rpk';
             _maxBonus = '204.0000'
             _opt.numList = [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27];
+            _opt.ajaxType = 'sum2d3';
             break;
             case 'FirstLastSum_PK10':
             _rule = '从3-19中任意选择至少一个号码组成一组，开奖号码冠军和第十名之和与所选的号码一致即为中奖，顺序不限。如：投注8，开奖号码：02*******06，即首尾和值。';
@@ -3673,6 +3707,7 @@ var TEMPLATE = {
                 return _num;
             };
             _opt.sumType = '2rpk';
+            _opt.ajaxType = 'sum1a10';
             break;
         }
 
@@ -3706,6 +3741,7 @@ var TEMPLATE = {
             type: 'taste',
             formula: null,
             minSelect: 1,
+            multipleChoice: false,
             ajaxType: ''
         };
         var _maxBonus = '3.4000';
@@ -3717,7 +3753,8 @@ var TEMPLATE = {
                 _opt.quickFast = false;
                 _opt.formula = function(a){
                     return a[a.length - 1][a[0]].length + a[a.length - 1][a[1]].length + a[a.length - 1][a[2]].length + a[a.length - 1][a[3]].length + a[a.length - 1][a[4]].length
-                }
+                };
+                _opt.ajaxType = 'sizeB5';
                 break;
             case 'Last5BSOE_PK10':
                 _rule = '从第六、第七、第八、第九、第十名中的“大、小、单、双”中至少选一个组成一注。如：投注第十名双，开奖号码：*********08，即中第十名大小单双。';
@@ -3726,7 +3763,8 @@ var TEMPLATE = {
                 _opt.quickFast = false;
                 _opt.formula = function(a){
                     return a[a.length - 1][a[0]].length + a[a.length - 1][a[1]].length + a[a.length - 1][a[2]].length + a[a.length - 1][a[3]].length + a[a.length - 1][a[4]].length
-                }
+                };
+                _opt.ajaxType = 'sizeA5';
                 break;
             case 'First2SumBSOE_PK10':
                 _rule = '从冠亚和值“大、小、单、双”至少选择一个号码形态进行投注，所选的号码与对应开奖号码和值一致则中奖。如投注方案：小，开奖号码：0506*******（顺序不限）则中冠亚和值大小单双。（注：3至11为小，12至19为大）';
@@ -3736,7 +3774,8 @@ var TEMPLATE = {
                 _opt.quickFast = false;
                 _opt.formula = function(a){
                     return a[a.length - 1][a[0]].length
-                }
+                };
+                _opt.ajaxType = 'size1a2';
                 break;
         }
 
@@ -3781,35 +3820,40 @@ var TEMPLATE = {
             _opt.numNameList = ['NONE#龙vs虎'];
             _opt.formula = function(a){
                 return a[a.length - 1][a[0]].length
-            }
+            };
+            _opt.ajaxType = 'dt1vs10';
             break;
             case 'Dragon_Tiger_2_VS_9':
             _rule = '龙虎是由两两名次进行号码PK，冠军、亚军、第三名、第四名、第五名为龙，第六名、第七名、第八名、第九名、第十名为虎，若亚军车号大于第九名，则为龙，反之则为虎..以此类推。如投注举例:投注第二名VS第九名，投注内容：[龙]，开奖比赛结果第二名为05，第九名为04，即为中奖。';
             _opt.numNameList = ['NONE#龙vs虎'];
             _opt.formula = function(a){
                 return a[a.length - 1][a[0]].length
-            }
+            };
+            _opt.ajaxType = 'dt2vs9';
             break;
             case 'Dragon_Tiger_3_VS_8':
             _rule = '龙虎是由两两名次进行号码PK，冠军、亚军、第三名、第四名、第五名为龙，第六名、第七名、第八名、第九名、第十名为虎，若第三名车号大于第八名，则为龙，反之则为虎..以此类推。如投注举例:投注第三名VS第八名，投注内容：[龙]，开奖比赛结果第三名为05，第八名为04，即为中奖。';
             _opt.numNameList = ['NONE#龙vs虎'];
             _opt.formula = function(a){
                 return a[a.length - 1][a[0]].length
-            }
+            };
+            _opt.ajaxType = 'dt3vs8';
             break;
             case 'Dragon_Tiger_4_VS_7':
             _rule = '龙虎是由两两名次进行号码PK，冠军、亚军、第三名、第四名、第五名为龙，第六名、第七名、第八名、第九名、第十名为虎，若第四名车号大于第七名，则为龙，反之则为虎..以此类推。如投注举例:投注第四名VS第七名，投注内容：[龙]，开奖比赛结果第四名为05，第七名为04，即为中奖。';
             _opt.numNameList = ['NONE#龙vs虎'];
             _opt.formula = function(a){
                 return a[a.length - 1][a[0]].length
-            }
+            };
+            _opt.ajaxType = 'dt4vs7';
             break;
             case 'Dragon_Tiger_5_VS_6':
             _rule = '龙虎是由两两名次进行号码PK，冠军、亚军、第三名、第四名、第五名为龙，第六名、第七名、第八名、第九名、第十名为虎，若第五名车号大于第六名，则为龙，反之则为虎..以此类推。如投注举例:投注第五名VS第六名，投注内容：[龙]，开奖比赛结果第五名为05，第六名为04，即为中奖。';
             _opt.numNameList = ['NONE#龙vs虎'];
             _opt.formula = function(a){
                 return a[a.length - 1][a[0]].length
-            }
+            };
+            _opt.ajaxType = 'dt5vs6';
             break;
         }
 

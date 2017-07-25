@@ -1423,28 +1423,14 @@ $(function() {
                 var _FOURTH = $('[data-row="FOURTH"]');
                 var _FIFTH = $('[data-row="FIFTH"]');
 
-                function _transText(num){
-                    var _txt = '';
-                    if(num == 0){
-                        _txt = '大'
-                    } else if(num == 1) {
-                        _txt = '小';
-                    } else if(num == 2) {
-                        _txt = '单';
-                    } else if(num == 3) {
-                        _txt = '双';
-                    }
-                    return _txt;
-                }
-
                 if(_FIRST.length) {
                     if(_currentRule.opt.type == 'taste') {
                         if(Betting.playCode == 'PK10' && type == 4){
-                            _ddd.w = _transText(j);
+                            _ddd.w = TEMPLATE._transText(j);
                             console.log(_ddd.w);
                         } else {
                             if (type == undefined) {
-                                _ddd.w = _transText(j.split('_').join('').split('')[_FIRST.parent('li').index()]);
+                                _ddd.w = TEMPLATE._transText(j.split('_').join('').split('')[_FIRST.parent('li').index()]);
                             }else{
                                 _ddd.w = '';
                             }
@@ -1479,10 +1465,10 @@ $(function() {
                 if(_SECOND.length) {
                     if(_currentRule.opt.type == 'taste') {
                         if(Betting.playCode == 'PK10' && type == 3){
-                            _ddd.q = _transText(j);
+                            _ddd.q = TEMPLATE._transText(j);
                         } else {
                             if (type == undefined) {
-                                _ddd.q = _transText(j.split('_').join('').split('')[_SECOND.parent('li').index()]);
+                                _ddd.q = TEMPLATE._transText(j.split('_').join('').split('')[_SECOND.parent('li').index()]);
                             }else{
                                 _ddd.q = '';
                             }
@@ -1513,10 +1499,10 @@ $(function() {
                 if(_THIRD.length) {
                     if(_currentRule.opt.type == 'taste') {
                         if(Betting.playCode == 'PK10' && type == 2){
-                            _ddd.b = _transText(j);
+                            _ddd.b = TEMPLATE._transText(j);
                         } else {
                             if (type == undefined) {
-                                _ddd.b = _transText(j.split('_').join('').split('')[_THIRD.parent('li').index()]);
+                                _ddd.b = TEMPLATE._transText(j.split('_').join('').split('')[_THIRD.parent('li').index()]);
                             }else{
                                 _ddd.b = '';
                             }
@@ -1548,10 +1534,10 @@ $(function() {
                 if(_FOURTH.length) {
                     if(_currentRule.opt.type == 'taste') {
                         if(Betting.playCode == 'PK10' && type == 1){
-                            _ddd.s = _transText(j);
+                            _ddd.s = TEMPLATE._transText(j);
                         } else {
                             if (type == undefined) {
-                                _ddd.s = _transText(j.split('_').join('').split('')[_FOURTH.parent('li').index()]);
+                                _ddd.s = TEMPLATE._transText(j.split('_').join('').split('')[_FOURTH.parent('li').index()]);
                             }else{
                                 _ddd.s = '';
                             }
@@ -1582,10 +1568,10 @@ $(function() {
                 if(_FIFTH.length) {
                     if(_currentRule.opt.type == 'taste') {
                         if(Betting.playCode == 'PK10' && type == 0){
-                            _ddd.g = _transText(j);
+                            _ddd.g = TEMPLATE._transText(j);
                         } else {
                             if (type == undefined) {
-                                _ddd.g = _transText(j.split('_').join('').split('')[_FIFTH.parent('li').index()]);
+                                _ddd.g = TEMPLATE._transText(j.split('_').join('').split('')[_FIFTH.parent('li').index()]);
                             }else{
                                 _ddd.g = '';
                             }
@@ -1673,7 +1659,7 @@ $(function() {
                                 _ddd.n = j.split('_').join(' | ');
                             } else {
                                 if(_subNav.indexOf("BSOE_PK10") > -1){
-                                    _ddd.n = _transText(j);
+                                    _ddd.n = TEMPLATE._transText(j);
                                 } else {
                                     _ddd.n = j;
                                 }
@@ -1767,30 +1753,31 @@ $(function() {
                 });
 
                 function _changeNum(k) {
+                    console.log(k);
                     var _html = '';
                     if (k.w) {
-                        if(k.ajaxType == 'any3' || k.ajaxType == 'any4'){
+                        if(k.ajaxType == 'any3' || k.ajaxType == 'any4' || k.ajaxType == 'sizeB5' || k.ajaxType == 'sizeA5'){
                             _html += k.w;
                         } else {
                             _html += k.w + (k.q ? ' | ' : '');
                         }
                     }
                     if (k.q) {
-                        if(k.ajaxType == 'any3' || k.ajaxType == 'any4'){
+                        if(k.ajaxType == 'any3' || k.ajaxType == 'any4' || k.ajaxType == 'sizeB5' || k.ajaxType == 'sizeA5'){
                             _html += k.q;
                         } else {
                             _html += k.q + (k.b ? ' | ' : '');
                         }
                     }
                     if (k.b) {
-                        if(k.ajaxType == 'any3' || k.ajaxType == 'any4'){
+                        if(k.ajaxType == 'any3' || k.ajaxType == 'any4' || k.ajaxType == 'sizeB5' || k.ajaxType == 'sizeA5'){
                             _html += k.b;
                         } else {
                             _html += k.b + (k.s ? ' | ' : '');
                         }
                     }
                     if (k.s) {
-                        if(k.ajaxType == 'any3' || k.ajaxType == 'any4'){
+                        if(k.ajaxType == 'any3' || k.ajaxType == 'any4' || k.ajaxType == 'sizeB5' || k.ajaxType == 'sizeA5'){
                             _html += k.s;
                         } else {
                             _html += k.s + (k.g ? ' | ' : '');
@@ -2088,30 +2075,81 @@ $(function() {
                         _ajaxData.n = _nums.replace(/\|/g, ',');
                     }
                 } else if(_type == 'taste'){
-                    $.each(_need.split('#'), function(i, n){
-                        if (n) {
-                            _ajaxData[n] = _exchangeToNum(_this.data(n));
+                    if(Betting.playCode == 'PK10'){
+                        if (_subNav == 'First5BSOE_PK10' || _subNav == 'Last5BSOE_PK10') {
+                            if(_subNav == 'Last5BSOE_PK10'){
+                                _ajaxData.six = '';
+                                _ajaxData.seven = '';
+                                _ajaxData.eight = '';
+                                _ajaxData.nine = '';
+                                _ajaxData.ten = '';
+                            } else {
+                                _ajaxData.one = '';
+                                _ajaxData.two = '';
+                                _ajaxData.three = '';
+                                _ajaxData.four = '';
+                                _ajaxData.five = '';
+                            }
+                            console.log(_nums);
+                            $.each(_need.split('#'), function(i, n){
+                                if (n && _this.data(n)) {
+                                    // console.log(n);
+                                    switch(n){
+                                        case 'w':
+                                        if(_subNav == 'Last5BSOE_PK10'){
+                                            _ajaxData.six = TEMPLATE._exchangeToNum(_this.data(n));
+                                        }else{
+                                            _ajaxData.one = TEMPLATE._exchangeToNum(_this.data(n));
+                                        }
+                                        break;
+                                        case 'q':
+                                        if(_subNav == 'Last5BSOE_PK10'){
+                                            _ajaxData.seven = TEMPLATE._exchangeToNum(_this.data(n));
+                                        }else{
+                                            _ajaxData.two = TEMPLATE._exchangeToNum(_this.data(n));
+                                        }
+                                        break;
+                                        case 'b':
+                                        if(_subNav == 'Last5BSOE_PK10'){
+                                            _ajaxData.eight = TEMPLATE._exchangeToNum(_this.data(n));
+                                        }else{
+                                            _ajaxData.three = TEMPLATE._exchangeToNum(_this.data(n));
+                                        }
+                                        break;
+                                        case 's':
+                                        if(_subNav == 'Last5BSOE_PK10'){
+                                            _ajaxData.nine = TEMPLATE._exchangeToNum(_this.data(n));
+                                        }else{
+                                            _ajaxData.four = TEMPLATE._exchangeToNum(_this.data(n));
+                                        }
+                                        break;
+                                        case 'g':
+                                        if(_subNav == 'Last5BSOE_PK10'){
+                                            _ajaxData.ten = TEMPLATE._exchangeToNum(_this.data(n));
+                                        }else{
+                                            _ajaxData.five = TEMPLATE._exchangeToNum(_this.data(n));
+                                        }
+                                        break;
+                                    }
+                                }
+                            });
+                        } else {
+                            _ajaxData.n = TEMPLATE._exchangeToNum(_nums);
                         }
-                    });
-
-                    function _exchangeToNum(name){
-                        var _num = '0';
-                        if(name == '大'){
-                            _num = '0';
-                        } else if (name == '小') {
-                            _num = '1';
-                        } else if (name == '单') {
-                            _num = '2';
-                        } else if (name == '双') {
-                            _num = '3';
-                        }
-                        return _num;
+                    } else {
+                        $.each(_need.split('#'), function(i, n){
+                            if (n) {
+                                _ajaxData[n] = TEMPLATE._exchangeToNum(_this.data(n));
+                            }
+                        });
                     }
                 } else if(_type == 'dice'){
                     _ajaxData.c = _nums;
                 } else if(_type == '11x5' || _type == 'czwBall'){
                     console.log(_nums);
                     _ajaxData.n = _nums.replace(/\-/g, ',');
+                } else if(_type == 'dragonTiger') {
+                    _ajaxData.n = TEMPLATE._exchangeToNumDT(_nums);
                 }
 
                 _items.push(_ajaxData);
@@ -2342,29 +2380,78 @@ $(function() {
             } else if(_type == 'mixingAny'){
                 _ajaxData.n = _data[0].n;
             } else if(_type == 'taste'){
-                $.each(_data[0].need.split('#'), function(i, n){
-                    if (n) {
-                        _ajaxData[n] = _exchangeToNum(_data[0][n]);
+                if(Betting.playCode == 'PK10'){
+                    if (_subNav == 'First5BSOE_PK10' || _subNav == 'Last5BSOE_PK10') {
+                        if(_subNav == 'Last5BSOE_PK10'){
+                            _ajaxData.six = '';
+                            _ajaxData.seven = '';
+                            _ajaxData.eight = '';
+                            _ajaxData.nine = '';
+                            _ajaxData.ten = '';
+                        } else {
+                            _ajaxData.one = '';
+                            _ajaxData.two = '';
+                            _ajaxData.three = '';
+                            _ajaxData.four = '';
+                            _ajaxData.five = '';
+                        }
+                        $.each(_data[0].need.split('#'), function(i, n){
+                            if (n && _data[0][n]) {
+                                switch(n){
+                                    case 'w':
+                                    if(_subNav == 'Last5BSOE_PK10'){
+                                        _ajaxData.six = TEMPLATE._exchangeToNum(_data[0].w);
+                                    } else {
+                                        _ajaxData.one = TEMPLATE._exchangeToNum(_data[0].w);
+                                    }
+                                    break;
+                                    case 'q':
+                                    if(_subNav == 'Last5BSOE_PK10'){
+                                        _ajaxData.seven = TEMPLATE._exchangeToNum(_data[0].q);
+                                    } else {
+                                        _ajaxData.two = TEMPLATE._exchangeToNum(_data[0].q);
+                                    }
+                                    break;
+                                    case 'b':
+                                    if(_subNav == 'Last5BSOE_PK10'){
+                                        _ajaxData.eight = TEMPLATE._exchangeToNum(_data[0].b);
+                                    } else {
+                                        _ajaxData.three = TEMPLATE._exchangeToNum(_data[0].b);
+                                    }
+                                    break;
+                                    case 's':
+                                    if(_subNav == 'Last5BSOE_PK10'){
+                                        _ajaxData.nine = TEMPLATE._exchangeToNum(_data[0].s);
+                                    } else {
+                                        _ajaxData.four = TEMPLATE._exchangeToNum(_data[0].s);
+                                    }
+                                    break;
+                                    case 'g':
+                                    if(_subNav == 'Last5BSOE_PK10'){
+                                        _ajaxData.ten = TEMPLATE._exchangeToNum(_data[0].g);
+                                    } else {
+                                        _ajaxData.five = TEMPLATE._exchangeToNum(_data[0].g);
+                                    }
+                                    break;
+                                }
+                            }
+                        });
+                    } else {
+                        _ajaxData.n = TEMPLATE._exchangeToNum(_data[0].n);
                     }
-                });
-
-                function _exchangeToNum(name){
-                    var _num = '0';
-                    if(name == '大'){
-                        _num = '0';
-                    } else if (name == '小') {
-                        _num = '1';
-                    } else if (name == '单') {
-                        _num = '2';
-                    } else if (name == '双') {
-                        _num = '3';
-                    }
-                    return _num;
+                } else {
+                    $.each(_data[0].need.split('#'), function(i, n){
+                        if (n) {
+                            _ajaxData[n] = TEMPLATE._exchangeToNum(_data[0][n]);
+                        }
+                    });
                 }
             } else if(_type == 'dice'){
                 _ajaxData.c = _data[0].n.replace(/\ /g, '');
             } else if(_type == '11x5' || _type == 'czwBall'){
                 _ajaxData.n = _data[0].n.replace(/\-/g, ',');
+            } else if(_type == 'dragonTiger') {
+                _ajaxData.n = TEMPLATE._exchangeToNumDT(_data[0].n);
             }
 
             _items.push(_ajaxData);
