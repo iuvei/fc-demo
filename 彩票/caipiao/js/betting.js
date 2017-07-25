@@ -973,7 +973,7 @@ $(function() {
             var _amount = 0;    //一注的价格
             var _data = [];
             var _miBall = TEMPLATE.allManualEntryEvents(_subNav).miBall;
-            // console.log(_subNav);
+            console.log(_subNav);
             if (_currentRule.opt.type == 'text') {
                 // 默认设置为SSC
                 for (var _ddddd = {}, e = Betting.playCode, f = 0; f < a.length; f++){
@@ -1088,7 +1088,7 @@ $(function() {
                             for (var k = "", l = Betting.numberRandom(1, i, g), m = 0; m < l.length; m++) k += h + Betting.addZero(l[m] + "", 2);
                             var n = j == 1 * f - 1;
                             
-                            // console.log(k)
+                            console.log(k)
                             // console.log(k.substring(1), 1, e, c, 1, n);
                             _data.push(_getTextRoundData(k.substring(1), 1));
                             // lott.createBetCart(k.substring(1), 1, e, c, 1, n)
@@ -1230,19 +1230,31 @@ $(function() {
                 var _balls = _currentRule.opt.numList;
                 var _ballSmallNumList = TEMPLATE.getSubNumList(_currentRule.opt.sumType);
 
-                for (var g = Betting.numberRandom(_balls[0], _balls[_balls.length - 1], 1 * _times), h = 0; h < g.length; h++) {
-                    var i = "",
-                        j = 0;
-                    i = g[h] + "", j = _ballSmallNumList[1 * g[h] - 1 * _balls[0]];
-                    var k = h == g.length - 1;
-                    if ("Any3Sum_SSC" == _subNav || "Any2Sum_SSC" == _subNav) {
-                        var l = _subNav.charAt(3),
-                            m = Betting.numberRandom(1, 5, 1 * l);
-                        m.sort(function(a, _beishu) {
-                            return a - _beishu
-                        }), i = m.join("") + "@" + i, j *= 1
+                if(Betting.playCode == 'K3'){
+                    // 快三和值如果是3-18则去掉这个 if判断条件，只剩下else内容
+                    for (var e = _beishu, f = _times, g = a.length - 1 == 1 ? 1 * (_miBall ? _miBall : _minSelect) : a.length - 1, h = a.length - 1 == 1 ? "-" : "_", j = 0; j < 1 * f; j++) {
+                        for (var k = "", l = Betting.numberRandom(3, 18, g), m = 0; m < l.length; m++) k += h + Betting.addZero(l[m] + "", 2);
+                        var n = j == 1 * f - 1;
+                        
+                        console.log(k, j)
+                        _data.push(_getTextRoundData(k.substring(1,3)));
                     }
-                    _data.push(_getTextRoundData(i, j));
+                } else {
+                    for (var g = Betting.numberRandom(_balls[0], _balls[_balls.length - 1], 1 * _times), h = 0; h < g.length; h++) {
+                        var i = "",
+                            j = 0;
+                        i = g[h] + "", j = _ballSmallNumList[1 * g[h] - 1 * _balls[0]];
+                        var k = h == g.length - 1;
+                        if ("Any3Sum_SSC" == _subNav || "Any2Sum_SSC" == _subNav) {
+                            var l = _subNav.charAt(3),
+                                m = Betting.numberRandom(1, 5, 1 * l);
+                            m.sort(function(a, _beishu) {
+                                return a - _beishu
+                            }), i = m.join("") + "@" + i, j *= 1
+                        }
+                        console.log(i, j);
+                        _data.push(_getTextRoundData(i, j));
+                    }
                 }
             } else if (_currentRule.opt.type == 'mixingAny') {
                 for (var e = 0; e < 1 * _times; e++) {
@@ -1870,7 +1882,7 @@ $(function() {
                                 switch(n){
                                     case 'w':
                                         if(_nums.indexOf('|') > -1) {
-                                            _ajaxData.one = _nums.split('|')[0].replace(/\-/g, ' ');
+                                            _ajaxData.one = _nums.split('|')[0].replace(/\-/g, ',');
                                         } else {
                                             if(_this.data('w')){
                                                 _ajaxData.one = _nums;
@@ -1879,7 +1891,7 @@ $(function() {
                                     break;
                                     case 'q':
                                         if(_nums.indexOf('|') > -1) {
-                                            _ajaxData.two = _nums.split('|')[1].replace(/\-/g, ' ');
+                                            _ajaxData.two = _nums.split('|')[1].replace(/\-/g, ',');
                                         } else {
                                             if(_this.data('q')){
                                                 _ajaxData.two = _nums;
@@ -1888,9 +1900,9 @@ $(function() {
                                     break;
                                     case 'b':
                                         if(_nums.indexOf('|') > -1) {
-                                            _ajaxData.three = _nums.split('|')[2].replace(/\-/g, ' ');
+                                            _ajaxData.three = _nums.split('|')[2].replace(/\-/g, ',');
                                         } else {
-                                            if(_this.data(b)){
+                                            if(_this.data('b')){
                                                 _ajaxData.three = _nums;
                                             }
                                         }
@@ -1902,12 +1914,129 @@ $(function() {
                             var _dds = '';
                             $.each(_nums.split('-'), function(i, n){
                                 if (n && _subNav == 'OECounts_11X5') {
-                                    _dds += (i == 0 ? '' : ' ') + n[0];
+                                    _dds += (i == 0 ? '' : ',') + n[0] + n[2];
                                 } else{
-                                    _dds += (i == 0 ? '' : ' ') + n;
+                                    _dds += (i == 0 ? '' : ',') + n;
                                 }
                             });
                             _ajaxData.n = _dds;
+                        }
+                    } else if(Betting.playCode == 'PK10') {
+                        if(_subNav == 'First1_PK10'){
+                            var _dds = '';
+                            $.each(_nums.split('-'), function(i, n){
+                                if (n && _subNav == 'OECounts_11X5') {
+                                    _dds += (i == 0 ? '' : ',') + n[0] + n[2];
+                                } else{
+                                    _dds += (i == 0 ? '' : ',') + n;
+                                }
+                            });
+                            _ajaxData.n = _dds;
+                        } else {
+                            if(_subNav == 'Last5Fixed_PK10'){
+                                _ajaxData.six = '';
+                                _ajaxData.seven = '';
+                                _ajaxData.eight = '';
+                                _ajaxData.nine = '';
+                                _ajaxData.ten = '';
+                            } else {
+                                _ajaxData.one = '';
+                                _ajaxData.two = '';
+
+                                if(_subNav.indexOf('First3') > -1 || _subNav.indexOf('First4') > -1 || _subNav.indexOf('First5') > -1){
+                                    _ajaxData.three = '';
+                                }
+                                if(_subNav.indexOf('First4') > -1 || _subNav.indexOf('First5') > -1){
+                                    _ajaxData.four = '';
+                                }
+                                if(_subNav.indexOf('First5') > -1){
+                                    _ajaxData.five = '';
+                                }
+                            }
+                                    console.log(_nums);
+                            $.each(_need.split('#'), function(i, n){
+                                if (n) {
+                                    // console.log(n);
+                                    // _ajaxData[n] = _data[0][n];
+                                    switch(n){
+                                        case 'w':
+                                        if(_subNav == 'First5Fixed_PK10'){
+                                            if(_this.data('w')){
+                                                _ajaxData.one = _nums.replace(/\-/g, ',');
+                                            }
+                                        } else {
+                                            if(_subNav == 'Last5Fixed_PK10'){
+                                                if(_this.data('w')){
+                                                    _ajaxData.six = _nums.replace(/\-/g, ',');
+                                                }
+                                            } else {
+                                                _ajaxData.one = _nums.replace(/\-/g, ',').split('|')[0];
+                                            }
+                                        }
+                                        break;
+                                        case 'q':
+                                        if(_subNav == 'First5Fixed_PK10'){
+                                            if(_this.data('q')){
+                                                _ajaxData.two = _nums.replace(/\-/g, ',');
+                                            }
+                                        } else {
+                                            if(_subNav == 'Last5Fixed_PK10'){
+                                                if(_this.data('q')){
+                                                    _ajaxData.seven = _nums.replace(/\-/g, ',');
+                                                }
+                                            } else {
+                                                _ajaxData.two = _nums.replace(/\-/g, ',').split('|')[1];
+                                            }
+                                        }
+                                        break;
+                                        case 'b':
+                                        if(_subNav == 'First5Fixed_PK10'){
+                                            if(_this.data('b')){
+                                                _ajaxData.three = _nums.replace(/\-/g, ',');
+                                            }
+                                        } else {
+                                            if(_subNav == 'Last5Fixed_PK10'){
+                                                if(_this.data('b')){
+                                                    _ajaxData.eight = _nums.replace(/\-/g, ',');
+                                                }
+                                            } else {
+                                                _ajaxData.three = _nums.replace(/\-/g, ',').split('|')[2];
+                                            }
+                                        }
+                                        break;
+                                        case 's':
+                                        if(_subNav == 'First5Fixed_PK10'){
+                                            if(_this.data('s')){
+                                                _ajaxData.four = _nums.replace(/\-/g, ',');
+                                            }
+                                        } else {
+                                            if(_subNav == 'Last5Fixed_PK10'){
+                                                if(_this.data('s')){
+                                                    _ajaxData.nine = _nums.replace(/\-/g, ',');
+                                                }
+                                            } else {
+                                                _ajaxData.four = _nums.replace(/\-/g, ',').split('|')[3];
+                                            }
+                                        }
+                                        break;
+                                        case 'g':
+                                        if(_subNav == 'First5Fixed_PK10'){
+                                            if(_this.data('g')){
+                                                _ajaxData.five = _nums.replace(/\-/g, ',');
+                                            }
+                                        } else {
+                                            if(_subNav == 'Last5Fixed_PK10'){
+                                                if(_this.data('g')){
+                                                    _ajaxData.ten = _nums.replace(/\-/g, ',');
+                                                }
+                                            } else {
+                                                _ajaxData.five = _nums.replace(/\-/g, ',').split('|')[4];
+                                            }
+                                        }
+                                        break;
+                                    }
+                                }
+                            });
                         }
                     } else {
                         if(_subNav == 'FixedPlace'){
@@ -1936,13 +2065,18 @@ $(function() {
                         console.log(_nums);
                         if(_subNav.indexOf('First') > -1){
                             //11选5 前二 前三 单式
-                            _ajaxData.n = _nums.replace(/\|/g, ' ').replace(/\-/g, ' ').replace(/\,/g, '|');
+                            console.log(_nums);
+                            _ajaxData.n = _nums.replace(/\|/g, ' ').replace(/\,/g, '|').replace(/\-/g, ',').replace(/\ /g, ',');
+                            // _ajaxData.n = _nums.replace(/\,/g, '|').replace(/\ \| /g, ',');
+
                         } else {
                             // 11选5任选单式
-                            _ajaxData.n = _nums.replace(/\-/g, ' ').replace(/\,/g, '|');
+                            _ajaxData.n = _nums.replace(/\,/g, '|').replace(/\-/g, ',');
                         }
                     } else if (Betting.playCode == 'SSC') {
                         _ajaxData.n = _nums.replace(/\|/g, ',');
+                    } else if (Betting.playCode == 'PK10') {
+                        _ajaxData.n = _nums.replace(/\|/g, '=').replace(/\,/g, '|').replace(/\=/g, ',');
                     } else {
                         _ajaxData.n = _nums;
                     }
@@ -1977,7 +2111,7 @@ $(function() {
                     _ajaxData.c = _nums;
                 } else if(_type == '11x5' || _type == 'czwBall'){
                     console.log(_nums);
-                    _ajaxData.n = _nums.replace(/\-/g, ' ');
+                    _ajaxData.n = _nums.replace(/\-/g, ',');
                 }
 
                 _items.push(_ajaxData);
@@ -2051,6 +2185,7 @@ $(function() {
             });
         },
         shortcutPlaceOrder: function() {
+            // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
             var _items = [];
             var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
             var _subNav = ($('.J_subMenu.active').length ? $('.J_subMenu.active').data('info').split('#')[1] : _mainNav);
@@ -2085,13 +2220,13 @@ $(function() {
                         $.each(_data[0].need.split('#'), function(i, n){
                             switch(n){
                                 case 'w':
-                                    _ajaxData.one = _data[0].w.replace(/\-/g, ' ');
+                                    _ajaxData.one = _data[0].w.replace(/\-/g, ',');
                                 break;
                                 case 'q':
-                                    _ajaxData.two = _data[0].q.replace(/\-/g, ' ');
+                                    _ajaxData.two = _data[0].q.replace(/\-/g, ',');
                                 break;
                                 case 'b':
-                                    _ajaxData.three = _data[0].b.replace(/\-/g, ' ');
+                                    _ajaxData.three = _data[0].b.replace(/\-/g, ',');
                                 break;
                             }
                         });
@@ -2100,12 +2235,69 @@ $(function() {
                         var _dds = '';
                         $.each(_data[0].n.split('-'), function(i, n){
                             if (n && _subNav == 'OECounts_11X5') {
-                                _dds += (i == 0 ? '' : ' ') + n[0];
+                                _dds += (i == 0 ? '' : ',') + n[0] + n[2];
                             } else{
-                                _dds += (i == 0 ? '' : ' ') + n;
+                                _dds += (i == 0 ? '' : ',') + n;
                             }
                         });
                         _ajaxData.n = _dds;
+                    }
+                } else if(Betting.playCode == 'PK10') {
+                    if(_subNav == 'First1_PK10'){
+                        var _dds = '';
+                        $.each(_data[0].n.split('-'), function(i, n){
+                            if (n && _subNav == 'OECounts_11X5') {
+                                _dds += (i == 0 ? '' : ',') + n[0] + n[2];
+                            } else{
+                                _dds += (i == 0 ? '' : ',') + n;
+                            }
+                        });
+                        _ajaxData.n = _dds;
+                    } else {
+                        $.each(_data[0].need.split('#'), function(i, n){
+                            console.log(n);
+                            if (n) {
+                                // _ajaxData[n] = _data[0][n];
+                                switch(n){
+                                    case 'w':
+                                    if(_subNav == 'Last5Fixed_PK10'){
+                                        _ajaxData.six = _data[0].w.replace(/\-/g, ',');
+                                    } else {
+                                        _ajaxData.one = _data[0].w.replace(/\-/g, ',');
+                                    }
+                                    break;
+                                    case 'q':
+                                    if(_subNav == 'Last5Fixed_PK10'){
+                                        _ajaxData.seven = _data[0].q.replace(/\-/g, ',');
+                                    } else {
+                                        _ajaxData.two = _data[0].q.replace(/\-/g, ',');
+                                    }
+                                    break;
+                                    case 'b':
+                                    if(_subNav == 'Last5Fixed_PK10'){
+                                        _ajaxData.eight = _data[0].b.replace(/\-/g, ',');
+                                    } else {
+                                        _ajaxData.three = _data[0].b.replace(/\-/g, ',');
+                                    }
+                                    break;
+                                    case 's':
+                                    if(_subNav == 'Last5Fixed_PK10'){
+                                        _ajaxData.nine = _data[0].s.replace(/\-/g, ',');
+                                    } else {
+                                        _ajaxData.four = _data[0].s.replace(/\-/g, ',');
+                                    }
+                                    break;
+                                    case 'g':
+                                    if(_subNav == 'Last5Fixed_PK10'){
+                                        _ajaxData.ten = _data[0].g.replace(/\-/g, ',');
+                                    } else {
+                                        _ajaxData.five = _data[0].g.replace(/\-/g, ',');
+                                    }
+                                    break;
+
+                                }
+                            }
+                        });
                     }
                 } else {
                     $.each(_data[0].need.split('#'), function(i, n){
@@ -2118,11 +2310,23 @@ $(function() {
                 if(Betting.playCode == '11X5'){
                     if(_subNav.indexOf('First') > -1){
                         //11选5 前二 前三 单式
-                        _ajaxData.n = _data[0].n.replace(/\ \| /g, ' ').replace(/\-/g, ' ').replace(/\,/g, '|');
+                        console.log(_data[0].n)
+                        // _ajaxData.n = _data[0].n.replace(/\ \| /g, ' ').replace(/\,/g, '|').replace(/\-/g, ',');
+                        if(_data[0].n.indexOf('-') > -1){
+                            _ajaxData.n = _data[0].n.replace(/\-/g, '=').replace(/\,/g, '|').replace(/\=/g, ',');
+                        }else{
+                            _ajaxData.n = _data[0].n.replace(/\,/g, '|').replace(/\ \| /g, ',');
+                        }
+                        // _ajaxData.n = _data[0].n.replace(/\|/g, ' ').replace(/\,/g, '|').replace(/\-/g, ',').replace(/\ /g, ',');
+
                     } else {
                         // 11选5任选单式
-                        _ajaxData.n = _data[0].n.replace(/\-/g, ' ').replace(/\,/g, '|');
+                        _ajaxData.n = _data[0].n.replace(/\,/g, '|').replace(/\-/g, ',');
                     }
+                } else if (Betting.playCode == 'PK10') {
+                    console.log(_data[0].n);
+                    // _ajaxData.n = _data[0].n.replace(/\|/g, '=').replace(/\,/g, '|').replace(/\=/g, ',');
+                    _ajaxData.n = _data[0].n.replace(/\|/g, '=').replace(/\,/g, '|').replace(/\=/g, ',').replace(/\ /g, '');
                 } else {
                     _ajaxData.n = _data[0].n.replace(/( \| )/g, ',');
                 }
@@ -2160,7 +2364,7 @@ $(function() {
             } else if(_type == 'dice'){
                 _ajaxData.c = _data[0].n.replace(/\ /g, '');
             } else if(_type == '11x5' || _type == 'czwBall'){
-                _ajaxData.n = _data[0].n.replace(/\-/g, ' ');
+                _ajaxData.n = _data[0].n.replace(/\-/g, ',');
             }
 
             _items.push(_ajaxData);

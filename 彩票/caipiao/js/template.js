@@ -2929,8 +2929,8 @@ var TEMPLATE = {
             defaultCheck: 0,
             haveTextarea: false,
             placeholder: '',
-            // numList: ['03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18'],
-            numList: [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18],
+            numList: ['03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18'],
+            // numList: [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18],
             numNameList: ['SUM'],
             quickFast: false,
             type: 'sum',
@@ -3329,7 +3329,7 @@ var TEMPLATE = {
             type: 'ball',
             formula: null,
             minSelect: 1,
-            ajaxType: ''
+            ajaxType: 'before1'
         };
         var _maxBonus = '';
         switch (options.type) {
@@ -3357,7 +3357,7 @@ var TEMPLATE = {
     First_2_PK10: function(options) {
         // 猜前二
         options = options || {};
-        options.type = options.type || 'First2_PK10';
+        options.type = options.type || 'First2_PK10_Single';
 
         var _rule = '从冠军、亚军投注的两个号码与开奖号码中的前2个号码相同且顺序一致，视为中奖。如：投注方案：01 02开奖号码：01 02********，即中猜前二。';
         var _opt = {
@@ -3375,28 +3375,30 @@ var TEMPLATE = {
         };
         var _maxBonus = '153.0000';
         switch (options.type) {
-            case 'First2_PK10':
-            _opt.numNameList = ['FIRST#冠军', 'SECOND#亚军'];
-            _opt.formula = function(a){
-                var b = a[a.length - 1][a[0]],
-                    c = a[a.length - 1][a[1]];
-                return TEMPLATE.first2StraightOf11X5(b, c)
-            }
-            break;
             case 'First2_PK10_Single':
             _opt.haveTextarea = true;
             _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、逗号[,]或者分号[;]隔开\n支持格式如下:\n0102, 0102\n0102,0102\n0102;0102\n';
             _opt.numList = [];
             _opt.type = 'text';
             _opt.numNameList = [];
+            _opt.ajaxType = 'beforeS2';
+            break;
+            case 'First2_PK10':
+            _opt.numNameList = ['FIRST#冠军', 'SECOND#亚军'];
+            _opt.formula = function(a){
+                var b = a[a.length - 1][a[0]],
+                    c = a[a.length - 1][a[1]];
+                return TEMPLATE.first2StraightOf11X5(b, c)
+            };
+            _opt.ajaxType = 'before2';
             break;
         }
 
         var _str = '';
         _str += '<dl>';
         // _str += '    <dt>定位胆：</dt>';
-        _str += '    <dd id="J_First2_PK10" data-info="1458#First2_PK10#2" class="J_subMenu active">猜前二</dd>';
-        _str += '    <dd id="J_First2_PK10_Single" data-info="1732#First2_PK10_Single#2" class="J_subMenu">猜前二（单式）</dd>';
+        _str += '    <dd id="J_First2_PK10_Single" data-info="1732#First2_PK10_Single#2" class="J_subMenu active">猜前二（单式）</dd>';
+        _str += '    <dd id="J_First2_PK10" data-info="1458#First2_PK10#2" class="J_subMenu">猜前二</dd>';
         _str += '</dl>';
         return {
             dom: _str,
@@ -3408,7 +3410,7 @@ var TEMPLATE = {
     First_3_PK10: function(options) {
         // 猜前三
         options = options || {};
-        options.type = options.type || 'First3_PK10';
+        options.type = options.type || 'First3_PK10_Single';
 
         var _rule = '从冠军、亚军、季军投注的三个号码与开奖号码中的前3个号码相同且顺序一致，视为中奖。如：冠军、亚军、季军位买01 02 03；开奖号码：冠军、亚军、季军开01 02 03*******，即中猜前三。';
         var _opt = {
@@ -3426,6 +3428,14 @@ var TEMPLATE = {
         };
         var _maxBonus = '1224.0000';
         switch (options.type) {
+            case 'First3_PK10_Single':
+            _opt.haveTextarea = true;
+            _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、逗号[,]或者分号[;]隔开\n支持格式如下:\n010203 010203\n010203,010203\n010203;010203\n';
+            _opt.numList = [];
+            _opt.type = 'text';
+            _opt.numNameList = [];
+            _opt.ajaxType = 'beforeS3';
+            break;
             case 'First3_PK10':
             _opt.numNameList = ['FIRST#冠军', 'SECOND#亚军', 'THIRD#季军'];
             _opt.formula = function(a){
@@ -3433,22 +3443,16 @@ var TEMPLATE = {
                     c = a[a.length - 1][a[1]],
                     d = a[a.length - 1][a[2]];
                 return TEMPLATE.first3StraightOf11X5(b, c, d)
-            }
-            break;
-            case 'First3_PK10_Single':
-            _opt.haveTextarea = true;
-            _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、逗号[,]或者分号[;]隔开\n支持格式如下:\n010203 010203\n010203,010203\n010203;010203\n';
-            _opt.numList = [];
-            _opt.type = 'text';
-            _opt.numNameList = [];
+            };
+            _opt.ajaxType = 'before3';
             break;
         }
 
         var _str = '';
         _str += '<dl>';
         // _str += '    <dt>定位胆：</dt>';
-        _str += '    <dd id="J_First3_PK10" data-info="1459#First3_PK10#2" class="J_subMenu active">猜前三</dd>';
-        _str += '    <dd id="J_First3_PK10_Single" data-info="1733#First3_PK10_Single#2" class="J_subMenu">猜前三（单式）</dd>';
+        _str += '    <dd id="J_First3_PK10_Single" data-info="1733#First3_PK10_Single#2" class="J_subMenu active">猜前三（单式）</dd>';
+        _str += '    <dd id="J_First3_PK10" data-info="1459#First3_PK10#2" class="J_subMenu ">猜前三</dd>';
         _str += '</dl>';
         return {
             dom: _str,
@@ -3460,7 +3464,7 @@ var TEMPLATE = {
     First_4_PK10: function(options) {
         // 猜前四
         options = options || {};
-        options.type = options.type || 'First4_PK10';
+        options.type = options.type || 'First4_PK10_Single';
 
         var _rule = '从冠军、亚军、季军、第四名中选择一个4位数号码组成一注，所选号码与开奖号码相同，且顺序一致，即为中奖。：投注01、02、03、04，开奖号码：01、02、03、04 ******，即中猜前四。';
         var _opt = {
@@ -3478,6 +3482,14 @@ var TEMPLATE = {
         };
         var _maxBonus = '8568.0000';
         switch (options.type) {
+            case 'First4_PK10_Single':
+            _opt.haveTextarea = true;
+            _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、逗号[,]或者分号[;]隔开\n支持格式如下:\n01020304, 01020304\n01020304,01020304\n01020304;01020304\n';
+            _opt.numList = [];
+            _opt.type = 'text';
+            _opt.numNameList = [];
+            _opt.ajaxType = 'beforeS4';
+            break;
             case 'First4_PK10':
             _opt.numNameList = ['FIRST#冠军', 'SECOND#亚军', 'THIRD#季军', 'FOURTH#第四名'];
             _opt.formula = function(a){
@@ -3486,22 +3498,16 @@ var TEMPLATE = {
                     d = a[a.length - 1][a[2]],
                     e = a[a.length - 1][a[3]];
                 return TEMPLATE.first4StraightOf11X5(b, c, d, e)
-            }
-            break;
-            case 'First4_PK10_Single':
-            _opt.haveTextarea = true;
-            _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、逗号[,]或者分号[;]隔开\n支持格式如下:\n01020304, 01020304\n01020304,01020304\n01020304;01020304\n';
-            _opt.numList = [];
-            _opt.type = 'text';
-            _opt.numNameList = [];
+            };
+            _opt.ajaxType = 'before4';
             break;
         }
 
         var _str = '';
         _str += '<dl>';
         // _str += '    <dt>定位胆：</dt>';
-        _str += '    <dd id="J_First3_PK10" data-info="1460#First4_PK10#2" class="J_subMenu active">猜前四</dd>';
-        _str += '    <dd id="J_First3_PK10_Single" data-info="1734#First4_PK10_Single#2" class="J_subMenu">猜前四（单式）</dd>';
+        _str += '    <dd id="J_First3_PK10_Single" data-info="1734#First4_PK10_Single#2" class="J_subMenu active">猜前四（单式）</dd>';
+        _str += '    <dd id="J_First3_PK10" data-info="1460#First4_PK10#2" class="J_subMenu ">猜前四</dd>';
         _str += '</dl>';
         return {
             dom: _str,
@@ -3513,7 +3519,7 @@ var TEMPLATE = {
     First_5_PK10: function(options) {
         // 猜前五
         options = options || {};
-        options.type = options.type || 'First5_PK10';
+        options.type = options.type || 'First5_PK10_Single';
 
         var _rule = '从冠军、亚军、季军、第四名中选择一个4位数号码组成一注，所选号码与开奖号码相同，且顺序一致，即为中奖。：投注01、02、03、04，开奖号码：01、02、03、04 ******，即中猜前四。';
         var _opt = {
@@ -3531,6 +3537,14 @@ var TEMPLATE = {
         };
         var _maxBonus = '51408.0000';
         switch (options.type) {
+            case 'First5_PK10_Single':
+            _opt.haveTextarea = true;
+            _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、逗号[,]或者分号[;]隔开\n支持格式如下:\n0102030405 0102030405\n0102030405,0102030405\n0102030405;0102030405\n';
+            _opt.numList = [];
+            _opt.type = 'text';
+            _opt.numNameList = [];
+            _opt.ajaxType = 'beforeS5';
+            break;
             case 'First5_PK10':
             _opt.numNameList = ['FIRST#冠军', 'SECOND#亚军', 'THIRD#季军', 'FOURTH#第四名', 'FIFTH#第五名'];
             _opt.formula = function(a){
@@ -3540,22 +3554,16 @@ var TEMPLATE = {
                     e = a[a.length - 1][a[3]],
                     f = a[a.length - 1][a[4]];
                 return TEMPLATE.first5StraightOf11X5(b, c, d, e, f)
-            }
-            break;
-            case 'First5_PK10_Single':
-            _opt.haveTextarea = true;
-            _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、逗号[,]或者分号[;]隔开\n支持格式如下:\n0102030405 0102030405\n0102030405,0102030405\n0102030405;0102030405\n';
-            _opt.numList = [];
-            _opt.type = 'text';
-            _opt.numNameList = [];
+            };
+            _opt.ajaxType = 'before5';
             break;
         }
 
         var _str = '';
         _str += '<dl>';
         // _str += '    <dt>定位胆：</dt>';
-        _str += '    <dd id="J_First5_PK10" data-info="1461#First5_PK10#2" class="J_subMenu active">猜前五</dd>';
-        _str += '    <dd id="J_First5_PK10_Single" data-info="1735#First5_PK10_Single#2" class="J_subMenu">猜前五（单式）</dd>';
+        _str += '    <dd id="J_First5_PK10_Single" data-info="1735#First5_PK10_Single#2" class="J_subMenu active">猜前五（单式）</dd>';
+        _str += '    <dd id="J_First5_PK10" data-info="1461#First5_PK10#2" class="J_subMenu ">猜前五</dd>';
         _str += '</dl>';
         return {
             dom: _str,
@@ -3590,14 +3598,16 @@ var TEMPLATE = {
             _opt.numNameList = ['FIRST#冠军', 'SECOND#亚军', 'THIRD#季军', 'FOURTH#第四名', 'FIFTH#第五名'];
             _opt.formula = function(a){
                 return a[a.length - 1][a[0]].length + a[a.length - 1][a[1]].length + a[a.length - 1][a[2]].length + a[a.length - 1][a[3]].length + a[a.length - 1][a[4]].length
-            }
+            };
+            _opt.ajaxType = 'sureB5';
             break;
             case 'Last5Fixed_PK10':
             _rule = '从第六位开始选择最少一个,最多十个位置，任意1个位置或者多个位置上选择1个号码，所选号码与相同位置上的开奖号码一致，即为中奖。如：投注方案：06（第六名），开奖号码：******06****即中定位胆。';
             _opt.numNameList = ['FIRST#第六名', 'SECOND#第七名', 'THIRD#第八名', 'FOURTH#第九名', 'FIFTH#第十名'];
             _opt.formula = function(a){
                 return a[a.length - 1][a[0]].length + a[a.length - 1][a[1]].length + a[a.length - 1][a[2]].length + a[a.length - 1][a[3]].length + a[a.length - 1][a[4]].length
-            }
+            };
+            _opt.ajaxType = 'surA5';
             break;
         }
 
