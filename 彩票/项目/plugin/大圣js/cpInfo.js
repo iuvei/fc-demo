@@ -83,12 +83,12 @@ function BallInfo($id) {
         success: function (data) {
             if (data.status == 'success') {
                 if($isDetail){
-                $('#bet-timer').html(data.message.periods.date + '-' + fill_lenght(data.message.periods.num, 3, '0')); //彩票期数
-                $('#countDown').val(parseInt(data.message.periods.lottery_surplus));//距离开奖时间 秒数
-                $('#orderId').val(data.message.periods.id);
-                    timer(parseInt(data.message.periods.lottery_surplus),'',$id);
-                lottery_num('drawResult', data.message.prev_periods.lottery_num,$id);
-                $('#dataNum').text(data.message.prev_periods.date + '-' + fill_lenght(data.message.prev_periods.num, 3, '0'));
+                    $('#bet-timer').html(data.message.periods.date + '-' + fill_lenght(data.message.periods.num, 3, '0')); //彩票期数
+                    $('#countDown').val(parseInt(data.message.periods.lottery_surplus));//距离开奖时间 秒数
+                    $('#orderId').val(data.message.periods.id);
+                        timer(parseInt(data.message.periods.lottery_surplus),'',$id);
+                    lottery_num('drawResult', data.message.prev_periods.lottery_num,$id);
+                    $('#dataNum').text(data.message.prev_periods.date + '-' + fill_lenght(data.message.prev_periods.num, 3, '0'));
                 }else{
                     $('#bet-timer'+data.message.id).html(data.message['periods'].date + '-' +data.message['periods'].num); //彩票期数
                     //定时器处理

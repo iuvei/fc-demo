@@ -146,12 +146,13 @@
 			GLOBAL.getAjaxData({
 				url: '/product/lists'
 			}, function(data) {
+				// console.log(data);
 				var _data = data.data;
 				$.each(_data, function(i, val) {
 					// 跳转地址
 					$('#J_jumpToPage' + val.id).attr('href', 'betting.html?name=' + val.code +'&id=' + val.id + '&type=1');
 					//彩票期数
-					$('.J_betTimer' + val.id).html(val['periods'].date + '-' + val['periods'].num);
+					$('#J_betTimer' + val.id).html(val.periods.date + '-' + val.periods.num);
 					//定时器处理
 					COMMON.countDown(parseInt(val.periods.lottery_surplus), val.id, val.id);
 				});
@@ -174,7 +175,8 @@
 		},
 		countDown: function(intDiff, suffix, $id) {
 			// window.clearInterval(t);
-			COMMON.timer2 = window.setInterval(function() {
+			var xxxx = window.setInterval(function() {
+			// COMMON.timer2 = window.setInterval(function() {
 				var day = 0,
 					hour = 0,
 					minute = 0,
@@ -190,9 +192,12 @@
 					if (COMMON.isDeatil || COMMON.isChart) {
 						GLOBAL.alert('第<span style="padding:0 5px;">' + $('.J_betTimer').html() + '</span>期已结束<br/>请留意投注期号。', 2000);
 					}
-					clearInterval(COMMON.timer);
-					clearInterval(COMMON.timer2);
-					COMMON.getBallInfo($id);
+					// clearInterval(COMMON.timer);
+					// clearInterval(COMMON.timer2);
+					clearInterval(xxxx);
+
+					COMMON.getBallInfo($id);	//单独刷新一个，显示可能会有差别
+					// COMMON.homeBallInfo();	//一起刷新
 					return;
 				}
 				// $('#day_show' + suffix).html(day);
@@ -211,7 +216,6 @@
 					$('#J_minuteShow' + suffix).html(minute);
 					$('#J_secondShow' + suffix).html(second);
 				} else {
-
 					second += '';
 					$('.J_countDownNum').html('<em>' + hour.substr(0, 1) + '</em><em>' + hour.substr(1, 1) + '</em><span>:</span><em>' + minute.substr(0, 1) + '</em><em>' + minute.substr(1, 1) + '</em><span>:</span><em>' + second.substr(0, 1) + '</em><em>' + second.substr(1, 1) + '</em>');
 				}
@@ -231,7 +235,7 @@
 			}, 1000);
 		},
 		getBallInfo: function($id) {
-			window.clearInterval(COMMON.timer2);
+			// window.clearInterval(COMMON.timer2);
 			var _url = GLOBAL.getRequestURL();
 			GLOBAL.getAjaxData({
 				url: '/product/detail',
