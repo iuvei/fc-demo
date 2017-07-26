@@ -344,7 +344,7 @@ $(function() {
                 $('.chase-dialog .chosen-container').width(240);
             });
 
-            var _data = TEMPLATE.getChaseData(_url.name, $('.J_betTimer').html());
+            var _data = TEMPLATE.getChaseData(_url.type, _url.name, $('.J_betTimer').html());
             // console.log(_data);
             $('.J_periods').attr('title', '(包含当前最多追' + _data.maxPeriods + '期)').data('max', _data.maxPeriods);
 
@@ -552,13 +552,64 @@ $(function() {
                 $('#J_chaseConfirm').removeClass('disabled');
             });
         },
+        chaseConfirm: function() {
+            var _url = GLOBAL.getRequestURL();
+            var _id = _url.id;
+            var _items = Betting.getConfirmData();
+            var _index = $('.J_chaseTT.active').index() + 1;
+            var _periods = [];
+            var _chase = {
+                chase_periods: $('#J_periods'+_index).val(),
+                multiple: Number($('.J_chaseBeishu'+_index).val()) || 1,
+                interval_num: 1,
+                interval_multiple: 1,
+                lowest_profit: 0,
+                is_winning_stop: $('#J_chaseFooterCheck').hasClass('active') ? 'yes' : 'no'
+            };
+
+            if(_index == 2){
+                _chase.interval_num = Number($('#J_intervalNum').val());
+                _chase.interval_multiple = Number($('#J_intervalMultiple').val());
+            } else if(_index == 3){
+                _chase.lowest_profit = Number($('#J_lowestProfit').val());
+            }
+
+            $('#J_chaseUl_'+_index).find('li').each(function(){
+                _periods.push($(this).find('.n1').text());
+            });
+
+            var x = {
+                id : _id,
+                items : _items,
+                periods : _periods,
+                chase : _chase
+            };
+            console.log(x);
+            return;
+            // 投注追号
+            GLOBAL.getAjaxData({
+                url: '/bet/chase',
+                data: {
+                    id : _id,
+                    items : _items,
+                    periods : _periods,
+                    chase : _chase
+                }
+            }, function(data) {
+                layer.closeAll();
+            });
+        },
         bettingEvent: function() {
             // var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
             // var _subNav = ($('.J_subMenu.active').length ? $('.J_subMenu.active').data('info').split('#')[1] : _mainNav);
             // var _currentRule = TEMPLATE[_mainNav]({
             //     type : _subNav
             // });
-            
+            // 确认追号
+            $('body').on('click', '#J_chaseConfirm', function(){
+                Betting.chaseConfirm();
+            });
+
             // 我要追号
             $('#J_chaseNumber').click(function(){
                 if($(this).hasClass('disabled')){
@@ -1753,7 +1804,7 @@ $(function() {
                 });
 
                 function _changeNum(k) {
-                    console.log(k);
+                    // console.log(k);
                     var _html = '';
                     if (k.w) {
                         if(k.ajaxType == 'any3' || k.ajaxType == 'any4' || k.ajaxType == 'sizeB5' || k.ajaxType == 'sizeA5'){

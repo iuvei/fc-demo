@@ -336,8 +336,8 @@ var TEMPLATE = {
     },
 
 //    
-    getChaseData: function(name, currentPeriods) {
-        currentPeriods = '20170719-001';
+    getChaseData: function(type, name, currentPeriods) {
+        // currentPeriods = '20170719-001';
         // console.log(name, currentPeriods);
         // name : 游戏名称 如 ： chong_qing_shi_shi
         // currentPeriods ： 当前期数 如 : 20170719-088
@@ -364,7 +364,15 @@ var TEMPLATE = {
             case 'chong_qing_shi_shi':
                 data.totalPeriods = 120;
                 data.maxPeriods = 240;
-            break
+            break;
+            case 'qq_fen_fen':
+                data.totalPeriods = 1140;
+                data.maxPeriods = 300;
+            break;
+            case 'bei_ji_fen_fen':
+                // data.totalPeriods = 120;
+                // data.maxPeriods = 240;
+            break;
         }
         var _n = Number(currentPeriods.split('-')[1]);
         var _lave = data.totalPeriods - _n + 1;

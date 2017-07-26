@@ -17,14 +17,14 @@
     <div id="header" class="header dark-color">
         <div class="w1200 clearfix rel">
             <div class="fl header-post">
-                <a href="javascript:;"><img src="./images/icon-logo.png" alt=""></a>
+                <a href="index.html"><img src="./images/icon-logo.png" alt=""></a>
                 <em class="icon fl"></em>
                 <div class="fl">暂时没有滚动通告</div>
             </div>
             <div class="fr header-user">
                 <p class="fl">您好，<span id="J_headerUserName"></span></p>
                 <b class="fl">|</b>
-                <div class="fl"><span class="fl" id="J_totalBalance">余额 <i class="J_balance">￥20.0000</i></span><em class="fl icon icon-refresh cup" id="J_refresh"></em><span class="cup show fl" id="J_cutoverBalance" data-balance="">隐藏</span></div>
+                <div class="fl"><span class="fl" id="J_totalBalance">余额 <i class="J_balance"></i></span><em class="fl icon icon-refresh cup" id="J_refresh"></em><span class="cup show fl" id="J_cutoverBalance" data-balance="">隐藏</span></div>
                 <b class="fl">|</b>
                 <span class="fl cup J_pageJump" data-page="recharge_online">充值</span>
                 <span class="fl cup J_pageJump" data-page="withdrawal_application">提款</span>
@@ -417,9 +417,9 @@
             </div>
 
             <div class="chase-tt" id="J_chaseTt">
-                <span class="active">同倍追号</span>
-                <span>翻倍追号</span>
-                <span>利润率追号</span>
+                <span class="J_chaseTT active">同倍追号</span>
+                <span class="J_chaseTT">翻倍追号</span>
+                <span class="J_chaseTT">利润率追号</span>
             </div>
             <div class="chase-con clearfix">
                 <div class="J_chaseList chase-list ">
@@ -428,13 +428,13 @@
                             <span class="chase-span1 fl">起始：</span>
                             <select class="fl chase-select J_chaseSelect" id="J_chaseSelect_1"></select>
                             <span class="chase-span2 fl">追</span>
-                            <input value="1" type="text" class="chase-inp fl J_periods" data-max="">
+                            <input value="1" type="text" id="J_periods1" class="chase-inp fl J_periods" data-max="">
                             <span class="chase-span3 fl">期</span>
                             <span class="chase-span4">倍数</span>
                         </div>
                         <div class="chase-multiple fl">
                             <em class="fl cut noselect J_chaseBeishuCut" id="">-</em>
-                            <input type="text" class="fl J_chaseBeishu" value="1" id="">
+                            <input type="text" class="fl J_chaseBeishu J_chaseBeishu1" value="1" id="">
                             <em class="fl add noselect J_chaseBeishuAdd" id="">+</em>
                         </div>
                         <div class="fl" style="width:450px;">
@@ -457,13 +457,13 @@
                             <span class="chase-span1 fl">起始：</span>
                             <select class="fl chase-select J_chaseSelect" id="J_chaseSelect_2"></select>
                             <span class="chase-span2 fl">追</span>
-                            <input value="1" type="text" class="chase-inp fl J_periods" data-max="">
+                            <input value="1" type="text" id="J_periods2" class="chase-inp fl J_periods" data-max="">
                             <span class="chase-span3 fl">期</span>
                             <span class="chase-span4">倍数</span>
                         </div>
                         <div class="chase-multiple fl">
                             <em class="fl cut noselect J_chaseBeishuCut" id="">-</em>
-                            <input type="text" class="fl J_chaseBeishu" value="1" id="">
+                            <input type="text" class="fl J_chaseBeishu J_chaseBeishu2" value="1" id="">
                             <em class="fl add noselect J_chaseBeishuAdd" id="">+</em>
                         </div>
                         <div class="fl" style="width:450px;">
@@ -491,13 +491,13 @@
                             <span class="chase-span1 fl">起始：</span>
                             <select class="fl chase-select J_chaseSelect" id="J_chaseSelect_3"></select>
                             <span class="chase-span2 fl">追</span>
-                            <input value="1" type="text" class="chase-inp fl J_periods" data-max="">
+                            <input value="1" type="text" id="J_periods3" class="chase-inp fl J_periods" data-max="">
                             <span class="chase-span3 fl">期</span>
                             <span class="chase-span5">起始倍数</span>
                         </div>
                         <div class="chase-multiple fl">
                             <em class="fl cut noselect J_chaseBeishuCut" id="">-</em>
-                            <input type="text" class="fl J_chaseBeishu" value="1" id="J_chaseQsBeishu">
+                            <input type="text" class="fl J_chaseBeishu J_chaseBeishu3" value="1" id="J_chaseQsBeishu">
                             <em class="fl add noselect J_chaseBeishuAdd" id="">+</em>
                         </div>
                         <div class="fl" style="width:450px;">
@@ -584,7 +584,7 @@
     <script src="./js/layer/layer.js"></script>
     <script src="./js/GLOBAL.js"></script>
     <script src="./js/template.js"></script>
-    <!-- <script src="./js/common.js"></script> -->
+    <script src="./js/common.js"></script>
     <script src="./js/betting.js"></script>
 </body>
 </html>
