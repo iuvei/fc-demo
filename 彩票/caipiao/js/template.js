@@ -370,8 +370,20 @@ var TEMPLATE = {
                 data.maxPeriods = 300;
             break;
             case 'bei_ji_fen_fen':
-                // data.totalPeriods = 120;
-                // data.maxPeriods = 240;
+                data.totalPeriods = 179;
+                data.maxPeriods = 240;
+            break;
+            case 'jiangsu_fast_three':
+                data.totalPeriods = 82;
+                data.maxPeriods = 229;
+            break;
+            case 'jiangxi_eleven_choose_five':
+                data.totalPeriods = 78;
+                data.maxPeriods = 156;
+            break;
+            case 'beijing_pk_ten':
+                data.totalPeriods = 179;
+                data.maxPeriods = 358;
             break;
         }
         var _n = Number(currentPeriods.split('-')[1]);
@@ -2343,7 +2355,7 @@ var TEMPLATE = {
             _opt.formula = function(a){
                 return a[a.length - 1][a[0]].length;
             }
-            _opt.ajaxType = 'any1t1';
+            _opt.ajaxType = 'any1';
             break;
             case 'Any2_11X5':
             _maxBonus = '9.3333';
@@ -2355,7 +2367,7 @@ var TEMPLATE = {
                 var b = a[a.length - 1][a[0]].length;
                 return b >= 2 ? TEMPLATE.factorial(1 * b) / (TEMPLATE.factorial(1 * b - 2) * TEMPLATE.factorial(2)) : 0
             }
-            _opt.ajaxType = 'any2t2';
+            _opt.ajaxType = 'any2';
             break;
             case 'Any3_11X5':
             _maxBonus = '28.0000';
@@ -2367,7 +2379,7 @@ var TEMPLATE = {
                 var b = a[a.length - 1][a[0]].length;
                 return b >= 3 ? TEMPLATE.factorial(1 * b) / (TEMPLATE.factorial(1 * b - 3) * TEMPLATE.factorial(3)) : 0
             }
-            _opt.ajaxType = 'any3t3';
+            _opt.ajaxType = 'any3';
             break;
             case 'Any4_11X5':
             _maxBonus = '112.0000';
@@ -2379,7 +2391,7 @@ var TEMPLATE = {
                 var b = a[a.length - 1][a[0]].length;
                 return b >= 4 ? TEMPLATE.factorial(1 * b) / (TEMPLATE.factorial(1 * b - 4) * TEMPLATE.factorial(4)) : 0
             }
-            _opt.ajaxType = 'any4t4';
+            _opt.ajaxType = 'any4';
             break;
             case 'Any5_11X5':
             _maxBonus = '784.0000';
@@ -2391,7 +2403,7 @@ var TEMPLATE = {
                 var b = a[a.length - 1][a[0]].length;
                 return b >= 5 ? TEMPLATE.factorial(1 * b) / (TEMPLATE.factorial(1 * b - 5) * TEMPLATE.factorial(5)) : 0
             }
-            _opt.ajaxType = 'any5t5';
+            _opt.ajaxType = 'any5';
             break;
             case 'Any6_11X5':
             _maxBonus = '130.6667';
@@ -2403,7 +2415,7 @@ var TEMPLATE = {
                 var b = a[a.length - 1][a[0]].length;
                 return b >= 6 ? TEMPLATE.factorial(1 * b) / (TEMPLATE.factorial(1 * b - 6) * TEMPLATE.factorial(6)) : 0
             }
-            _opt.ajaxType = 'any6t5';
+            _opt.ajaxType = 'any6';
             break;
             case 'Any7_11X5':
             _maxBonus = '37.3333';
@@ -2415,7 +2427,7 @@ var TEMPLATE = {
                 var b = a[a.length - 1][a[0]].length;
                 return b >= 7 ? TEMPLATE.factorial(1 * b) / (TEMPLATE.factorial(1 * b - 7) * TEMPLATE.factorial(7)) : 0
             }
-            _opt.ajaxType = 'any7t5';
+            _opt.ajaxType = 'any7';
             break;
             case 'Any8_11X5':
             _maxBonus = '14.0000';
@@ -2428,7 +2440,7 @@ var TEMPLATE = {
                 return b >= 8 ? TEMPLATE.factorial(1 * b) / (TEMPLATE.factorial(1 * b - 8) * TEMPLATE.factorial(8)) : 0
             }
             
-            _opt.ajaxType = 'any8t5';
+            _opt.ajaxType = 'any8';
             break;
             case 'Any2_11X5_Single':
             _maxBonus = '9.3333';
@@ -2438,7 +2450,7 @@ var TEMPLATE = {
             _opt.numList = [];
             _opt.type = 'text';
             _opt.numNameList = [];
-            _opt.ajaxType = 'anyS2t2';
+            _opt.ajaxType = 'anyS2';
             break;
             case 'Any3_11X5_Single':
             _maxBonus = '28.0000';
@@ -2448,7 +2460,7 @@ var TEMPLATE = {
             _opt.numList = [];
             _opt.type = 'text';
             _opt.numNameList = [];
-            _opt.ajaxType = 'anyS3t3';
+            _opt.ajaxType = 'anyS3';
             break;
             case 'Any4_11X5_Single':
             _maxBonus = '112.0000';
@@ -2458,7 +2470,7 @@ var TEMPLATE = {
             _opt.numList = [];
             _opt.type = 'text';
             _opt.numNameList = [];
-            _opt.ajaxType = 'anyS4t4';
+            _opt.ajaxType = 'anyS4';
             break;
             case 'Any5_11X5_Single':
             _maxBonus = '784.0000';
@@ -2468,7 +2480,7 @@ var TEMPLATE = {
             _opt.numList = [];
             _opt.type = 'text';
             _opt.numNameList = [];
-            _opt.ajaxType = 'anyS5t5';
+            _opt.ajaxType = 'anyS5';
             break;
             case 'Any6_11X5_Single':
             _maxBonus = '130.6667';
@@ -2478,7 +2490,7 @@ var TEMPLATE = {
             _opt.numList = [];
             _opt.type = 'text';
             _opt.numNameList = [];
-            _opt.ajaxType = 'anyS6t5';
+            _opt.ajaxType = 'anyS6';
             break;
             case 'Any7_11X5_Single':
             _maxBonus = '37.3333';
@@ -2488,7 +2500,7 @@ var TEMPLATE = {
             _opt.numList = [];
             _opt.type = 'text';
             _opt.numNameList = [];
-            _opt.ajaxType = 'anyS7t5';
+            _opt.ajaxType = 'anyS7';
             break;
             case 'Any8_11X5_Single':
             _maxBonus = '14.0000';
@@ -2498,7 +2510,7 @@ var TEMPLATE = {
             _opt.numList = [];
             _opt.type = 'text';
             _opt.numNameList = [];
-            _opt.ajaxType = 'anyS8t5';
+            _opt.ajaxType = 'anyS8';
             break;
         }
 
@@ -3307,8 +3319,8 @@ var TEMPLATE = {
             _str += '    </div>';
             _str += '    <div class="fl below-prize-num k3-prize" id="J_drawResult">';
             _str += '        <em class="s1"></em>';
-            _str += '        <em class="s2"></em>';
-            _str += '        <em class="s3"></em>';
+            _str += '        <em class="s1"></em>';
+            _str += '        <em class="s1"></em>';
             _str += '    </div>';
             _str += '</div>';
             _str += '<div class="below-history fl rel">';
@@ -3919,7 +3931,7 @@ var TEMPLATE = {
             // _str += '        <em>0</em>';
             // _str += '    </div>';
             _str += '</div>';
-            _str += '<div class="below-history fl rel">';
+            _str += '<div class="below-history fl rel pk10-below-history">';
             _str += '    <dl class="history-issue fl" id="J_lastThreeDrawResult1">';
             _str += '        <dt>开奖期号</dt>';
             _str += '    </dl>';

@@ -28,8 +28,10 @@ a.text-l-color,
     background-color: #fff;
     color: #3661a2;
 }
+.border-l-color{
+    border-color: #3661a2;
+}
 .light-color,
-.border-l-color,
 .btn-l-color,
 .user-header,
 .user-nav dl dt{

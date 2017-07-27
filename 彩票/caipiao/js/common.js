@@ -146,11 +146,18 @@
 			GLOBAL.getAjaxData({
 				url: '/product/lists'
 			}, function(data) {
-				// console.log(data);
 				var _data = data.data;
+				var _type = 1;
 				$.each(_data, function(i, val) {
+					if (val.code == 'jiangsu_fast_three') {
+						_type = 3;
+					} else if(val.code == 'jiangxi_eleven_choose_five') {
+						_type = 2;
+					} else if(val.code == 'beijing_pk_ten') {
+						_type = 4;
+					}
 					// 跳转地址
-					$('#J_jumpToPage' + val.id).attr('href', 'betting.html?name=' + val.code +'&id=' + val.id + '&type=1');
+					$('#J_jumpToPage' + val.id).attr('href', 'betting.html?name=' + val.code +'&id=' + val.id + '&type='+_type);
 					//彩票期数
 					$('#J_betTimer' + val.id).html(val.periods.date + '-' + val.periods.num);
 					//定时器处理
@@ -174,6 +181,7 @@
 			});
 		},
 		countDown: function(intDiff, suffix, $id) {
+			// console.log(intDiff, suffix, $id)
 			// window.clearInterval(t);
 			var xxxx = window.setInterval(function() {
 			// COMMON.timer2 = window.setInterval(function() {
@@ -251,7 +259,11 @@
 				} else {
 					$('.J_productLogo').attr('src', data.logo);
 					// TODO: 详情页
-					$('.J_betTimer').html(data.periods.date + '-' + COMMON.fillLenght(data.periods.num, 3, '0')); //彩票期数
+					if(_url.name.indexOf('beijing') > -1) {
+						$('.J_betTimer').html(COMMON.fillLenght(data.periods.num, 3, '0')).data('n', data.periods.date + '-' + COMMON.fillLenght(data.periods.num, 3, '0')); //彩票期数
+					} else {
+						$('.J_betTimer').html(data.periods.date + '-' + COMMON.fillLenght(data.periods.num, 3, '0')).data('n', data.periods.date + '-' + COMMON.fillLenght(data.periods.num, 3, '0')); //彩票期数
+					}
 					// $('#countDown').val(parseInt(data.periods.lottery_surplus)); //距离开奖时间 秒数
 					$('#orderId').val(data.periods.id);
 
@@ -272,14 +284,34 @@
 			return str;
 		},
 		lotteryNum: function(_id, num, d) {
+			// console.log(num);
+			// TODO：
+			var _url = GLOBAL.getRequestURL();
+			// if(_url.type == 1){
+			// }else if(_url.type == 2){
+
+			// }else if(_url.type == 3){
+
+			// }else if(_url.type == 4){
+
+			// }
+
 			clearTimeout(COMMON.timer);
 			// window.clearInterval(t);
 			//处理开奖号
 			if (num.length > 0) {
 				var _str = '';
-				for (var i = 0; i < 5; i++) {
-					_str += '<em>' + num[i] + '</em>';
-				};
+				if (_url.type == 1 || _url.type == 4) {
+					$.each(num.split(','), function(i, n){
+						_str += '<em>' + n + '</em>';
+					});
+				} else if(_url.type == 2) {
+
+				} else if(_url.type == 3) {
+					$.each(num.split(','), function(i, n){
+						_str += '<em class="s'+ n +'"></em>';
+					});
+				}
 				$('#' + _id).html(_str);
 			} else {
 				// 没获取到最新的数据三秒获取一次
@@ -322,16 +354,36 @@
 				var _list1 = '';
 				var _list2 = '';
 				var _list3 = '';
+				var _lottery_num = '';
 				$('#J_lastThreeDrawResult1').find('dd').remove();
 				$('#J_lastThreeDrawResult2').find('dd').remove();
 				$.each(d.data, function(k, val) {
+					_lottery_num = val.lottery_num;
+					if(_url.type == '2'){	//11选5
+						_lottery_num = _lottery_num.replace(/\,/g, '');
+					}
 					val.num = COMMON.fillLenght(val.num, 3, '0');
 					if (k < 3) {
-						_list1 += '<dd>'+ val.date +'-'+ val.num +'</dd>';
-						_list2 += '<dd>' + val.lottery_num[0] + val.lottery_num[1] + val.lottery_num[2] + val.lottery_num[3] + val.lottery_num[4] + '</dd>';
+						if(_url.name.indexOf('beijing') > -1){
+							_list1 += '<dd>'+ val.num +'</dd>';
+						}else{
+							_list1 += '<dd>'+ val.date +'-'+ val.num +'</dd>';
+						}
+
+						if(_url.type == '4'){	//pk10
+							_list2 += '<dd>';
+							$.each(_lottery_num.split(','), function(x, y){
+								_list2 += y + ' ';
+							});
+							_list2 += '</dd>';
+							// _list2 += '<dd>' + _lottery_num[0] + _lottery_num[1] + _lottery_num[2] + _lottery_num[3] + _lottery_num[4] + '</dd>';
+						} else {
+							_list2 += '<dd>' + _lottery_num[0] + _lottery_num[1] + _lottery_num[2] + _lottery_num[3] + _lottery_num[4] + '</dd>';
+						}
+
 					}
 					if (k < 10) {
-						_list3 += '<li><span>'+ val.date +'-'+ val.num +'</span><em>' + val.lottery_num[0] + val.lottery_num[1] + val.lottery_num[2] + val.lottery_num[3] + val.lottery_num[4] + '</em></li>';
+						_list3 += '<li><span>'+ val.date +'-'+ val.num +'</span><em>' + _lottery_num[0] + _lottery_num[1] + _lottery_num[2] + _lottery_num[3] + _lottery_num[4] + '</em></li>';
 					}
 				});
 

@@ -44,6 +44,7 @@ $(function() {
                 if(_index == 1){
                     return;
                 }
+                $('#J_curPage').html(_index--);
                 Betting.getBetHistory({
                     page: _index--
                 });
@@ -56,6 +57,8 @@ $(function() {
                 if(_index == _total){
                     return;
                 }
+                // console.log(_index++);
+                $('#J_curPage').html(_index++);
                 Betting.getBetHistory({
                     page: _index++
                 });
@@ -344,7 +347,7 @@ $(function() {
                 $('.chase-dialog .chosen-container').width(240);
             });
 
-            var _data = TEMPLATE.getChaseData(_url.type, _url.name, $('.J_betTimer').html());
+            var _data = TEMPLATE.getChaseData(_url.type, _url.name, $('#J_betTimer').data('n'));
             // console.log(_data);
             $('.J_periods').attr('title', '(包含当前最多追' + _data.maxPeriods + '期)').data('max', _data.maxPeriods);
 
@@ -937,7 +940,7 @@ $(function() {
         },
         confirmCart: function(_data, type) {
             console.log(_data);
-            return;
+            // return;
             // type : confirm 确认投注    shortcut : 一键投注
             
             GLOBAL.getAjaxData({
@@ -948,7 +951,7 @@ $(function() {
                 }
             }, function(data) {
                 // TODO:根据返回金额校验当前用户余额是否足够
-                layer.alert('订单支付成功<br/>投注期号：' + $('#J_betTimer').html() + '期<br/>投注总额：' + data + '元', {
+                layer.alert('订单支付成功<br/>投注期号：' + $('.J_betTimer').html() + '期<br/>投注总额：' + data + '元', {
                     skin: 'bett-alert-dialog',
                     icon: 1
                 });
@@ -2217,10 +2220,13 @@ $(function() {
                 url: '/bet/lists',
                 data: {
                     page: options.page,
-                    pageSize: options.pageSize
+                    pageSize: options.pageSize,
+                    product_id: GLOBAL.getRequestURL().id
                 }
             }, function(data) {
                 var _str = '';
+
+                // console.log(Betting.playCode);
 
                 if (data.total > 0) {
                     $.each(data.data, function(i, n){
@@ -2264,7 +2270,7 @@ $(function() {
 
                     $('#J_betHistoryPage').show();
                     $('#J_curPage').html(data.current_page);
-                    $('#J_totalPage').html(data.total);
+                    $('#J_totalPage').html(Math.ceil(data.total / options.pageSize));
                 } else {
                     _str += '<li class="empty">您没有投注历史！</li>';
                     $('#J_betHistoryPage').hide();
