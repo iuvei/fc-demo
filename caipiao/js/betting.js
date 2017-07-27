@@ -18,7 +18,7 @@ $(function() {
                 TEMPLATE.render11X5.init();
                 Betting.playCode = '11X5';
             } else if(_type == 3) {
-                TEMPLATE.render3D.init();
+                TEMPLATE.renderK3.init();
                 Betting.playCode = 'K3';
             } else if(_type == 4) {
                 TEMPLATE.renderPK10.init();
@@ -28,9 +28,14 @@ $(function() {
             $('select').niceSelect();
             Betting.bindEvent();
             Betting.bettingEvent();
-            Betting.renderSelectArea();
+
+            // if(_type != 3){
+                Betting.renderSelectArea();
+            // } else {
+            //     Betting.renderK3SelectArea();
+            // }
         },
-        bindEvent: function() {
+        bindEvent: function() {            
             // 历史投注换页
             $('#J_betTabPagePrev').click(function(){
                 var _index = $('#J_curPage').html();
@@ -39,6 +44,7 @@ $(function() {
                 if(_index == 1){
                     return;
                 }
+                $('#J_curPage').html(_index--);
                 Betting.getBetHistory({
                     page: _index--
                 });
@@ -51,6 +57,8 @@ $(function() {
                 if(_index == _total){
                     return;
                 }
+                // console.log(_index++);
+                $('#J_curPage').html(_index++);
                 Betting.getBetHistory({
                     page: _index++
                 });
@@ -112,16 +120,22 @@ $(function() {
                 $('#J_bettingRule').hide();
             });
         },
+        // renderK3SelectArea: function() {
+        //     var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
+            
+        //     console.log(_mainNav);
+        // },
         renderSelectArea: function() {
             var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
-            var _subNav = $('.J_subMenu.active').data('info').split('#')[1];
+            var _subNav = ($('.J_subMenu.active').length ? $('.J_subMenu.active').data('info').split('#')[1] : _mainNav);
             var _data = TEMPLATE[_mainNav]({
                 type: _subNav
             });
             var options = _data.opt;
             var _str = '';
 
-// console.log(_subNav);
+            console.log(_subNav);
+
             if (_subNav == 'OECounts_11X5') {
                 // 定单双
                 _str += '<ul class="clearfix single-double J_ballList J_multipleChoice" data-row="NONE" data-max="6" data-min="1">';
@@ -140,6 +154,9 @@ $(function() {
                 _str += '<li class="J_numWrp no2" data-v="虎"></li>';
                 _str += '</ul>';
                 _str += '</div>';
+            } else if (_subNav != 'K3_SUM' && _subNav.indexOf('K3') > -1) {
+                // 快三除和值外的dom
+                _str += _data.dice;
             } else {
                 // 复选框
                 if (options.haveCheckbox) {
@@ -259,11 +276,11 @@ $(function() {
 
             Betting.resetBettingBox();
         },
-        resetBettingBox: function() {
+        resetBettingBox: function(templateData) {
             // 重置最高额度
             var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
-            var _subNav = $('.J_subMenu.active').data('info').split('#')[1];
-            var _data = TEMPLATE[_mainNav]({
+            var _subNav = ($('.J_subMenu.active').length ? $('.J_subMenu.active').data('info').split('#')[1] : _mainNav);
+            var _data = templateData ? templateData : TEMPLATE[_mainNav]({
                 type: _subNav
             });
             $('#J_maxBonus').html(_data.maxBonus);
@@ -310,18 +327,359 @@ $(function() {
             // Betting.getBettingQuantity();
             // Betting.calculateAmount();
         },
+        chaseEvent: function(options) {
+            options = options || {};
+            // options.max : 最高奖金组
+            // options.model : 模式（圆角分厘（1、0.1、0.01、0.001））
+            // options.num : 投注总数
+            // options.price : 单倍投注金额
+
+            // console.log(options);
+            // return;
+
+            var _url = GLOBAL.getRequestURL();
+            // 切换追号类型
+            $('#J_chaseTt span').click(function(){
+                var _i = $(this).index();
+                $(this).addClass('active').siblings().removeClass('active');
+                $('.J_chaseList').hide();
+                $('.J_chaseList').eq(_i).show();
+                $('.chase-dialog .chosen-container').width(240);
+            });
+
+            var _data = TEMPLATE.getChaseData(_url.type, _url.name, $('.J_betTimer').data('n'));
+            // console.log(_data);
+            $('.J_periods').attr('title', '(包含当前最多追' + _data.maxPeriods + '期)').data('max', _data.maxPeriods);
+
+
+            // 初始化起始下拉
+            $('.J_chaseSelect').html(_data.select);
+            $('.J_chaseSelect').chosen();
+
+            // 追号期数
+            $('.J_periods').off().on('keyup blur keydown focus', function() {
+                var _val = $(this).val();
+                var _max = $(this).data('max');
+                var _reg = /^[1-9]\d*$/;
+                if (!_reg.test(_val)) {
+                    GLOBAL.alert('您输入的追号期数格式不正确<br>只能输入大于或等于1的整数');
+                    $(this).val(1).blur();
+                } else {
+                    if(_val > _max){
+                        GLOBAL.alert('当前彩种的最大追号期数不能超过'+ _max +'期');
+                        $(this).val(_max).blur();
+                    }
+                }
+            });
+
+            // 间隔期数
+            $('#J_intervalNum').off().on('keyup blur keydown focus', function() {
+                var _val = $(this).val();
+                var _max = $(this).parents('.chase-condition').find('.J_periods').val();
+                var _reg = /^[1-9]\d*$/;
+                if (!_reg.test(_val)) {
+                    GLOBAL.alert('您输入的间隔期数格式不正确<br>只能输入大于或等于1的整数');
+                    $(this).val(1).blur();
+                } else {
+                    if(_val > _max){
+                        GLOBAL.alert('间隔期数不能超过您输入的追号期数<br>目前最大间隔为'+ _max +'期');
+                        $(this).val(_max).blur();
+                    }
+                }
+            });
+
+            // 追号倍数
+            $('.J_chaseBeishu').off().on('keyup blur keydown focus', function() {
+                var _val = $(this).val();
+                var _reg = /^[1-9]\d*$/;
+                if (!_reg.test(_val)) {
+                    GLOBAL.alert('您输入的投注倍数格式不正确<br>只能输入大于或等于1的整数');
+                    $(this).val(1).blur();
+                } else {
+                    if(_val > 99999){
+                        GLOBAL.alert('您的最大投注倍数不能超过99999倍');
+                        $(this).val(99999).blur();
+                    }
+                }
+            });
+
+            // 隔期倍数
+            $('#J_intervalMultiple').off().on('keyup blur keydown focus', function() {
+                var _val = $(this).val();
+                var _reg = /^[1-9]\d*$/;
+                if (!_reg.test(_val)) {
+                    GLOBAL.alert('您输入的隔期倍数格式不正确<br>只能输入大于或等于1的整数');
+                    $(this).val(1).blur();
+                } else {
+                    if(_val > 99999){
+                        GLOBAL.alert('您的最大隔期倍数不能超过99999倍');
+                        $(this).val(99999).blur();
+                    }
+                }
+            });
+
+            // 最低利润率
+            $('#J_lowestProfit').off().on('change', function() {
+                var _val = $(this).val();
+                var _reg = /^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$/;
+                if (!_reg.test(_val)) {
+                    GLOBAL.alert('您输入的最低收益率格式不正确<br>只能输入正整数或小数');
+                    $(this).val(0);
+                }
+            });
+
+            // 减少倍数
+            $('.J_chaseBeishuCut').click(function() {
+                var _val = $(this).siblings('.J_chaseBeishu').val();
+                if (_val <= 1) {
+                    return;
+                }
+                $(this).siblings('.J_chaseBeishu').val(_val - 1);
+            });
+
+            // 增加倍数
+            $('.J_chaseBeishuAdd').click(function() {
+                var _val = $(this).siblings('.J_chaseBeishu').val();
+                if(_val >= 99999){
+                    return;
+                }
+                $(this).siblings('.J_chaseBeishu').val(Number(_val) + 1);
+            });
+
+            $('#J_chaseFooterCheck').click(function(){
+                if ($(this).hasClass('active')) {
+                    $(this).removeClass('active');
+                } else {
+                    $(this).addClass('active');
+                }
+            });
+
+            // 生成追号
+            $('.J_generateChunk').click(function(){
+                var _str = '';
+                var _i = $(this).data('i'); //索引
+                var _n = $(this).parents('.chase-condition').find('.J_periods').val();  //追号期数
+                var _s = Number($('#J_chaseSelect_'+ _i +' option:selected').val());    //起始期号
+                var _b = $(this).parents('.chase-condition').find('.J_chaseBeishu').val();  //倍数
+
+                if(_i == 3){
+                    _b = $('#J_chaseQsBeishu').val();
+                }
+
+                var _onePrice = 0;  //单个的价格
+                var _intervalNum = $('#J_intervalNum').val();   //间隔期数
+                var _intervalMultiple = $('#J_intervalMultiple').val(); //间隔倍数
+                var _lowestProfit = $('#J_lowestProfit').val() / 100; //最小利润
+
+                $('#J_betList li').each(function(x, y){
+                    _onePrice += Number($(this).find('.J_sums').text() * 10000 / $(this).find('.t5').text())
+                });
+                _onePrice = Number(_onePrice / 10000).toFixed(4);
+
+                for(var j = 0; j < _n; j++) {
+                    if(_i == 3 && j != 0){
+                        _b = 1;
+                    }
+
+                    var _n1 = Number(_onePrice * Math.pow(Number(_intervalMultiple),parseInt(j / _intervalNum)) * _b).toFixed(4);
+                    _str += '<li>';
+                    _str += '<div class="n1">'+ $('#J_chaseSelect_' + _i).find('option').eq(j + _s).text().split('(')[0] +'</div>';
+                    _str += '    <div class="n2">';
+                    if(_i == 3){
+                        _str += _b;
+                    } else {
+                        _str += Math.pow(Number(_intervalMultiple),parseInt(j / _intervalNum)) * _b;
+                    }
+                    _str += '</div>';
+                    _str += '    <div class="n3">'+ _n1 +'</div>';
+                    _str += '<div class="n4"></div>';
+                    if (_i == 3) {
+                        _str += '<div class="n5">'+ Number($('#J_maxBonus').html() * 10000 * _b / 10000).toFixed(4) +'</div>';
+                        _str += '<div class="n6"></div>';
+                    }
+                    _str += '</li>';
+                }
+                
+                $('#J_chaseFooterNum').text(_n);
+                $('#J_chaseUl_' + _i).html(_str);
+                $('#J_chaseUl_' + _i + ' li').each(function(k, v){
+                    // 您原计划实现20期,实际实现0期
+                    if(_i == 3){
+                        if (k) {
+                            var _n2 = $(this).prev('li').find('.n4').html();    //之前累计投入
+                            var _bs = Math.ceil(Number((_n2*(_lowestProfit+1))/((Number(options.max) * 10000 - options.price * (_lowestProfit+1) * 10000) / 10000)));
+                            var _n1 = Number(options.price * 10000 * _bs / 10000).toFixed(4);   //当前投入
+                            var _n6 = Number(((options.max * 10000 * _bs) - ((Number(_n1) * 10000 + Number(_n2) * 10000))) / ((Number(_n1) * 10000 + Number(_n2) * 10000)) * 100).toFixed(2);
+
+                            $(this).find('.n2').html(_bs);
+                            $(this).find('.n3').html(_n1);
+                            $(this).find('.n4').html(Number((Number(_n1) * 10000 + Number(_n2) * 10000)/10000).toFixed(4));
+                            $(this).find('.n5').html(Number(options.max * 10000 * _bs / 10000).toFixed(4));
+                            $(this).find('.n6').html(_n6);
+
+
+                            // Ps：倍数上限=投注上限（200000元）/单倍的投注金额
+                            // console.log(_bs, (200000 * 10000 / (Number(options.price) * 10000)));
+
+                            if(_bs && _bs > (200000 * 10000 / (Number(options.price) * 10000))){
+                                GLOBAL.alert('您原计划实现'+ _n +'期,实际实现'+ k +'期');
+                                $('#J_chaseUl_'+_i +' li:gt('+ (k-1) +')').remove();
+                                $(this).parents('.chase-con').find('.J_periods').val(k + 1);
+                                // $('#J_chaseFooterNum').text(k+1);
+                            }
+                        } else {
+                            var _n4 = Number($(this).find('.n3').html());
+                            var _n5 = Number($(this).find('.n5').html());
+                            var _n6 = Number(((_n5 * 10000) - (_n4 * 10000)) / (_n4 * 10000) * 100).toFixed(2);
+                            // console.log(_n);
+
+                            $(this).find('.n4').html(Number(_n4).toFixed(4));
+                            $(this).find('.n6').html(_n6);
+                            // $(this).find('.n6').html(_n.substring(0,_n.lastIndexOf('.')+3));
+                            if(Number($('#J_lowestProfit').val()) > Number(_n6)){
+                                GLOBAL.alert('您原计划实现'+ _n +'期,实际实现0期');
+                                $('#J_chaseUl_'+_i).html('');
+                            }
+                        }
+                    } else {
+                        if(k){
+                            var _n1 = $(this).find('.n3').html();   //当前投入
+                            var _n2 = $(this).prev('li').find('.n4').html();    //之前累计投入
+                            $(this).find('.n4').html(Number((Number(_n1) * 10000 + Number(_n2) * 10000)/10000).toFixed(4));
+                        } else {
+                            $(this).find('.n4').html($(this).find('.n3').html());
+                        }
+                    }
+                });
+                $('#J_chaseFooterPrice').text($('#J_chaseUl_'+_i+' li:last').find('.n4').html());
+                $('#J_chaseConfirm').removeClass('disabled');
+            });
+        },
+        chaseConfirm: function() {
+            var _url = GLOBAL.getRequestURL();
+            var _id = _url.id;
+            var _items = Betting.getConfirmData();
+            var _index = $('.J_chaseTT.active').index() + 1;
+            var _periods = [];
+            var _chase = {
+                chase_periods: $('#J_periods'+_index).val(),
+                multiple: Number($('.J_chaseBeishu'+_index).val()) || 1,
+                interval_num: 1,
+                interval_multiple: 1,
+                lowest_profit: 0,
+                is_winning_stop: $('#J_chaseFooterCheck').hasClass('active') ? 'yes' : 'no'
+            };
+
+            if(_index == 2){
+                _chase.interval_num = Number($('#J_intervalNum').val());
+                _chase.interval_multiple = Number($('#J_intervalMultiple').val());
+            } else if(_index == 3){
+                _chase.lowest_profit = Number($('#J_lowestProfit').val());
+            }
+
+            $('#J_chaseUl_'+_index).find('li').each(function(){
+                _periods.push($(this).find('.n1').text());
+            });
+
+            var x = {
+                id : _id,
+                items : _items,
+                periods : _periods,
+                chase : _chase
+            };
+            console.log(x);
+            return;
+            // 投注追号
+            GLOBAL.getAjaxData({
+                url: '/bet/chase',
+                data: {
+                    id : _id,
+                    items : _items,
+                    periods : _periods,
+                    chase : _chase
+                }
+            }, function(data) {
+                layer.closeAll();
+            });
+        },
         bettingEvent: function() {
             // var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
-            // var _subNav = $('.J_subMenu.active').data('info').split('#')[1];
+            // var _subNav = ($('.J_subMenu.active').length ? $('.J_subMenu.active').data('info').split('#')[1] : _mainNav);
             // var _currentRule = TEMPLATE[_mainNav]({
             //     type : _subNav
             // });
+            // 确认追号
+            $('body').on('click', '#J_chaseConfirm', function(){
+                Betting.chaseConfirm();
+            });
+
             // 我要追号
             $('#J_chaseNumber').click(function(){
                 if($(this).hasClass('disabled')){
                     return;
                 }
+
+                var _list = [];
+                var _hasProfit = true;  //是否有利润率
+                $('#J_betList li').each(function(){
+                    _list.push({
+                        unit : $(this).data('unit'),
+                        ajaxtype : $(this).data('ajaxtype')
+                    });
+                });
+
+                $.each(_list, function(i, n) {
+                    if (n.unit.indexOf(_list[0].unit) == -1 || n.ajaxtype.indexOf(_list[0].ajaxtype) == -1){
+                        _hasProfit = false;
+                        return;
+                    }
+                });
+
+                if(_hasProfit){
+                    var _model = 1;
+                    var _num = Number($('#J_totalNum').html());
+                    var _max = Number($('#J_maxBonus').html());
+
+                    switch(_list[0].unit){
+                        case 'yuan':
+                            _model = 1;
+                        break;
+                        case 'jiao':
+                            _model = 0.1;
+                        break;
+                        case 'fen':
+                            _model = 0.01;
+                        break;
+                        case 'li':
+                            _model = 0.001;
+                        break;
+                    }
+                }
+
                 // TODO: 追号
+                layer.open({
+                    type : 1,
+                    skin : 'layui-layer-chase', // 加上边框
+                    area : '1208px', // 宽高
+                    shadeClose : true,
+                    closeBtn: 1,
+                    content : $('#J_chase').html(),
+                    success : function(layero, index) {
+                        $('.J_betTimer').html($('.J_betTimer').html());
+                        if(!_hasProfit){
+                            $('#J_chaseTt span').eq(2).hide();
+
+                            Betting.chaseEvent();
+                        } else {
+                            Betting.chaseEvent({
+                                max : Number((_max * 10000) * _model / 10000).toFixed(4), //最高奖金组
+                                model : _model,
+                                num : _num,//投注总数
+                                price : 2 * _num * _model //单倍投注金额
+                            });
+                        }
+                    }
+                });
             });
 
             // 确认投注
@@ -480,7 +838,8 @@ $(function() {
 
             // 添加选号
             $('#J_addBallToCart').on('click', function(){
-                var _subNav = $('.J_subMenu.active').data('info').split('#')[1];
+                var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
+                var _subNav = ($('.J_subMenu.active').length ? $('.J_subMenu.active').data('info').split('#')[1] : _mainNav);
                 if ($(this).hasClass('disabled')) {
                     return;
                 }
@@ -489,7 +848,7 @@ $(function() {
                 // console.log(_subNav);
                 // console.log(_subNav.indexOf("Any") != 0)
 
-                if($('.J_ballList').length && !$('[data-row="SUM"]').length && (_subNav != 'First5BSOE_PK10' && _subNav != 'Last5BSOE_PK10' && _subNav != 'First5Fixed_PK10' && _subNav != 'Last5Fixed_PK10' && _subNav != 'FixedPlace_11X5' && _subNav.indexOf("Any") != 0)){
+                if($('.J_ballList').length && !$('[data-row="SUM"]').length && (_subNav != 'FixedPlace' && _subNav != 'First5BSOE_PK10' && _subNav != 'Last5BSOE_PK10' && _subNav != 'First5Fixed_PK10' && _subNav != 'Last5Fixed_PK10' && _subNav != 'FixedPlace_11X5' && _subNav.indexOf("Any") != 0)){
                     $.each($('.J_ballList'), function() {
                         var _len = $(this).find('.J_numWrp.active').length;
                         var _min = $(this).data('min');
@@ -508,13 +867,14 @@ $(function() {
 
             // 一键投注
             $('#J_shortcutPlaceOrder').on('click', function(){
-                var _subNav = $('.J_subMenu.active').data('info').split('#')[1];
+                var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
+                var _subNav = ($('.J_subMenu.active').length ? $('.J_subMenu.active').data('info').split('#')[1] : _mainNav);
                 if ($(this).hasClass('disabled')) {
                     return;
                 }
                 var _flag = true;
                 // if($('.J_ballList').length && !$('[data-row="SUM"]').length){
-                if($('.J_ballList').length && !$('[data-row="SUM"]').length && (_subNav != 'First5BSOE_PK10' && _subNav != 'Last5BSOE_PK10' && _subNav != 'First5Fixed_PK10' && _subNav != 'Last5Fixed_PK10' && _subNav != 'FixedPlace_11X5' && _subNav.indexOf("Any") != 0)){
+                if($('.J_ballList').length && !$('[data-row="SUM"]').length && (_subNav != 'FixedPlace' && _subNav != 'First5BSOE_PK10' && _subNav != 'Last5BSOE_PK10' && _subNav != 'First5Fixed_PK10' && _subNav != 'Last5Fixed_PK10' && _subNav != 'FixedPlace_11X5' && _subNav.indexOf("Any") != 0)){
                     $.each($('.J_ballList'), function() {
                         var _len = $(this).find('.J_numWrp.active').length;
                         var _min = $(this).data('min');
@@ -547,9 +907,39 @@ $(function() {
                 var i = $(this).data('i');
                 Betting.randomBalls(i);
             });
+
+            // 快三选择色子
+            $('#J_bettingBox').on('click', '.J_dice', function(){
+                if ($(this).hasClass('active')) {
+                    $(this).removeClass('active');
+                } else {
+                    $(this).addClass('active');
+                }
+
+                var _len = $('.J_dice.active').length;
+
+                Betting.calculateAmount(_len);
+            });
+
+            $('#J_bettingBox').on('click', '.J_diceFast', function(){
+                var _this = $(this);
+                var _v = _this.data('v');
+
+                if (_this.hasClass('active')) {
+                    _this.removeClass('active');
+                    $('.J_dice[data-v*="'+ _v +'"]').removeClass('active');
+                } else {
+                    _this.addClass('active');
+                    $('.J_dice[data-v*="'+ _v +'"]').addClass('active');
+                }
+
+                var _len = $('.J_dice.active').length;
+
+                Betting.calculateAmount(_len);
+            });
         },
         confirmCart: function(_data, type) {
-            // console.log(_data);
+            console.log(_data);
             // return;
             // type : confirm 确认投注    shortcut : 一键投注
             
@@ -561,7 +951,7 @@ $(function() {
                 }
             }, function(data) {
                 // TODO:根据返回金额校验当前用户余额是否足够
-                layer.alert('订单支付成功<br/>投注期号：' + $('#J_betTimer').html() + '期<br/>投注总额：' + data + '元', {
+                layer.alert('订单支付成功<br/>投注期号：' + $('.J_betTimer').html() + '期<br/>投注总额：' + data + '元', {
                     skin: 'bett-alert-dialog',
                     icon: 1
                 });
@@ -583,14 +973,13 @@ $(function() {
             var _formulaList = [];      //公式列表
             var _currentSelect = [];    //当前已选号码的集合
             var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
-            var _subNav = $('.J_subMenu.active').data('info').split('#')[1];
+            var _subNav = ($('.J_subMenu.active').length ? $('.J_subMenu.active').data('info').split('#')[1] : _mainNav);
 
 
             var k = {};
             var _formulaList = [];      //公式列表
 
             
-
 
             if($('.J_ballList').length){
                 // $('.J_ballList').each(function(i){
@@ -621,8 +1010,9 @@ $(function() {
                 }
 
                 _formulaList.push(k);
-
-            } else {
+            } else if($('.J_diceList').length){
+                // console.log(Math.floor(Math.random()*6 + 1));
+            } else if($('#J_ballInputArea').length) {
                 _formulaList = TEMPLATE.allManualEntryEvents(_subNav).bits;
             }
             var a = _formulaList;   //公式列表
@@ -637,7 +1027,7 @@ $(function() {
             var _amount = 0;    //一注的价格
             var _data = [];
             var _miBall = TEMPLATE.allManualEntryEvents(_subNav).miBall;
-// console.log(_subNav);
+            console.log(_subNav);
             if (_currentRule.opt.type == 'text') {
                 // 默认设置为SSC
                 for (var _ddddd = {}, e = Betting.playCode, f = 0; f < a.length; f++){
@@ -752,7 +1142,7 @@ $(function() {
                             for (var k = "", l = Betting.numberRandom(1, i, g), m = 0; m < l.length; m++) k += h + Betting.addZero(l[m] + "", 2);
                             var n = j == 1 * f - 1;
                             
-                            // console.log(k)
+                            console.log(k)
                             // console.log(k.substring(1), 1, e, c, 1, n);
                             _data.push(_getTextRoundData(k.substring(1), 1));
                             // lott.createBetCart(k.substring(1), 1, e, c, 1, n)
@@ -893,22 +1283,32 @@ $(function() {
             } else if(_currentRule.opt.type == 'sum'){
                 var _balls = _currentRule.opt.numList;
                 var _ballSmallNumList = TEMPLATE.getSubNumList(_currentRule.opt.sumType);
-               
 
-                for (var g = Betting.numberRandom(_balls[0], _balls[_balls.length - 1], 1 * _times), h = 0; h < g.length; h++) {
-                    var i = "",
-                        j = 0;
-                    i = g[h] + "", j = _ballSmallNumList[1 * g[h] - 1 * _balls[0]];
-                    var k = h == g.length - 1;
-                    if ("Any3Sum_SSC" == _subNav || "Any2Sum_SSC" == _subNav) {
-                        var l = _subNav.charAt(3),
-                            m = Betting.numberRandom(1, 5, 1 * l);
-                        m.sort(function(a, _beishu) {
-                            return a - _beishu
-                        }), i = m.join("") + "@" + i, j *= 1
+                if(Betting.playCode == 'K3'){
+                    // 快三和值如果是3-18则去掉这个 if判断条件，只剩下else内容
+                    for (var e = _beishu, f = _times, g = a.length - 1 == 1 ? 1 * (_miBall ? _miBall : _minSelect) : a.length - 1, h = a.length - 1 == 1 ? "-" : "_", j = 0; j < 1 * f; j++) {
+                        for (var k = "", l = Betting.numberRandom(3, 18, g), m = 0; m < l.length; m++) k += h + Betting.addZero(l[m] + "", 2);
+                        var n = j == 1 * f - 1;
+                        
+                        console.log(k, j)
+                        _data.push(_getTextRoundData(k.substring(1,3)));
                     }
-                    // console.log(i, j);
-                    _data.push(_getTextRoundData(i, j));
+                } else {
+                    for (var g = Betting.numberRandom(_balls[0], _balls[_balls.length - 1], 1 * _times), h = 0; h < g.length; h++) {
+                        var i = "",
+                            j = 0;
+                        i = g[h] + "", j = _ballSmallNumList[1 * g[h] - 1 * _balls[0]];
+                        var k = h == g.length - 1;
+                        if ("Any3Sum_SSC" == _subNav || "Any2Sum_SSC" == _subNav) {
+                            var l = _subNav.charAt(3),
+                                m = Betting.numberRandom(1, 5, 1 * l);
+                            m.sort(function(a, _beishu) {
+                                return a - _beishu
+                            }), i = m.join("") + "@" + i, j *= 1
+                        }
+                        console.log(i, j);
+                        _data.push(_getTextRoundData(i, j));
+                    }
                 }
             } else if (_currentRule.opt.type == 'mixingAny') {
                 for (var e = 0; e < 1 * _times; e++) {
@@ -1004,6 +1404,16 @@ $(function() {
                     _data.push(_getTextRoundData(f, 1));
                     // lott.createBetCart(f, 1, b, "", 1, g)
                 }
+            } else if (_currentRule.opt.type == 'dice') {
+                // Math.floor(Math.random()*6 + 1)
+                var k_l = $('.J_dice').length;
+                // console.log(k_l);
+                for (var f = 0; f < 1 * _times; f++) {
+                    var k_n = parseInt(Math.random() * k_l);
+                    var g = $('#J_dice_'+k_n).data('v') + '';
+                    // console.log(k_n, g);
+                    _data.push(_getTextRoundData(g, h));
+                }
             } else {
                 if("11X5" == Betting.playCode && "FixedPlace_11X5" == _subNav) {
                     console.log(0);
@@ -1067,28 +1477,14 @@ $(function() {
                 var _FOURTH = $('[data-row="FOURTH"]');
                 var _FIFTH = $('[data-row="FIFTH"]');
 
-                function _transText(num){
-                    var _txt = '';
-                    if(num == 0){
-                        _txt = '大'
-                    } else if(num == 1) {
-                        _txt = '小';
-                    } else if(num == 2) {
-                        _txt = '单';
-                    } else if(num == 3) {
-                        _txt = '双';
-                    }
-                    return _txt;
-                }
-
                 if(_FIRST.length) {
                     if(_currentRule.opt.type == 'taste') {
                         if(Betting.playCode == 'PK10' && type == 4){
-                            _ddd.w = _transText(j);
+                            _ddd.w = TEMPLATE._transText(j);
                             console.log(_ddd.w);
                         } else {
                             if (type == undefined) {
-                                _ddd.w = _transText(j.split('_').join('').split('')[_FIRST.parent('li').index()]);
+                                _ddd.w = TEMPLATE._transText(j.split('_').join('').split('')[_FIRST.parent('li').index()]);
                             }else{
                                 _ddd.w = '';
                             }
@@ -1123,10 +1519,10 @@ $(function() {
                 if(_SECOND.length) {
                     if(_currentRule.opt.type == 'taste') {
                         if(Betting.playCode == 'PK10' && type == 3){
-                            _ddd.q = _transText(j);
+                            _ddd.q = TEMPLATE._transText(j);
                         } else {
                             if (type == undefined) {
-                                _ddd.q = _transText(j.split('_').join('').split('')[_SECOND.parent('li').index()]);
+                                _ddd.q = TEMPLATE._transText(j.split('_').join('').split('')[_SECOND.parent('li').index()]);
                             }else{
                                 _ddd.q = '';
                             }
@@ -1157,10 +1553,10 @@ $(function() {
                 if(_THIRD.length) {
                     if(_currentRule.opt.type == 'taste') {
                         if(Betting.playCode == 'PK10' && type == 2){
-                            _ddd.b = _transText(j);
+                            _ddd.b = TEMPLATE._transText(j);
                         } else {
                             if (type == undefined) {
-                                _ddd.b = _transText(j.split('_').join('').split('')[_THIRD.parent('li').index()]);
+                                _ddd.b = TEMPLATE._transText(j.split('_').join('').split('')[_THIRD.parent('li').index()]);
                             }else{
                                 _ddd.b = '';
                             }
@@ -1192,10 +1588,10 @@ $(function() {
                 if(_FOURTH.length) {
                     if(_currentRule.opt.type == 'taste') {
                         if(Betting.playCode == 'PK10' && type == 1){
-                            _ddd.s = _transText(j);
+                            _ddd.s = TEMPLATE._transText(j);
                         } else {
                             if (type == undefined) {
-                                _ddd.s = _transText(j.split('_').join('').split('')[_FOURTH.parent('li').index()]);
+                                _ddd.s = TEMPLATE._transText(j.split('_').join('').split('')[_FOURTH.parent('li').index()]);
                             }else{
                                 _ddd.s = '';
                             }
@@ -1226,10 +1622,10 @@ $(function() {
                 if(_FIFTH.length) {
                     if(_currentRule.opt.type == 'taste') {
                         if(Betting.playCode == 'PK10' && type == 0){
-                            _ddd.g = _transText(j);
+                            _ddd.g = TEMPLATE._transText(j);
                         } else {
                             if (type == undefined) {
-                                _ddd.g = _transText(j.split('_').join('').split('')[_FIFTH.parent('li').index()]);
+                                _ddd.g = TEMPLATE._transText(j.split('_').join('').split('')[_FIFTH.parent('li').index()]);
                             }else{
                                 _ddd.g = '';
                             }
@@ -1317,7 +1713,7 @@ $(function() {
                                 _ddd.n = j.split('_').join(' | ');
                             } else {
                                 if(_subNav.indexOf("BSOE_PK10") > -1){
-                                    _ddd.n = _transText(j);
+                                    _ddd.n = TEMPLATE._transText(j);
                                 } else {
                                     _ddd.n = j;
                                 }
@@ -1349,7 +1745,7 @@ $(function() {
                 }
 
                 if($('[data-row="SUM"]').length) {
-                    if(Betting.playCode == '11X5' || Betting.playCode == 'PK10') {
+                    if(Betting.playCode == '11X5' || Betting.playCode == 'PK10' || Betting.playCode == 'K3') {
                         _ddd.n = j;
                     } else {
                         _ddd.n = j.split('').sort().join('');
@@ -1357,17 +1753,25 @@ $(function() {
                     _need += 'n';
                 }
 
+                if($('[data-row="DICE"]').length) {
+                    // 快三 骰子
+                    _ddd.n = j;
+                }
+
                 _ddd.multiple = $('#J_beishu').val();
                 _ddd.ajaxType = _currentRule.opt.ajaxType;
                 _ddd.unit = $('#J_unit').data('txt').split('#')[2];
                 _ddd.unitName = $('#J_unit').data('val');
                 _ddd.type = _currentRule.opt.type;
-                _ddd.typeName = $('.J_subMenu.active').text();
                 _ddd.num = num ? num : 1,  //默认每次机选1;
                 _ddd.sum = Betting.formatNumber(_ddd.num * 1 * _ddd.multiple * Number($('#J_unit').data('txt').split('#')[1] * Betting.singleStakesPrice), 4);
                 _ddd.need = _need;
+                if (Betting.playCode == 'K3') {
+                    _ddd.typeName = $('.J_withChild.active').text();
+                } else {
+                    _ddd.typeName = $('.J_subMenu.active').text();
+                }
                 
-                // console.log(_ddd);
                 return _ddd;
             }
 
@@ -1385,6 +1789,7 @@ $(function() {
             var _len = data.length;
             if (data && _len) {
                 $.each(data, function(i, n) {
+                    // console.log(n);
                     _str += '<li class="clearfix" data-type="'+ n.type +'" data-ajaxtype="'+ n.ajaxType +'" data-hex="'+ (n.hex ? n.hex : '') +'" data-need="'+ (n.need == 'sum' ? 'n' : n.need) +'" data-unit="'+ n.unit +'" data-multiple="'+ n.multiple +'" data-w="'+ (n.w ? n.w : '') +'" data-q="'+ (n.q ? n.q : '') +'" data-b="'+ (n.b ? n.b : '') +'" data-s="'+ (n.s ? n.s : '') +'" data-g="'+ (n.g ? n.g : '') +'" data-n="'+ (n.n ? n.n : '') +'" data-n1="'+ (n.n1 ? n.n1 : '') +'" data-n2="'+ (n.n2 ? n.n2 : '') +'" >';
                     _str += '    <div class="t1">'+ n.typeName +'</div>';
                     _str += '    <div class="t2"><div>';
@@ -1402,18 +1807,35 @@ $(function() {
                 });
 
                 function _changeNum(k) {
+                    // console.log(k);
                     var _html = '';
                     if (k.w) {
-                        _html += k.w + (k.q ? ' | ' : '');
+                        if(k.ajaxType == 'any3' || k.ajaxType == 'any4' || k.ajaxType == 'sizeB5' || k.ajaxType == 'sizeA5'){
+                            _html += k.w;
+                        } else {
+                            _html += k.w + (k.q ? ' | ' : '');
+                        }
                     }
                     if (k.q) {
-                        _html += k.q + (k.b ? ' | ' : '');
+                        if(k.ajaxType == 'any3' || k.ajaxType == 'any4' || k.ajaxType == 'sizeB5' || k.ajaxType == 'sizeA5'){
+                            _html += k.q;
+                        } else {
+                            _html += k.q + (k.b ? ' | ' : '');
+                        }
                     }
                     if (k.b) {
-                        _html += k.b + (k.s ? ' | ' : '');
+                        if(k.ajaxType == 'any3' || k.ajaxType == 'any4' || k.ajaxType == 'sizeB5' || k.ajaxType == 'sizeA5'){
+                            _html += k.b;
+                        } else {
+                            _html += k.b + (k.s ? ' | ' : '');
+                        }
                     }
                     if (k.s) {
-                        _html += k.s + (k.g ? ' | ' : '');
+                        if(k.ajaxType == 'any3' || k.ajaxType == 'any4' || k.ajaxType == 'sizeB5' || k.ajaxType == 'sizeA5'){
+                            _html += k.s;
+                        } else {
+                            _html += k.s + (k.g ? ' | ' : '');
+                        }
                     }
                     if (k.g) {
                         _html += k.g;
@@ -1460,6 +1882,8 @@ $(function() {
         resetSelectArea: function() {
             // 重置选区
             $('.J_numWrp.active').removeClass('active');
+            $('.J_dice.active').removeClass('active');
+            $('.J_diceFast.active').removeClass('active');
             Betting.resetBettingBox();
             if ($('#J_ballInputArea').length) {
                 $('#J_ballInputArea').val('');
@@ -1467,6 +1891,9 @@ $(function() {
         },
         getConfirmData: function() {
             var _items = [];
+            var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
+            var _subNav = ($('.J_subMenu.active').length ? $('.J_subMenu.active').data('info').split('#')[1] : _mainNav);
+
             $('#J_betList li').each(function(x, y){
                 var _ajaxData = {};
                 var _this = $(this);
@@ -1484,37 +1911,299 @@ $(function() {
                 }
 
                 if (_type == 'ball') {
-                    $.each(_need.split('#'), function(i, n){
-                        if (n) {
-                            _ajaxData[n] = _this.data(n) + '';
+                    if(Betting.playCode == '11X5'){
+                        if(_subNav == 'First3Straight_11X5' || _subNav == 'First2Straight_11X5' || _subNav == 'FixedPlace_11X5'){
+                            // 11选5前三直选 前二直选 定胆位
+                            _ajaxData.one = '';
+                            _ajaxData.two = '';
+                            if(_subNav != 'First2Straight_11X5'){
+                                _ajaxData.three = '';
+                            }
+                            $.each(_need.split('#'), function(i, n){
+                                switch(n){
+                                    case 'w':
+                                        if(_nums.indexOf('|') > -1) {
+                                            _ajaxData.one = _nums.split('|')[0].replace(/\-/g, ',');
+                                        } else {
+                                            if(_this.data('w')){
+                                                _ajaxData.one = _nums;
+                                            }
+                                        }
+                                    break;
+                                    case 'q':
+                                        if(_nums.indexOf('|') > -1) {
+                                            _ajaxData.two = _nums.split('|')[1].replace(/\-/g, ',');
+                                        } else {
+                                            if(_this.data('q')){
+                                                _ajaxData.two = _nums;
+                                            }
+                                        }
+                                    break;
+                                    case 'b':
+                                        if(_nums.indexOf('|') > -1) {
+                                            _ajaxData.three = _nums.split('|')[2].replace(/\-/g, ',');
+                                        } else {
+                                            if(_this.data('b')){
+                                                _ajaxData.three = _nums;
+                                            }
+                                        }
+                                    break;
+                                }
+                            });
+                        } else {
+                            // 11选5定单双 前三组选 前二组选 前三不定位
+                            var _dds = '';
+                            $.each(_nums.split('-'), function(i, n){
+                                if (n && _subNav == 'OECounts_11X5') {
+                                    _dds += (i == 0 ? '' : ',') + n[0] + n[2];
+                                } else{
+                                    _dds += (i == 0 ? '' : ',') + n;
+                                }
+                            });
+                            _ajaxData.n = _dds;
                         }
-                        _ajaxData[n] = _ajaxData[n].split('').sort().join('');
-                    });
-                } else if(_type == 'text' || _type == 'mixing' || _type == 'mixingAny'){
-                    _ajaxData.n = _nums;
-                } else if(_type == 'sum'){
-                    _ajaxData.n = _nums.replace(/\|/g, ',');;
+                    } else if(Betting.playCode == 'PK10') {
+                        if(_subNav == 'First1_PK10'){
+                            var _dds = '';
+                            $.each(_nums.split('-'), function(i, n){
+                                if (n && _subNav == 'OECounts_11X5') {
+                                    _dds += (i == 0 ? '' : ',') + n[0] + n[2];
+                                } else{
+                                    _dds += (i == 0 ? '' : ',') + n;
+                                }
+                            });
+                            _ajaxData.n = _dds;
+                        } else {
+                            if(_subNav == 'Last5Fixed_PK10'){
+                                _ajaxData.six = '';
+                                _ajaxData.seven = '';
+                                _ajaxData.eight = '';
+                                _ajaxData.nine = '';
+                                _ajaxData.ten = '';
+                            } else {
+                                _ajaxData.one = '';
+                                _ajaxData.two = '';
 
-                } else if(_type == 'taste'){
-                    $.each(_need.split('#'), function(i, n){
-                        if (n) {
-                            _ajaxData[n] = _exchangeToNum(_this.data(n));
+                                if(_subNav.indexOf('First3') > -1 || _subNav.indexOf('First4') > -1 || _subNav.indexOf('First5') > -1){
+                                    _ajaxData.three = '';
+                                }
+                                if(_subNav.indexOf('First4') > -1 || _subNav.indexOf('First5') > -1){
+                                    _ajaxData.four = '';
+                                }
+                                if(_subNav.indexOf('First5') > -1){
+                                    _ajaxData.five = '';
+                                }
+                            }
+                                    console.log(_nums);
+                            $.each(_need.split('#'), function(i, n){
+                                if (n) {
+                                    // console.log(n);
+                                    // _ajaxData[n] = _data[0][n];
+                                    switch(n){
+                                        case 'w':
+                                        if(_subNav == 'First5Fixed_PK10'){
+                                            if(_this.data('w')){
+                                                _ajaxData.one = _nums.replace(/\-/g, ',');
+                                            }
+                                        } else {
+                                            if(_subNav == 'Last5Fixed_PK10'){
+                                                if(_this.data('w')){
+                                                    _ajaxData.six = _nums.replace(/\-/g, ',');
+                                                }
+                                            } else {
+                                                _ajaxData.one = _nums.replace(/\-/g, ',').split('|')[0];
+                                            }
+                                        }
+                                        break;
+                                        case 'q':
+                                        if(_subNav == 'First5Fixed_PK10'){
+                                            if(_this.data('q')){
+                                                _ajaxData.two = _nums.replace(/\-/g, ',');
+                                            }
+                                        } else {
+                                            if(_subNav == 'Last5Fixed_PK10'){
+                                                if(_this.data('q')){
+                                                    _ajaxData.seven = _nums.replace(/\-/g, ',');
+                                                }
+                                            } else {
+                                                _ajaxData.two = _nums.replace(/\-/g, ',').split('|')[1];
+                                            }
+                                        }
+                                        break;
+                                        case 'b':
+                                        if(_subNav == 'First5Fixed_PK10'){
+                                            if(_this.data('b')){
+                                                _ajaxData.three = _nums.replace(/\-/g, ',');
+                                            }
+                                        } else {
+                                            if(_subNav == 'Last5Fixed_PK10'){
+                                                if(_this.data('b')){
+                                                    _ajaxData.eight = _nums.replace(/\-/g, ',');
+                                                }
+                                            } else {
+                                                _ajaxData.three = _nums.replace(/\-/g, ',').split('|')[2];
+                                            }
+                                        }
+                                        break;
+                                        case 's':
+                                        if(_subNav == 'First5Fixed_PK10'){
+                                            if(_this.data('s')){
+                                                _ajaxData.four = _nums.replace(/\-/g, ',');
+                                            }
+                                        } else {
+                                            if(_subNav == 'Last5Fixed_PK10'){
+                                                if(_this.data('s')){
+                                                    _ajaxData.nine = _nums.replace(/\-/g, ',');
+                                                }
+                                            } else {
+                                                _ajaxData.four = _nums.replace(/\-/g, ',').split('|')[3];
+                                            }
+                                        }
+                                        break;
+                                        case 'g':
+                                        if(_subNav == 'First5Fixed_PK10'){
+                                            if(_this.data('g')){
+                                                _ajaxData.five = _nums.replace(/\-/g, ',');
+                                            }
+                                        } else {
+                                            if(_subNav == 'Last5Fixed_PK10'){
+                                                if(_this.data('g')){
+                                                    _ajaxData.ten = _nums.replace(/\-/g, ',');
+                                                }
+                                            } else {
+                                                _ajaxData.five = _nums.replace(/\-/g, ',').split('|')[4];
+                                            }
+                                        }
+                                        break;
+                                    }
+                                }
+                            });
                         }
-                    });
-
-                    function _exchangeToNum(name){
-                        var _num = '0';
-                        if(name == '大'){
-                            _num = '0';
-                        } else if (name == '小') {
-                            _num = '1';
-                        } else if (name == '单') {
-                            _num = '2';
-                        } else if (name == '双') {
-                            _num = '3';
+                    } else {
+                        if(_subNav == 'FixedPlace'){
+                            _ajaxData.w = '';
+                            _ajaxData.q = '';
+                            _ajaxData.b = '';
+                            _ajaxData.s = '';
+                            _ajaxData.g = '';
+                            $.each(_need.split('#'), function(i, n){
+                                if (n) {
+                                    _ajaxData[n] = _this.data(n) + '';
+                                    _ajaxData[n] = _ajaxData[n].split('').sort().join('');
+                                }
+                            });
+                        } else {
+                            $.each(_need.split('#'), function(i, n){
+                                if (n) {
+                                    _ajaxData[n] = _this.data(n) + '';
+                                    _ajaxData[n] = _ajaxData[n].split('').sort().join('');
+                                }
+                            });
                         }
-                        return _num;
                     }
+                } else if(_type == 'text' || _type == 'mixing' || _type == 'mixingAny'){
+                    if(Betting.playCode == '11X5'){
+                        console.log(_nums);
+                        if(_subNav.indexOf('First') > -1){
+                            //11选5 前二 前三 单式
+                            console.log(_nums);
+                            _ajaxData.n = _nums.replace(/\|/g, ' ').replace(/\,/g, '|').replace(/\-/g, ',').replace(/\ /g, ',');
+                            // _ajaxData.n = _nums.replace(/\,/g, '|').replace(/\ \| /g, ',');
+
+                        } else {
+                            // 11选5任选单式
+                            _ajaxData.n = _nums.replace(/\,/g, '|').replace(/\-/g, ',');
+                        }
+                    } else if (Betting.playCode == 'SSC') {
+                        _ajaxData.n = _nums.replace(/\|/g, ',');
+                    } else if (Betting.playCode == 'PK10') {
+                        _ajaxData.n = _nums.replace(/\|/g, '=').replace(/\,/g, '|').replace(/\=/g, ',');
+                    } else {
+                        _ajaxData.n = _nums;
+                    }
+                } else if(_type == 'sum'){
+                    if(_ajaxData.type == 'sum'){
+                        // 快三和值
+                        _ajaxData.c = _nums;
+                    } else {
+                        _ajaxData.n = _nums.replace(/\|/g, ',');
+                    }
+                } else if(_type == 'taste'){
+                    if(Betting.playCode == 'PK10'){
+                        if (_subNav == 'First5BSOE_PK10' || _subNav == 'Last5BSOE_PK10') {
+                            if(_subNav == 'Last5BSOE_PK10'){
+                                _ajaxData.six = '';
+                                _ajaxData.seven = '';
+                                _ajaxData.eight = '';
+                                _ajaxData.nine = '';
+                                _ajaxData.ten = '';
+                            } else {
+                                _ajaxData.one = '';
+                                _ajaxData.two = '';
+                                _ajaxData.three = '';
+                                _ajaxData.four = '';
+                                _ajaxData.five = '';
+                            }
+                            console.log(_nums);
+                            $.each(_need.split('#'), function(i, n){
+                                if (n && _this.data(n)) {
+                                    // console.log(n);
+                                    switch(n){
+                                        case 'w':
+                                        if(_subNav == 'Last5BSOE_PK10'){
+                                            _ajaxData.six = TEMPLATE._exchangeToNum(_this.data(n));
+                                        }else{
+                                            _ajaxData.one = TEMPLATE._exchangeToNum(_this.data(n));
+                                        }
+                                        break;
+                                        case 'q':
+                                        if(_subNav == 'Last5BSOE_PK10'){
+                                            _ajaxData.seven = TEMPLATE._exchangeToNum(_this.data(n));
+                                        }else{
+                                            _ajaxData.two = TEMPLATE._exchangeToNum(_this.data(n));
+                                        }
+                                        break;
+                                        case 'b':
+                                        if(_subNav == 'Last5BSOE_PK10'){
+                                            _ajaxData.eight = TEMPLATE._exchangeToNum(_this.data(n));
+                                        }else{
+                                            _ajaxData.three = TEMPLATE._exchangeToNum(_this.data(n));
+                                        }
+                                        break;
+                                        case 's':
+                                        if(_subNav == 'Last5BSOE_PK10'){
+                                            _ajaxData.nine = TEMPLATE._exchangeToNum(_this.data(n));
+                                        }else{
+                                            _ajaxData.four = TEMPLATE._exchangeToNum(_this.data(n));
+                                        }
+                                        break;
+                                        case 'g':
+                                        if(_subNav == 'Last5BSOE_PK10'){
+                                            _ajaxData.ten = TEMPLATE._exchangeToNum(_this.data(n));
+                                        }else{
+                                            _ajaxData.five = TEMPLATE._exchangeToNum(_this.data(n));
+                                        }
+                                        break;
+                                    }
+                                }
+                            });
+                        } else {
+                            _ajaxData.n = TEMPLATE._exchangeToNum(_nums);
+                        }
+                    } else {
+                        $.each(_need.split('#'), function(i, n){
+                            if (n) {
+                                _ajaxData[n] = TEMPLATE._exchangeToNum(_this.data(n));
+                            }
+                        });
+                    }
+                } else if(_type == 'dice'){
+                    _ajaxData.c = _nums;
+                } else if(_type == '11x5' || _type == 'czwBall'){
+                    console.log(_nums);
+                    _ajaxData.n = _nums.replace(/\-/g, ',');
+                } else if(_type == 'dragonTiger') {
+                    _ajaxData.n = TEMPLATE._exchangeToNumDT(_nums);
                 }
 
                 _items.push(_ajaxData);
@@ -1531,10 +2220,13 @@ $(function() {
                 url: '/bet/lists',
                 data: {
                     page: options.page,
-                    pageSize: options.pageSize
+                    pageSize: options.pageSize,
+                    product_id: GLOBAL.getRequestURL().id
                 }
             }, function(data) {
                 var _str = '';
+
+                // console.log(Betting.playCode);
 
                 if (data.total > 0) {
                     $.each(data.data, function(i, n){
@@ -1578,7 +2270,7 @@ $(function() {
 
                     $('#J_betHistoryPage').show();
                     $('#J_curPage').html(data.current_page);
-                    $('#J_totalPage').html(data.total);
+                    $('#J_totalPage').html(Math.ceil(data.total / options.pageSize));
                 } else {
                     _str += '<li class="empty">您没有投注历史！</li>';
                     $('#J_betHistoryPage').hide();
@@ -1588,9 +2280,10 @@ $(function() {
             });
         },
         shortcutPlaceOrder: function() {
+            // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
             var _items = [];
             var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
-            var _subNav = $('.J_subMenu.active').data('info').split('#')[1];
+            var _subNav = ($('.J_subMenu.active').length ? $('.J_subMenu.active').data('info').split('#')[1] : _mainNav);
             var _currentRule = TEMPLATE[_mainNav]({
                 type : _subNav
             });
@@ -1606,39 +2299,216 @@ $(function() {
                 _ajaxData.hex = _data[0].hex.split('').join(',');
             }
 
+
+            console.log(_type, _subNav);
+            console.log(_data);
+
             if (_type == 'ball') {
-                $.each(_data[0].need.split('#'), function(i, n){
-                    if (n) {
-                        _ajaxData[n] = _data[0][n];
+                if(Betting.playCode == '11X5'){
+                    if(_subNav == 'First3Straight_11X5' || _subNav == 'First2Straight_11X5' || _subNav == 'FixedPlace_11X5'){
+                        // 11选5前三直选 前二直选 定胆位
+                        _ajaxData.one = '';
+                        _ajaxData.two = '';
+                        if(_subNav != 'First2Straight_11X5'){
+                            _ajaxData.three = '';
+                        }
+                        $.each(_data[0].need.split('#'), function(i, n){
+                            switch(n){
+                                case 'w':
+                                    _ajaxData.one = _data[0].w.replace(/\-/g, ',');
+                                break;
+                                case 'q':
+                                    _ajaxData.two = _data[0].q.replace(/\-/g, ',');
+                                break;
+                                case 'b':
+                                    _ajaxData.three = _data[0].b.replace(/\-/g, ',');
+                                break;
+                            }
+                        });
+                    } else {
+                        // 11选5定单双 前三组选 前二组选 前三不定位
+                        var _dds = '';
+                        $.each(_data[0].n.split('-'), function(i, n){
+                            if (n && _subNav == 'OECounts_11X5') {
+                                _dds += (i == 0 ? '' : ',') + n[0] + n[2];
+                            } else{
+                                _dds += (i == 0 ? '' : ',') + n;
+                            }
+                        });
+                        _ajaxData.n = _dds;
                     }
-                });
+                } else if(Betting.playCode == 'PK10') {
+                    if(_subNav == 'First1_PK10'){
+                        var _dds = '';
+                        $.each(_data[0].n.split('-'), function(i, n){
+                            if (n && _subNav == 'OECounts_11X5') {
+                                _dds += (i == 0 ? '' : ',') + n[0] + n[2];
+                            } else{
+                                _dds += (i == 0 ? '' : ',') + n;
+                            }
+                        });
+                        _ajaxData.n = _dds;
+                    } else {
+                        $.each(_data[0].need.split('#'), function(i, n){
+                            console.log(n);
+                            if (n) {
+                                // _ajaxData[n] = _data[0][n];
+                                switch(n){
+                                    case 'w':
+                                    if(_subNav == 'Last5Fixed_PK10'){
+                                        _ajaxData.six = _data[0].w.replace(/\-/g, ',');
+                                    } else {
+                                        _ajaxData.one = _data[0].w.replace(/\-/g, ',');
+                                    }
+                                    break;
+                                    case 'q':
+                                    if(_subNav == 'Last5Fixed_PK10'){
+                                        _ajaxData.seven = _data[0].q.replace(/\-/g, ',');
+                                    } else {
+                                        _ajaxData.two = _data[0].q.replace(/\-/g, ',');
+                                    }
+                                    break;
+                                    case 'b':
+                                    if(_subNav == 'Last5Fixed_PK10'){
+                                        _ajaxData.eight = _data[0].b.replace(/\-/g, ',');
+                                    } else {
+                                        _ajaxData.three = _data[0].b.replace(/\-/g, ',');
+                                    }
+                                    break;
+                                    case 's':
+                                    if(_subNav == 'Last5Fixed_PK10'){
+                                        _ajaxData.nine = _data[0].s.replace(/\-/g, ',');
+                                    } else {
+                                        _ajaxData.four = _data[0].s.replace(/\-/g, ',');
+                                    }
+                                    break;
+                                    case 'g':
+                                    if(_subNav == 'Last5Fixed_PK10'){
+                                        _ajaxData.ten = _data[0].g.replace(/\-/g, ',');
+                                    } else {
+                                        _ajaxData.five = _data[0].g.replace(/\-/g, ',');
+                                    }
+                                    break;
+
+                                }
+                            }
+                        });
+                    }
+                } else {
+                    $.each(_data[0].need.split('#'), function(i, n){
+                        if (n) {
+                            _ajaxData[n] = _data[0][n];
+                        }
+                    });
+                }
             } else if(_type == 'text' || _type == 'mixing'){
-                _ajaxData.n = _data[0].n.replace(/( \| )/g, ',');
+                if(Betting.playCode == '11X5'){
+                    if(_subNav.indexOf('First') > -1){
+                        //11选5 前二 前三 单式
+                        console.log(_data[0].n)
+                        // _ajaxData.n = _data[0].n.replace(/\ \| /g, ' ').replace(/\,/g, '|').replace(/\-/g, ',');
+                        if(_data[0].n.indexOf('-') > -1){
+                            _ajaxData.n = _data[0].n.replace(/\-/g, '=').replace(/\,/g, '|').replace(/\=/g, ',');
+                        }else{
+                            _ajaxData.n = _data[0].n.replace(/\,/g, '|').replace(/\ \| /g, ',');
+                        }
+                        // _ajaxData.n = _data[0].n.replace(/\|/g, ' ').replace(/\,/g, '|').replace(/\-/g, ',').replace(/\ /g, ',');
+
+                    } else {
+                        // 11选5任选单式
+                        _ajaxData.n = _data[0].n.replace(/\,/g, '|').replace(/\-/g, ',');
+                    }
+                } else if (Betting.playCode == 'PK10') {
+                    console.log(_data[0].n);
+                    // _ajaxData.n = _data[0].n.replace(/\|/g, '=').replace(/\,/g, '|').replace(/\=/g, ',');
+                    _ajaxData.n = _data[0].n.replace(/\|/g, '=').replace(/\,/g, '|').replace(/\=/g, ',').replace(/\ /g, '');
+                } else {
+                    _ajaxData.n = _data[0].n.replace(/( \| )/g, ',');
+                }
             } else if(_type == 'sum'){
-                // console.log(_data[0].n);
-                _ajaxData.n = _data[0].n.replace(/(\|)/g, ',');
+                if(_subNav == 'K3_SUM'){
+                    // 快三和值
+                    _ajaxData.c = _data[0].n.replace(/(\ )/g, '');
+                }else{
+                    console.log(_data[0].n)
+                    _ajaxData.n = _data[0].n.replace(/(\ \| )/g, ',');
+                    console.log(_ajaxData.n);
+                }
             } else if(_type == 'mixingAny'){
                 _ajaxData.n = _data[0].n;
             } else if(_type == 'taste'){
-                $.each(_data[0].need.split('#'), function(i, n){
-                    if (n) {
-                        _ajaxData[n] = _exchangeToNum(_data[0][n]);
+                if(Betting.playCode == 'PK10'){
+                    if (_subNav == 'First5BSOE_PK10' || _subNav == 'Last5BSOE_PK10') {
+                        if(_subNav == 'Last5BSOE_PK10'){
+                            _ajaxData.six = '';
+                            _ajaxData.seven = '';
+                            _ajaxData.eight = '';
+                            _ajaxData.nine = '';
+                            _ajaxData.ten = '';
+                        } else {
+                            _ajaxData.one = '';
+                            _ajaxData.two = '';
+                            _ajaxData.three = '';
+                            _ajaxData.four = '';
+                            _ajaxData.five = '';
+                        }
+                        $.each(_data[0].need.split('#'), function(i, n){
+                            if (n && _data[0][n]) {
+                                switch(n){
+                                    case 'w':
+                                    if(_subNav == 'Last5BSOE_PK10'){
+                                        _ajaxData.six = TEMPLATE._exchangeToNum(_data[0].w);
+                                    } else {
+                                        _ajaxData.one = TEMPLATE._exchangeToNum(_data[0].w);
+                                    }
+                                    break;
+                                    case 'q':
+                                    if(_subNav == 'Last5BSOE_PK10'){
+                                        _ajaxData.seven = TEMPLATE._exchangeToNum(_data[0].q);
+                                    } else {
+                                        _ajaxData.two = TEMPLATE._exchangeToNum(_data[0].q);
+                                    }
+                                    break;
+                                    case 'b':
+                                    if(_subNav == 'Last5BSOE_PK10'){
+                                        _ajaxData.eight = TEMPLATE._exchangeToNum(_data[0].b);
+                                    } else {
+                                        _ajaxData.three = TEMPLATE._exchangeToNum(_data[0].b);
+                                    }
+                                    break;
+                                    case 's':
+                                    if(_subNav == 'Last5BSOE_PK10'){
+                                        _ajaxData.nine = TEMPLATE._exchangeToNum(_data[0].s);
+                                    } else {
+                                        _ajaxData.four = TEMPLATE._exchangeToNum(_data[0].s);
+                                    }
+                                    break;
+                                    case 'g':
+                                    if(_subNav == 'Last5BSOE_PK10'){
+                                        _ajaxData.ten = TEMPLATE._exchangeToNum(_data[0].g);
+                                    } else {
+                                        _ajaxData.five = TEMPLATE._exchangeToNum(_data[0].g);
+                                    }
+                                    break;
+                                }
+                            }
+                        });
+                    } else {
+                        _ajaxData.n = TEMPLATE._exchangeToNum(_data[0].n);
                     }
-                });
-
-                function _exchangeToNum(name){
-                    var _num = '0';
-                    if(name == '大'){
-                        _num = '0';
-                    } else if (name == '小') {
-                        _num = '1';
-                    } else if (name == '单') {
-                        _num = '2';
-                    } else if (name == '双') {
-                        _num = '3';
-                    }
-                    return _num;
+                } else {
+                    $.each(_data[0].need.split('#'), function(i, n){
+                        if (n) {
+                            _ajaxData[n] = TEMPLATE._exchangeToNum(_data[0][n]);
+                        }
+                    });
                 }
+            } else if(_type == 'dice'){
+                _ajaxData.c = _data[0].n.replace(/\ /g, '');
+            } else if(_type == '11x5' || _type == 'czwBall'){
+                _ajaxData.n = _data[0].n.replace(/\-/g, ',');
+            } else if(_type == 'dragonTiger') {
+                _ajaxData.n = TEMPLATE._exchangeToNumDT(_data[0].n);
             }
 
             _items.push(_ajaxData);
@@ -1657,7 +2527,7 @@ $(function() {
             options.hasSelect = options.hasSelect || false;
 
             var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
-            var _subNav = $('.J_subMenu.active').data('info').split('#')[1];
+            var _subNav = ($('.J_subMenu.active').length ? $('.J_subMenu.active').data('info').split('#')[1] : _mainNav);
             var _currentRule = TEMPLATE[_mainNav]({
                 type : _subNav
             });
@@ -1697,6 +2567,7 @@ $(function() {
             // _formulaList.push(_currentSelect);
             // console.log(_formulaList);
             // return;
+            // console.log(_currentRule);
 
             var _selectNum = _currentRule.opt.formula(_formulaList, options);   //通过相应公式计算注数
 
@@ -1719,7 +2590,7 @@ $(function() {
             // type : ball
             // 获取选择的数据
             var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
-            var _subNav = $('.J_subMenu.active').data('info').split('#')[1];
+            var _subNav = ($('.J_subMenu.active').length ? $('.J_subMenu.active').data('info').split('#')[1] : _mainNav);
 
             var _data = [];
             var _rule = TEMPLATE[_mainNav]({
@@ -1729,13 +2600,17 @@ $(function() {
             var _d = {};
 
             _d.type = _opt.type;   //选号类型
-            _d.typeName = $('.J_subMenu.active').text();    //玩法类型名称
             _d.multiple = $('#J_beishu').val(); //投注倍数
             _d.unit = $('#J_unit').data('txt').split('#')[2];   //投注金额单位：yuan,jiao,fen,li
             _d.unitName = $('#J_unit').data('val'); //投注金额单位 元角分厘
             _d.sum = $('#J_selectionBallAmount').text();    //投注金额
             _d.num = $('#J_selectionBallStakes').text();    //投注注数
             _d.ajaxType = _opt.ajaxType;
+            if (Betting.playCode == 'K3'){
+                _d.typeName = $('.J_withChild.active').text();    //玩法类型名称
+            } else {
+                _d.typeName = $('.J_subMenu.active').text();    //玩法类型名称
+            }
 
             if (_opt.type == 'ball' || _opt.type == 'taste' || _opt.type == 'sum' || _opt.type == 'mixingAny' || _opt.type == '11x5' || _opt.type == 'czwBall' || _opt.type == 'dragonTiger') {
                 var _n = '';
@@ -1853,7 +2728,7 @@ $(function() {
                             if (i == $('[data-row="SUM"] .J_numWrp.active').length - 1) {
                                 _sum += $(this).text();
                             } else {
-                                _sum += $(this).text() +'|';
+                                _sum += $(this).text() +' | ';
                             }
                         });
                         _d.n = _sum;
@@ -1862,12 +2737,12 @@ $(function() {
                 });
                 
                 _d.need = _need;  //需要的数据类型
-            } else if(_rule.opt.type == 'text' || _rule.opt.type == 'mixing'){
+            } else if(_opt.type == 'text' || _opt.type == 'mixing'){
                 // TODO : 文本域上传
                 _d.need = 'n';
 
                 var _ball = '';
-
+                console.log(Betting.textArea);
                 if (_opt.haveCheckbox) {
                     _ball = Betting.textArea[0].ball;
                     if(_ball.indexOf('@') >= 0){
@@ -1901,7 +2776,15 @@ $(function() {
                     }
                 });
                 _d.n = _nums;
-            } 
+            } else if(_opt.type == 'dice') {
+                // 快三
+                _d.need = 'n';
+                var _nums = '';
+                $('.J_dice.active').each(function(i, n){
+                    _nums += (i == 0 ? '' : ' | ') + $(this).data('v');
+                });
+                _d.n = _nums;
+            }
 
             if (_opt.haveCheckbox) {
                 var _hex = '';
@@ -1930,7 +2813,7 @@ $(function() {
         renderMaxBonus: function(mainNavType, subNavType) {
             // 渲染最高奖金
             var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
-            var _subNav = $('.J_subMenu.active').data('info').split('#')[1];
+            var _subNav = ($('.J_subMenu.active').length ? $('.J_subMenu.active').data('info').split('#')[1] : _mainNav);
             var _data = TEMPLATE[_mainNav]({
                 type: _subNav
             });
@@ -1947,13 +2830,17 @@ $(function() {
         renderSubMenu: function(mainNavType) {
             // 渲染次级菜单
             var _html = TEMPLATE[mainNavType]();
-            $('#J_subMenuList').html(_html.dom);
-            $('#J_bettingRule').html(_html.rule);
+            if (_html && _html.dom) {
+                $('#J_subMenuList').html(_html.dom);
+            }
+            if (_html && _html.rule) {
+                $('#J_bettingRule').html(_html.rule);
+            }
 
             Betting.renderSelectArea();
         },
         quicklySelect: function(elm, need, not) {
-            var _subNav = $('.J_subMenu.active').data('info').split('#')[1];
+            var _subNav = ($('.J_subMenu.active').length ? $('.J_subMenu.active').data('info').split('#')[1] : _mainNav);
             if(Betting.playCode == '11X5' || Betting.playCode == 'PK10' && -1 == _subNav.indexOf("BSOE_PK10")) {
                 if(need == ':odd' && not == ':even'){
                     not = ':odd';
@@ -2039,7 +2926,8 @@ $(function() {
                 }
             }
             // 根据选择的注数计算金额
-            var _type = $('.J_subMenu.active').data('info').split('#')[1];
+            var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
+            var _type = ($('.J_subMenu.active').length ? $('.J_subMenu.active').data('info').split('#')[1] : _mainNav);
             var _amount = 0;
 
             if (0 == _type.indexOf("Any4Com") || 0 == _type.indexOf("Any3Com") || 0 == _type.indexOf("Any3Sum") || 0 == _type.indexOf("Any2Com") || 0 == _type.indexOf("Any2Sum")) {
@@ -2067,11 +2955,12 @@ $(function() {
             return g
         },
         textAreaBallChange: function(){
-            var _subNav = $('.J_subMenu.active').data('info').split('#')[1];
+            var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
+            var _subNav = ($('.J_subMenu.active').length ? $('.J_subMenu.active').data('info').split('#')[1] : _mainNav);
             var a = true;
             // console.log(_subNav);
             var b = TEMPLATE.allManualEntryEvents(_subNav);
-            console.log(b);
+            // console.log(b);
             if (_subNav == 'Last3Com' || _subNav == 'First3Com' || _subNav == 'Middle3Com' || _subNav == 'Last3Com_LF' || _subNav == 'P3Com_LF' || _subNav == 'Any3Com_SSC') {
                 a = false;
             }
@@ -2106,7 +2995,7 @@ $(function() {
             }
         },
         bindUploadEvent: function() {
-            // var _subNav = $('.J_subMenu.active').data('info').split('#')[1];
+            // var _subNav = ($('.J_subMenu.active').length ? $('.J_subMenu.active').data('info').split('#')[1] : _mainNav);
             // var a = true;
             // var b = TEMPLATE.allManualEntryEvents(_subNav);
             // if (_subNav == 'Last3Com' || _subNav == 'First3Com' || _subNav == 'Middle3Com' || _subNav == 'Last3Com_LF' || _subNav == 'P3Com_LF' || _subNav == 'Any3Com_SSC') {
@@ -2277,11 +3166,12 @@ $(function() {
             return !0
         },
         calculateESFManualEntryStakes: function(a, b) {
-            console.log('calculateESFManualEntryStakes');
+            // console.log('calculateESFManualEntryStakes');
             console.log(a);
             console.log(b);
             Betting.textArea = [];
-            var _subNav = $('.J_subMenu.active').data('info').split('#')[1];
+            var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
+            var _subNav = ($('.J_subMenu.active').length ? $('.J_subMenu.active').data('info').split('#')[1] : _mainNav);
             var c = $("#J_ballInputArea").val(),
                 d = Betting.ESFManualEntryDisassemble(c, b);
             if (0 != d.length) {
@@ -2307,9 +3197,11 @@ $(function() {
             }
         },
         calculateSSCAnyManualEntryStakes: function(a) {
+            console.log('calculateSSCAnyManualEntryStakes');
             // 时时彩任选的时候文本域事件
             Betting.textArea = [];
-            var _subNav = $('.J_subMenu.active').data('info').split('#')[1];
+            var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
+            var _subNav = ($('.J_subMenu.active').length ? $('.J_subMenu.active').data('info').split('#')[1] : _mainNav);
             var _nowChose = [];
             $('.J_CheckBox.active').each(function(){
                 _nowChose.push($(this).data('id') + '');
@@ -2322,6 +3214,7 @@ $(function() {
                 _val = $("#J_ballInputArea").val();
             };
             var c = Betting.manualEntryDisassemble(_val);
+            console.log(c);
             if (0 != c.length) {
                 var d = 0,
                     e = [];
@@ -2336,11 +3229,13 @@ $(function() {
                     var h = "Any3Com_SSC" == _subNav || "Any2Com_SSC_Single" == _subNav ? _nowChose + "@" + e.join(",") : e.join(","),
                         i = "Any3Com_SSC" == _subNav || "Any2Com_SSC_Single" == _subNav ? d * _planLen.length : d,
                         j = {
-                            ball: h,
+                            // ball: h, //用哪个？？
+                            ball: c.join(','),
                             stakes: i,
                             type: 2,
                             digit: a.digit
                         };
+                    // console.log(h);
                     Betting.textArea.push(j);
                 }
 
@@ -2348,6 +3243,7 @@ $(function() {
             }
         },
         calculateSSCManualEntryStakes: function(a, b) {
+            console.log('calculateSSCManualEntryStakes');
             // 时时彩的普通文本域事件
             // TEMPLATE.sameComparer()
             Betting.textArea = [];

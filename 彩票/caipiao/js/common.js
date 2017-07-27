@@ -5,6 +5,7 @@
 		isDeatil: false,
 		timer: null,
 		timer2: null,
+		lottBetTimer: [],
 		chartW: [0,0,0,0,0,0,0,0,0,0],
 		chartQ: [0,0,0,0,0,0,0,0,0,0],
 		chartB: [0,0,0,0,0,0,0,0,0,0],
@@ -147,6 +148,12 @@
 				url: '/product/lists'
 			}, function(data) {
 				var _data = data.data;
+
+
+				_data.length = 3;
+				console.log(_data);
+
+
 				var _type = 1;
 				$.each(_data, function(i, val) {
 					if (val.code == 'jiangsu_fast_three') {
@@ -180,11 +187,87 @@
 				});
 			});
 		},
+		countDown2: function(intDiff, suffix, $id) {
+			COMMON.clearLottBetTimer();
+			var timer = window.setInterval(function() {
+				var day = 0,
+					hour = 0,
+					minute = 0,
+					second = 0; //时间默认值
+
+				if (intDiff >= 0) {
+					day = Math.floor(intDiff / (60 * 60 * 24));
+					hour = Math.floor(intDiff / (60 * 60)) - (day * 24);
+					minute = Math.floor(intDiff / 60) - (day * 24 * 60) - (hour * 60);
+					second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
+				} else {
+					// TODO: 结束提示
+					if (COMMON.isDeatil || COMMON.isChart) {
+						GLOBAL.alert('第<span style="padding:0 5px;">' + $('.J_betTimer').html() + '</span>期已结束<br/>请留意投注期号。', 2000);
+					}
+
+					// COMMON.clearLottBetTimer();
+
+					// if(COMMON.isIndex){
+						COMMON.homeBallInfo();	//一起刷新
+					// } else {
+						// COMMON.getBallInfo($id);	//单独刷新一个，显示可能会有差别
+					// }
+					return;
+				}
+				// $('#day_show' + suffix).html(day);
+				if (hour <= 9) {
+					hour = '0' + hour;
+				}
+				if (minute <= 9) {
+					minute = '0' + minute;
+				}
+				if (second <= 9) {
+					second = '0' + second;
+				}
+
+				if (COMMON.isIndex) {
+					$('#J_hourShow' + suffix).html(hour);
+					$('#J_minuteShow' + suffix).html(minute);
+					$('#J_secondShow' + suffix).html(second);
+				} else {
+					second += '';
+					$('.J_countDownNum').html('<em>' + hour.substr(0, 1) + '</em><em>' + hour.substr(1, 1) + '</em><span>:</span><em>' + minute.substr(0, 1) + '</em><em>' + minute.substr(1, 1) + '</em><span>:</span><em>' + second.substr(0, 1) + '</em><em>' + second.substr(1, 1) + '</em>');
+				}
+				intDiff--;
+
+				// 提前10s停止投注
+				if(intDiff <= 10){
+					$('#J_shortcutPlaceOrder,#J_confirmBets').addClass('disabled');
+				} else {
+					if(!$('#J_addBallToCart').hasClass('disabled') ){
+						$('#J_shortcutPlaceOrder').removeClass('disabled');
+					}
+					if($('#J_betList li').length){
+						$('#J_confirmBets').removeClass('disabled');
+					}
+				}
+			}, 1000);
+
+			COMMON.lottBetTimer.push(timer);
+		},
+		clearLottBetTimer: function() {
+	        if (COMMON.lottBetTimer.length > 0) {
+	            for (var i = 0; i < COMMON.lottBetTimer.length; i++){
+	            	window.clearInterval(COMMON.lottBetTimer[i]);
+	            }
+	            COMMON.lottBetTimer = []
+	        }
+	        // globalVar.syncRate = 1
+	    },
 		countDown: function(intDiff, suffix, $id) {
 			// console.log(intDiff, suffix, $id)
 			// window.clearInterval(t);
-			var xxxx = window.setInterval(function() {
-			// COMMON.timer2 = window.setInterval(function() {
+			// if(COMMON.isDeatil){
+			clearInterval(COMMON.timer2);
+			// }
+			// var xxxx = window.setInterval(function() {
+			COMMON.timer2 = window.setInterval(function() {
 				var day = 0,
 					hour = 0,
 					minute = 0,
@@ -202,10 +285,18 @@
 					}
 					// clearInterval(COMMON.timer);
 					// clearInterval(COMMON.timer2);
-					clearInterval(xxxx);
+					// clearInterval(xxxx);
+					clearInterval(COMMON.timer2);
 
-					COMMON.getBallInfo($id);	//单独刷新一个，显示可能会有差别
-					// COMMON.homeBallInfo();	//一起刷新
+					if(COMMON.isIndex){
+						console.log('aaaaaaaaa');
+						// clearInterval(COMMON.timer2);
+						// COMMON.homeBallInfo();	//一起刷新
+					} else {
+						COMMON.getBallInfo($id);	//单独刷新一个，显示可能会有差别
+					}
+
+					
 					return;
 				}
 				// $('#day_show' + suffix).html(day);
@@ -242,9 +333,12 @@
 				}
 			}, 1000);
 		},
-		getBallInfo: function($id) {
+		getBallInfo: function($id, getList) {
+			// console.log($id, getList);
+			// clearInterval(COMMON.timer2);
 			// window.clearInterval(COMMON.timer2);
 			var _url = GLOBAL.getRequestURL();
+			var _renderHistory = getList != undefined ? getList : true;
 			GLOBAL.getAjaxData({
 				url: '/product/detail',
 				data: {
@@ -260,10 +354,12 @@
 					$('.J_productLogo').attr('src', data.logo);
 					// TODO: 详情页
 					if(_url.name.indexOf('beijing') > -1) {
-						$('.J_betTimer').html(COMMON.fillLenght(data.periods.num, 3, '0')).data('n', data.periods.date + '-' + COMMON.fillLenght(data.periods.num, 3, '0')); //彩票期数
+						$('.J_betTimer').html(COMMON.fillLenght(data.periods.num, 3, '0')); //彩票期数
 					} else {
-						$('.J_betTimer').html(data.periods.date + '-' + COMMON.fillLenght(data.periods.num, 3, '0')).data('n', data.periods.date + '-' + COMMON.fillLenght(data.periods.num, 3, '0')); //彩票期数
+						$('.J_betTimer').html(data.periods.date + '-' + COMMON.fillLenght(data.periods.num, 3, '0')); //彩票期数
 					}
+					// console.log((data.periods.date + '-' + COMMON.fillLenght(data.periods.num, 3, '0')));
+					$('.J_betTimer').data('n', (data.periods.date + '-' + COMMON.fillLenght(data.periods.num, 3, '0')));
 					// $('#countDown').val(parseInt(data.periods.lottery_surplus)); //距离开奖时间 秒数
 					$('#orderId').val(data.periods.id);
 
@@ -272,7 +368,10 @@
 					COMMON.lotteryNum('J_drawResult', data.prev_periods.lottery_num, $id);
 					$('#J_dataNum').text(data.prev_periods.date + '-' + COMMON.fillLenght(data.prev_periods.num, 3, '0'));
 
-					COMMON.renderHistory();
+					if(_renderHistory){
+						console.log('renderHistory=========')
+						COMMON.renderHistory();
+					}
 				}
 			});
 		},
@@ -296,7 +395,6 @@
 
 			// }
 
-			clearTimeout(COMMON.timer);
 			// window.clearInterval(t);
 			//处理开奖号
 			if (num.length > 0) {
@@ -315,8 +413,9 @@
 				$('#' + _id).html(_str);
 			} else {
 				// 没获取到最新的数据三秒获取一次
+				clearTimeout(COMMON.timer);
 				COMMON.timer = setTimeout(function(){
-					COMMON.getBallInfo();
+					COMMON.getBallInfo(_url.id, false);
 				}, 10000);
 			}
 		},
@@ -359,31 +458,41 @@
 				$('#J_lastThreeDrawResult2').find('dd').remove();
 				$.each(d.data, function(k, val) {
 					_lottery_num = val.lottery_num;
-					if(_url.type == '2'){	//11选5
-						_lottery_num = _lottery_num.replace(/\,/g, '');
-					}
+					// if(_url.type == '2'){	//11选5
+					// 	_lottery_num = _lottery_num.replace(/\,/g, '');
+					// }
 					val.num = COMMON.fillLenght(val.num, 3, '0');
 					if (k < 3) {
-						if(_url.name.indexOf('beijing') > -1){
+						if(_url.name.indexOf('bei') > -1){
 							_list1 += '<dd>'+ val.num +'</dd>';
 						}else{
-							_list1 += '<dd>'+ val.date +'-'+ val.num +'</dd>';
+							_list1 += '<dd>'+ val.date.replace(/\-/g, '') +'-'+ val.num +'</dd>';
 						}
 
-						if(_url.type == '4'){	//pk10
+						// if(_url.type == '4'){	//pk10
 							_list2 += '<dd>';
 							$.each(_lottery_num.split(','), function(x, y){
 								_list2 += y + ' ';
 							});
 							_list2 += '</dd>';
-							// _list2 += '<dd>' + _lottery_num[0] + _lottery_num[1] + _lottery_num[2] + _lottery_num[3] + _lottery_num[4] + '</dd>';
-						} else {
-							_list2 += '<dd>' + _lottery_num[0] + _lottery_num[1] + _lottery_num[2] + _lottery_num[3] + _lottery_num[4] + '</dd>';
-						}
+						// } else {
+						// 	_list2 += '<dd>' + _lottery_num[0] + _lottery_num[1] + _lottery_num[2] + _lottery_num[3] + _lottery_num[4] + '</dd>';
+						// }
 
 					}
 					if (k < 10) {
-						_list3 += '<li><span>'+ val.date +'-'+ val.num +'</span><em>' + _lottery_num[0] + _lottery_num[1] + _lottery_num[2] + _lottery_num[3] + _lottery_num[4] + '</em></li>';
+						_list3 += '<li><span>';
+						if(_url.name.indexOf('bei') > -1){
+							_list3 += val.num +'</span>';
+						}else{
+							_list3 += val.date.replace(/\-/g, '') +'-'+ val.num +'</span>';
+						}
+						_list3 += '<em>';
+						$.each(_lottery_num.split(','), function(x, y){
+							_list3 += y + ' ';
+						});
+						// _list3 += _lottery_num[0] + _lottery_num[1] + _lottery_num[2] + _lottery_num[3] + _lottery_num[4];
+						_list3 += '</em></li>';
 					}
 				});
 
@@ -565,6 +674,7 @@
 			}
 
 			if (COMMON.isIndex) {
+				console.log('index====');
 				COMMON.homeBallInfo();
 			} else {
 				if (_userNav) {
@@ -577,10 +687,12 @@
 					COMMON.getBallInfo(_url.id);
 					COMMON.renderChartTable();
 					COMMON.renderHistory();
+					console.log('chart------------')
 				}
 
 				if (_url.name) {
 					// 详情页
+					console.log('detail------------')
 					COMMON.isDeatil = true;
 					COMMON.getBallInfo(_url.id);
 				}

@@ -28,8 +28,10 @@ a.text-l-color,
     background-color: #fff;
     color: #3661a2;
 }
+.border-l-color{
+    border-color: #3661a2;
+}
 .light-color,
-.border-l-color,
 .btn-l-color,
 .user-header,
 .user-nav dl dt{
@@ -104,4 +106,32 @@ body .layui-layer-btn .layui-layer-btn0{
 .chosen-container .chosen-results li.highlighted {
     background-color: #3661a2;
     color: #fff
+}
+
+.single-double li.J_numWrp.active{
+    color: #fff;
+    border-color: #3661a2;
+    background-color: #3661a2;
+}
+
+.k3-dyts li.active,
+.k3-sth li.active,
+.k3-sbth li.active,
+.k3-slh li.active,
+.k3-ebth li.active,
+.k3-eth li.active{
+    background-color: #3661a2;
+}
+
+.chase-tt span.active,
+.chase-table-tt > div.active span{
+    background-color: #fff;
+    border-top: 2px solid #3661a2;
+}
+.chase-footer > p em.active{
+    background-color: #3661a2;
+}
+.chase-table-2 .t1 em.active{
+    border: 1px solid #3661a2;
+    background-color: #3661a2;
 }

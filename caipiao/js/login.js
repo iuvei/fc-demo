@@ -59,6 +59,8 @@ $(function() {
                     window.location.href = 'index.html';
                     layer.closeAll();
                 });
+            } else {
+                GLOBAL.alert(data);
             }
         });
     }

@@ -536,7 +536,13 @@
     width: 274px;
 }
 .pk10-below-history .history-trend dd{
-    letter-spacing: 0px; 
+    letter-spacing: 2px; 
+}
+.pk10-below-history .history-issue dd{
+    letter-spacing: 5px;
+}
+.pk10-below-history-box li em{
+    letter-spacing: 1px;
 }
 
 /* 快三 */

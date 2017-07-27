@@ -31,6 +31,38 @@
  * sumType : 和值类型
  */
 var TEMPLATE = {
+    _transTextDT: function(num) {
+        // return num == 1 ? '龙' : '虎';
+    },
+    _exchangeToNumDT: function(name) {
+        return name == '龙' ? '0' : '1';
+    },
+    _transText: function(num){
+        var _txt = '';
+        if(num == 0 || num == '0'){
+            _txt = '大'
+        } else if(num == 1 || num == '1') {
+            _txt = '小';
+        } else if(num == 2 || num == '2') {
+            _txt = '单';
+        } else if(num == 3 || num == '3') {
+            _txt = '双';
+        }
+        return _txt;
+    },
+    _exchangeToNum: function(name){
+        var _num = '0';
+        if(name == '大'){
+            _num = '0';
+        } else if (name == '小') {
+            _num = '1';
+        } else if (name == '单') {
+            _num = '2';
+        } else if (name == '双') {
+            _num = '3';
+        }
+        return _num;
+    },
     factorial: function(a) {
         for (var b = 1, c = 1; c <= a; c += 1) b *= c;
         return b
@@ -131,6 +163,9 @@ var TEMPLATE = {
             break;
             case '2rpk':
                 _arr = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]; 
+            break;
+            case 'k3sum':
+                _arr = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]; 
             break;
         }
         return _arr;
@@ -300,6 +335,124 @@ var TEMPLATE = {
         // lott.allManualEntryRandomBall(a.bits, a.miBall, a.digit)
     },
 
+//    
+    getChaseData: function(type, name, currentPeriods) {
+        // currentPeriods = '20170719-001';
+        // console.log(name, currentPeriods);
+        // name : 游戏名称 如 ： chong_qing_shi_shi
+        // currentPeriods ： 当前期数 如 : 20170719-088
+        var data = {
+            totalPeriods : 0,   //一天最多的期数
+            maxPeriods : 0,     //最多可追的期数
+        };
+        var _str = '';
+        // var _now = new Date();
+        // var _y = _now.getFullYear();
+        // var _m = ((_now.getMonth() + 1) < 10 ? '0' + (_now.getMonth()+1) : (_now.getMonth()+1));
+        // var _d = (_now.getDate()< 10 ? '0' + _now.getDate() : _now.getDate());
+
+        var _d0 = getDay(0);
+        var _d1 = getDay(1);
+        var _d2 = getDay(2);
+
+        // console.log(_d0);
+        // console.log(_d1);
+        // console.log(_d2);
+
+        // var str = d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();
+        switch(name){
+            case 'chong_qing_shi_shi':
+                data.totalPeriods = 120;
+                data.maxPeriods = 240;
+            break;
+            case 'qq_fen_fen':
+                data.totalPeriods = 1140;
+                data.maxPeriods = 300;
+            break;
+            case 'bei_ji_fen_fen':
+                data.totalPeriods = 179;
+                data.maxPeriods = 240;
+            break;
+            case 'jiangsu_fast_three':
+                data.totalPeriods = 82;
+                data.maxPeriods = 229;
+            break;
+            case 'jiangxi_eleven_choose_five':
+                data.totalPeriods = 78;
+                data.maxPeriods = 156;
+            break;
+            case 'beijing_pk_ten':
+                data.totalPeriods = 179;
+                data.maxPeriods = 358;
+            break;
+        }
+        var _n = Number(currentPeriods.split('-')[1]);
+        var _lave = data.totalPeriods - _n + 1;
+        var _s = '(当前)';
+        
+        for (var i = 0; i < data.maxPeriods; i++) {
+            if (i > 0) {
+                _s = '';
+            }
+
+            if (_lave == data.totalPeriods) {
+                if (i < data.totalPeriods) {
+                    _str += '<option value="'+ i +'">'+ _d0.tYear + _d0.tMonth + _d0.tDate + '-' + toThree(_n+i) + _s +'</option>';
+                } else {
+                    _str += '<option value="'+ i + '">'+ _d1.tYear + _d1.tMonth + _d1.tDate + '-' + toThree(_n+i-data.totalPeriods) + '</option>';
+                }
+            } else {
+                if (i < _lave) {
+                    _str += '<option value="' + i + '">'+ _d0.tYear + _d0.tMonth + _d0.tDate + '-' + toThree(_n+i) + _s +'</option>';
+                } else if(_lave <= i && i < (_lave + data.totalPeriods)){
+                    _str += '<option value="'+ i + '">'+ _d1.tYear + _d1.tMonth + _d1.tDate + '-' + toThree(_n+i-data.totalPeriods) + '</option>';
+                } else {
+                    _str += '<option value="'+ i + '">'+ _d2.tYear + _d2.tMonth + _d2.tDate + '-' + toThree(i - data.totalPeriods - _lave + 1) + '</option>';
+                }
+            }
+        }
+        data.select = _str;
+
+        function toThree(num) {
+            var _n = num;
+            if (_n < 100) {
+                if (_n < 10) {
+                    _n = '00' + _n;
+                } else {
+                    _n = '0' + _n;
+                }
+            }
+            return _n;
+        }
+
+        function getDay(day) {
+            var today = new Date();
+            var targetday_milliseconds = today.getTime() + 1000 * 60 * 60 * 24 * day;
+            today.setTime(targetday_milliseconds);
+            var tYear = today.getFullYear();
+            var tMonth = today.getMonth();
+            var tDate = today.getDate();
+            tMonth = doHandleMonth(tMonth + 1);
+            tDate = doHandleMonth(tDate);
+
+            return {
+                tYear : tYear,
+                tMonth : tMonth,
+                tDate : tDate
+            }
+        }
+
+        function doHandleMonth(month) {
+            var m = month;
+            if (month.toString().length == 1) {
+                m = "0" + month;
+            }
+            return m;
+        }
+
+        return data;
+    },
+
         
 //  ████╗ ████╗ ███╗ 
 // █╬═══╝█╬═══╝█╬══█╗
@@ -349,9 +502,9 @@ var TEMPLATE = {
                 _opt.type = 'text';
                 // a.miBall = 1, a.stakes = 1, a.len = 5, a.digit = "",
                 _opt.numNameList = [];
-                // _opt.formula = function(a){
+                _opt.formula = function(a){
                 //     return console.log('对应 allManualEntryEvents');
-                // };
+                };
                 _opt.ajaxType = 'allS5';
                 break;
             case 'All5All':
@@ -373,9 +526,9 @@ var TEMPLATE = {
                 _opt.type = 'text';
                 // a.miBall = 1, a.stakes = 1, a.len = 5, a.digit = ""
                 _opt.numNameList = [];
-                // _opt.formula = function(a){
+                _opt.formula = function(a){
                 //     return console.log('对应 allManualEntryEvents');
-                // };
+                };
                 _opt.ajaxType = 'variedS5';
                 break;
             case 'All5Join':
@@ -392,9 +545,9 @@ var TEMPLATE = {
                 _opt.numList = [];
                 _opt.type = 'text';
                 _opt.numNameList = [];
-                // _opt.formula = function(a){
+                _opt.formula = function(a){
                 //     return console.log('对应 allManualEntryEvents');
-                // };
+                };
                 _opt.ajaxType = 'joinS5';
                 break;
             case 'AllCom120':
@@ -540,9 +693,9 @@ var TEMPLATE = {
                 _opt.numList = [];
                 _opt.type = 'text';
                 _opt.numNameList = [];
-                // _opt.formula = function(a){
+                _opt.formula = function(a){
                 //     return console.log('对应 allManualEntryEvents');
-                // };
+                };
                 _opt.ajaxType = 'allS4b';
                 break;
             case 'First4Join':
@@ -559,9 +712,9 @@ var TEMPLATE = {
                 _opt.numList = [];
                 _opt.type = 'text';
                 _opt.numNameList = [];
-                // _opt.formula = function(a){
+                _opt.formula = function(a){
                 //     return console.log('对应 allManualEntryEvents');
-                // };
+                };
                 _opt.ajaxType = 'joinS4b';
                 break;
             case 'F4Com24':
@@ -671,9 +824,9 @@ var TEMPLATE = {
                 _opt.numList = [];
                 _opt.type = 'text';
                 _opt.numNameList = [];
-                // _opt.formula = function(a){
+                _opt.formula = function(a){
                 //     return console.log('对应 allManualEntryEvents');
-                // };
+                };
                 _opt.ajaxType = 'allS4';
                 break;
             case 'Last4Join':
@@ -690,9 +843,9 @@ var TEMPLATE = {
                 _opt.numList = [];
                 _opt.type = 'text';
                 _opt.numNameList = [];
-                // _opt.formula = function(a){
+                _opt.formula = function(a){
                 //     return console.log('对应 allManualEntryEvents');
-                // };
+                };
                 _opt.ajaxType = 'joinS4';
                 break;
             case 'L4Com24':
@@ -802,9 +955,9 @@ var TEMPLATE = {
                 _opt.numList = [];
                 _opt.type = 'text';
                 _opt.numNameList = [];
-                // _opt.formula = function(a){
+                _opt.formula = function(a){
                 //     return console.log('对应 allManualEntryEvents');
-                // };
+                };
                 _opt.ajaxType = 'allS3b';
                 break;
             case 'First3Join':
@@ -821,9 +974,9 @@ var TEMPLATE = {
                 _opt.numList = [];
                 _opt.type = 'text';
                 _opt.numNameList = [];
-                // _opt.formula = function(a){
+                _opt.formula = function(a){
                 //     return console.log('对应 allManualEntryEvents');
-                // };
+                };
                 _opt.ajaxType = 'joinS3b';
                 break;
             case 'First3StraightCom':
@@ -943,9 +1096,9 @@ var TEMPLATE = {
                 _opt.numList = [];
                 _opt.type = 'text';
                 _opt.numNameList = [];
-                // _opt.formula = function(a){
+                _opt.formula = function(a){
                 //     return console.log('对应 allManualEntryEvents');
-                // };
+                };
                 _opt.ajaxType = 'allS3m';
                 break;
             case 'Middle3Join':
@@ -962,9 +1115,9 @@ var TEMPLATE = {
                 _opt.numList = [];
                 _opt.type = 'text';
                 _opt.numNameList = [];
-                // _opt.formula = function(a){
+                _opt.formula = function(a){
                 //     return console.log('对应 allManualEntryEvents');
-                // };
+                };
                 _opt.ajaxType = 'joinS3m';
                 break;
             case 'Middle3StraightCom':
@@ -1082,9 +1235,9 @@ var TEMPLATE = {
                 _opt.numList = [];
                 _opt.type = 'text';
                 _opt.numNameList = [];
-                // _opt.formula = function(a){
+                _opt.formula = function(a){
                 //     return console.log('对应 allManualEntryEvents');
-                // };
+                };
                 _opt.ajaxType = 'allS3';
                 break;
             case 'Last3Join':
@@ -1101,9 +1254,9 @@ var TEMPLATE = {
                 _opt.numList = [];
                 _opt.type = 'text';
                 _opt.numNameList = [];
-                // _opt.formula = function(a){
+                _opt.formula = function(a){
                 //     return console.log('对应 allManualEntryEvents');
-                // };
+                };
                 _opt.ajaxType = 'joinS3';
                 break;
             case 'Last3StraightCom':
@@ -1222,9 +1375,9 @@ var TEMPLATE = {
                 _opt.numList = [];
                 _opt.type = 'text';
                 _opt.numNameList = [];
-                // _opt.formula = function(a){
+                _opt.formula = function(a){
                 //     return console.log('对应 allManualEntryEvents');
-                // };
+                };
                 _opt.ajaxType = 'allS2b';
                 break;
             case 'First2Join':
@@ -1241,9 +1394,9 @@ var TEMPLATE = {
                 _opt.numList = [];
                 _opt.type = 'text';
                 _opt.numNameList = [];
-                // _opt.formula = function(a){
+                _opt.formula = function(a){
                 //     return console.log('对应 allManualEntryEvents');
-                // };
+                };
                 _opt.ajaxType = 'joinS2b';
                 break;
             case 'First2Sum':
@@ -1327,9 +1480,9 @@ var TEMPLATE = {
                 _opt.numList = [];
                 _opt.type = 'text';
                 _opt.numNameList = [];
-                // _opt.formula = function(a){
+                _opt.formula = function(a){
                 //     return console.log('对应 allManualEntryEvents');
-                // };
+                };
                 _opt.ajaxType = 'allS2';
                 break;
             case 'Last2Join':
@@ -1346,9 +1499,9 @@ var TEMPLATE = {
                 _opt.numList = [];
                 _opt.type = 'text';
                 _opt.numNameList = [];
-                // _opt.formula = function(a){
+                _opt.formula = function(a){
                 //     return console.log('对应 allManualEntryEvents');
-                // };
+                };
                 _opt.ajaxType = 'joinS2';
                 break;
             case 'Last2Sum':
@@ -1820,9 +1973,9 @@ var TEMPLATE = {
                 _opt.numList = [];
                 _opt.type = 'text';
                 _opt.numNameList = [];
-                // _opt.formula = function(a){
-                //     return console.log('对应 allManualEntryEvents');
-                // };
+                _opt.formula = function(a){
+                    // return console.log('对应 allManualEntryEvents');
+                };
                 _opt.ajaxType = 'anyS2';
                 break;
             case 'Any3':
@@ -1845,9 +1998,9 @@ var TEMPLATE = {
                 // a.miBall = 0,a.stakes = 1, a.len = 3, a.digit = "",
                 _opt.type = 'text';
                 _opt.numNameList = [];
-                // _opt.formula = function(a){
+                _opt.formula = function(a){
                 //     return console.log('对应 allManualEntryEvents');
-                // };
+                };
                 _opt.ajaxType = 'anyS3';
                 break;
             case 'Any4':
@@ -1870,9 +2023,9 @@ var TEMPLATE = {
                 _opt.numList = [];
                 _opt.type = 'text';
                 _opt.numNameList = [];
-                // _opt.formula = function(a){
+                _opt.formula = function(a){
                 //     return console.log('对应 allManualEntryEvents');
-                // };
+                };
                 _opt.ajaxType = 'anyS4';
                 break;
             case 'Any2Com_SSC':
@@ -1898,9 +2051,9 @@ var TEMPLATE = {
                 _opt.type = 'text';
                 _opt.minSelect = 2;
                 _opt.numNameList = [];
-                // _opt.formula = function(a){
+                _opt.formula = function(a){
                 //     return console.log('对应 allManualEntryEvents');
-                // };
+                };
                 _opt.ajaxType = 'ganyS2';
                 break;
             case 'Any2Sum_SSC':
@@ -2202,6 +2355,7 @@ var TEMPLATE = {
             _opt.formula = function(a){
                 return a[a.length - 1][a[0]].length;
             }
+            _opt.ajaxType = 'any1';
             break;
             case 'Any2_11X5':
             _maxBonus = '9.3333';
@@ -2213,6 +2367,7 @@ var TEMPLATE = {
                 var b = a[a.length - 1][a[0]].length;
                 return b >= 2 ? TEMPLATE.factorial(1 * b) / (TEMPLATE.factorial(1 * b - 2) * TEMPLATE.factorial(2)) : 0
             }
+            _opt.ajaxType = 'any2';
             break;
             case 'Any3_11X5':
             _maxBonus = '28.0000';
@@ -2224,6 +2379,7 @@ var TEMPLATE = {
                 var b = a[a.length - 1][a[0]].length;
                 return b >= 3 ? TEMPLATE.factorial(1 * b) / (TEMPLATE.factorial(1 * b - 3) * TEMPLATE.factorial(3)) : 0
             }
+            _opt.ajaxType = 'any3';
             break;
             case 'Any4_11X5':
             _maxBonus = '112.0000';
@@ -2235,6 +2391,7 @@ var TEMPLATE = {
                 var b = a[a.length - 1][a[0]].length;
                 return b >= 4 ? TEMPLATE.factorial(1 * b) / (TEMPLATE.factorial(1 * b - 4) * TEMPLATE.factorial(4)) : 0
             }
+            _opt.ajaxType = 'any4';
             break;
             case 'Any5_11X5':
             _maxBonus = '784.0000';
@@ -2246,6 +2403,7 @@ var TEMPLATE = {
                 var b = a[a.length - 1][a[0]].length;
                 return b >= 5 ? TEMPLATE.factorial(1 * b) / (TEMPLATE.factorial(1 * b - 5) * TEMPLATE.factorial(5)) : 0
             }
+            _opt.ajaxType = 'any5';
             break;
             case 'Any6_11X5':
             _maxBonus = '130.6667';
@@ -2257,6 +2415,7 @@ var TEMPLATE = {
                 var b = a[a.length - 1][a[0]].length;
                 return b >= 6 ? TEMPLATE.factorial(1 * b) / (TEMPLATE.factorial(1 * b - 6) * TEMPLATE.factorial(6)) : 0
             }
+            _opt.ajaxType = 'any6';
             break;
             case 'Any7_11X5':
             _maxBonus = '37.3333';
@@ -2268,6 +2427,7 @@ var TEMPLATE = {
                 var b = a[a.length - 1][a[0]].length;
                 return b >= 7 ? TEMPLATE.factorial(1 * b) / (TEMPLATE.factorial(1 * b - 7) * TEMPLATE.factorial(7)) : 0
             }
+            _opt.ajaxType = 'any7';
             break;
             case 'Any8_11X5':
             _maxBonus = '14.0000';
@@ -2279,6 +2439,8 @@ var TEMPLATE = {
                 var b = a[a.length - 1][a[0]].length;
                 return b >= 8 ? TEMPLATE.factorial(1 * b) / (TEMPLATE.factorial(1 * b - 8) * TEMPLATE.factorial(8)) : 0
             }
+            
+            _opt.ajaxType = 'any8';
             break;
             case 'Any2_11X5_Single':
             _maxBonus = '9.3333';
@@ -2288,6 +2450,7 @@ var TEMPLATE = {
             _opt.numList = [];
             _opt.type = 'text';
             _opt.numNameList = [];
+            _opt.ajaxType = 'anyS2';
             break;
             case 'Any3_11X5_Single':
             _maxBonus = '28.0000';
@@ -2297,6 +2460,7 @@ var TEMPLATE = {
             _opt.numList = [];
             _opt.type = 'text';
             _opt.numNameList = [];
+            _opt.ajaxType = 'anyS3';
             break;
             case 'Any4_11X5_Single':
             _maxBonus = '112.0000';
@@ -2306,6 +2470,7 @@ var TEMPLATE = {
             _opt.numList = [];
             _opt.type = 'text';
             _opt.numNameList = [];
+            _opt.ajaxType = 'anyS4';
             break;
             case 'Any5_11X5_Single':
             _maxBonus = '784.0000';
@@ -2315,6 +2480,7 @@ var TEMPLATE = {
             _opt.numList = [];
             _opt.type = 'text';
             _opt.numNameList = [];
+            _opt.ajaxType = 'anyS5';
             break;
             case 'Any6_11X5_Single':
             _maxBonus = '130.6667';
@@ -2324,6 +2490,7 @@ var TEMPLATE = {
             _opt.numList = [];
             _opt.type = 'text';
             _opt.numNameList = [];
+            _opt.ajaxType = 'anyS6';
             break;
             case 'Any7_11X5_Single':
             _maxBonus = '37.3333';
@@ -2333,6 +2500,7 @@ var TEMPLATE = {
             _opt.numList = [];
             _opt.type = 'text';
             _opt.numNameList = [];
+            _opt.ajaxType = 'anyS7';
             break;
             case 'Any8_11X5_Single':
             _maxBonus = '14.0000';
@@ -2342,6 +2510,7 @@ var TEMPLATE = {
             _opt.numList = [];
             _opt.type = 'text';
             _opt.numNameList = [];
+            _opt.ajaxType = 'anyS8';
             break;
         }
 
@@ -2391,7 +2560,7 @@ var TEMPLATE = {
             type: 'ball',
             formula: null,
             minSelect: 1,
-            ajaxType: ''
+            ajaxType: 'sd'
         };
         var _maxBonus = '';
         switch (options.type) {
@@ -2433,9 +2602,9 @@ var TEMPLATE = {
             type: 'czwBall',
             formula: null,
             minSelect: 1,
-            ajaxType: ''
+            ajaxType: 'center'
         };
-        var _maxBonus = '';
+        var _maxBonus = 'center';
         switch (options.type) {
             case 'rdDigit_11X5':
             _maxBonus = '28.0000';
@@ -2490,6 +2659,7 @@ var TEMPLATE = {
                     d = a[a.length - 1][a[2]];
                 return TEMPLATE.first3StraightOf11X5(b, c, d)
             }
+            _opt.ajaxType = 'before3';
             break;
             case 'First3Straight_11X5_Single':
             _maxBonus = '1680.0000';
@@ -2499,6 +2669,7 @@ var TEMPLATE = {
             _opt.numList = [];
             _opt.type = 'text';
             _opt.numNameList = [];
+            _opt.ajaxType = 'beforeS3';
             break;
             case 'First3Com_11X5':
             _maxBonus = '280.0000';
@@ -2509,6 +2680,7 @@ var TEMPLATE = {
                 var b = a[a.length - 1][a[0]].length;
                 return b >= 3 ? TEMPLATE.factorial(1 * b) / (TEMPLATE.factorial(1 * b - 3) * TEMPLATE.factorial(3)) : 0
             }
+            _opt.ajaxType = 'before3G';
             break;
             case 'First3Com_11X5_Single':
             _maxBonus = '280.0000';
@@ -2518,6 +2690,7 @@ var TEMPLATE = {
             _opt.numList = [];
             _opt.type = 'text';
             _opt.numNameList = [];
+            _opt.ajaxType = 'beforeS3G';
             break;
         }
 
@@ -2569,6 +2742,7 @@ var TEMPLATE = {
                     c = a[a.length - 1][a[1]];
                 return TEMPLATE.first2StraightOf11X5(b, c)
             }
+            _opt.ajaxType = 'before2';
             break;
             case 'First2Straight_11X5_Single':
             _maxBonus = '186.6667';
@@ -2578,6 +2752,7 @@ var TEMPLATE = {
             _opt.numList = [];
             _opt.type = 'text';
             _opt.numNameList = [];
+            _opt.ajaxType = 'beforeS2';
             break;
             case 'First2Com_11X5':
             _maxBonus = '93.3333';
@@ -2588,6 +2763,7 @@ var TEMPLATE = {
                 var b = a[a.length - 1][a[0]].length;
                 return b >= 2 ? TEMPLATE.factorial(1 * b) / (TEMPLATE.factorial(1 * b - 2) * TEMPLATE.factorial(2)) : 0
             }
+            _opt.ajaxType = 'before2G';
             break;
             case 'First2Com_11X5_Single':
             _maxBonus = '93.3333';
@@ -2597,6 +2773,7 @@ var TEMPLATE = {
             _opt.numList = [];
             _opt.type = 'text';
             _opt.numNameList = [];
+            _opt.ajaxType = 'beforeS2G';
             break;
         }
 
@@ -2636,7 +2813,7 @@ var TEMPLATE = {
             formula: null,
             minSelect: 1,
             maxSelect: 11,
-            ajaxType: ''
+            ajaxType: 'anyB3'
         };
         var _maxBonus = '';
         switch (options.type) {
@@ -2679,7 +2856,7 @@ var TEMPLATE = {
             formula: null,
             minSelect: 1,
             maxSelect: 11,
-            ajaxType: ''
+            ajaxType: 'sure'
         };
         var _maxBonus = '';
         switch (options.type) {
@@ -2785,38 +2962,365 @@ var TEMPLATE = {
     },
 
         
-// █████╗███╗  
-// ╚══█╔╝█╔═█╗ 
-//   █╬╝ █║ ╚█╗
-//   ╚█╗ █║  █║
-//    ╚█╗█║  █║
-// █╗  █║█║ █╬╝
-// ╚███╬╝███╬╝ 
-//  ╚══╝ ╚══╝  
-
+// █╗  █╗█████╗
+// █║ █╬╝╚══█╔╝
+// █║█╬╝   █╬╝ 
+// ██╬╝    ╚█╗ 
+// █╔█╗     ╚█╗
+// █║╚█╗ █╗  █║
+// █║ ╚█╗╚███╬╝
+// ╚╝  ╚╝ ╚══╝ 
     
-    // 
-    render3D: {
+    K3_SUM: function(options) {
+        options = options || {};
+        options.type = options.type || 'K3_SUM';
+
+        var _rule = '';
+        var _opt = {
+            haveCheckbox: false,
+            defaultCheck: 0,
+            haveTextarea: false,
+            placeholder: '',
+            numList: ['03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18'],
+            // numList: [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18],
+            numNameList: ['SUM'],
+            quickFast: false,
+            type: 'sum',
+            formula: null,
+            minSelect: 1,
+            maxSelect: 11,
+            ajaxType: 'sum'
+        };
+        var _maxBonus = '15.5200';
+        switch (options.type) {
+            case 'K3_SUM':
+            _rule = '至少选择1个和值（3个号码之和）进行投注，所选和值与开奖的3个号码的和值相同即中奖';
+            _opt.numNameList = ['SUM#和值'];
+            _opt.formula = function(x, options){
+                var _num = TEMPLATE.sumAndPoint(x, options, 'k3sum');
+                return _num;
+            };
+            _opt.sumType = 'k3sum';
+            break;
+        }
+
+        var _str = '';
+
+        return {
+            dom: _str,
+            rule: _rule,
+            maxBonus: _maxBonus,
+            opt: _opt
+        };
+    },
+    K3_threeSame: function(options) {
+        // 三同号
+        options = options || {};
+        options.type = options.type || 'K3_threeSame';
+
+        var _rule = '';
+        var _opt = {
+            haveCheckbox: false,
+            defaultCheck: 0,
+            haveTextarea: false,
+            placeholder: '',
+            numList: [],
+            numNameList: [''],
+            quickFast: false,
+            type: 'dice',
+            formula: null,
+            minSelect: 1,
+            maxSelect: 11,
+            ajaxType: 'repeat3'
+        };
+        var _maxBonus = '419.0400';
+        switch (options.type) {
+            case 'K3_threeSame':
+            _rule = '对豹子号（111，222，333，444，555，666）进行单选或通选投注，选号与开奖号相同即中奖';
+            _opt.formula = function(x, options){
+                var _num = TEMPLATE.sumAndPoint(x, options, 'k3sum');
+                return _num;
+            };
+            break;
+        }
+
+        var _arr = ['666','555','444','333','222','111'];
+        var _str = '';
+
+        _str += '<ul class="J_diceList k3-sth clearfix" data-row="DICE">';
+        $.each(_arr, function(i, n){
+            _str += '<li id="J_dice_'+ i +'" class="J_dice" data-v="'+ n +'"><span class="s'+ n[0] +'"></span><span class="s'+ n[1] +'"></span><span class="last s'+ n[2] +'"></span></li>';
+        });
+        _str += '</ul>';
+
+        return {
+            dice: _str,
+            rule: _rule,
+            maxBonus: _maxBonus,
+            opt: _opt
+        };
+    },
+    K3_twoSame: function(options) {
+        // 二同号
+        options = options || {};
+        options.type = options.type || 'K3_twoSame';
+
+        var _rule = '';
+        var _opt = {
+            haveCheckbox: false,
+            defaultCheck: 0,
+            haveTextarea: false,
+            placeholder: '',
+            numList: [''],
+            numNameList: [''],
+            quickFast: false,
+            type: 'dice',
+            formula: null,
+            minSelect: 1,
+            maxSelect: 11,
+            ajaxType: 'repeat2'
+        };
+        var _maxBonus = '139.6800';
+        switch (options.type) {
+            case 'K3_twoSame':
+            _rule = '选择1对相同号码和1个不同号码进行单选或者多选投注，选号与开奖号相同（顺序不限）即中奖';
+            _opt.formula = function(x, options){
+                var _num = TEMPLATE.sumAndPoint(x, options, 'k3sum');
+                return _num;
+            };
+            break;
+        }
+
+        var _arr = ['112','122','133','144','155','166','113','223','233','244','255','266','114','224','334','344','355','366','115','225','335','445','455','466','116','226','336','446','556','566','11','22','33','44','55','66'];
+        var _str = '';
+
+        _str += '<ul class="J_diceList k3-eth clearfix" data-row="DICE">';
+        $.each(_arr, function(i, n){
+            if (n.length == 3) {
+                _str += '<li id="J_dice_'+ i +'" class="J_dice" data-v="'+ n +'"><span class="s'+ n[0] +'"></span><span class="s'+ n[1] +'"></span><span class="last s'+ n[2] +'"></span></li>';
+            } else {
+                _str += '<li class="J_diceFast fast" data-v="'+ n +'"><span class="s'+ n[0] +'"></span><span class="s'+ n[1] +'"></span></li>';
+            }
+        });
+        _str += '</ul>';
+
+        return {
+            dice: _str,
+            rule: _rule,
+            maxBonus: _maxBonus,
+            opt: _opt
+        };
+    },
+    K3_threeDifferent: function(options) {
+        // 三不同号
+        options = options || {};
+        options.type = options.type || 'K3_threeDifferent';
+
+        var _rule = '';
+        var _opt = {
+            haveCheckbox: false,
+            defaultCheck: 0,
+            haveTextarea: false,
+            placeholder: '',
+            numList: [''],
+            numNameList: [''],
+            quickFast: false,
+            type: 'dice',
+            formula: null,
+            minSelect: 1,
+            maxSelect: 11,
+            ajaxType: 'differ3'
+        };
+        var _maxBonus = '69.8400';
+        switch (options.type) {
+            case 'K3_threeDifferent':
+            _rule = '对所有3不同号进行单选或多选，选号与开奖号相同（顺序不限）即中奖';
+            _opt.formula = function(x, options){
+                var _num = TEMPLATE.sumAndPoint(x, options, 'k3sum');
+                return _num;
+            };
+            break;
+        }
+
+        var _arr = ['123','134','146','236','345','124','135','156','245','346','125','136','234','246','356','126','145','235','256','456'];
+        var _str = '';
+
+        _str += '<ul class="J_diceList k3-sbth clearfix" data-row="DICE">';
+        $.each(_arr, function(i, n){
+            _str += '<li id="J_dice_'+ i +'" class="J_dice" data-v="'+ n +'"><span class="s'+ n[0] +'"></span><span class="s'+ n[1] +'"></span><span class="last s'+ n[2] +'"></span></li>';
+            
+        });
+        _str += '</ul>';
+
+        return {
+            dice: _str,
+            rule: _rule,
+            maxBonus: _maxBonus,
+            opt: _opt
+        };
+    },
+    K3_twoDifferent: function(options) {
+        // 二不同号
+        options = options || {};
+        options.type = options.type || 'K3_twoDifferent';
+
+        var _rule = '';
+        var _opt = {
+            haveCheckbox: false,
+            defaultCheck: 0,
+            haveTextarea: false,
+            placeholder: '',
+            numList: [''],
+            numNameList: [''],
+            quickFast: false,
+            type: 'dice',
+            formula: null,
+            minSelect: 1,
+            maxSelect: 11,
+            ajaxType: 'differ2'
+        };
+        var _maxBonus = '13.9680';
+        switch (options.type) {
+            case 'K3_twoDifferent':
+            _rule = '对所有2不同号进行单选或多选，选号与开奖号中任意2个号码相同即中奖';
+            _opt.formula = function(x, options){
+                var _num = TEMPLATE.sumAndPoint(x, options, 'k3sum');
+                return _num;
+            };
+            break;
+        }
+
+        var _arr = ['12','15','24','34','45','13','16','25','35','46','14','23','26','36','56'];
+        var _str = '';
+
+        _str += '<ul class="J_diceList k3-ebth clearfix" data-row="DICE">';
+        $.each(_arr, function(i, n){
+            _str += '<li id="J_dice_'+ i +'" class="J_dice" data-v="'+ n +'"><span class="s'+ n[0] +'"></span><span class="last s'+ n[1] +'"></span></li>';
+            
+        });
+        _str += '</ul>';
+
+        return {
+            dice: _str,
+            rule: _rule,
+            maxBonus: _maxBonus,
+            opt: _opt
+        };
+    },
+    K3_tripleNumber: function(options) {
+        // 三连号
+        options = options || {};
+        options.type = options.type || 'K3_tripleNumber';
+
+        var _rule = '';
+        var _opt = {
+            haveCheckbox: false,
+            defaultCheck: 0,
+            haveTextarea: false,
+            placeholder: '',
+            numList: [''],
+            numNameList: [''],
+            quickFast: false,
+            type: 'dice',
+            formula: null,
+            minSelect: 1,
+            maxSelect: 11,
+            ajaxType: 'join3'
+        };
+        var _maxBonus = '69.8400';
+        switch (options.type) {
+            case 'K3_tripleNumber':
+            _rule = '对所有3个相连的号码（123，234，345，456)进行单选或多选投注，选号与开奖号相同（顺序不限）即中奖';
+            _opt.formula = function(x, options){
+                var _num = TEMPLATE.sumAndPoint(x, options, 'k3sum');
+                return _num;
+            };
+            break;
+        }
+
+        var _arr = ['123','234','345','456'];
+        var _str = '';
+
+        _str += '<ul class="J_diceList k3-slh clearfix" data-row="DICE">';
+        $.each(_arr, function(i, n){
+            _str += '<li id="J_dice_'+ i +'" class="J_dice" data-v="'+ n +'"><span class="s'+ n[0] +'"></span><span class="last s'+ n[1] +'"></span><span class="last s'+ n[2] +'"></span></li>';
+            
+        });
+        _str += '</ul>';
+
+        return {
+            dice: _str,
+            rule: _rule,
+            maxBonus: _maxBonus,
+            opt: _opt
+        };
+    },
+    K3_singledOut: function(options) {
+        // 单挑一骰
+        options = options || {};
+        options.type = options.type || 'K3_singledOut';
+
+        var _rule = '';
+        var _opt = {
+            haveCheckbox: false,
+            defaultCheck: 0,
+            haveTextarea: false,
+            placeholder: '',
+            numList: [''],
+            numNameList: [''],
+            quickFast: false,
+            type: 'dice',
+            formula: null,
+            minSelect: 1,
+            maxSelect: 11,
+            ajaxType: 'any1'
+        };
+        var _maxBonus = '4.6050';
+        switch (options.type) {
+            case 'K3_singledOut':
+            _rule = '选择1个或者多个骰号，如果开奖号码中包含该号（顺序不限）即中奖';
+            _opt.formula = function(x, options){
+                var _num = TEMPLATE.sumAndPoint(x, options, 'k3sum');
+                return _num;
+            };
+            break;
+        }
+
+        var _arr = ['6','5','4','3','2','1'];
+        var _str = '';
+
+        _str += '<ul class="J_diceList k3-dyts clearfix" data-row="DICE">';
+        $.each(_arr, function(i, n){
+            _str += '<li id="J_dice_'+ i +'" class="J_dice" data-v="'+ n +'"><span class="s'+ n[0] +'"></span></li>';
+            
+        });
+        _str += '</ul>';
+
+        return {
+            dice: _str,
+            rule: _rule,
+            maxBonus: _maxBonus,
+            opt: _opt
+        };
+    },
+    renderK3: {
         init: function(){
             this.renderHeader();
             this.renderMainMenu();
-            this.renderSubMenu();
             this.renderRule();
         },
         renderHeader: function() {
-            // 渲染11选5相关DOM结构
+            // 渲染快三相关DOM结构
             var _str = '';
             _str += '<div class="below-num fl">';
             _str += '    <div class="fl below-phase">';
             _str += '        <p>开奖号码</p>';
             _str += '        <p>第<span class="text-l-color" id="J_dataNum"></span>期</p>';
             _str += '    </div>';
-            _str += '    <div class="fl below-prize-num" id="J_drawResult">';
-            _str += '        <em>0</em>';
-            _str += '        <em>0</em>';
-            _str += '        <em>0</em>';
-            _str += '        <em>0</em>';
-            _str += '        <em>0</em>';
+            _str += '    <div class="fl below-prize-num k3-prize" id="J_drawResult">';
+            _str += '        <em class="s1"></em>';
+            _str += '        <em class="s1"></em>';
+            _str += '        <em class="s1"></em>';
             _str += '    </div>';
             _str += '</div>';
             _str += '<div class="below-history fl rel">';
@@ -2834,44 +3338,18 @@ var TEMPLATE = {
         },
         renderMainMenu: function() {
             var _str = '';
-            _str += '<span class="J_withChild active" data-info="901#Any_11X5#0">任选</span>';
-            _str += '<span class="J_withChild" data-info="902#OE_Counts_11X5#1">定单双</span>';
-            _str += '<span class="J_withChild" data-info="903#rd_Digit_11X5#2">猜中位</span>';
-            _str += '<span class="J_withChild" data-info="904#First_3_11X5#3">前三</span>';
-            _str += '<span class="J_withChild" data-info="905#First_2_11X5#4">前二</span>';
-            _str += '<span class="J_withChild" data-info="906#Any_Place_11X5#5">不定位</span>';
-            _str += '<span class="J_withChild" data-info="907#Fixed_Place_11X5#6">定位胆</span>';
+            _str += '<span class="J_withChild active" data-info="901#K3_SUM#0">和值</span>';
+            _str += '<span class="J_withChild" data-info="902#K3_threeSame#1">三同号</span>';
+            _str += '<span class="J_withChild" data-info="903#K3_twoSame#2">二同号</span>';
+            _str += '<span class="J_withChild" data-info="904#K3_threeDifferent#3">三不同号</span>';
+            _str += '<span class="J_withChild" data-info="905#K3_twoDifferent#4">二不同号</span>';
+            _str += '<span class="J_withChild" data-info="906#K3_tripleNumber#5">三连号</span>';
+            _str += '<span class="J_withChild" data-info="907#K3_singledOut#6">单挑一骰</span>';
             $('#J_mainMenuList').html(_str);
         },
-        renderSubMenu: function() {
-            var _str = '';
-            _str += '<dl>';
-            _str += '    <dt>复式：</dt>';
-            _str += '    <dd id="J_Any1_11X5" data-info="908#Any1_11X5#2" class="J_subMenu active">任一直选</dd>';
-            _str += '    <dd id="J_Any2_11X5" data-info="909#Any2_11X5#2" class="J_subMenu">任二直选</dd>';
-            _str += '    <dd id="J_Any3_11X5" data-info="910#Any3_11X5#2" class="J_subMenu">任三直选</dd>';
-            _str += '    <dd id="J_Any4_11X5" data-info="911#Any4_11X5#2" class="J_subMenu">任四直选</dd>';
-            _str += '    <dd id="J_Any5_11X5" data-info="912#Any5_11X5#2" class="J_subMenu">任五直选</dd>';
-            _str += '    <dd id="J_Any6_11X5" data-info="913#Any6_11X5#2" class="J_subMenu">任六直选</dd>';
-            _str += '    <dd id="J_Any7_11X5" data-info="914#Any7_11X5#2" class="J_subMenu">任七直选</dd>';
-            _str += '    <dd id="J_Any8_11X5" data-info="915#Any8_11X5#2" class="J_subMenu">任八直选</dd>';
-            _str += '</dl>';
-            _str += '<dl>';
-            _str += '    <dt>单式：</dt>';
-            _str += '    <dd id="J_Any2_11X5_Single" data-info="100#Any2_11X5_Single#2" class="J_subMenu">任二直选(单式)</dd>';
-            _str += '    <dd id="J_Any3_11X5_Single" data-info="101#Any3_11X5_Single#2" class="J_subMenu">任三直选(单式)</dd>';
-            _str += '    <dd id="J_Any4_11X5_Single" data-info="102#Any4_11X5_Single#2" class="J_subMenu">任四直选(单式)</dd>';
-            _str += '    <dd id="J_Any5_11X5_Single" data-info="103#Any5_11X5_Single#2" class="J_subMenu">任五直选(单式)</dd>';
-            _str += '    <dd id="J_Any6_11X5_Single" data-info="104#Any6_11X5_Single#2" class="J_subMenu">任六直选(单式)</dd>';
-            _str += '    <dd id="J_Any7_11X5_Single" data-info="105#Any7_11X5_Single#2" class="J_subMenu">任七直选(单式)</dd>';
-            _str += '    <dd id="J_Any8_11X5_Single" data-info="106#Any8_11X5_Single#2" class="J_subMenu">任八直选(单式)</dd>';
-            _str += '</dl>';
-
-            $('#J_subMenuList').html(_str);
-        },
         renderRule: function() {
-            $('#J_maxBonus').html('3.7333');
-            $('#J_bettingRule').html('从01-11中任意选择1个或多个号码投注，只要5个开奖号码中包含所选号码，即为中奖。 如：选择02，开奖号码为***02*，即为中奖。');
+            $('#J_maxBonus').html('15.5200');
+            $('#J_bettingRule').html('至少选择1个和值（3个号码之和）进行投注，所选和值与开奖的3个号码的和值相同即中奖');
         }
     },
     
@@ -2903,7 +3381,7 @@ var TEMPLATE = {
             type: 'ball',
             formula: null,
             minSelect: 1,
-            ajaxType: ''
+            ajaxType: 'before1'
         };
         var _maxBonus = '';
         switch (options.type) {
@@ -2931,7 +3409,7 @@ var TEMPLATE = {
     First_2_PK10: function(options) {
         // 猜前二
         options = options || {};
-        options.type = options.type || 'First2_PK10';
+        options.type = options.type || 'First2_PK10_Single';
 
         var _rule = '从冠军、亚军投注的两个号码与开奖号码中的前2个号码相同且顺序一致，视为中奖。如：投注方案：01 02开奖号码：01 02********，即中猜前二。';
         var _opt = {
@@ -2949,28 +3427,30 @@ var TEMPLATE = {
         };
         var _maxBonus = '153.0000';
         switch (options.type) {
-            case 'First2_PK10':
-            _opt.numNameList = ['FIRST#冠军', 'SECOND#亚军'];
-            _opt.formula = function(a){
-                var b = a[a.length - 1][a[0]],
-                    c = a[a.length - 1][a[1]];
-                return TEMPLATE.first2StraightOf11X5(b, c)
-            }
-            break;
             case 'First2_PK10_Single':
             _opt.haveTextarea = true;
             _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、逗号[,]或者分号[;]隔开\n支持格式如下:\n0102, 0102\n0102,0102\n0102;0102\n';
             _opt.numList = [];
             _opt.type = 'text';
             _opt.numNameList = [];
+            _opt.ajaxType = 'beforeS2';
+            break;
+            case 'First2_PK10':
+            _opt.numNameList = ['FIRST#冠军', 'SECOND#亚军'];
+            _opt.formula = function(a){
+                var b = a[a.length - 1][a[0]],
+                    c = a[a.length - 1][a[1]];
+                return TEMPLATE.first2StraightOf11X5(b, c)
+            };
+            _opt.ajaxType = 'before2';
             break;
         }
 
         var _str = '';
         _str += '<dl>';
         // _str += '    <dt>定位胆：</dt>';
-        _str += '    <dd id="J_First2_PK10" data-info="1458#First2_PK10#2" class="J_subMenu active">猜前二</dd>';
-        _str += '    <dd id="J_First2_PK10_Single" data-info="1732#First2_PK10_Single#2" class="J_subMenu">猜前二（单式）</dd>';
+        _str += '    <dd id="J_First2_PK10_Single" data-info="1732#First2_PK10_Single#2" class="J_subMenu active">猜前二（单式）</dd>';
+        _str += '    <dd id="J_First2_PK10" data-info="1458#First2_PK10#2" class="J_subMenu">猜前二</dd>';
         _str += '</dl>';
         return {
             dom: _str,
@@ -2982,7 +3462,7 @@ var TEMPLATE = {
     First_3_PK10: function(options) {
         // 猜前三
         options = options || {};
-        options.type = options.type || 'First3_PK10';
+        options.type = options.type || 'First3_PK10_Single';
 
         var _rule = '从冠军、亚军、季军投注的三个号码与开奖号码中的前3个号码相同且顺序一致，视为中奖。如：冠军、亚军、季军位买01 02 03；开奖号码：冠军、亚军、季军开01 02 03*******，即中猜前三。';
         var _opt = {
@@ -3000,6 +3480,14 @@ var TEMPLATE = {
         };
         var _maxBonus = '1224.0000';
         switch (options.type) {
+            case 'First3_PK10_Single':
+            _opt.haveTextarea = true;
+            _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、逗号[,]或者分号[;]隔开\n支持格式如下:\n010203 010203\n010203,010203\n010203;010203\n';
+            _opt.numList = [];
+            _opt.type = 'text';
+            _opt.numNameList = [];
+            _opt.ajaxType = 'beforeS3';
+            break;
             case 'First3_PK10':
             _opt.numNameList = ['FIRST#冠军', 'SECOND#亚军', 'THIRD#季军'];
             _opt.formula = function(a){
@@ -3007,22 +3495,16 @@ var TEMPLATE = {
                     c = a[a.length - 1][a[1]],
                     d = a[a.length - 1][a[2]];
                 return TEMPLATE.first3StraightOf11X5(b, c, d)
-            }
-            break;
-            case 'First3_PK10_Single':
-            _opt.haveTextarea = true;
-            _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、逗号[,]或者分号[;]隔开\n支持格式如下:\n010203 010203\n010203,010203\n010203;010203\n';
-            _opt.numList = [];
-            _opt.type = 'text';
-            _opt.numNameList = [];
+            };
+            _opt.ajaxType = 'before3';
             break;
         }
 
         var _str = '';
         _str += '<dl>';
         // _str += '    <dt>定位胆：</dt>';
-        _str += '    <dd id="J_First3_PK10" data-info="1459#First3_PK10#2" class="J_subMenu active">猜前三</dd>';
-        _str += '    <dd id="J_First3_PK10_Single" data-info="1733#First3_PK10_Single#2" class="J_subMenu">猜前三（单式）</dd>';
+        _str += '    <dd id="J_First3_PK10_Single" data-info="1733#First3_PK10_Single#2" class="J_subMenu active">猜前三（单式）</dd>';
+        _str += '    <dd id="J_First3_PK10" data-info="1459#First3_PK10#2" class="J_subMenu ">猜前三</dd>';
         _str += '</dl>';
         return {
             dom: _str,
@@ -3034,7 +3516,7 @@ var TEMPLATE = {
     First_4_PK10: function(options) {
         // 猜前四
         options = options || {};
-        options.type = options.type || 'First4_PK10';
+        options.type = options.type || 'First4_PK10_Single';
 
         var _rule = '从冠军、亚军、季军、第四名中选择一个4位数号码组成一注，所选号码与开奖号码相同，且顺序一致，即为中奖。：投注01、02、03、04，开奖号码：01、02、03、04 ******，即中猜前四。';
         var _opt = {
@@ -3052,6 +3534,14 @@ var TEMPLATE = {
         };
         var _maxBonus = '8568.0000';
         switch (options.type) {
+            case 'First4_PK10_Single':
+            _opt.haveTextarea = true;
+            _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、逗号[,]或者分号[;]隔开\n支持格式如下:\n01020304, 01020304\n01020304,01020304\n01020304;01020304\n';
+            _opt.numList = [];
+            _opt.type = 'text';
+            _opt.numNameList = [];
+            _opt.ajaxType = 'beforeS4';
+            break;
             case 'First4_PK10':
             _opt.numNameList = ['FIRST#冠军', 'SECOND#亚军', 'THIRD#季军', 'FOURTH#第四名'];
             _opt.formula = function(a){
@@ -3060,22 +3550,16 @@ var TEMPLATE = {
                     d = a[a.length - 1][a[2]],
                     e = a[a.length - 1][a[3]];
                 return TEMPLATE.first4StraightOf11X5(b, c, d, e)
-            }
-            break;
-            case 'First4_PK10_Single':
-            _opt.haveTextarea = true;
-            _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、逗号[,]或者分号[;]隔开\n支持格式如下:\n01020304, 01020304\n01020304,01020304\n01020304;01020304\n';
-            _opt.numList = [];
-            _opt.type = 'text';
-            _opt.numNameList = [];
+            };
+            _opt.ajaxType = 'before4';
             break;
         }
 
         var _str = '';
         _str += '<dl>';
         // _str += '    <dt>定位胆：</dt>';
-        _str += '    <dd id="J_First3_PK10" data-info="1460#First4_PK10#2" class="J_subMenu active">猜前四</dd>';
-        _str += '    <dd id="J_First3_PK10_Single" data-info="1734#First4_PK10_Single#2" class="J_subMenu">猜前四（单式）</dd>';
+        _str += '    <dd id="J_First3_PK10_Single" data-info="1734#First4_PK10_Single#2" class="J_subMenu active">猜前四（单式）</dd>';
+        _str += '    <dd id="J_First3_PK10" data-info="1460#First4_PK10#2" class="J_subMenu ">猜前四</dd>';
         _str += '</dl>';
         return {
             dom: _str,
@@ -3087,7 +3571,7 @@ var TEMPLATE = {
     First_5_PK10: function(options) {
         // 猜前五
         options = options || {};
-        options.type = options.type || 'First5_PK10';
+        options.type = options.type || 'First5_PK10_Single';
 
         var _rule = '从冠军、亚军、季军、第四名中选择一个4位数号码组成一注，所选号码与开奖号码相同，且顺序一致，即为中奖。：投注01、02、03、04，开奖号码：01、02、03、04 ******，即中猜前四。';
         var _opt = {
@@ -3105,6 +3589,14 @@ var TEMPLATE = {
         };
         var _maxBonus = '51408.0000';
         switch (options.type) {
+            case 'First5_PK10_Single':
+            _opt.haveTextarea = true;
+            _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、逗号[,]或者分号[;]隔开\n支持格式如下:\n0102030405 0102030405\n0102030405,0102030405\n0102030405;0102030405\n';
+            _opt.numList = [];
+            _opt.type = 'text';
+            _opt.numNameList = [];
+            _opt.ajaxType = 'beforeS5';
+            break;
             case 'First5_PK10':
             _opt.numNameList = ['FIRST#冠军', 'SECOND#亚军', 'THIRD#季军', 'FOURTH#第四名', 'FIFTH#第五名'];
             _opt.formula = function(a){
@@ -3114,22 +3606,16 @@ var TEMPLATE = {
                     e = a[a.length - 1][a[3]],
                     f = a[a.length - 1][a[4]];
                 return TEMPLATE.first5StraightOf11X5(b, c, d, e, f)
-            }
-            break;
-            case 'First5_PK10_Single':
-            _opt.haveTextarea = true;
-            _opt.placeholder = '请导入TXT文件、复制或者输入到这里\n每注之间可以用回车、逗号[,]或者分号[;]隔开\n支持格式如下:\n0102030405 0102030405\n0102030405,0102030405\n0102030405;0102030405\n';
-            _opt.numList = [];
-            _opt.type = 'text';
-            _opt.numNameList = [];
+            };
+            _opt.ajaxType = 'before5';
             break;
         }
 
         var _str = '';
         _str += '<dl>';
         // _str += '    <dt>定位胆：</dt>';
-        _str += '    <dd id="J_First5_PK10" data-info="1461#First5_PK10#2" class="J_subMenu active">猜前五</dd>';
-        _str += '    <dd id="J_First5_PK10_Single" data-info="1735#First5_PK10_Single#2" class="J_subMenu">猜前五（单式）</dd>';
+        _str += '    <dd id="J_First5_PK10_Single" data-info="1735#First5_PK10_Single#2" class="J_subMenu active">猜前五（单式）</dd>';
+        _str += '    <dd id="J_First5_PK10" data-info="1461#First5_PK10#2" class="J_subMenu ">猜前五</dd>';
         _str += '</dl>';
         return {
             dom: _str,
@@ -3164,14 +3650,16 @@ var TEMPLATE = {
             _opt.numNameList = ['FIRST#冠军', 'SECOND#亚军', 'THIRD#季军', 'FOURTH#第四名', 'FIFTH#第五名'];
             _opt.formula = function(a){
                 return a[a.length - 1][a[0]].length + a[a.length - 1][a[1]].length + a[a.length - 1][a[2]].length + a[a.length - 1][a[3]].length + a[a.length - 1][a[4]].length
-            }
+            };
+            _opt.ajaxType = 'sureB5';
             break;
             case 'Last5Fixed_PK10':
             _rule = '从第六位开始选择最少一个,最多十个位置，任意1个位置或者多个位置上选择1个号码，所选号码与相同位置上的开奖号码一致，即为中奖。如：投注方案：06（第六名），开奖号码：******06****即中定位胆。';
             _opt.numNameList = ['FIRST#第六名', 'SECOND#第七名', 'THIRD#第八名', 'FOURTH#第九名', 'FIFTH#第十名'];
             _opt.formula = function(a){
                 return a[a.length - 1][a[0]].length + a[a.length - 1][a[1]].length + a[a.length - 1][a[2]].length + a[a.length - 1][a[3]].length + a[a.length - 1][a[4]].length
-            }
+            };
+            _opt.ajaxType = 'surA5';
             break;
         }
 
@@ -3217,6 +3705,7 @@ var TEMPLATE = {
                 return _num;
             };
             _opt.sumType = '2rpk';
+            _opt.ajaxType = 'sum1a2';
             break;
             case 'First3Sum_PK10':
             _rule = '从6-27中任意选择至少一个号码组成一组，开奖号码前三位之和与所选的号码一致即为中奖，顺序不限。如：投注8，开奖号码：01、02、05*******，即中冠亚季和值。';
@@ -3228,6 +3717,7 @@ var TEMPLATE = {
             _opt.sumType = '3rpk';
             _maxBonus = '204.0000'
             _opt.numList = [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27];
+            _opt.ajaxType = 'sum2d3';
             break;
             case 'FirstLastSum_PK10':
             _rule = '从3-19中任意选择至少一个号码组成一组，开奖号码冠军和第十名之和与所选的号码一致即为中奖，顺序不限。如：投注8，开奖号码：02*******06，即首尾和值。';
@@ -3237,6 +3727,7 @@ var TEMPLATE = {
                 return _num;
             };
             _opt.sumType = '2rpk';
+            _opt.ajaxType = 'sum1a10';
             break;
         }
 
@@ -3270,6 +3761,7 @@ var TEMPLATE = {
             type: 'taste',
             formula: null,
             minSelect: 1,
+            multipleChoice: false,
             ajaxType: ''
         };
         var _maxBonus = '3.4000';
@@ -3281,7 +3773,8 @@ var TEMPLATE = {
                 _opt.quickFast = false;
                 _opt.formula = function(a){
                     return a[a.length - 1][a[0]].length + a[a.length - 1][a[1]].length + a[a.length - 1][a[2]].length + a[a.length - 1][a[3]].length + a[a.length - 1][a[4]].length
-                }
+                };
+                _opt.ajaxType = 'sizeB5';
                 break;
             case 'Last5BSOE_PK10':
                 _rule = '从第六、第七、第八、第九、第十名中的“大、小、单、双”中至少选一个组成一注。如：投注第十名双，开奖号码：*********08，即中第十名大小单双。';
@@ -3290,7 +3783,8 @@ var TEMPLATE = {
                 _opt.quickFast = false;
                 _opt.formula = function(a){
                     return a[a.length - 1][a[0]].length + a[a.length - 1][a[1]].length + a[a.length - 1][a[2]].length + a[a.length - 1][a[3]].length + a[a.length - 1][a[4]].length
-                }
+                };
+                _opt.ajaxType = 'sizeA5';
                 break;
             case 'First2SumBSOE_PK10':
                 _rule = '从冠亚和值“大、小、单、双”至少选择一个号码形态进行投注，所选的号码与对应开奖号码和值一致则中奖。如投注方案：小，开奖号码：0506*******（顺序不限）则中冠亚和值大小单双。（注：3至11为小，12至19为大）';
@@ -3300,7 +3794,8 @@ var TEMPLATE = {
                 _opt.quickFast = false;
                 _opt.formula = function(a){
                     return a[a.length - 1][a[0]].length
-                }
+                };
+                _opt.ajaxType = 'size1a2';
                 break;
         }
 
@@ -3345,35 +3840,40 @@ var TEMPLATE = {
             _opt.numNameList = ['NONE#龙vs虎'];
             _opt.formula = function(a){
                 return a[a.length - 1][a[0]].length
-            }
+            };
+            _opt.ajaxType = 'dt1vs10';
             break;
             case 'Dragon_Tiger_2_VS_9':
             _rule = '龙虎是由两两名次进行号码PK，冠军、亚军、第三名、第四名、第五名为龙，第六名、第七名、第八名、第九名、第十名为虎，若亚军车号大于第九名，则为龙，反之则为虎..以此类推。如投注举例:投注第二名VS第九名，投注内容：[龙]，开奖比赛结果第二名为05，第九名为04，即为中奖。';
             _opt.numNameList = ['NONE#龙vs虎'];
             _opt.formula = function(a){
                 return a[a.length - 1][a[0]].length
-            }
+            };
+            _opt.ajaxType = 'dt2vs9';
             break;
             case 'Dragon_Tiger_3_VS_8':
             _rule = '龙虎是由两两名次进行号码PK，冠军、亚军、第三名、第四名、第五名为龙，第六名、第七名、第八名、第九名、第十名为虎，若第三名车号大于第八名，则为龙，反之则为虎..以此类推。如投注举例:投注第三名VS第八名，投注内容：[龙]，开奖比赛结果第三名为05，第八名为04，即为中奖。';
             _opt.numNameList = ['NONE#龙vs虎'];
             _opt.formula = function(a){
                 return a[a.length - 1][a[0]].length
-            }
+            };
+            _opt.ajaxType = 'dt3vs8';
             break;
             case 'Dragon_Tiger_4_VS_7':
             _rule = '龙虎是由两两名次进行号码PK，冠军、亚军、第三名、第四名、第五名为龙，第六名、第七名、第八名、第九名、第十名为虎，若第四名车号大于第七名，则为龙，反之则为虎..以此类推。如投注举例:投注第四名VS第七名，投注内容：[龙]，开奖比赛结果第四名为05，第七名为04，即为中奖。';
             _opt.numNameList = ['NONE#龙vs虎'];
             _opt.formula = function(a){
                 return a[a.length - 1][a[0]].length
-            }
+            };
+            _opt.ajaxType = 'dt4vs7';
             break;
             case 'Dragon_Tiger_5_VS_6':
             _rule = '龙虎是由两两名次进行号码PK，冠军、亚军、第三名、第四名、第五名为龙，第六名、第七名、第八名、第九名、第十名为虎，若第五名车号大于第六名，则为龙，反之则为虎..以此类推。如投注举例:投注第五名VS第六名，投注内容：[龙]，开奖比赛结果第五名为05，第六名为04，即为中奖。';
             _opt.numNameList = ['NONE#龙vs虎'];
             _opt.formula = function(a){
                 return a[a.length - 1][a[0]].length
-            }
+            };
+            _opt.ajaxType = 'dt5vs6';
             break;
         }
 
@@ -3431,14 +3931,14 @@ var TEMPLATE = {
             // _str += '        <em>0</em>';
             // _str += '    </div>';
             _str += '</div>';
-            _str += '<div class="below-history fl rel">';
+            _str += '<div class="below-history fl rel pk10-below-history">';
             _str += '    <dl class="history-issue fl" id="J_lastThreeDrawResult1">';
             _str += '        <dt>开奖期号</dt>';
             _str += '    </dl>';
             _str += '    <dl class="history-trend fr" id="J_lastThreeDrawResult2">';
             _str += '        <dt class="cup" id="J_trendChart"><em class="icon fl"></em>走势图</dt>';
             _str += '    </dl>';
-            _str += '    <ul class="below-history-box abs" id="J_historyList">';
+            _str += '    <ul class="below-history-box abs pk10-below-history-box" id="J_historyList">';
             _str += '    </ul>';
             _str += '</div>';
 
@@ -3472,4 +3972,3 @@ var TEMPLATE = {
         }
     }
 };
-

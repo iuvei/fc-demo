@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>走势</title>
+	<link rel="stylesheet" href="./css/reset.css">
+	<link rel="stylesheet" href="./css/chart.css">
+	<link rel="stylesheet" href="./css/skin/default.css" id="J_skinCss">
+</head>
+<body id="chartBody" class="chart-page">
+	
+	<div class="w1200">
+		<div class="pk10">
+			<div class="mainChart">
+			    <div class="chart-wrp">
+			        <div class="top-title">
+			            <div class="firstTwo-wrp po-middle">
+			                <div class="sm-ch po-middle">期号</div>
+			                <div class="mm-ch po-middle">开奖号码</div>
+			            </div>
+			            <div class="game-type-list po-middle ">
+			                <div class="ch-chart chart1">
+			                    <span>冠军位</span>
+			                    <ul>
+			                        <li>1</li>
+			                        <li>2</li>
+			                        <li>3</li>
+			                        <li>4</li>
+			                        <li>5</li>
+			                        <li>6</li>
+			                        <li>7</li>
+			                        <li>8</li>
+			                        <li>9</li>
+			                        <li>10</li></ul>
+			                </div>
+			                <div class="ch-chart chart2">
+			                    <span>亚军位</span>
+			                    <ul>
+			                        <li>1</li>
+			                        <li>2</li>
+			                        <li>3</li>
+			                        <li>4</li>
+			                        <li>5</li>
+			                        <li>6</li>
+			                        <li>7</li>
+			                        <li>8</li>
+			                        <li>9</li>
+			                        <li>10</li></ul>
+			                </div>
+			                <div class="ch-chart chart3">
+			                    <span>季军位</span>
+			                    <ul>
+			                        <li>1</li>
+			                        <li>2</li>
+			                        <li>3</li>
+			                        <li>4</li>
+			                        <li>5</li>
+			                        <li>6</li>
+			                        <li>7</li>
+			                        <li>8</li>
+			                        <li>9</li>
+			                        <li>10</li></ul>
+			                </div>
+			                <div class="ch-chart chart4">
+			                    <span>第四名位</span>
+			                    <ul>
+			                        <li>1</li>
+			                        <li>2</li>
+			                        <li>3</li>
+			                        <li>4</li>
+			                        <li>5</li>
+			                        <li>6</li>
+			                        <li>7</li>
+			                        <li>8</li>
+			                        <li>9</li>
+			                        <li>10</li></ul>
+			                </div>
+			                <div class="ch-chart chart5">
+			                    <span>第五名位</span>
+			                    <ul>
+			                        <li>1</li>
+			                        <li>2</li>
+			                        <li>3</li>
+			                        <li>4</li>
+			                        <li>5</li>
+			                        <li>6</li>
+			                        <li>7</li>
+			                        <li>8</li>
+			                        <li>9</li>
+			                        <li>10</li></ul>
+			                </div>
+			                <div class="ch-chart chart6">
+			                    <span>第六名位</span>
+			                    <ul>
+			                        <li>1</li>
+			                        <li>2</li>
+			                        <li>3</li>
+			                        <li>4</li>
+			                        <li>5</li>
+			                        <li>6</li>
+			                        <li>7</li>
+			                        <li>8</li>
+			                        <li>9</li>
+			                        <li>10</li></ul>
+			                </div>
+			                <div class="ch-chart chart7">
+			                    <span>第七名位</span>
+			                    <ul>
+			                        <li>1</li>
+			                        <li>2</li>
+			                        <li>3</li>
+			                        <li>4</li>
+			                        <li>5</li>
+			                        <li>6</li>
+			                        <li>7</li>
+			                        <li>8</li>
+			                        <li>9</li>
+			                        <li>10</li></ul>
+			                </div>
+			                <div class="ch-chart chart8">
+			                    <span>第八名位</span>
+			                    <ul>
+			                        <li>1</li>
+			                        <li>2</li>
+			                        <li>3</li>
+			                        <li>4</li>
+			                        <li>5</li>
+			                        <li>6</li>
+			                        <li>7</li>
+			                        <li>8</li>
+			                        <li>9</li>
+			                        <li>10</li></ul>
+			                </div>
+			                <div class="ch-chart chart9">
+			                    <span>第九名位</span>
+			                    <ul>
+			                        <li>1</li>
+			                        <li>2</li>
+			                        <li>3</li>
+			                        <li>4</li>
+			                        <li>5</li>
+			                        <li>6</li>
+			                        <li>7</li>
+			                        <li>8</li>
+			                        <li>9</li>
+			                        <li>10</li></ul>
+			                </div>
+			                <div class="ch-chart chart10">
+			                    <span>第十名位</span>
+			                    <ul>
+			                        <li>1</li>
+			                        <li>2</li>
+			                        <li>3</li>
+			                        <li>4</li>
+			                        <li>5</li>
+			                        <li>6</li>
+			                        <li>7</li>
+			                        <li>8</li>
+			                        <li>9</li>
+			                        <li>10</li></ul>
+			                </div>
+			            </div>
+			            <div class="chart-lastWrp po-middle">
+			                <div>
+			                    <ul class="parent-pk10">
+			                        <span>冠亚</span>
+			                        <li>和值</li>
+			                        <li>大小单双</li></ul>
+			                    <ul class="parent-pk10">
+			                        <span>冠亚季</span>
+			                        <li>和值</li>
+			                        <li>大小单双</li></ul>
+			                    <ul class="parent-pk10">
+			                        <span>首尾</span>
+			                        <li>和值</li>
+			                        <li>大小单双</li></ul>
+			                </div>
+			            </div>
+			        </div>
+			        <div class="ch-row-contner " id="628660">
+			            <div class="firstdatail po-middle">
+			                <ul class="ch-drawNumb po-middle">
+			                    <li>628660</li></ul>
+			                <ul class="winning-Num po-middle">
+			                    <li>08</li>
+			                    <li>04</li>
+			                    <li>03</li>
+			                    <li>10</li>
+			                    <li>01</li>
+			                    <li>07</li>
+			                    <li>05</li>
+			                    <li>09</li>
+			                    <li>06</li>
+			                    <li>02</li></ul>
+			            </div>
+			            <div class="numCount-wrp po-middle">
+			                <ul class="winning-1 po-middle">
+			                    <li id="1">1</li>
+			                    <li id="2">1</li>
+			                    <li id="3">1</li>
+			                    <li id="4">1</li>
+			                    <li id="5">1</li>
+			                    <li id="6">1</li>
+			                    <li id="7">1</li>
+			                    <li id="8" class="hit-blue">8</li>
+			                    <li id="9">1</li>
+			                    <li id="10">1</li></ul>
+			                <ul class="winning-2 po-middle">
+			                    <li id="1">1</li>
+			                    <li id="2">1</li>
+			                    <li id="3">1</li>
+			                    <li id="4" class="hit-red">4</li>
+			                    <li id="5">1</li>
+			                    <li id="6">1</li>
+			                    <li id="7">1</li>
+			                    <li id="8">1</li>
+			                    <li id="9">1</li>
+			                    <li id="10">1</li></ul>
+			                <ul class="winning-3 po-middle">
+			                    <li id="1">1</li>
+			                    <li id="2">1</li>
+			                    <li id="3" class="hit-blue">3</li>
+			                    <li id="4">1</li>
+			                    <li id="5">1</li>
+			                    <li id="6">1</li>
+			                    <li id="7">1</li>
+			                    <li id="8">1</li>
+			                    <li id="9">1</li>
+			                    <li id="10">1</li></ul>
+			                <ul class="winning-4 po-middle">
+			                    <li id="1">1</li>
+			                    <li id="2">1</li>
+			                    <li id="3">1</li>
+			                    <li id="4">1</li>
+			                    <li id="5">1</li>
+			                    <li id="6">1</li>
+			                    <li id="7">1</li>
+			                    <li id="8">1</li>
+			                    <li id="9">1</li>
+			                    <li id="10" class="hit-red">10</li></ul>
+			                <ul class="winning-5 po-middle">
+			                    <li id="1" class="hit-blue">1</li>
+			                    <li id="2">1</li>
+			                    <li id="3">1</li>
+			                    <li id="4">1</li>
+			                    <li id="5">1</li>
+			                    <li id="6">1</li>
+			                    <li id="7">1</li>
+			                    <li id="8">1</li>
+			                    <li id="9">1</li>
+			                    <li id="10">1</li></ul>
+			                <ul class="winning-6 po-middle">
+			                    <li id="1">1</li>
+			                    <li id="2">1</li>
+			                    <li id="3">1</li>
+			                    <li id="4">1</li>
+			                    <li id="5">1</li>
+			                    <li id="6">1</li>
+			                    <li id="7" class="hit-red">7</li>
+			                    <li id="8">1</li>
+			                    <li id="9">1</li>
+			                    <li id="10">1</li></ul>
+			                <ul class="winning-7 po-middle">
+			                    <li id="1">1</li>
+			                    <li id="2">1</li>
+			                    <li id="3">1</li>
+			                    <li id="4">1</li>
+			                    <li id="5" class="hit-blue">5</li>
+			                    <li id="6">1</li>
+			                    <li id="7">1</li>
+			                    <li id="8">1</li>
+			                    <li id="9">1</li>
+			                    <li id="10">1</li></ul>
+			                <ul class="winning-8 po-middle">
+			                    <li id="1">1</li>
+			                    <li id="2">1</li>
+			                    <li id="3">1</li>
+			                    <li id="4">1</li>
+			                    <li id="5">1</li>
+			                    <li id="6">1</li>
+			                    <li id="7">1</li>
+			                    <li id="8">1</li>
+			                    <li id="9" class="hit-red">9</li>
+			                    <li id="10">1</li></ul>
+			                <ul class="winning-9 po-middle">
+			                    <li id="1">1</li>
+			                    <li id="2">1</li>
+			                    <li id="3">1</li>
+			                    <li id="4">1</li>
+			                    <li id="5">1</li>
+			                    <li id="6" class="hit-blue">6</li>
+			                    <li id="7">1</li>
+			                    <li id="8">1</li>
+			                    <li id="9">1</li>
+			                    <li id="10">1</li></ul>
+			                <ul class="winning-10 po-middle">
+			                    <li id="1">1</li>
+			                    <li id="2" class="hit-red">2</li>
+			                    <li id="3">1</li>
+			                    <li id="4">1</li>
+			                    <li id="5">1</li>
+			                    <li id="6">1</li>
+			                    <li id="7">1</li>
+			                    <li id="8">1</li>
+			                    <li id="9">1</li>
+			                    <li id="10">1</li></ul>
+			            </div>
+			            <div class="lastDetail-wrp po-middle">
+			                <ul>
+			                    <li>12</li>
+			                    <li>大双</li>
+			                    <li>15</li>
+			                    <li>小单</li>
+			                    <li>10</li>
+			                    <li>小双</li></ul>
+			            </div>
+			        </div>
+			        <div class="totalPk10">
+			            <div class="total firstTwo-wrp po-middle">
+			                <div class="block sm-ch po-middle">
+			                    <span>出现总次数</span>
+			                    <ul class="sum1 red"></ul>
+			                    <ul class="sum1">
+			                        <li>0</li>
+			                        <li>5</li>
+			                        <li>3</li>
+			                        <li>1</li>
+			                        <li>3</li>
+			                        <li>3</li>
+			                        <li>0</li>
+			                        <li>6</li>
+			                        <li>6</li>
+			                        <li>3</li></ul>
+			                    <ul class="sum1">
+			                        <li>3</li>
+			                        <li>2</li>
+			                        <li>4</li>
+			                        <li>3</li>
+			                        <li>2</li>
+			                        <li>2</li>
+			                        <li>7</li>
+			                        <li>3</li>
+			                        <li>2</li>
+			                        <li>2</li></ul>
+			                    <ul class="sum1">
+			                        <li>2</li>
+			                        <li>4</li>
+			                        <li>3</li>
+			                        <li>6</li>
+			                        <li>3</li>
+			                        <li>4</li>
+			                        <li>2</li>
+			                        <li>1</li>
+			                        <li>3</li>
+			                        <li>2</li></ul>
+			                    <ul class="sum1">
+			                        <li>3</li>
+			                        <li>2</li>
+			                        <li>3</li>
+			                        <li>0</li>
+			                        <li>4</li>
+			                        <li>3</li>
+			                        <li>3</li>
+			                        <li>2</li>
+			                        <li>6</li>
+			                        <li>4</li></ul>
+			                    <ul class="sum1">
+			                        <li>4</li>
+			                        <li>3</li>
+			                        <li>3</li>
+			                        <li>2</li>
+			                        <li>4</li>
+			                        <li>3</li>
+			                        <li>1</li>
+			                        <li>6</li>
+			                        <li>2</li>
+			                        <li>2</li></ul>
+			                    <ul class="sum1">
+			                        <li>4</li>
+			                        <li>2</li>
+			                        <li>1</li>
+			                        <li>7</li>
+			                        <li>2</li>
+			                        <li>2</li>
+			                        <li>3</li>
+			                        <li>3</li>
+			                        <li>1</li>
+			                        <li>5</li></ul>
+			                    <ul class="sum1">
+			                        <li>3</li>
+			                        <li>5</li>
+			                        <li>5</li>
+			                        <li>3</li>
+			                        <li>2</li>
+			                        <li>1</li>
+			                        <li>4</li>
+			                        <li>0</li>
+			                        <li>1</li>
+			                        <li>6</li></ul>
+			                    <ul class="sum1">
+			                        <li>3</li>
+			                        <li>1</li>
+			                        <li>3</li>
+			                        <li>4</li>
+			                        <li>3</li>
+			                        <li>5</li>
+			                        <li>5</li>
+			                        <li>3</li>
+			                        <li>2</li>
+			                        <li>1</li></ul>
+			                    <ul class="sum1">
+			                        <li>3</li>
+			                        <li>2</li>
+			                        <li>2</li>
+			                        <li>0</li>
+			                        <li>5</li>
+			                        <li>4</li>
+			                        <li>3</li>
+			                        <li>4</li>
+			                        <li>4</li>
+			                        <li>3</li></ul>
+			                    <ul class="sum1">
+			                        <li>5</li>
+			                        <li>4</li>
+			                        <li>3</li>
+			                        <li>4</li>
+			                        <li>2</li>
+			                        <li>3</li>
+			                        <li>2</li>
+			                        <li>2</li>
+			                        <li>3</li>
+			                        <li>2</li></ul>
+			                </div>
+			                <div class="block mm-ch po-middle">
+			                    <span>平均遗漏值</span>
+			                    <ul class="sum1 red"></ul>
+			                    <ul class="sum1">
+			                        <li>0</li>
+			                        <li>5</li>
+			                        <li>9</li>
+			                        <li>29</li>
+			                        <li>9</li>
+			                        <li>9</li>
+			                        <li>0</li>
+			                        <li>4</li>
+			                        <li>4</li>
+			                        <li>9</li></ul>
+			                    <ul class="sum1">
+			                        <li>9</li>
+			                        <li>14</li>
+			                        <li>7</li>
+			                        <li>9</li>
+			                        <li>14</li>
+			                        <li>14</li>
+			                        <li>3</li>
+			                        <li>9</li>
+			                        <li>14</li>
+			                        <li>14</li></ul>
+			                    <ul class="sum1">
+			                        <li>14</li>
+			                        <li>7</li>
+			                        <li>9</li>
+			                        <li>4</li>
+			                        <li>9</li>
+			                        <li>7</li>
+			                        <li>14</li>
+			                        <li>29</li>
+			                        <li>9</li>
+			                        <li>14</li></ul>
+			                    <ul class="sum1">
+			                        <li>9</li>
+			                        <li>14</li>
+			                        <li>9</li>
+			                        <li>0</li>
+			                        <li>7</li>
+			                        <li>9</li>
+			                        <li>9</li>
+			                        <li>14</li>
+			                        <li>4</li>
+			                        <li>7</li></ul>
+			                    <ul class="sum1">
+			                        <li>7</li>
+			                        <li>9</li>
+			                        <li>9</li>
+			                        <li>14</li>
+			                        <li>7</li>
+			                        <li>9</li>
+			                        <li>29</li>
+			                        <li>4</li>
+			                        <li>14</li>
+			                        <li>14</li></ul>
+			                    <ul class="sum1">
+			                        <li>7</li>
+			                        <li>14</li>
+			                        <li>29</li>
+			                        <li>3</li>
+			                        <li>14</li>
+			                        <li>14</li>
+			                        <li>9</li>
+			                        <li>9</li>
+			                        <li>29</li>
+			                        <li>5</li></ul>
+			                    <ul class="sum1">
+			                        <li>9</li>
+			                        <li>5</li>
+			                        <li>5</li>
+			                        <li>9</li>
+			                        <li>14</li>
+			                        <li>29</li>
+			                        <li>7</li>
+			                        <li>0</li>
+			                        <li>29</li>
+			                        <li>4</li></ul>
+			                    <ul class="sum1">
+			                        <li>9</li>
+			                        <li>29</li>
+			                        <li>9</li>
+			                        <li>7</li>
+			                        <li>9</li>
+			                        <li>5</li>
+			                        <li>5</li>
+			                        <li>9</li>
+			                        <li>14</li>
+			                        <li>29</li></ul>
+			                    <ul class="sum1">
+			                        <li>9</li>
+			                        <li>14</li>
+			                        <li>14</li>
+			                        <li>0</li>
+			                        <li>5</li>
+			                        <li>7</li>
+			                        <li>9</li>
+			                        <li>7</li>
+			                        <li>7</li>
+			                        <li>9</li></ul>
+			                    <ul class="sum1">
+			                        <li>5</li>
+			                        <li>7</li>
+			                        <li>9</li>
+			                        <li>7</li>
+			                        <li>14</li>
+			                        <li>9</li>
+			                        <li>14</li>
+			                        <li>14</li>
+			                        <li>9</li>
+			                        <li>14</li></ul>
+			                </div>
+			            </div>
+			        </div>
+			        <div class="chart-below-cntent">
+			            <div class="top-title">
+			                <div class="firstTwo-wrp po-middle">
+			                    <div class="sm-ch po-middle">期号</div>
+			                    <div class="mm-ch po-middle">开奖号码</div></div>
+			                <div class="game-type-list po-middle ">
+			                    <div class="ch-chart chart1">
+			                        <span>冠军位</span>
+			                        <ul>
+			                            <li>1</li>
+			                            <li>2</li>
+			                            <li>3</li>
+			                            <li>4</li>
+			                            <li>5</li>
+			                            <li>6</li>
+			                            <li>7</li>
+			                            <li>8</li>
+			                            <li>9</li>
+			                            <li>10</li></ul>
+			                    </div>
+			                    <div class="ch-chart chart2">
+			                        <span>亚军位</span>
+			                        <ul>
+			                            <li>1</li>
+			                            <li>2</li>
+			                            <li>3</li>
+			                            <li>4</li>
+			                            <li>5</li>
+			                            <li>6</li>
+			                            <li>7</li>
+			                            <li>8</li>
+			                            <li>9</li>
+			                            <li>10</li></ul>
+			                    </div>
+			                    <div class="ch-chart chart3">
+			                        <span>季军位</span>
+			                        <ul>
+			                            <li>1</li>
+			                            <li>2</li>
+			                            <li>3</li>
+			                            <li>4</li>
+			                            <li>5</li>
+			                            <li>6</li>
+			                            <li>7</li>
+			                            <li>8</li>
+			                            <li>9</li>
+			                            <li>10</li></ul>
+			                    </div>
+			                    <div class="ch-chart chart4">
+			                        <span>第四名位</span>
+			                        <ul>
+			                            <li>1</li>
+			                            <li>2</li>
+			                            <li>3</li>
+			                            <li>4</li>
+			                            <li>5</li>
+			                            <li>6</li>
+			                            <li>7</li>
+			                            <li>8</li>
+			                            <li>9</li>
+			                            <li>10</li></ul>
+			                    </div>
+			                    <div class="ch-chart chart5">
+			                        <span>第五名位</span>
+			                        <ul>
+			                            <li>1</li>
+			                            <li>2</li>
+			                            <li>3</li>
+			                            <li>4</li>
+			                            <li>5</li>
+			                            <li>6</li>
+			                            <li>7</li>
+			                            <li>8</li>
+			                            <li>9</li>
+			                            <li>10</li></ul>
+			                    </div>
+			                    <div class="ch-chart chart6">
+			                        <span>第六名位</span>
+			                        <ul>
+			                            <li>1</li>
+			                            <li>2</li>
+			                            <li>3</li>
+			                            <li>4</li>
+			                            <li>5</li>
+			                            <li>6</li>
+			                            <li>7</li>
+			                            <li>8</li>
+			                            <li>9</li>
+			                            <li>10</li></ul>
+			                    </div>
+			                    <div class="ch-chart chart7">
+			                        <span>第七名位</span>
+			                        <ul>
+			                            <li>1</li>
+			                            <li>2</li>
+			                            <li>3</li>
+			                            <li>4</li>
+			                            <li>5</li>
+			                            <li>6</li>
+			                            <li>7</li>
+			                            <li>8</li>
+			                            <li>9</li>
+			                            <li>10</li></ul>
+			                    </div>
+			                    <div class="ch-chart chart8">
+			                        <span>第八名位</span>
+			                        <ul>
+			                            <li>1</li>
+			                            <li>2</li>
+			                            <li>3</li>
+			                            <li>4</li>
+			                            <li>5</li>
+			                            <li>6</li>
+			                            <li>7</li>
+			                            <li>8</li>
+			                            <li>9</li>
+			                            <li>10</li></ul>
+			                    </div>
+			                    <div class="ch-chart chart9">
+			                        <span>第九名位</span>
+			                        <ul>
+			                            <li>1</li>
+			                            <li>2</li>
+			                            <li>3</li>
+			                            <li>4</li>
+			                            <li>5</li>
+			                            <li>6</li>
+			                            <li>7</li>
+			                            <li>8</li>
+			                            <li>9</li>
+			                            <li>10</li></ul>
+			                    </div>
+			                    <div class="ch-chart chart10">
+			                        <span>第十名位</span>
+			                        <ul>
+			                            <li>1</li>
+			                            <li>2</li>
+			                            <li>3</li>
+			                            <li>4</li>
+			                            <li>5</li>
+			                            <li>6</li>
+			                            <li>7</li>
+			                            <li>8</li>
+			                            <li>9</li>
+			                            <li>10</li></ul>
+			                    </div>
+			                </div>
+			                <div class="chart-lastWrp po-middle">
+			                    <div>
+			                        <ul class="parent-pk10">
+			                            <span>冠亚</span>
+			                            <li>和值</li>
+			                            <li>大小单双</li></ul>
+			                        <ul class="parent-pk10">
+			                            <span>冠亚季</span>
+			                            <li>和值</li>
+			                            <li>大小单双</li></ul>
+			                        <ul class="parent-pk10">
+			                            <span>首尾</span>
+			                            <li>和值</li>
+			                            <li>大小单双</li></ul>
+			                    </div>
+			                </div>
+			            </div>
+			        </div>
+			    </div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<!-- <script src="./js/jquery-1.11.1.min.js"></script> -->
+    <!-- <script src="./js/jquery.cookie.js"></script> -->
+    <!-- <script src="./js/layer/layer.js"></script> -->
+    <!-- <script src="./js/GLOBAL.js"></script> -->
+
+    <!-- <script src="./js/common.js"></script> -->
+	<!-- <script src="./js/chart.js"></script> -->
+    <!-- <script src="./js/template.js"></script> -->
+    <!-- <script src="./js/betting.js"></script> -->
+    <!-- <script src="./js/common.js"></script> -->
+</body>
+</html>

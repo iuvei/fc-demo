@@ -650,6 +650,127 @@ body.bg-whit{
 .chase-record .t8{width: 113px;}
 .chase-record .t9{width: 100px;}
 
+/* 追号记录（订单详情） */
+.chase-detail-t,
+.chase-order-t{
+	height: 145px;
+	padding: 20px 0 23px;
+	color: #666;
+}
+.chase-detail-t img,
+.chase-order-t img{
+	float: left;
+	margin: 10px 15px;
+}
+.chase-detail-t ul,
+.chase-order-t ul{
+	float: left;
+	width: 894px;
+}
+.chase-detail-t li,
+.chase-order-t li{
+	float: left;
+	width: 33%;
+	line-height: 34px;
+}
+.chase-detail-t li span,
+.chase-order-t li span{
+	float: left;
+	display: block;
+	// width: 82px;
+}
+.chase-detail-t li p,
+.chase-order-t li p{
+	float: left;
+}
+.chase-detail-t li p em{}
+.chase-detail{
+	font-size: 14px;
+}
+.chase-detail .user-table-c li > div{
+	letter-spacing: 2px;
+}
+.chase-detail .t1{width: 190px;}
+.chase-detail .t2{width: 130px;}
+.chase-detail .t3{width: 145px;}
+.chase-detail .t4{width: 230px;}
+.chase-detail .t5{width: 130px;}
+.chase-detail .t6{width: 140px;}
+.chase-detail div.t6{color: #d43f27;}
+
+/* 追号记录（订单） */
+.chase-order-t{
+	height: 168px;
+	border-bottom: 1px solid #e4e4e4;
+	margin-bottom: 15px;
+}
+.chase-order .user-table-t{
+	background-color: #fff;
+}
+.chase-table-tt{
+	height: 36px;
+	border-bottom: 1px solid #e4e4e4;
+}
+.chase-table-tt > div{
+    float: left;
+    margin-right: 3px;
+}
+.chase-table-tt > div span{
+	display: block;
+    width: 108px;
+    height: 36px;
+    line-height: 36px;
+    text-align: center;
+    cursor: pointer;
+    background-color: #e4e4e4;
+    border: 1px solid #e4e4e4;
+    float: left;
+    border-top: 2px solid #e4e4e4;
+}
+.chase-table-tt > div a{
+    float: right;
+    color: #fff;
+    width: 84px;
+    line-height: 30px;
+    text-align: center;
+    border-radius: 3px;
+    margin-left: 677px;
+    margin-top: -5px;
+    display: none;
+}
+.chase-table-tt > div.active a{
+	display: block;
+}
+.chase-order{
+	font-size: 14px;
+}
+.chase-order .user-table-c li > div{
+	letter-spacing: 2px;
+}
+.chase-table-1 .t1{width: 190px;}
+.chase-table-1 .t2{width: 130px;}
+.chase-table-1 .t3{width: 145px;}
+.chase-table-1 .t4{width: 230px;}
+.chase-table-1 .t5{width: 130px;}
+.chase-table-2 .t1{width: 100px;}
+.chase-table-2 .t1 em{
+	display: block;
+	width: 14px;
+	height: 14px;
+	border: 1px solid #d1d1d1;
+	margin: 10px auto 0;
+	cursor: pointer;
+}
+.chase-table-2 .t2{width: 140px;}
+.chase-table-2 .t3{width: 145px;}
+.chase-table-2 .t4{width: 150px;}
+.chase-table-2 .t5{width: 150px;}
+.chase-table-2 .t6{width: 150px;}
+.chase-table-2 .t7{width: 150px;}
+.chase-table-2 .t7 a{
+	color: #0085ec;
+}
+
 /* 账变明细 */
 .account-details{}
 .account-details{}
@@ -904,21 +1025,9 @@ body.bg-whit{
     max-height: 400px;
     overflow-y: auto;
 }
-
 .user-bank-list .nice-select{
 	width: 218px;
 }
 .user-bank-list .nice-select .option{
 	width: 214px;
 }
-
-
-
-
-
-
-
-
-
-
-

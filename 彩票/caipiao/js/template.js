@@ -3938,7 +3938,7 @@ var TEMPLATE = {
             _str += '    <dl class="history-trend fr" id="J_lastThreeDrawResult2">';
             _str += '        <dt class="cup" id="J_trendChart"><em class="icon fl"></em>走势图</dt>';
             _str += '    </dl>';
-            _str += '    <ul class="below-history-box abs" id="J_historyList">';
+            _str += '    <ul class="below-history-box abs pk10-below-history-box" id="J_historyList">';
             _str += '    </ul>';
             _str += '</div>';
 

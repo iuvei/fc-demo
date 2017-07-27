@@ -347,7 +347,7 @@ $(function() {
                 $('.chase-dialog .chosen-container').width(240);
             });
 
-            var _data = TEMPLATE.getChaseData(_url.type, _url.name, $('#J_betTimer').data('n'));
+            var _data = TEMPLATE.getChaseData(_url.type, _url.name, $('.J_betTimer').data('n'));
             // console.log(_data);
             $('.J_periods').attr('title', '(包含当前最多追' + _data.maxPeriods + '期)').data('max', _data.maxPeriods);
 

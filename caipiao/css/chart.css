@@ -1,4 +1,4 @@
-// body * {
+/*// body * {
 // 	font-size: 15px;
 // }
 // * {
@@ -26,7 +26,7 @@
 // }
 // .chart-wrap {
 // 	padding-top: 30px;
-// }
+// }*/
 
 
 
@@ -123,9 +123,9 @@
     float: left;
 }
 .game-type-list {
-	// left: 5px;
+	/*// left: 5px;
 	// max-width: 1000px;
-	// min-width: 850px;
+	// min-width: 850px;*/
 	position: relative;
 	text-align: center;
 }
@@ -322,3 +322,184 @@
 /* =========================================================== */
 /* ==================  PK10 =============================== */
 /* =========================================================== */
+.pk10 .mainChart {
+    overflow: scroll;
+}
+.pk10 .chart-wrp {
+    width: 2580px;
+}
+.pk10 .mm-ch.po-middle, .pk10 .winning-Num.po-middle {
+    width: 210px;
+}
+.pk10 .block.sm-ch.po-middle, .pk10 .block.mm-ch.po-middle {
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+}
+.pk10 .chart-lastWrp.po-middle {
+    float: none;
+    margin: 0;
+    text-align: center;
+    width: 310px;
+    padding-top: 0;
+}
+.parent-pk10 {
+    display: inline-block;
+}
+.pk10 .chart-lastWrp.po-middle li {
+    display: inline-block;
+    font-size: 13px;
+    left: 0;
+    letter-spacing: -1px;
+    margin: 0 6px 0 8px;
+    position: relative;
+}
+.pk10 .firstdatail.po-middle {
+    text-align: center;
+    width: 321px;
+}
+.pk10 .numCount-wrp.po-middle .po-middle {
+    width: 194px;
+}
+.pk10 .winning-Num li {
+    color: #e66161;
+    display: inline-block;
+    letter-spacing: 1px;
+}
+.total.firstTwo-wrp.po-middle {
+    width: 100%;
+}
+.block.po-middle {
+    border-bottom: 1px dashed #ddd;
+    display: block;
+    text-align: left;
+}
+.block.sm-ch.po-middle {
+    width: 100%;
+}
+.pk10 .block.po-middle > span {
+    display: inline-block;
+    text-align: right;
+    width: 210px !important;
+    float: left;
+}
+.totalPk10 .sum1.red {
+    width: 118px;
+    height: 20px;
+    margin-right: 0;
+}
+.sum1 {
+    display: inline-block;
+}
+.sum1.red {
+    margin-right: 12px;
+}
+.pk10 .sum1 > li {
+    display: inline-block;
+    font-size: 12px;
+    letter-spacing: 0;
+    width: 14px;
+}
+.pk10 .sum1 {
+    width: 194px;
+    float: left;
+}
+.pk10 .lastDetail-wrp.po-middle {
+    width: 317px;
+}
+.pk10 .lastDetail-wrp li {
+    width: 52px;
+}
+.pk10 .top-title ul {
+    padding-top: 0;
+    margin-top: 0;
+}
+.pk10 .top-title span {
+    margin-top: 10px;
+}
+.pk10 .ch-chart {
+    width: 194px;
+}
+.pk10 .ch-chart li {
+    width: 22px;
+}
+.pk10 .numCount-wrp .po-middle > li {
+    width: 22px;
+}
+/* =========================================================== */
+/* ==================  K3 =============================== */
+/* =========================================================== */
+.k3 .chart-lastWrp.po-middle{
+    width: 310px;
+}
+.k3 .chart-lastWrp.po-middle li{
+    margin: 0;
+    width: 60px;
+    text-align: center;
+}
+.k3 .lastDetail-wrp.po-middle{
+    width: 310px;
+}
+.k3 .lastDetail-wrp li{
+    width: 60px;
+}
+.k3 .ch-chart li{
+    width: 29px;
+    margin: 0;
+}
+.k3 .numCount-wrp .po-middle > li{
+    width: 29px;
+    margin: 0;
+}
+.k3 .hit-blue{
+    background-position: -115px 0;
+}
+.k3 .hit-red{
+    background-position: 209px 0;
+}
+.k3-total{
+    border-bottom: 1px solid #dddddd;
+    background-color: #e9e9e9;
+}
+.k3-total > span{
+    display: block;
+    float: left;
+    height: 30px;
+    line-height: 30px;
+    width: 181px;
+    text-align: center;
+    border-right: 1px solid #ddd;
+    font-size: 14px;
+}
+.k3-total > div{
+    float: left;
+}
+.k3-total-num{
+    border-right: 1px solid #ddd;
+    overflow: hidden;
+}
+.k3-total-num li{
+    float: left;
+    height: 30px;
+    line-height: 30px;
+    width: 29px;
+    font-size: 12px;
+    text-align: center;
+}
+
+.k3-total-5{
+    width: 310px;
+}
+.k3-total-5 ul{
+    float: right;
+}
+.k3-total-5 ul li{
+    width: 60px;
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    vertical-align: bottom;
+    float: left;
+    font-size: 12px;
+}

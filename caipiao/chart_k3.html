@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>走势</title>
+	<link rel="stylesheet" href="./css/reset.css">
+	<link rel="stylesheet" href="./css/chart.css">
+	<link rel="stylesheet" href="./css/skin/default.css" id="J_skinCss">
+</head>
+<body id="chartBody" class="chart-page">
+	<!-- 顶部 -->
+	<div id="header" class="header dark-color">
+		<div class="w1200 clearfix rel">
+			<div class="fl header-post">
+				<a href="javascript:;"><img src="./images/icon-logo.png" alt=""></a>
+				<em class="icon fl"></em>
+				<div class="fl">暂时没有滚动通告</div>
+			</div>
+			<div class="fr header-user">
+				<p class="fl">您好，<span id="J_headerUserName"></span></p>
+				<b class="fl">|</b>
+				<div class="fl"><span class="fl" id="J_totalBalance">余额 <i class="J_balance"></i></span><em class="fl icon icon-refresh cup" id="J_refresh"></em><span class="cup show fl" id="J_cutoverBalance" data-balance="">隐藏</span></div>
+				<b class="fl">|</b>
+				<span class="fl cup J_pageJump" data-page="recharge_online">充值</span>
+				<span class="fl cup J_pageJump" data-page="withdrawal_application">提款</span>
+				<b class="fl">|</b>
+				<em class="fl icon icon-signout cup" id="J_signOut"></em>
+				
+			</div>
+
+			<div class="skin" id="J_skin">
+				<span>皮肤</span>
+				<em></em>
+				<ul>
+					<li class="J_setSkin skin-default" data-skin="default"></li>
+					<li class="J_setSkin skin-blue" data-skin="blue"></li>
+					<!-- <li class="J_setSkin skin-red" data-skin="red"></li>
+					<li class="J_setSkin skin-black" data-skin="black"></li> -->
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<!-- below-header -->
+	<div class="below-header w1200 clearfix">
+        <div class="below-logo fl">
+            <img src="" alt="" id="J_productLogo">
+        </div>
+        <div class="below-count fl">
+            <div class="fl below-phase">
+                <p>剩余投注时间</p>
+                <p>第<span class="text-l-color" id="J_betTimer"></span>期</p>
+            </div>
+            <div class="fl below-count-num" id="J_countDownNum">
+                <em>0</em><em>0</em><span>:</span><em>0</em><em>0</em><span>:</span><em>0</em><em>0</em>
+            </div>
+        </div>
+        <div class="below-num fl">
+            <div class="fl below-phase">
+                <p>开奖号码</p>
+                <p>第<span class="text-l-color" id="J_dataNum"></span>期</p>
+            </div>
+            <div class="fl below-prize-num" id="J_drawResult">
+                <em>0</em>
+                <em>0</em>
+                <em>0</em>
+                <em>0</em>
+                <em>0</em>
+            </div>
+        </div>
+        <div class="below-history fl rel">
+            <dl class="history-issue fl" id="J_lastThreeDrawResult1">
+                <dt>开奖期号</dt>
+                <!-- <dd>20170621-052</dd>
+                <dd>20170621-052</dd>
+                <dd>20170621-052</dd> -->
+            </dl>
+            <dl class="history-trend fr" id="J_lastThreeDrawResult2">
+                <dt class="cup" id="J_trendChart"><em class="icon fl"></em>走势图</dt>
+                <!-- <dd>25466</dd>
+                <dd>25466</dd>
+                <dd>25466</dd> -->
+            </dl>
+            <ul class="below-history-box abs" id="J_historyList">
+                <!-- <li><span>20170621-052</span><em>33567</em></li>
+                <li><span>20170621-052</span><em>33567</em></li>
+                <li><span>20170621-052</span><em>33567</em></li>
+                <li><span>20170621-052</span><em>33567</em></li> -->
+            </ul>
+        </div>
+    </div>
+	<div class="below-line"></div>
+	
+	<!-- chart -->
+	<div class="chart-top w1200 clearfix">
+		<div class="chart-issue fl">
+			<span>期数：</span>
+			<span class="J_recently cup chart-issue-c active" data-size="30">近30期</span>
+			<span class="J_recently cup chart-issue-c" data-size="50">近50期</span>
+			<span class="J_recently cup chart-issue-c" data-size="100">近100期</span>
+		</div>
+		<div class="chart-switch fl">
+			<div class="chart-check fl cup" id="J_missBtn"><i class="active"></i>遗漏</div>
+			<div class="chart-check fl cup" id="J_polyline"><i class="active"></i>折线</div>
+		</div>
+	</div>
+	<div class="chart-box w1200">
+		<div class="k3">
+			<div class="top-title">
+	            <div class="firstTwo-wrp po-middle">
+	                <div class="sm-ch po-middle">期号</div>
+	                <div class="mm-ch po-middle">开奖号码</div>
+	            </div>
+	            <div class="game-type-list po-middle ">
+	                <div class="ch-chart chart1">
+	                    <span>百位</span>
+	                    <ul>
+	                        <li>1</li>
+	                        <li>2</li>
+	                        <li>3</li>
+	                        <li>4</li>
+	                        <li>5</li>
+	                        <li>6</li>
+	                    </ul>
+	                </div>
+	                <div class="ch-chart chart2">
+	                    <span>十位</span>
+	                    <ul>
+	                        <li>1</li>
+	                        <li>2</li>
+	                        <li>3</li>
+	                        <li>4</li>
+	                        <li>5</li>
+	                        <li>6</li>
+	                    </ul>
+	                </div>
+	                <div class="ch-chart chart3">
+	                    <span>个位</span>
+	                    <ul>
+	                        <li>1</li>
+	                        <li>2</li>
+	                        <li>3</li>
+	                        <li>4</li>
+	                        <li>5</li>
+	                        <li>6</li>
+	                    </ul>
+	                </div>
+	                <div class="ch-chart chart4">
+	                    <span>号码分布</span>
+	                    <ul>
+	                        <li>1</li>
+	                        <li>2</li>
+	                        <li>3</li>
+	                        <li>4</li>
+	                        <li>5</li>
+	                        <li>6</li>
+	                    </ul>
+	                </div>
+	            </div>
+	            <div class="chart-lastWrp po-middle">
+	                <ul>
+	                    <li>和值</li>
+	                    <li>三同号</li>
+	                    <li>二同号</li>
+	                    <li>三不同</li>
+	                    <li>三连号</li>
+	                </ul>
+	            </div>
+	        </div>
+	        <div id="J_chartBox">
+	        	 <div class="ch-row-contner " id="20170625-084">
+		            <div class="firstdatail po-middle">
+		                <ul class="ch-drawNumb po-middle">
+		                    <li>20170625-084</li>
+		                </ul>
+		                <ul class="winning-Num po-middle">
+		                    <li>1</li>
+		                    <li>6</li>
+		                    <li>2</li>
+		                </ul>
+		            </div>
+		            <div class="numCount-wrp po-middle">
+		                <ul class="winning-1 po-middle">
+		                    <li id="1">3</li>
+		                    <li id="2">2</li>
+		                    <li id="3">2</li>
+		                    <li id="4">6</li>
+		                    <li id="5">5</li>
+		                    <li id="6">9</li>
+		                </ul>
+		                <ul class="winning-2 po-middle">
+		                    <li id="1">5</li>
+		                    <li id="2">1</li>
+		                    <li id="3">8</li>
+		                    <li id="4">3</li>
+		                    <li id="5">4</li>
+		                    <li id="6">6</li>
+		                </ul>
+		                <ul class="winning-3 po-middle">
+		                    <li id="1">1</li>
+		                    <li id="2">2</li>
+		                    <li id="3">3</li>
+		                    <li id="4">6</li>
+		                    <li id="5">0</li>
+		                    <li id="6">8</li>
+		                </ul>
+		                <ul class="winning-4 po-middle">
+		                    <li id="1">1</li>
+		                    <li id="2">2</li>
+		                    <li id="3">5</li>
+		                    <li id="4">2</li>
+		                    <li id="5">4</li>
+		                    <li id="6" class="hit-red">6</li>
+		                </ul>
+		            </div>
+		            <div class="lastDetail-wrp po-middle">
+		                <ul>
+		                    <li>1</li>
+		                    <li>16</li>
+		                    <li>16</li>
+		                    <li>16</li>
+		                    <li>8</li>
+		                </ul>
+		            </div>
+		        </div>
+	        </div>
+            <div class="k3-total clearfix">
+            	<span>出现总次数</span>
+            	<div class="k3-total-num k3-total-1">
+            		<ul>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            		</ul>
+            	</div>
+            	<div class="k3-total-num k3-total-2">
+            		<ul>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            		</ul>
+            	</div>
+            	<div class="k3-total-num k3-total-3">
+            		<ul>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            		</ul>
+            	</div>
+            	<div class="k3-total-num k3-total-4">
+            		<ul>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            		</ul>
+            	</div>
+            	<div class="k3-total-5">
+            		<ul>
+            			<li>0</li>
+            			<li>0</li>
+            			<li>0</li>
+            			<li>0</li>
+            			<li>0</li>
+            		</ul>
+            	</div>
+            </div>
+            <div class="k3-total clearfix">
+            	<span>平均遗漏值</span>
+            	<div class="k3-total-num k3-total-1">
+            		<ul>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            		</ul>
+            	</div>
+            	<div class="k3-total-num k3-total-2">
+            		<ul>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            		</ul>
+            	</div>
+            	<div class="k3-total-num k3-total-3">
+            		<ul>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            		</ul>
+            	</div>
+            	<div class="k3-total-num k3-total-4">
+            		<ul>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            		</ul>
+            	</div>
+            	<div class="k3-total-5">
+            		<ul>
+            			<li>0</li>
+            			<li>0</li>
+            			<li>0</li>
+            			<li>0</li>
+            			<li>0</li>
+            		</ul>
+            	</div>
+            </div>
+            <div class="k3-total clearfix">
+            	<span>最大遗漏值</span>
+            	<div class="k3-total-num k3-total-1">
+            		<ul>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            		</ul>
+            	</div>
+            	<div class="k3-total-num k3-total-2">
+            		<ul>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            		</ul>
+            	</div>
+            	<div class="k3-total-num k3-total-3">
+            		<ul>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            		</ul>
+            	</div>
+            	<div class="k3-total-num k3-total-4">
+            		<ul>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            		</ul>
+            	</div>
+            	<div class="k3-total-5">
+            		<ul>
+            			<li>0</li>
+            			<li>0</li>
+            			<li>0</li>
+            			<li>0</li>
+            			<li>0</li>
+            		</ul>
+            	</div>
+            </div>
+            <div class="k3-total clearfix">
+            	<span>最大连出值</span>
+            	<div class="k3-total-num k3-total-1">
+            		<ul>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            		</ul>
+            	</div>
+            	<div class="k3-total-num k3-total-2">
+            		<ul>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            		</ul>
+            	</div>
+            	<div class="k3-total-num k3-total-3">
+            		<ul>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            		</ul>
+            	</div>
+            	<div class="k3-total-num k3-total-4">
+            		<ul>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            			<li>12</li>
+            		</ul>
+            	</div>
+            	<div class="k3-total-5">
+            		<ul>
+            			<li>0</li>
+            			<li>0</li>
+            			<li>0</li>
+            			<li>0</li>
+            			<li>0</li>
+            		</ul>
+            	</div>
+            </div>
+	        <div class="chart-below-cntent">
+	            <div class="top-title">
+	                <div class="firstTwo-wrp po-middle">
+	                    <div class="sm-ch po-middle">期号</div>
+	                    <div class="mm-ch po-middle">开奖号码</div>
+	                </div>
+	                <div class="game-type-list po-middle ">
+		                <div class="ch-chart chart1">
+		                    <ul>
+		                        <li>1</li>
+		                        <li>2</li>
+		                        <li>3</li>
+		                        <li>4</li>
+		                        <li>5</li>
+		                        <li>6</li>
+		                    </ul>
+		                    <span>万位</span>
+		                </div>
+		                <div class="ch-chart chart2">
+		                    <ul>
+		                        <li>1</li>
+		                        <li>2</li>
+		                        <li>3</li>
+		                        <li>4</li>
+		                        <li>5</li>
+		                        <li>6</li>
+		                    </ul>
+		                    <span>千位</span>
+		                </div>
+		                <div class="ch-chart chart3">
+		                    <ul>
+		                        <li>1</li>
+		                        <li>2</li>
+		                        <li>3</li>
+		                        <li>4</li>
+		                        <li>5</li>
+		                        <li>6</li>
+		                    </ul>
+		                    <span>百位</span>
+		                </div>
+		                <div class="ch-chart chart4">
+		                    <ul>
+		                        <li>1</li>
+		                        <li>2</li>
+		                        <li>3</li>
+		                        <li>4</li>
+		                        <li>5</li>
+		                        <li>6</li>
+		                    </ul>
+		                    <span>号码分布</span>
+		                </div>
+		            </div>
+	                <div class="chart-lastWrp po-middle">
+		                <ul>
+		                    <li>和值</li>
+		                    <li>三同号</li>
+		                    <li>二同号</li>
+		                    <li>三不同</li>
+		                    <li>三连号</li>
+		                </ul>
+		            </div>
+	            </div>
+	        </div>
+		</div>
+	</div>
+	
+	<!-- 底部 -->
+	<div id="footer" class="footer dark-color">
+		<div class="w1200">© 大圣彩版权所有 |  创新博弈，成功从大圣彩开始</div>
+	</div>
+
+	<script src="./js/jquery-1.11.1.min.js"></script>
+    <script src="./js/jquery.cookie.js"></script>
+    <script src="./js/layer/layer.js"></script>
+    <script src="./js/GLOBAL.js"></script>
+    <!-- <script src="./js/common.js"></script> -->
+    
+	<!-- <script src="./js/chart.js"></script> -->
+    <!-- <script src="./js/template.js"></script> -->
+    <!-- <script src="./js/betting.js"></script> -->
+    <!-- <script src="./js/common.js"></script> -->
+</body>
+</html>
