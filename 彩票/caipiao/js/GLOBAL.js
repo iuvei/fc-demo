@@ -112,6 +112,36 @@ var GLOBAL = {
 			});
 		}
 	},
+	SESSION : {
+		getSessionItem : function(key) {
+			var use_cookie = (window.sessionStorage) ? false : true;
+			var _key = (use_cookie ? $.cookie(key) : (window.sessionStorage.getItem(key)));
+			_key = (_key ? _key : '');
+			try {
+				return _key && (_key != undefined) ? jQuery.parseJSON(_key) : null;
+			} catch (err) {
+				return _key;
+			}
+		},
+		setSessionItem : function(key, value) {
+			if (window.sessionStorage) {
+				if (value && value != '') {
+					window.sessionStorage.setItem(key, value);
+				} else {
+					window.sessionStorage.removeItem(key);
+				}
+			} else {
+				$.cookie(key, value);
+			}
+		},
+		removeItem : function(key) {
+			if (window.sessionStorage) {
+				window.sessionStorage.removeItem(key);
+			} else {
+				$.cookie(key, '');
+			}
+		}
+	},
 	PAGER : {
 		/**
 		 * demo: 
@@ -304,5 +334,9 @@ var GLOBAL = {
 			});
 		}
 	},
-
+	changeUrlArg: function(url, arg, val) {
+		var pattern = arg + '=([^&]*)';
+		var replaceText = arg + '=' + val;
+		return url.match(pattern) ? url.replace(eval('/(' + arg + '=)([^&]*)/gi'), replaceText) : (url.match('[\?]') ? url + '&' + replaceText : url + '?' + replaceText);
+	}
 };

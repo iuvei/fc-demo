@@ -28,12 +28,7 @@ $(function() {
             $('select').niceSelect();
             Betting.bindEvent();
             Betting.bettingEvent();
-
-            // if(_type != 3){
-                Betting.renderSelectArea();
-            // } else {
-            //     Betting.renderK3SelectArea();
-            // }
+            Betting.renderSelectArea();
         },
         bindEvent: function() {            
             // 历史投注换页
@@ -120,11 +115,6 @@ $(function() {
                 $('#J_bettingRule').hide();
             });
         },
-        // renderK3SelectArea: function() {
-        //     var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
-            
-        //     console.log(_mainNav);
-        // },
         renderSelectArea: function() {
             var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
             var _subNav = ($('.J_subMenu.active').length ? $('.J_subMenu.active').data('info').split('#')[1] : _mainNav);
@@ -134,7 +124,7 @@ $(function() {
             var options = _data.opt;
             var _str = '';
 
-            console.log(_subNav);
+            // console.log(_subNav);
 
             if (_subNav == 'OECounts_11X5') {
                 // 定单双
@@ -939,7 +929,7 @@ $(function() {
             });
         },
         confirmCart: function(_data, type) {
-            console.log(_data);
+            // console.log(_data);
             // return;
             // type : confirm 确认投注    shortcut : 一键投注
             
@@ -1027,9 +1017,8 @@ $(function() {
             var _amount = 0;    //一注的价格
             var _data = [];
             var _miBall = TEMPLATE.allManualEntryEvents(_subNav).miBall;
-            console.log(_subNav);
+            // console.log(_subNav);
             if (_currentRule.opt.type == 'text') {
-                // 默认设置为SSC
                 for (var _ddddd = {}, e = Betting.playCode, f = 0; f < a.length; f++){
                     _ddddd[a[f]] = "11X5" == e || "PK10" == e ? [] : "";
                 }
@@ -1040,7 +1029,6 @@ $(function() {
                 // var b = TEMPLATE[_mainNav]({
                 //     type : _subNav
                 // }).opt.minSelect;
-
                 // console.log(b);
 
                 if(Betting.playCode == '11X5'){
@@ -1117,7 +1105,7 @@ $(function() {
                         d.sort(function() {
                             return .5 - Math.random()
                         });
-                        console.log(d);
+                        // console.log(d);
                         for (var e = 0; e < 1 * c; e++) {
                             var f = Betting.addZero(d[e] + "", 2),
                                 g = e == 1 * c - 1;
@@ -3243,7 +3231,6 @@ $(function() {
             }
         },
         calculateSSCManualEntryStakes: function(a, b) {
-            console.log('calculateSSCManualEntryStakes');
             // 时时彩的普通文本域事件
             // TEMPLATE.sameComparer()
             Betting.textArea = [];

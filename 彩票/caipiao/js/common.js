@@ -16,6 +16,7 @@
 			COMMON.setSkin();
 			COMMON.getUrlParam();
 			COMMON.renderUserInfo();
+			COMMON.renderCateList();
 			COMMON.bindEvent();
 			COMMON.userCenterMenu();
 		},
@@ -132,6 +133,39 @@
 				});
 			}
 		},
+		renderCateList: function() {
+			var _cateList = GLOBAL.SESSION.getSessionItem('cateList');
+			if(!_cateList){
+				GLOBAL.getAjaxData({
+					url: '/product/cate-lists'
+				}, function(data) {
+					_render(data);
+					GLOBAL.SESSION.setSessionItem('cateList', JSON.stringify(data));
+				});
+			} else {
+				_render(_cateList);
+			}
+
+			function _render(data){
+				if (data && data.length) {
+					$.each(data, function(i, n){
+						$('#J_cateList_'+n.id).find('dd').remove();
+						var _str = '';
+						if(n.product && n.product.length){
+							$.each(n.product, function(x, y){
+								if(x % 2){
+									_str += '<dd class="new">';
+								} else{
+									_str += '<dd class="hot">';
+								}
+								_str += '<a href="'+ (COMMON.isIndex ? '' : '../') +'betting.html?name='+ y.code +'&id='+ y.id +'&type='+ y.category_id +'">'+ y.name +'</a></dd>';
+							});
+						}
+						$('#J_cateList_'+n.id).append(_str);
+					});
+				}
+			}
+		},
 		renderUserInfo: function() {
 			GLOBAL.getAjaxData({
 				url: '/user/detail'
@@ -148,17 +182,9 @@
 				url: '/product/lists'
 			}, function(data) {
 				var _data = data.data;
-				var _type = 1;
 				$.each(_data, function(i, val) {
-					if (val.code == 'jiangsu_fast_three') {
-						_type = 3;
-					} else if(val.code == 'jiangxi_eleven_choose_five') {
-						_type = 2;
-					} else if(val.code == 'beijing_pk_ten') {
-						_type = 4;
-					}
 					// 跳转地址
-					$('#J_jumpToPage' + val.id).attr('href', 'betting.html?name=' + val.code +'&id=' + val.id + '&type='+_type);
+					$('#J_jumpToPage' + val.id).attr('href', 'betting.html?name=' + val.code +'&id=' + val.id + '&type='+ val.category_id);
 					//彩票期数
 					$('#J_betTimer' + val.id).html(val.periods.date + '-' + val.periods.num);
 					//定时器处理
@@ -253,7 +279,6 @@
 	        }
 	    },
 		getBallInfo: function($id, getList) {
-			// console.log($id, getList);
 			// clearInterval(COMMON.timer2);
 			// window.clearInterval(COMMON.timer2);
 			var _url = GLOBAL.getRequestURL();
@@ -270,6 +295,10 @@
 					//定时器处理
 					COMMON.countDown(parseInt(data.periods.lottery_surplus), data.id, data.id);
 				} else {
+					if(_url.type != data.category_id){
+						var _trueUrl = GLOBAL.changeUrlArg(window.location.href, 'type', data.category_id);
+						window.location.href = _trueUrl;
+					}
 					$('.J_productLogo').attr('src', data.logo);
 					// TODO: 详情页
 					if(_url.name.indexOf('beijing') > -1) {
@@ -279,7 +308,6 @@
 						$('.J_betTimer').html(data.periods.date + '-' + COMMON.fillLenght(data.periods.num, 3, '0')); //彩票期数
 						$('#J_dataNum').text(data.prev_periods.date + '-' + COMMON.fillLenght(data.prev_periods.num, 3, '0'));
 					}
-					// console.log((data.periods.date + '-' + COMMON.fillLenght(data.periods.num, 3, '0')));
 					$('.J_betTimer').data('n', (data.periods.date + '-' + COMMON.fillLenght(data.periods.num, 3, '0')));
 					// $('#countDown').val(parseInt(data.periods.lottery_surplus)); //距离开奖时间 秒数
 					$('#orderId').val(data.periods.id);
@@ -289,7 +317,6 @@
 					COMMON.lotteryNum('J_drawResult', data.prev_periods.lottery_num, $id);
 
 					if(_renderHistory){
-						console.log('renderHistory=========')
 						COMMON.renderHistory();
 					}
 				}
@@ -303,28 +330,14 @@
 			return str;
 		},
 		lotteryNum: function(_id, num, d) {
-			// console.log(num);
-			// TODO：
 			var _url = GLOBAL.getRequestURL();
-			// if(_url.type == 1){
-			// }else if(_url.type == 2){
-
-			// }else if(_url.type == 3){
-
-			// }else if(_url.type == 4){
-
-			// }
-
-			// window.clearInterval(t);
 			//处理开奖号
 			if (num.length > 0) {
 				var _str = '';
-				if (_url.type == 1 || _url.type == 4) {
+				if (_url.type == 1 || _url.type == 4 || _url.type == 2) {
 					$.each(num.split(','), function(i, n){
 						_str += '<em>' + n + '</em>';
 					});
-				} else if(_url.type == 2) {
-
 				} else if(_url.type == 3) {
 					$.each(num.split(','), function(i, n){
 						_str += '<em class="s'+ n +'"></em>';
@@ -588,14 +601,11 @@
 			var _chartBox = $('#J_chartBox').length;
 
 			if (!_url.name && !_userNav && !_chartBox) {
-				console.log('========');
 				// 判断是否为首页或者详情页面 或者走势页面
 				COMMON.isIndex = true;
 			}
 
 			if (COMMON.isIndex) {
-				console.log('index====');
-				// COMMON.clearLottBetTimer();
 				COMMON.homeBallInfo();
 			} else {
 				if (_userNav) {
@@ -608,12 +618,10 @@
 					COMMON.getBallInfo(_url.id);
 					COMMON.renderChartTable();
 					COMMON.renderHistory();
-					console.log('chart------------')
 				}
 
 				if (_url.name) {
 					// 详情页
-					console.log('detail------------')
 					COMMON.isDeatil = true;
 					COMMON.getBallInfo(_url.id);
 				}
