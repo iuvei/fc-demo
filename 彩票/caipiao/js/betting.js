@@ -587,8 +587,8 @@ $(function() {
                 periods : _periods,
                 chase : _chase
             };
-            console.log(x);
-            return;
+            // console.log(x);
+            // return;
             // 投注追号
             GLOBAL.getAjaxData({
                 url: '/bet/chase',

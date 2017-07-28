@@ -337,8 +337,7 @@ var TEMPLATE = {
 
 //    
     getChaseData: function(type, name, currentPeriods) {
-        // currentPeriods = '20170719-001';
-        // console.log(name, currentPeriods);
+        // type : 游戏类型
         // name : 游戏名称 如 ： chong_qing_shi_shi
         // currentPeriods ： 当前期数 如 : 20170719-088
         var data = {
@@ -346,18 +345,9 @@ var TEMPLATE = {
             maxPeriods : 0,     //最多可追的期数
         };
         var _str = '';
-        // var _now = new Date();
-        // var _y = _now.getFullYear();
-        // var _m = ((_now.getMonth() + 1) < 10 ? '0' + (_now.getMonth()+1) : (_now.getMonth()+1));
-        // var _d = (_now.getDate()< 10 ? '0' + _now.getDate() : _now.getDate());
-
         var _d0 = getDay(0);
         var _d1 = getDay(1);
         var _d2 = getDay(2);
-
-        // console.log(_d0);
-        // console.log(_d1);
-        // console.log(_d2);
 
         // var str = d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();
         switch(name){
@@ -390,24 +380,29 @@ var TEMPLATE = {
         var _lave = data.totalPeriods - _n + 1;
         var _s = '(当前)';
         
+        var _d0Str = (name.indexOf('bei') > -1 ? '' : (_d0.tYear + _d0.tMonth + _d0.tDate + '-'));
+        var _d1Str = (name.indexOf('bei') > -1 ? '' : (_d1.tYear + _d1.tMonth + _d1.tDate + '-'));
+        var _d2Str = (name.indexOf('bei') > -1 ? '' : (_d2.tYear + _d2.tMonth + _d2.tDate + '-'));
+
         for (var i = 0; i < data.maxPeriods; i++) {
+
             if (i > 0) {
                 _s = '';
             }
 
-            if (_lave == data.totalPeriods) {
+            if (_lave == data.totalPeriods || name.indexOf('bei') > -1) {
                 if (i < data.totalPeriods) {
-                    _str += '<option value="'+ i +'">'+ _d0.tYear + _d0.tMonth + _d0.tDate + '-' + toThree(_n+i) + _s +'</option>';
+                    _str += '<option value="'+ i +'">'+ _d0Str + toThree(_n+i) + _s +'</option>';
                 } else {
-                    _str += '<option value="'+ i + '">'+ _d1.tYear + _d1.tMonth + _d1.tDate + '-' + toThree(_n+i-data.totalPeriods) + '</option>';
+                    _str += '<option value="'+ i + '">'+ _d2Str + toThree(_n+i-data.totalPeriods) + '</option>';
                 }
             } else {
                 if (i < _lave) {
-                    _str += '<option value="' + i + '">'+ _d0.tYear + _d0.tMonth + _d0.tDate + '-' + toThree(_n+i) + _s +'</option>';
+                    _str += '<option value="' + i + '">'+ _d0Str + toThree(_n+i) + _s +'</option>';
                 } else if(_lave <= i && i < (_lave + data.totalPeriods)){
-                    _str += '<option value="'+ i + '">'+ _d1.tYear + _d1.tMonth + _d1.tDate + '-' + toThree(_n+i-data.totalPeriods) + '</option>';
+                    _str += '<option value="'+ i + '">'+ _d2Str + toThree(_n+i-data.totalPeriods) + '</option>';
                 } else {
-                    _str += '<option value="'+ i + '">'+ _d2.tYear + _d2.tMonth + _d2.tDate + '-' + toThree(i - data.totalPeriods - _lave + 1) + '</option>';
+                    _str += '<option value="'+ i + '">'+ _d2Str + toThree(i - data.totalPeriods - _lave + 1) + '</option>';
                 }
             }
         }

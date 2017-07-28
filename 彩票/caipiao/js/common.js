@@ -148,12 +148,6 @@
 				url: '/product/lists'
 			}, function(data) {
 				var _data = data.data;
-
-
-				_data.length = 3;
-				console.log(_data);
-
-
 				var _type = 1;
 				$.each(_data, function(i, val) {
 					if (val.code == 'jiangsu_fast_three') {
@@ -187,8 +181,7 @@
 				});
 			});
 		},
-		countDown2: function(intDiff, suffix, $id) {
-			COMMON.clearLottBetTimer();
+		countDown: function(intDiff, suffix, $id) {
 			var timer = window.setInterval(function() {
 				var day = 0,
 					hour = 0,
@@ -206,13 +199,12 @@
 						GLOBAL.alert('第<span style="padding:0 5px;">' + $('.J_betTimer').html() + '</span>期已结束<br/>请留意投注期号。', 2000);
 					}
 
-					// COMMON.clearLottBetTimer();
-
-					// if(COMMON.isIndex){
+					COMMON.clearLottBetTimer();
+					if(COMMON.isIndex){
 						COMMON.homeBallInfo();	//一起刷新
-					// } else {
-						// COMMON.getBallInfo($id);	//单独刷新一个，显示可能会有差别
-					// }
+					} else {
+						COMMON.getBallInfo($id);	//单独刷新一个，显示可能会有差别
+					}
 					return;
 				}
 				// $('#day_show' + suffix).html(day);
@@ -248,8 +240,9 @@
 					}
 				}
 			}, 1000);
-
+			// console.log(COMMON.lottBetTimer);
 			COMMON.lottBetTimer.push(timer);
+			// console.log(COMMON.lottBetTimer);
 		},
 		clearLottBetTimer: function() {
 	        if (COMMON.lottBetTimer.length > 0) {
@@ -258,81 +251,7 @@
 	            }
 	            COMMON.lottBetTimer = []
 	        }
-	        // globalVar.syncRate = 1
 	    },
-		countDown: function(intDiff, suffix, $id) {
-			// console.log(intDiff, suffix, $id)
-			// window.clearInterval(t);
-			// if(COMMON.isDeatil){
-			clearInterval(COMMON.timer2);
-			// }
-			// var xxxx = window.setInterval(function() {
-			COMMON.timer2 = window.setInterval(function() {
-				var day = 0,
-					hour = 0,
-					minute = 0,
-					second = 0; //时间默认值
-
-				if (intDiff >= 0) {
-					day = Math.floor(intDiff / (60 * 60 * 24));
-					hour = Math.floor(intDiff / (60 * 60)) - (day * 24);
-					minute = Math.floor(intDiff / 60) - (day * 24 * 60) - (hour * 60);
-					second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
-				} else {
-					// TODO: 结束提示
-					if (COMMON.isDeatil || COMMON.isChart) {
-						GLOBAL.alert('第<span style="padding:0 5px;">' + $('.J_betTimer').html() + '</span>期已结束<br/>请留意投注期号。', 2000);
-					}
-					// clearInterval(COMMON.timer);
-					// clearInterval(COMMON.timer2);
-					// clearInterval(xxxx);
-					clearInterval(COMMON.timer2);
-
-					if(COMMON.isIndex){
-						console.log('aaaaaaaaa');
-						// clearInterval(COMMON.timer2);
-						// COMMON.homeBallInfo();	//一起刷新
-					} else {
-						COMMON.getBallInfo($id);	//单独刷新一个，显示可能会有差别
-					}
-
-					
-					return;
-				}
-				// $('#day_show' + suffix).html(day);
-				if (hour <= 9) {
-					hour = '0' + hour;
-				}
-				if (minute <= 9) {
-					minute = '0' + minute;
-				}
-				if (second <= 9) {
-					second = '0' + second;
-				}
-
-				if (COMMON.isIndex) {
-					$('#J_hourShow' + suffix).html(hour);
-					$('#J_minuteShow' + suffix).html(minute);
-					$('#J_secondShow' + suffix).html(second);
-				} else {
-					second += '';
-					$('.J_countDownNum').html('<em>' + hour.substr(0, 1) + '</em><em>' + hour.substr(1, 1) + '</em><span>:</span><em>' + minute.substr(0, 1) + '</em><em>' + minute.substr(1, 1) + '</em><span>:</span><em>' + second.substr(0, 1) + '</em><em>' + second.substr(1, 1) + '</em>');
-				}
-				intDiff--;
-
-				// 提前10s停止投注
-				if(intDiff <= 10){
-					$('#J_shortcutPlaceOrder,#J_confirmBets').addClass('disabled');
-				} else {
-					if(!$('#J_addBallToCart').hasClass('disabled') ){
-						$('#J_shortcutPlaceOrder').removeClass('disabled');
-					}
-					if($('#J_betList li').length){
-						$('#J_confirmBets').removeClass('disabled');
-					}
-				}
-			}, 1000);
-		},
 		getBallInfo: function($id, getList) {
 			// console.log($id, getList);
 			// clearInterval(COMMON.timer2);
@@ -355,8 +274,10 @@
 					// TODO: 详情页
 					if(_url.name.indexOf('beijing') > -1) {
 						$('.J_betTimer').html(COMMON.fillLenght(data.periods.num, 3, '0')); //彩票期数
+						$('#J_dataNum').text(COMMON.fillLenght(data.prev_periods.num, 3, '0'));
 					} else {
 						$('.J_betTimer').html(data.periods.date + '-' + COMMON.fillLenght(data.periods.num, 3, '0')); //彩票期数
+						$('#J_dataNum').text(data.prev_periods.date + '-' + COMMON.fillLenght(data.prev_periods.num, 3, '0'));
 					}
 					// console.log((data.periods.date + '-' + COMMON.fillLenght(data.periods.num, 3, '0')));
 					$('.J_betTimer').data('n', (data.periods.date + '-' + COMMON.fillLenght(data.periods.num, 3, '0')));
@@ -366,7 +287,6 @@
 					COMMON.countDown(parseInt(data.periods.lottery_surplus), '', $id);
 
 					COMMON.lotteryNum('J_drawResult', data.prev_periods.lottery_num, $id);
-					$('#J_dataNum').text(data.prev_periods.date + '-' + COMMON.fillLenght(data.prev_periods.num, 3, '0'));
 
 					if(_renderHistory){
 						console.log('renderHistory=========')
@@ -463,7 +383,7 @@
 					// }
 					val.num = COMMON.fillLenght(val.num, 3, '0');
 					if (k < 3) {
-						if(_url.name.indexOf('bei') > -1){
+						if(_url.name.indexOf('beijing') > -1){
 							_list1 += '<dd>'+ val.num +'</dd>';
 						}else{
 							_list1 += '<dd>'+ val.date.replace(/\-/g, '') +'-'+ val.num +'</dd>';
@@ -482,7 +402,7 @@
 					}
 					if (k < 10) {
 						_list3 += '<li><span>';
-						if(_url.name.indexOf('bei') > -1){
+						if(_url.name.indexOf('beijing') > -1){
 							_list3 += val.num +'</span>';
 						}else{
 							_list3 += val.date.replace(/\-/g, '') +'-'+ val.num +'</span>';
@@ -675,6 +595,7 @@
 
 			if (COMMON.isIndex) {
 				console.log('index====');
+				// COMMON.clearLottBetTimer();
 				COMMON.homeBallInfo();
 			} else {
 				if (_userNav) {
