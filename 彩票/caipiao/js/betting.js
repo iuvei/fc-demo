@@ -580,7 +580,7 @@ $(function() {
                 periods : _periods,
                 chase : _chase
             };
-            // console.log(x);
+            console.log(x);
             // return;
             // 投注追号
             GLOBAL.getAjaxData({

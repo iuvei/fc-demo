@@ -150,35 +150,39 @@
 				</div> -->
 
 				<div class="chase-detail-t clearfix">
-					<img src="../images/logo/cqssc.png" alt="">
+					<img src="" alt="" id="J_chaseDetailLogo">
 					<ul>
 						<li>
 							<span>订单编号：</span>
-							<p class="text-l-color">BP26CZ</p>
+							<p class="text-l-color" id="order_id"></p>
 						</li>
 						<li>
 							<span>投注时间：</span>
-							<p>2017-06-30  11:20:30</p>
+							<p id="created"></p>
 						</li>
-						<li>
+						<!-- <li>
 							<span>投注注数：</span>
 							<p>3</p>
-						</li>
+						</li> -->
 						<li>
 							<span>投注期号：</span>
-							<p>20170630-046</p>
+							<p id="date"></p>
+						</li>
+						<li>
+							<span>投注金额：</span>
+							<p id="money"></p>
 						</li>
 						<li>
 							<span>中奖金额：</span>
-							<p>0.0233</p>
+							<p id="bonus"></p>
 						</li>
 						<li>
 							<span>订单状态：</span>
-							<p>已中奖</p>
+							<p id="status"></p>
 						</li>
 						<li>
 							<span>开奖号码：</span>
-							<p><em>3</em><em>3</em><em>3</em><em>3</em><em>3</em></p>
+							<p id="lottery_num"></p>
 						</li>
 					</ul>
 				</div>
@@ -188,13 +192,13 @@
 						<li class="t1">游戏玩法</li>
 						<li class="t2">投注内容</li>
 						<li class="t3">投注注数</li>
-						<li class="t4">系列/模式/倍数</li>
+						<li class="t4">模式/倍数</li>
 						<li class="t5">投注金额</li>
 						<li class="t6">中奖金额</li>
 					</ul>
-					<ul class="user-table-c">
+					<ul class="user-table-c" id="J_list">
 						<!-- <li class="empty">没有找到符合条件的数据</li> -->
-						<li>
+						<!-- <li>
 							<div class="t1">前三直选</div>
 							<div class="t2">..2</div>
 							<div class="t3">1</div>
@@ -209,7 +213,7 @@
 							<div class="t4">1956 / 分 / 1</div>
 							<div class="t5">0.2</div>
 							<div class="t6">100.00</div>
-						</li>
+						</li> -->
 					</ul>
 				</div>
 			</div>
@@ -231,12 +235,12 @@
 	<script src="../js/laydate/laydate.js"></script>
 	<script src="../js/laypage/laypage.js"></script>
 	<script src="../js/GLOBAL.js"></script>
-	<!-- <script src="../js/common.js"></script> -->
+	<script src="../js/common.js"></script>
 
 	<script>
 		$(function(){
 			$('select').chosen();
-			// COMMON.USER.bettingRecord.init();
+			COMMON.USER.chaseDetail.init();
 		});
 	</script>
 </body>

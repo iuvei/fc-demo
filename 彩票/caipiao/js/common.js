@@ -73,7 +73,7 @@
 			// 走势图
 			$('body').on('click', '#J_trendChart', function(){
 				var _url = GLOBAL.getRequestURL();
-				window.location.href = 'chart.html?id=' + _url.id + '&type=' + _url.type;
+				window.location.href = 'chart.html?name='+_url.name + '&id=' + _url.id + '&type=' + _url.type;
 			});
 
 			// 遗漏
@@ -1479,8 +1479,8 @@
 							_str += '<li>';
 							_str += '    <div class="t1">'+ n.product.name +'</div>';
 							_str += '    <div class="t2"><a href="chase_order.html?id='+ n.order_id +'" class="text-l-color">'+ n.order_id +'</a></div>';
-							_str += '    <div class="t3">'+ (n.start_periods_num ? n.start_periods_num : '-') +'</div>';
-							_str += '    <div class="t4">'+ (n.end_periods_num ? n.end_periods_num : '-') +'</div>';
+							_str += '    <div class="t3">'+ (n.start_periods_num ? n.start_periods_num.split(',')[0].replace(/\-/g, '') + '-' +COMMON.fillLenght(n.start_periods_num.split(',')[1], 3, '0') : '-') +'</div>';
+							_str += '    <div class="t4">'+ (n.end_periods_num ? n.end_periods_num.split(',')[0].replace(/\-/g, '') + '-' +COMMON.fillLenght(n.start_periods_num.split(',')[1], 3, '0') : '-') +'</div>';
 							_str += '    <div class="t5">'+ n.chase_periods +'</div>';
 							_str += '    <div class="t6">'+ n.already_chase +'</div>';
 							_str += '    <div class="t7">'+ n.money +'</div>';
@@ -1499,7 +1499,7 @@
 					option.status = option.status || $('#J_status').val() || '';
 					option.created_min = option.created_min || $('#J_startDay').val() || '';
 					option.created_max = option.created_max || $('#J_endDay').val() || '';
-					option.pageSize = option.pageSize || 10;
+					option.pageSize = option.pageSize || 12;
 					option.page = option.page || 1;
 
 					GLOBAL.getAjaxData({
@@ -1513,7 +1513,7 @@
 						}
 					}, function(d) {
 						COMMON.USER.chaseRecord.renderList(d);
-						if(d.total > 10){
+						if(d.total > 12){
 							laypage({
 								cont: 'J_Paging',
 								pages: Math.ceil(d.total / d.per_page),
@@ -1533,11 +1533,12 @@
 					});
 				},
 				getData: function(option){
+					console.log(1);
 					option = option || {};
 					option.status = option.status || $('#J_status').val() || '';
 					option.created_min = option.created_min || $('#J_startDay').val() || '';
 					option.created_max = option.created_max || $('#J_endDay').val() || '';
-					option.pageSize = option.pageSize || 10;
+					option.pageSize = option.pageSize || 12;
 					option.page = option.page || 1;
 					GLOBAL.getAjaxData({
 						url: '/chase/lists',
@@ -1559,17 +1560,21 @@
 					var _id = Number(GLOBAL.getRequestURL().id);
 					this.bindEvent();
 					this.renderDeatil(_id);
-					this.getList(_id);
+					this.getData2(_id);
 				},
 				bindEvent: function() {
-					$('.J_chaseOrderTt').click(function(){
-						var _i = $(this).index();
-						$(this).addClass('active').siblings('.J_chaseOrderTt').removeClass('active');
-						$('.J_chaseOrderCon').hide();
-						$('.J_chaseOrderCon').eq(_i).show();
-					});
+					// $('.J_chaseOrderTt').click(function(){
+					// 	var _i = $(this).index();
+					// 	$(this).addClass('active').siblings('.J_chaseOrderTt').removeClass('active');
+					// 	$('.J_chaseOrderCon').hide();
+					// 	$('.J_chaseOrderCon').eq(_i).show();
 
-					$('.J_chaseChose').click(function(){
+					// 	if(_i){
+					// 		COMMON.USER.chaseOrder.getData2();
+					// 	}
+					// });
+
+					$('#J_list2').on('click', '.J_chaseChose', function(){
 						if($(this).hasClass('active')){
 							$(this).removeClass('active');
 						}else{
@@ -1617,7 +1622,6 @@
 						}
 					}, function(d) {
 						// TODO：是否只显示这些字段
-						// console.log(d);
 						$('#order_id').text(d.order_id);
 						$('#created').text(d.created);
 						$('#money').text(d.money);
@@ -1626,6 +1630,8 @@
 						$('#start_periods_num').text(d.start_periods_num);
 						$('#end_periods_num').text(d.end_periods_num);
 						$('#chase_periods').text(d.chase_periods);
+
+						$('#J_chaseDetailLogo').attr('src', d.product.logo);
 					});
 				},
 				getList: function(_id) {
@@ -1672,16 +1678,28 @@
 						COMMON.USER.chaseOrder.renderList(d);
 					});
 				},
+				getData2: function(option){
+					option = option || {};
+					option.pageSize = option.pageSize || 1;
+					option.page = option.page || 10;
+					GLOBAL.getAjaxData({
+						url: '/bet/lists',
+						data: {
+							bet_chase_id: Number(GLOBAL.getRequestURL().id)
+						}
+					}, function(d) {
+						COMMON.USER.chaseOrder.renderList2(d);
+					});
+				},
 				renderList: function(data) {
 					var _str = '';
 					if (data.total > 0){
 						$.each(data.data, function(i, n){
-							// TODO: 系列
 							_str += '<li>';
 							_str += '    <div class="t1">'+ n.rule +'</div>';
 							_str += '    <div class="t2" title="'+ n.number +'">'+ n.number +'</div>';
 							_str += '    <div class="t3">'+ n.num +'</div>';
-							_str += '    <div class="t4">什么系列？？？'+ COMMON.USER.converUnit(n.unit) + ' / ' + n.multiple +'</div>';
+							_str += '    <div class="t4">'+ COMMON.USER.converUnit(n.unit) + ' / ' + n.multiple +'</div>';
 							_str += '    <div class="t5">'+ n.money +'</div>';
 							_str += '</li>';
 						});					
@@ -1690,6 +1708,124 @@
 					}
 
 					$('#J_list1').html(_str);
+				},
+				renderList2: function(data) {
+					var _str = '';
+					if (data.total > 0){
+						$.each(data.data, function(i, n){
+							_str += '<li>';
+							_str += '    <div class="t1"><em class="J_chaseChose" data-id="'+ n.order_id +'"></em></div>';
+							_str += '    <div class="t2">'+ n.periods.date.replace(/\-/g,'') + '-'+ COMMON.fillLenght(n.periods.num, 3, '0') +'</div>';
+							_str += '    <div class="t3">'+ (n.periods.lottery_num ?n.periods.lottery_num : '-') +'</div>';
+							_str += '    <div class="t4">'+ COMMON.USER.converWinningStatus(n.status) +'</div>';
+							_str += '    <div class="t5">'+ n.money +'</div>';
+							_str += '    <div class="t6">'+ n.bonus +'</div>';
+							_str += '    <div class="t7"><a href="chase_detail.html?id='+ n.order_id +'">查看</a></div>';
+							_str += '</li>';
+						});					
+					} else {
+						_str += '<li class="empty">没有找到符合条件的数据</li>';
+					}
+
+					$('#J_list2').html(_str);
+				}
+			},
+			// 订单详情
+			chaseDetail: {
+				init: function(){
+					this.renderDeatil();
+					// this.renderList();
+					this.getList();
+				},
+				getList: function(option) {
+					option = option || {};
+					option.pageSize = option.pageSize || 10;
+					option.page = option.page || 1;
+
+					GLOBAL.getAjaxData({
+						url: '/bet/items',
+						data: {
+							id: Number(GLOBAL.getRequestURL().id)
+						}
+					}, function(d) {
+						COMMON.USER.chaseDetail.renderList(d);
+						if(d.total > 10){
+							laypage({
+								cont: 'J_Paging',
+								pages: Math.ceil(d.total / d.per_page),
+								prev: '<',
+								next: '>',
+								first: false,
+								last: false,
+								skip: true, //是否开启跳页
+								groups: 10, //连续显示分页数
+								jump: function(obj) {
+									COMMON.USER.chaseDetail.getData({
+										page: obj.curr
+									});
+								}
+							});
+						}
+					});
+				},
+				getData: function(option){
+					option = option || {};
+					option.pageSize = option.pageSize || 10;
+					option.page = option.page || 1;
+					GLOBAL.getAjaxData({
+						url: '/bet/items',
+						data: {
+							id: Number(GLOBAL.getRequestURL().id),
+							pageSize: option.pageSize,
+							page: option.page
+						}
+					}, function(d) {
+						COMMON.USER.chaseDetail.renderList(d);
+					});
+				},
+				renderList: function(data){
+					var _str = '';
+					if (data.total > 10){
+						$.each(data.data, function(i, n){
+							_str += '<li>';
+							_str += '    <div class="t1">'+ n.rule +'</div>';
+							_str += '    <div class="t2" title="'+ n.number +'">'+ n.number +'</div>';
+							_str += '    <div class="t3">'+ n.num +'</div>';
+							_str += '    <div class="t4">'+ COMMON.USER.converUnit(n.unit) + ' / ' + n.multiple +'</div>';
+							_str += '    <div class="t5">'+ n.money +'</div>';
+							_str += '    <div class="t6">'+ n.bonus +'</div>';
+							_str += '</li>';
+						});					
+					} else {
+						_str += '<li class="empty">没有找到符合条件的数据</li>';
+					}
+
+					$('#J_list').html(_str);
+				},
+				renderDeatil: function() {
+					GLOBAL.getAjaxData({
+						url: '/bet/detail',
+						data: {
+							id: Number(GLOBAL.getRequestURL().id)
+						}
+					}, function(d) {
+						// TODO：是否只显示这些字段
+						$('#order_id').text(d.order_id);
+						$('#created').text(d.created);
+						$('#date').text(d.periods.date.replace(/\-/g, '') +'-'+ d.periods.num);
+						$('#money').text(d.money);
+						$('#bonus').text(d.bonus);
+						$('#status').text(COMMON.USER.converWinningStatus(d.status));
+						$('#lottery_num').text(d.periods.lottery_num);
+
+						// converWinningStatus
+						$('#is_winning_stop').text((d.is_winning_stop == 'yes'? '是' : '否'));
+						$('#start_periods_num').text(d.start_periods_num);
+						$('#end_periods_num').text(d.end_periods_num);
+						$('#chase_periods').text(d.chase_periods);
+
+						$('#J_chaseDetailLogo').attr('src', d.product.logo);
+					});
 				}
 			},
 			// 账变明细

@@ -620,7 +620,7 @@ body.bg-whit{
 .betting-record .t6{width: 137px;}
 .betting-record .t7{width: 125px;}
 .betting-record .t8{width: 107px;}
-// .betting-record .t9{width: 80px;}
+.betting-record .t9{width: 80px;}
 .user-s-inp{
     float: left;
 }
@@ -641,9 +641,9 @@ body.bg-whit{
 	letter-spacing: 2px;
 }
 .chase-record .t1{width: 110px;}
-.chase-record .t2{width: 117px;}
-.chase-record .t3{width: 109px;}
-.chase-record .t4{width: 117px;}
+.chase-record .t2{width: 100px;}
+.chase-record .t3{width: 119px;font-size: 12px;}
+.chase-record .t4{width: 124px;font-size: 12px;}
 .chase-record .t5{width: 110px;}
 .chase-record .t6{width: 114px;}
 .chase-record .t7{width: 105px;}
@@ -691,7 +691,7 @@ body.bg-whit{
 	letter-spacing: 2px;
 }
 .chase-detail .t1{width: 190px;}
-.chase-detail .t2{width: 130px;}
+.chase-detail .t2{width: 130px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;}
 .chase-detail .t3{width: 145px;}
 .chase-detail .t4{width: 230px;}
 .chase-detail .t5{width: 130px;}
