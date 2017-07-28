@@ -130,23 +130,28 @@
 				<div class="user-search clearfix">
 					<div class="user-s-tt">状态：</div>
 					<div class="user-s-sel">
-						<select name="" id="">
-							<option value="111">全部</option>
+						<select name="" id="J_status">
+							<option value="">全部</option>
+                            <option value="wait">待支付</option>
+                            <option value="pay">已支付</option>
+                            <option value="expire">过期</option>
+                            <option value="finish">结束</option>
+                            <option value="stop">中奖停止</option>
 						</select>
 					</div>
-					<div class="user-s-tt">游戏：</div>
+					<!-- <div class="user-s-tt">游戏：</div>
 					<div class="user-s-sel">
 						<select name="" id="">
 							<option value="111">全部</option>
 						</select>
-					</div>
+					</div> -->
 					<div class="user-s-tt">日期：</div>
 					<div class="user-s-day">
-						<input type="text">
-						<span>到：</span>
-						<input type="text">
-					</div>
-					<div class="user-s-btn fr">查询</div>
+                        <input type="text" class="datepick" id="J_startDay">
+                        <span>到：</span>
+                        <input type="text" class="datepick" id="J_endDay">
+                    </div>
+					<div class="user-s-btn fr" id="J_searchListBtn">查询</div>
 				</div>
 
 
@@ -162,11 +167,11 @@
 						<li class="t8">中奖金额</li>
 						<li class="t9">状态</li>
 					</ul>
-					<ul class="user-table-c">
-						<li class="empty">没有找到符合条件的数据</li>
+					<ul class="user-table-c" id="J_list">
+						<!-- <li class="empty">没有找到符合条件的数据</li>
 						<li>
 							<div class="t1">重庆时时彩</div>
-							<div class="t2 J_pageJump" data-page="chase_order">BT4869</div>
+							<div class="t2"><a href="#" class="text-l-color">BT4869</a></div>
 							<div class="t3">17-06-30</div>
 							<div class="t4">17-06-30</div>
 							<div class="t5">17-06-30</div>
@@ -174,7 +179,7 @@
 							<div class="t7">100.00</div>
 							<div class="t8">0.00</div>
 							<div class="t9">中奖</div>
-						</li>
+						</li> -->
 					</ul>
 					<div class="user-table-f">
 						<p>计划投注金额合计：<span>0.00</span></p>
@@ -206,6 +211,7 @@
 	<script>
 		$(function(){
 			$('select').chosen();
+            COMMON.USER.chaseRecord.init();
 			// COMMON.USER.bettingRecord.init();
 		});
 	</script>

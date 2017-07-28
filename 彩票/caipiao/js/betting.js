@@ -547,7 +547,7 @@ $(function() {
         },
         chaseConfirm: function() {
             var _url = GLOBAL.getRequestURL();
-            var _id = _url.id;
+            var _id = Number(_url.id);
             var _items = Betting.getConfirmData();
             var _index = $('.J_chaseTT.active').index() + 1;
             var _periods = [];
@@ -568,7 +568,10 @@ $(function() {
             }
 
             $('#J_chaseUl_'+_index).find('li').each(function(){
-                _periods.push($(this).find('.n1').text());
+                _periods.push({
+                    no: $(this).find('.n1').text(),
+                    multiple: $(this).find('.n2').text()
+                });
             });
 
             var x = {

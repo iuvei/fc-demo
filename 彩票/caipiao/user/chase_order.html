@@ -128,43 +128,47 @@
 					<ul>
 						<li>
 							<span>订单编号：</span>
-							<p class="text-l-color">BP26CZ</p>
+							<p class="text-l-color" id="order_id">BP26CZ</p>
 						</li>
 						<li>
 							<span>投注时间：</span>
-							<p>2017-06-30  11:20:30</p>
+							<p id="created">2017-06-30  11:20:30</p>
 						</li>
 						<li>
-							<span>投注注数：</span>
-							<p>3</p>
+							<span>计划期数：</span>
+							<p id="chase_periods">3</p>
 						</li>
 						<li>
-							<span>投注期号：</span>
-							<p>20170630-046</p>
+							<span>开始追期号：</span>
+							<p id="start_periods_num">20170630-046</p>
 						</li>
+                        <li>
+                            <span>结束追期号：</span>
+                            <p id="end_periods_num">20170630-046</p>
+                        </li>
 						<li>
 							<span>中奖金额：</span>
-							<p>0.0233</p>
+							<p id="bonus">0.0233</p>
 						</li>
-						<li>
+						<!-- <li>
 							<span>是否结束：</span>
 							<p>是</p>
-						</li>
+						</li> -->
 						<li>
 							<span>中奖停止：</span>
-							<p>是</p>
+							<p id="is_winning_stop">是</p>
 						</li>
-						<li>
+						<!-- <li>
 							<span>出号即停：</span>
-							<p>否</p>
-						</li>
-						<li>
+							<p >否</p>
+						</li> -->
+						<!-- <li>
 							<span>&nbsp;</span>
 							<p>&nbsp;</p>
-						</li>
+						</li> -->
 						<li>
 							<span>计划投注金额：</span>
-							<p>1.2000</p>
+							<p id="money">1.2000</p>
 						</li>
 						<li>
 							<span>实际投注金额：</span>
@@ -175,10 +179,10 @@
 
 				<div class="user-table chase-order">
 					<div class="chase-table-tt">
-						<div class="active"><span>订单内容</span></div>
-						<div><span>追号详情</span><a class="btn-l-color" href="javascript:;">撤单</a></div>
+						<div class="J_chaseOrderTt active"><span>订单内容</span></div>
+						<div class="J_chaseOrderTt"><span>追号详情</span><a class="btn-l-color" href="javascript:;" id="J_chaseCancel">撤单</a></div>
 					</div>
-					<div class="chase-table-1 ">
+					<div class="chase-table-1 J_chaseOrderCon ">
 						<ul class="user-table-t">
 							<li class="t1">游戏玩法</li>
 							<li class="t2">投注内容</li>
@@ -186,9 +190,9 @@
 							<li class="t4">系列/模式/倍数</li>
 							<li class="t5">投注金额</li>
 						</ul>
-						<ul class="user-table-c">
+						<ul class="user-table-c" id="J_list1">
 							<!-- <li class="empty">没有找到符合条件的数据</li> -->
-							<li>
+							<!-- <li>
 								<div class="t1">前三直选</div>
 								<div class="t2">..2</div>
 								<div class="t3">1</div>
@@ -201,10 +205,10 @@
 								<div class="t3">1</div>
 								<div class="t4">1956 / 分 / 1</div>
 								<div class="t5">0.2</div>
-							</li>
+							</li> -->
 						</ul>
 					</div>
-					<div class="chase-table-2 hide">
+					<div class="chase-table-2 J_chaseOrderCon hide">
 						<ul class="user-table-t">
 							<li class="t1">选择</li>
 							<li class="t2">起始期号</li>
@@ -214,10 +218,10 @@
 							<li class="t6">中奖金额</li>
 							<li class="t7">操作</li>
 						</ul>
-						<ul class="user-table-c">
+						<ul class="user-table-c" id="J_list2">
 							<!-- <li class="empty">没有找到符合条件的数据</li> -->
 							<li>
-								<div class="t1"><em></em></div>
+								<div class="t1"><em class="J_chaseChose" data-id=""></em></div>
 								<div class="t2">20170630-443</div>
 								<div class="t3">542333</div>
 								<div class="t4">个人撤单</div>
@@ -226,7 +230,7 @@
 								<div class="t7"><a href="#">查看</a></div>
 							</li>
 							<li>
-								<div class="t1"><em class="active"></em></div>
+								<div class="t1"><em class="J_chaseChose active" data-id=""></em></div>
 								<div class="t2">20170630-443</div>
 								<div class="t3">542333</div>
 								<div class="t4">个人撤单</div>
@@ -256,12 +260,12 @@
 	<script src="../js/laydate/laydate.js"></script>
 	<script src="../js/laypage/laypage.js"></script>
 	<script src="../js/GLOBAL.js"></script>
-	<!-- <script src="../js/common.js"></script> -->
+	<script src="../js/common.js"></script>
 
 	<script>
 		$(function(){
 			$('select').chosen();
-			// COMMON.USER.bettingRecord.init();
+			COMMON.USER.chaseOrder.init();
 		});
 	</script>
 </body>

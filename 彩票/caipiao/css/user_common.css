@@ -748,7 +748,7 @@ body.bg-whit{
 	letter-spacing: 2px;
 }
 .chase-table-1 .t1{width: 190px;}
-.chase-table-1 .t2{width: 130px;}
+.chase-table-1 .t2{width: 130px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;}
 .chase-table-1 .t3{width: 145px;}
 .chase-table-1 .t4{width: 230px;}
 .chase-table-1 .t5{width: 130px;}
