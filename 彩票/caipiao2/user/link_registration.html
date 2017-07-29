@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>链接注册</title>
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/user_common.css">
+    <link rel="stylesheet" href="../css/skin/default.css" id="J_skinCss">
+</head>
+<body class="bg-whit">
+    <!-- 顶部 -->
+    <div id="header" class="header dark-color">
+        <div class="w1200 clearfix rel">
+            <div class="fl header-post">
+                <a href="../index.html"><img src="../images/icon-logo.png" alt=""></a>
+                <em class="icon fl"></em>
+                <div class="fl">暂时没有滚动通告</div>
+            </div>
+            <div class="fr header-user">
+                <p class="fl">您好，<span id="J_headerUserName"></span></p>
+                <b class="fl">|</b>
+                <div class="fl"><span class="fl" id="J_totalBalance">余额 <i class="J_balance"></i></span><em class="fl icon icon-refresh cup" id="J_refresh"></em><span class="cup show fl" id="J_cutoverBalance" data-balance="">隐藏</span></div>
+                <b class="fl">|</b>
+                <span class="fl cup J_pageJump" data-page="recharge_online">充值</span>
+                <span class="fl cup J_pageJump" data-page="withdrawal_application">提款</span>
+                <b class="fl">|</b>
+                <em class="fl icon icon-signout cup" id="J_signOut"></em>
+                
+            </div>
+
+            <div class="skin" id="J_skin">
+                <span>皮肤</span>
+                <em></em>
+                <ul>
+                    <li class="J_setSkin skin-default" data-skin="default"></li>
+                    <li class="J_setSkin skin-blue" data-skin="blue"></li>
+                    <!-- <li class="J_setSkin skin-red" data-skin="red"></li>
+                    <li class="J_setSkin skin-black" data-skin="black"></li> -->
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <!--  -->
+    <div class="user-header">
+        <div class="w1200 clearfix main-nav">
+            <div class="fl logo">
+                <img src="../images/logo.png" alt="" height="35">
+            </div>
+            <div class="sort rel fr">
+                <p class="abs">
+                    <em class="abs"></em>
+                </p>
+                <span class="dark-color cup">全部彩票<em class="icon icon-sort"></em></span>
+                <div class="sort-box abs">
+                    <dl class="fl sort-ssc">
+                        <dt>时时彩</dt>
+                        <dd class="hot"><span>重庆时时彩</span></dd>
+                        <dd class="new"><span>北京五分彩</span></dd>
+                        <dd><span>腾讯分分彩</span></dd>
+                        <dd class="hot"><span>大圣时时彩</span></dd>
+                        <dd class="hot"><span>大圣时时彩</span></dd>
+                        <dd><span>大圣时时彩</span></dd>
+                        <dd><span>大圣时时彩</span></dd>
+                        <dd><span>大圣时时彩</span></dd>
+                    </dl>
+                    <dl class="fl sort-syxw">
+                        <dt>十一选五</dt>
+                        <dd class="hot"><span>大圣时时彩</span></dd>
+                        <dd class="new"><span>大圣时时彩</span></dd>
+                        <dd><span>大圣时时彩</span></dd>
+                        <dd><span>大圣时时彩</span></dd>
+                    </dl>
+                    <dl class="fl sort-dpc">
+                        <dt>低频彩</dt>
+                        <dd><span>大圣时时彩</span></dd>
+                        <dd class="new"><span>大圣时时彩</span></dd>
+                        <dd><span>大圣时时彩</span></dd>
+                    </dl>
+                    <dl class="fl sort-pk10">
+                        <dt>PK10</dt>
+                        <dd><span>大圣时时彩</span></dd>
+                        <dd class="new"><span>大圣时时彩</span></dd>
+                        <dd class="hot"><span>大圣时时彩</span></dd>
+                        <dd><span>大圣时时彩</span></dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="nav fr">
+                <div class="nav-list J_pageJump" data-page="recharge_online">充值</div>
+                <div class="nav-list J_pageJump" data-page="withdrawal_application">提款</div>
+                <div class="nav-list J_pageJump" data-page="profile">个人</div>
+                <div class="nav-list J_pageJump" data-page="subordinate_management">代理</div>
+                <div class="nav-list J_pageJump" data-page="">客服</div>
+                <div class="nav-list J_pageJump" data-page="">帮助</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="w1200 clearfix">
+        <div class="user-nav fl" id="J_userNav">
+            <dl>
+                <dt><em class="icon icon-cz"></em><span>充值</span><i class="icon"></i></dt>
+                <dd><a href="../user/recharge_online.html">线上支付</a></dd>
+                <dd><a href="../user/recharge_transfer.html">网银转账</a></dd>
+                <dd><a href="../user/recharge_wechat.html">微信转账</a></dd>
+                <dd><a href="../user/recharge_ali.html">支付宝转账</a></dd>
+                <dd><a href="../user/recharge_record.html">充值记录</a></dd>
+            </dl>
+            <dl>
+                <dt><em class="icon icon-tk"></em><span>提款</span><i class="icon"></i></dt>
+                <dd><a href="../user/withdrawal_application.html">提款申请</a></dd>
+                <dd><a href="../user/withdrawal_records.html">提款记录</a></dd>
+                <dd><a href="../user/withdrawal_bindcard.html">绑定提款卡</a></dd>
+            </dl>
+            <dl>
+                <dt><em class="icon icon-user"></em><span>个人</span><i class="icon"></i></dt>
+                <dd><a href="../user/profile.html">我的资料</a></dd>
+                <dd><a href="../user/funds_detail.html">资金详情</a></dd>
+                <dd><a href="../user/betting_record.html">投注记录</a></dd>
+                <dd><a href="../user/chase_record.html">追号记录</a></dd>
+                <dd><a href="../user/account_details.html">账变明细</a></dd>
+                <dd><a href="../user/login_password.html">登录密码</a></dd>
+                <dd><a href="../user/capital_password.html">资金密码</a></dd>
+            </dl>
+            <dl class="open">
+                <dt><em class="icon icon-dl"></em><span>代理</span><i class="icon"></i></dt>
+                <dd><a href="../user/link_registration.html" class="active">链接注册</a></dd>
+                <dd><a href="../user/link_management.html">链接管理</a></dd>
+                <dd><a href="../user/subordinate_management.html">下级管理</a></dd>
+                <dd><a href="../user/report_management.html">报表管理</a></dd>
+                <dd><a href="../user/team_betting.html">团队投注</a></dd>
+            </dl>
+            <dl>
+                <dt><em class="icon icon-kf"></em><span>客服</span><i class="icon"></i></dt>
+            </dl>
+            <dl>
+                <dt><em class="icon icon-help"></em><span>帮助</span><i class="icon"></i></dt>
+            </dl>
+        </div>
+
+        <div class="user-content fl">
+            <div class="user-con">
+                <div class="user-tt">
+                    <span>链接注册</span>
+                </div>
+
+                <div class="user-link-reg clearfix rel">
+                    <div class="link-reg-bar">
+                        <div class="link-reg-tt">注册类型：</div>
+                        <div class="link-reg-con" id="J_inviteType">
+                            <span data-t="member" class="active">会员</span><span data-t="agent">代理</span>
+                        </div>
+                        <div class="link-reg-tt">注册账号：</div>
+                        <div class="link-reg-con">
+                            <input type="text">
+                        </div>
+                        <div class="link-reg-tt">登录密码：</div>
+                        <div class="link-reg-con">
+                            <input type="text">
+                        </div>
+                    </div>
+
+                    <div class="link-reg-box">
+                        <div class="reg-sider-t">
+                            <span class="t1">游戏类型</span>
+                            <span>奖金组</span>
+                        </div>
+                        <div class="reg-sider-c">
+                            <ul class="reg-sider-list">
+                                <li>
+                                    <span class="reg-sider-check fl"><em class="active"></em>时时彩（传统）</span>
+                                    <div class="fl"><img src="../images/drag_bar.png" alt=""> </div>
+                                    <span class="reg-sider-num">1700</span>
+                                    <a href="javascript:;" class="fl reg-sider-btn">－</a>
+                                    <a href="javascript:;" class="fl reg-sider-btn">＋</a>
+                                </li>
+                                <li>
+                                    <span class="reg-sider-check fl"><em class="active"></em>时时彩（智盈）</span>
+                                    <div class="fl"><img src="../images/drag_bar.png" alt=""> </div>
+                                    <span class="reg-sider-num">1700</span>
+                                    <a href="javascript:;" class="fl reg-sider-btn">－</a>
+                                    <a href="javascript:;" class="fl reg-sider-btn">＋</a>
+                                </li>
+                                <li>
+                                    <span class="reg-sider-check fl"><em></em>11选5</span>
+                                    <div class="fl"><img src="../images/drag_bar.png" alt=""> </div>
+                                    <span class="reg-sider-num">1700</span>
+                                    <a href="javascript:;" class="fl reg-sider-btn">－</a>
+                                    <a href="javascript:;" class="fl reg-sider-btn">＋</a>
+                                </li>
+                                <li>
+                                    <span class="reg-sider-check fl"><em></em>低频彩</span>
+                                    <div class="fl"><img src="../images/drag_bar.png" alt=""> </div>
+                                    <span class="reg-sider-num">1700</span>
+                                    <a href="javascript:;" class="fl reg-sider-btn">－</a>
+                                    <a href="javascript:;" class="fl reg-sider-btn">＋</a>
+                                </li>
+                                <li>
+                                    <span class="reg-sider-check fl"><em></em>PK10</span>
+                                    <div class="fl"><img src="../images/drag_bar.png" alt=""> </div>
+                                    <span class="reg-sider-num">1700</span>
+                                    <a href="javascript:;" class="fl reg-sider-btn">－</a>
+                                    <a href="javascript:;" class="fl reg-sider-btn">＋</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="user-link-btn btn-l-color abs" id="J_confirmBtn">确认注册</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 底部 -->
+    <div id="footer" class="footer dark-color">
+        <div class="w1200">© 大圣彩版权所有 |  创新博弈，成功从大圣彩开始</div>
+    </div>
+
+    <script src="../js/jquery-1.11.1.min.js"></script>
+    <script src="../js/jquery.cookie.js"></script>
+    <script src="../js/layer/layer.js"></script>
+    <script src="../js/GLOBAL.js"></script>
+    <script src="../js/common.js"></script>
+    <script>
+        $(function(){
+            COMMON.USER.linkRegistration.init();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>走势</title>
+	<link rel="stylesheet" href="./css/reset.css">
+	<link rel="stylesheet" href="./css/chart.css">
+	<link rel="stylesheet" href="./css/skin/default.css" id="J_skinCss">
+</head>
+<body id="chartBody" class="chart-page">
+	<!-- 顶部 -->
+	<div id="header" class="header dark-color">
+		<div class="w1200 clearfix rel">
+			<div class="fl header-post">
+				<a href="index.html"><img src="./images/icon-logo.png" alt=""></a>
+				<em class="icon fl"></em>
+				<div class="fl">暂时没有滚动通告</div>
+			</div>
+			<div class="fr header-user">
+				<p class="fl">您好，<span id="J_headerUserName"></span></p>
+				<b class="fl">|</b>
+				<div class="fl"><span class="fl" id="J_totalBalance">余额 <i class="J_balance"></i></span><em class="fl icon icon-refresh cup" id="J_refresh"></em><span class="cup show fl" id="J_cutoverBalance" data-balance="">隐藏</span></div>
+				<b class="fl">|</b>
+				<span class="fl cup J_pageJump" data-page="recharge_online">充值</span>
+				<span class="fl cup J_pageJump" data-page="withdrawal_application">提款</span>
+				<b class="fl">|</b>
+				<em class="fl icon icon-signout cup" id="J_signOut"></em>
+				
+			</div>
+
+			<div class="skin" id="J_skin">
+				<span>皮肤</span>
+				<em></em>
+				<ul>
+					<li class="J_setSkin skin-default" data-skin="default"></li>
+					<li class="J_setSkin skin-blue" data-skin="blue"></li>
+					<!-- <li class="J_setSkin skin-red" data-skin="red"></li>
+					<li class="J_setSkin skin-black" data-skin="black"></li> -->
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<!-- below-header -->
+	<div class="below-header w1200 clearfix">
+        <div class="below-logo fl">
+            <img src="" alt="" class="J_productLogo">
+        </div>
+        <div class="below-count fl">
+            <div class="fl below-phase">
+                <p>剩余投注时间</p>
+                <p>第<span class="text-l-color J_betTimer"></span>期</p>
+            </div>
+            <div class="fl below-count-num J_countDownNum">
+                <em>0</em><em>0</em><span>:</span><em>0</em><em>0</em><span>:</span><em>0</em><em>0</em>
+            </div>
+        </div>
+        <div id="J_bettingHeader">
+            <!-- <div class="below-num fl">
+                <div class="fl below-phase">
+                    <p>开奖号码</p>
+                    <p>第<span class="text-l-color" id="J_dataNum"></span>期</p>
+                </div>
+                <div class="fl below-prize-num" id="J_drawResult">
+                    <em>0</em>
+                    <em>0</em>
+                    <em>0</em>
+                    <em>0</em>
+                    <em>0</em>
+                </div>
+            </div>
+            <div class="below-history fl rel">
+                <dl class="history-issue fl" id="J_lastThreeDrawResult1">
+                    <dt>开奖期号</dt>
+                </dl>
+                <dl class="history-trend fr" id="J_lastThreeDrawResult2">
+                    <dt class="cup" id="J_trendChart"><em class="icon fl"></em>走势图</dt>
+                </dl>
+                <ul class="below-history-box abs" id="J_historyList">
+                </ul>
+            </div> -->
+        </div>
+    </div>
+	<div class="below-line"></div>
+	
+	<!-- chart -->
+	<div class="chart-top w1200 clearfix">
+		<div class="chart-issue fl">
+			<span>期数：</span>
+			<span class="J_recently cup chart-issue-c active" data-size="30">近30期</span>
+			<span class="J_recently cup chart-issue-c" data-size="50">近50期</span>
+			<span class="J_recently cup chart-issue-c" data-size="100">近100期</span>
+		</div>
+		<div class="chart-switch fl">
+			<div class="chart-check fl cup" id="J_missBtn"><i class="active"></i>遗漏</div>
+			<div class="chart-check fl cup hide" id="J_polyline"><i class="active"></i>折线</div>
+		</div>
+	</div>
+
+	<div id="J_chartTemplateBox" style="min-height:700px;">
+		
+	</div>
+	
+
+	<!-- 底部 -->
+	<div id="footer" class="footer dark-color">
+		<div class="w1200">© 大圣彩版权所有 |  创新博弈，成功从大圣彩开始</div>
+	</div>
+
+	<script src="./js/jquery-1.11.1.min.js"></script>
+    <script src="./js/jquery.cookie.js"></script>
+    <script src="./js/layer/layer.js"></script>
+    <script src="./js/GLOBAL.js"></script>
+    <script src="./js/template.js"></script>
+    <script src="./js/chart.js"></script>
+    <script src="./js/common.js"></script>
+</body>
+</html>

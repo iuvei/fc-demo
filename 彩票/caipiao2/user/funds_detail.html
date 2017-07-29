@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>资金详情</title>
+	<link rel="stylesheet" href="../css/reset.css">
+	<link rel="stylesheet" href="../css/user_common.css">
+	<link rel="stylesheet" href="../css/skin/default.css" id="J_skinCss">
+</head>
+<body>
+	<!-- 顶部 -->
+	<div id="header" class="header dark-color">
+		<div class="w1200 clearfix rel">
+			<div class="fl header-post">
+				<a href="../index.html"><img src="../images/icon-logo.png" alt=""></a>
+				<em class="icon fl"></em>
+				<div class="fl">暂时没有滚动通告</div>
+			</div>
+			<div class="fr header-user">
+				<p class="fl">您好，<span id="J_headerUserName"></span></p>
+				<b class="fl">|</b>
+				<div class="fl"><span class="fl" id="J_totalBalance">余额 <i class="J_balance"></i></span><em class="fl icon icon-refresh cup" id="J_refresh"></em><span class="cup show fl" id="J_cutoverBalance" data-balance="">隐藏</span></div>
+				<b class="fl">|</b>
+				<span class="fl cup J_pageJump" data-page="recharge_online">充值</span>
+				<span class="fl cup J_pageJump" data-page="withdrawal_application">提款</span>
+				<b class="fl">|</b>
+				<em class="fl icon icon-signout cup" id="J_signOut"></em>
+				
+			</div>
+
+			<div class="skin" id="J_skin">
+				<span>皮肤</span>
+				<em></em>
+				<ul>
+					<li class="J_setSkin skin-default" data-skin="default"></li>
+					<li class="J_setSkin skin-blue" data-skin="blue"></li>
+					<!-- <li class="J_setSkin skin-red" data-skin="red"></li>
+					<li class="J_setSkin skin-black" data-skin="black"></li> -->
+				</ul>
+			</div>
+		</div>
+	</div>
+	
+	<!--  -->
+	<div class="user-header">
+		<div class="w1200 clearfix main-nav">
+			<div class="fl logo">
+				<img src="../images/logo.png" alt="" height="35">
+			</div>
+			<div class="sort rel fr">
+				<p class="abs">
+					<em class="abs"></em>
+				</p>
+				<span class="dark-color cup">全部彩票<em class="icon icon-sort"></em></span>
+				<div class="sort-box abs" id="J_cateList">
+                    <dl class="fl sort-ssc" id="J_cateList_1">
+                        <dt>时时彩</dt>
+                    </dl>
+                    <dl class="fl sort-syxw" id="J_cateList_3">
+                        <dt>十一选五</dt>
+                    </dl>
+                    <dl class="fl sort-dpc" id="J_cateList_2">
+                        <dt>低频彩</dt>
+                    </dl>
+                    <dl class="fl sort-pk10" id="J_cateList_4">
+                        <dt>PK10</dt>
+                    </dl>
+                </div>
+			</div>
+			<div class="nav fr">
+				<div class="nav-list J_pageJump" data-page="recharge_online">充值</div>
+				<div class="nav-list J_pageJump" data-page="withdrawal_application">提款</div>
+				<div class="nav-list J_pageJump" data-page="profile">个人</div>
+				<div class="nav-list J_pageJump" data-page="subordinate_management">代理</div>
+				<div class="nav-list J_pageJump" data-page="">客服</div>
+				<div class="nav-list J_pageJump" data-page="">帮助</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="w1200 clearfix">
+		<div class="user-nav fl" id="J_userNav">
+            <dl>
+                <dt><em class="icon icon-cz"></em><span>充值</span><i class="icon"></i></dt>
+                <dd><a href="../user/recharge_online.html">线上支付</a></dd>
+                <dd><a href="../user/recharge_transfer.html">网银转账</a></dd>
+                <dd><a href="../user/recharge_wechat.html">微信转账</a></dd>
+                <dd><a href="../user/recharge_ali.html">支付宝转账</a></dd>
+                <dd><a href="../user/recharge_record.html">充值记录</a></dd>
+            </dl>
+            <dl>
+                <dt><em class="icon icon-tk"></em><span>提款</span><i class="icon"></i></dt>
+                <dd><a href="../user/withdrawal_application.html">提款申请</a></dd>
+                <dd><a href="../user/withdrawal_records.html">提款记录</a></dd>
+                <dd><a href="../user/withdrawal_bindcard.html">绑定提款卡</a></dd>
+            </dl>
+            <dl class="open">
+                <dt><em class="icon icon-user"></em><span>个人</span><i class="icon"></i></dt>
+                <dd><a href="../user/profile.html">我的资料</a></dd>
+                <dd><a href="../user/funds_detail.html" class="active">资金详情</a></dd>
+                <dd><a href="../user/betting_record.html">投注记录</a></dd>
+                <dd><a href="../user/chase_record.html">追号记录</a></dd>
+                <dd><a href="../user/account_details.html">账变明细</a></dd>
+                <dd><a href="../user/login_password.html">登录密码</a></dd>
+                <dd><a href="../user/capital_password.html">资金密码</a></dd>
+            </dl>
+            <dl>
+                <dt><em class="icon icon-dl"></em><span>代理</span><i class="icon"></i></dt>
+                <dd><a href="../user/link_registration.html">链接注册</a></dd>
+                <dd><a href="../user/link_management.html">链接管理</a></dd>
+                <dd><a href="../user/subordinate_management.html">下级管理</a></dd>
+                <dd><a href="../user/report_management.html">报表管理</a></dd>
+                <dd><a href="../user/team_betting.html">团队投注</a></dd>
+            </dl>
+            <dl>
+                <dt><em class="icon icon-kf"></em><span>客服</span><i class="icon"></i></dt>
+            </dl>
+            <dl>
+                <dt><em class="icon icon-help"></em><span>帮助</span><i class="icon"></i></dt>
+            </dl>
+        </div>
+
+		<div class="user-content fl" style="margin-bottom:50px;">
+			<div class="user-con">
+				<div class="user-tt">
+					<span>资金详情</span>
+				</div>
+				
+				<div class="user-funds rel clearfix">
+
+					<ul class="user-funds-tt" id="J_tabTt">
+						<li class="active">时时彩 - 传统</li>
+						<li>时时彩 - 智赢</li>
+						<li>11选5</li>
+						<li>低频彩（福彩3D）</li>
+						<li>低频彩（P3P5）</li>
+						<li>快开彩</li>
+					</ul>
+					<ul class="user-funds-con" id="J_tabCon">
+						<li>
+							<div class="funds-con-tt">最高奖金组1700</div>
+							<table cellpadding="0" cellspacing="0">
+								<thead>
+									<tr>
+										<th width="150">玩法组</th>
+										<th width="200">玩法</th>
+										<th>奖级</th>
+										<th>奖金</th>
+										<th>返点</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+								    <td rowspan="24">五星</td><td rowspan="1">五星直选</td><td></td><td>170,000.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="1">五星直选(单式)</td><td></td><td>170,000.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="3">五星通选</td><td>一等奖</td><td>34,000.0000</td><td>0%</td></tr>
+								    <tr><td>二等奖</td><td>340.0000</td><td>0%</td></tr>
+								    <tr><td>三等奖</td><td>34.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="3">五星通选(单式)</td><td>一等奖</td><td>34,000.0000</td><td>0%</td></tr>
+								    <tr><td>二等奖</td><td>340.0000</td><td>0%</td></tr>
+								    <tr><td>三等奖</td><td>34.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="5">五星连选</td><td>一等奖</td><td>170,000.0000</td><td>0%</td></tr>
+								    <tr><td>二等奖</td><td>17,000.0000</td><td>0%</td></tr>
+								    <tr><td>三等奖</td><td>1,700.0000</td><td>0%</td></tr>
+								    <tr><td>四等奖</td><td>170.0000</td><td>0%</td></tr>
+								    <tr><td>五等奖</td><td>17.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="5">五星连选(单式)</td><td>一等奖</td><td>170,000.0000</td><td>0%</td></tr>
+								    <tr><td>二等奖</td><td>17,000.0000</td><td>0%</td></tr>
+								    <tr><td>三等奖</td><td>1,700.0000</td><td>0%</td></tr>
+								    <tr><td>四等奖</td><td>170.0000</td><td>0%</td></tr>
+								    <tr><td>五等奖</td><td>17.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="1">五星组选120</td><td></td><td>1,416.6666</td><td>0%</td></tr>
+								    <tr><td rowspan="1">五星组选60</td><td></td><td>2,833.3333</td><td>0%</td></tr>
+								    <tr><td rowspan="1">五星组选30</td><td></td><td>5,666.6666</td><td>0%</td></tr>
+								    <tr><td rowspan="1">五星组选20</td><td></td><td>8,500.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="1">五星组选10</td><td></td><td>17,000.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="1">五星组选5</td><td></td><td>34,000.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="14">前四</td><td rowspan="1">前四直选</td><td></td><td>17,000.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="1">前四直选(单式)</td><td></td><td>17,000.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="4">前四连选</td><td>一等奖</td><td>17,000.0000</td><td>0%</td></tr>
+								    <tr><td>二等奖</td><td>1,700.0000</td><td>0%</td></tr>
+								    <tr><td>三等奖</td><td>170.0000</td><td>0%</td></tr>
+								    <tr><td>四等奖</td><td>17.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="4">前四连选(单式)</td><td>一等奖</td><td>17,000.0000</td><td>0%</td></tr>
+								    <tr><td>二等奖</td><td>1,700.0000</td><td>0%</td></tr>
+								    <tr><td>三等奖</td><td>170.0000</td><td>0%</td></tr>
+								    <tr><td>四等奖</td><td>17.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="1">前四组选24</td><td></td><td>708.3333</td><td>0%</td></tr>
+								    <tr><td rowspan="1">前四组选12</td><td></td><td>1,416.6666</td><td>0%</td></tr>
+								    <tr><td rowspan="1">前四组选6</td><td></td><td>2,833.3333</td><td>0%</td></tr>
+								    <tr><td rowspan="1">前四组选4</td><td></td><td>4,250.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="14">后四</td><td rowspan="1">后四直选</td><td></td><td>17,000.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="1">后四直选(单式)</td><td></td><td>17,000.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="4">后四连选</td><td>一等奖</td><td>17,000.0000</td><td>0%</td></tr>
+								    <tr><td>二等奖</td><td>1,700.0000</td><td>0%</td></tr>
+								    <tr><td>三等奖</td><td>170.0000</td><td>0%</td></tr>
+								    <tr><td>四等奖</td><td>17.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="4">后四连选(单式)</td><td>一等奖</td><td>17,000.0000</td><td>0%</td></tr>
+								    <tr><td>二等奖</td><td>1,700.0000</td><td>0%</td></tr>
+								    <tr><td>三等奖</td><td>170.0000</td><td>0%</td></tr>
+								    <tr><td>四等奖</td><td>17.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="1">后四组选24</td><td></td><td>708.3333</td><td>0%</td></tr>
+								    <tr><td rowspan="1">后四组选12</td><td></td><td>1,416.6666</td><td>0%</td></tr>
+								    <tr><td rowspan="1">后四组选6</td><td></td><td>2,833.3333</td><td>0%</td></tr>
+								    <tr><td rowspan="1">后四组选4</td><td></td><td>4,250.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="14">前三</td><td rowspan="1">前三直选</td><td></td><td>1,700.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="1">前三直选(单式)</td><td></td><td>1,700.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="3">前三连选</td><td>一等奖</td><td>1,700.0000</td><td>0%</td></tr>
+								    <tr><td>二等奖</td><td>170.0000</td><td>0%</td></tr>
+								    <tr><td>三等奖</td><td>17.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="3">前三连选(单式)</td><td>一等奖</td><td>1,700.0000</td><td>0%</td></tr>
+								    <tr><td>二等奖</td><td>170.0000</td><td>0%</td></tr>
+								    <tr><td>三等奖</td><td>17.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="1">前三直选组合</td><td></td><td>1,700.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="1">前三和值</td><td></td><td>1,700.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="1">前三组三</td><td></td><td>566.6667</td><td>0%</td></tr>
+								    <tr><td rowspan="1">前三组六</td><td></td><td>283.3333</td><td>0%</td></tr>
+								    <tr><td rowspan="2">前三混合组选</td><td>组六</td><td>283.3333</td><td>0%</td></tr>
+								    <tr><td>组三</td><td>566.6667</td><td>0%</td></tr>
+								    <tr><td rowspan="14">中三</td><td rowspan="1">中三直选</td><td></td><td>1,700.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="1">中三直选(单式)</td><td></td><td>1,700.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="3">中三连选</td><td>一等奖</td><td>1,700.0000</td><td>0%</td></tr>
+								    <tr><td>二等奖</td><td>170.0000</td><td>0%</td></tr>
+								    <tr><td>三等奖</td><td>17.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="3">中三连选(单式)</td><td>二等奖</td><td>170.0000</td><td>0%</td></tr>
+								    <tr><td>一等奖</td><td>1,700.0000</td><td>0%</td></tr>
+								    <tr><td>三等奖</td><td>17.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="1">中三直选组合</td><td></td><td>1,700.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="1">中三和值</td><td></td><td>1,700.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="1">中三组三</td><td></td><td>566.6667</td><td>0%</td></tr>
+								    <tr><td rowspan="1">中三组六</td><td></td><td>283.3333</td><td>0%</td></tr>
+								    <tr><td rowspan="2">中三混合组选</td><td>组六</td><td>283.3333</td><td>0%</td></tr>
+								    <tr><td>组三</td><td>566.6667</td><td>0%</td></tr>
+								    <tr><td rowspan="14">后三</td><td rowspan="1">后三直选</td><td></td><td>1,700.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="1">后三直选(单式)</td><td></td><td>1,700.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="3">后三连选</td><td>一等奖</td><td>1,700.0000</td><td>0%</td></tr>
+								    <tr><td>二等奖</td><td>170.0000</td><td>0%</td></tr>
+								    <tr><td>三等奖</td><td>17.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="3">后三连选(单式)</td><td>一等奖</td><td>1,700.0000</td><td>0%</td></tr>
+								    <tr><td>二等奖</td><td>170.0000</td><td>0%</td></tr>
+								    <tr><td>三等奖</td><td>17.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="1">后三直选组合</td><td></td><td>1,700.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="1">后三和值</td><td></td><td>1,700.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="1">后三组三</td><td></td><td>566.6667</td><td>0%</td></tr>
+								    <tr><td rowspan="1">后三组六</td><td></td><td>283.3333</td><td>0%</td></tr>
+								    <tr><td rowspan="2">后三混合组选</td><td>组六</td><td>283.3333</td><td>0%</td></tr>
+								    <tr><td>组三</td><td>566.6667</td><td>0%</td></tr>
+								    <tr><td rowspan="8">前二</td><td rowspan="1">前二直选</td><td></td><td>170.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="1">前二直选(单式)</td><td></td><td>170.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="2">前二连选</td><td>一等奖</td><td>170.0000</td><td>0%</td></tr>
+								    <tr><td>二等奖</td><td>17.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="2">前二连选(单式)</td><td>一等奖</td><td>170.0000</td><td>0%</td></tr>
+								    <tr><td>二等奖</td><td>17.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="1">前二和值</td><td></td><td>170.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="1">前二组选</td><td></td><td>85.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="8">后二</td><td rowspan="1">后二直选</td><td></td><td>170.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="1">后二直选(单式)</td><td></td><td>170.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="2">后二连选</td><td>一等奖</td><td>170.0000</td><td>0%</td></tr>
+								    <tr><td>二等奖</td><td>17.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="2">后二连选(单式)</td><td>二等奖</td><td>17.0000</td><td>0%</td></tr>
+								    <tr><td>一等奖</td><td>170.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="1">后二和值</td><td></td><td>170.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="1">后二组选</td><td></td><td>85.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="6">一星</td><td rowspan="5">一星定位胆</td><td></td><td>17.0000</td><td>0%</td></tr>
+								    <tr><td></td><td>17.0000</td><td>0%</td></tr>
+								    <tr><td></td><td>17.0000</td><td>0%</td></tr>
+								    <tr><td></td><td>17.0000</td><td>0%</td></tr>
+								    <tr><td></td><td>17.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="1">一星直选</td><td></td><td>17.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="30">不定位</td><td rowspan="1">前三直选一码</td><td></td><td>6.2730</td><td>0%</td></tr>
+								    <tr><td rowspan="1">前三直选二码</td><td></td><td>31.4814</td><td>0%</td></tr>
+								    <tr><td rowspan="1">中三直选一码</td><td></td><td>6.2730</td><td>0%</td></tr>
+								    <tr><td rowspan="1">中三直选二码</td><td></td><td>31.4814</td><td>0%</td></tr>
+								    <tr><td rowspan="1">后三直选一码</td><td></td><td>6.2730</td><td>0%</td></tr>
+								    <tr><td rowspan="1">后三直选二码</td><td></td><td>31.4814</td><td>0%</td></tr>
+								    <tr><td rowspan="1">前二直选</td><td></td><td>8.9474</td><td>0%</td></tr>
+								    <tr><td rowspan="1">后二直选</td><td></td><td>8.9474</td><td>0%</td></tr>
+								    <tr><td rowspan="3">前三组选一码</td><td>豹子</td><td>1,700.0000</td><td>0%</td></tr>
+								    <tr><td>组三</td><td>566.6667</td><td>0%</td></tr>
+								    <tr><td>组六</td><td>283.3333</td><td>0%</td></tr>
+								    <tr><td rowspan="3">前三组选二码</td><td>豹子</td><td>1,700.0000</td><td>0%</td></tr>
+								    <tr><td>组三</td><td>566.6667</td><td>0%</td></tr>
+								    <tr><td>组六</td><td>283.3333</td><td>0%</td></tr>
+								    <tr><td rowspan="3">中三组选一码</td><td>组六</td><td>283.3333</td><td>0%</td></tr>
+								    <tr><td>豹子</td><td>1,700.0000</td><td>0%</td></tr>
+								    <tr><td>组三</td><td>566.6667</td><td>0%</td></tr>
+								    <tr><td rowspan="3">中三组选二码</td><td>组六</td><td>283.3333</td><td>0%</td></tr>
+								    <tr><td>组三</td><td>566.6667</td><td>0%</td></tr>
+								    <tr><td>豹子</td><td>1,700.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="3">后三组选一码</td><td>组六</td><td>283.3333</td><td>0%</td></tr>
+								    <tr><td>组三</td><td>566.6667</td><td>0%</td></tr>
+								    <tr><td>豹子</td><td>1,700.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="3">后三组选二码</td><td>组六</td><td>283.3333</td><td>0%</td></tr>
+								    <tr><td>组三</td><td>566.6667</td><td>0%</td></tr>
+								    <tr><td>豹子</td><td>1,700.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="2">前二组选</td><td>对子</td><td>170.0000</td><td>0%</td></tr>
+								    <tr><td>非对子</td><td>85.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="2">后二组选</td><td>对子</td><td>170.0000</td><td>0%</td></tr>
+								    <tr><td>非对子</td><td>85.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="6">趣味</td><td rowspan="1">前二大小单双</td><td></td><td>6.8000</td><td>0%</td></tr>
+								    <tr><td rowspan="1">后二大小单双</td><td></td><td>6.8000</td><td>0%</td></tr>
+								    <tr><td rowspan="1">一帆风顺</td><td></td><td>4.1512</td><td>0%</td></tr>
+								    <tr><td rowspan="1">好事成双</td><td></td><td>20.8692</td><td>0%</td></tr>
+								    <tr><td rowspan="1">三星报喜</td><td></td><td>198.5980</td><td>0%</td></tr>
+								    <tr><td rowspan="1">四季发财</td><td></td><td>3,695.6521</td><td>0%</td></tr>
+								    <tr><td rowspan="27">龙虎和</td><td rowspan="3">万百</td><td>龙虎</td><td>3.7777</td><td>0%</td></tr>
+								    <tr><td>和</td><td>17.0000</td><td>0%</td></tr>
+								    <tr><td>单双</td><td>3.4000</td><td>0%</td></tr>
+								    <tr><td rowspan="3">万十</td><td>龙虎</td><td>3.7777</td><td>0%</td></tr>
+								    <tr><td>和</td><td>17.0000</td><td>0%</td></tr>
+								    <tr><td>单双</td><td>3.4000</td><td>0%</td></tr>
+								    <tr><td rowspan="3">万个</td><td>龙虎</td><td>3.7777</td><td>0%</td></tr>
+								    <tr><td>和</td><td>17.0000</td><td>0%</td></tr>
+								    <tr><td>单双</td><td>3.4000</td><td>0%</td></tr>
+								    <tr><td rowspan="3">千百</td><td>龙虎</td><td>3.7777</td><td>0%</td></tr>
+								    <tr><td>和</td><td>17.0000</td><td>0%</td></tr>
+								    <tr><td>单双</td><td>3.4000</td><td>0%</td></tr>
+								    <tr><td rowspan="3">千十</td><td>龙虎</td><td>3.7777</td><td>0%</td></tr>
+								    <tr><td>和</td><td>17.0000</td><td>0%</td></tr>
+								    <tr><td>单双</td><td>3.4000</td><td>0%</td></tr>
+								    <tr><td rowspan="3">千个</td><td>单双</td><td>3.4000</td><td>0%</td></tr>
+								    <tr><td>龙虎</td><td>3.7777</td><td>0%</td></tr>
+								    <tr><td>和</td><td>17.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="3">百十</td><td>单双</td><td>3.4000</td><td>0%</td></tr>
+								    <tr><td>和</td><td>17.0000</td><td>0%</td></tr>
+								    <tr><td>龙虎</td><td>3.7777</td><td>0%</td></tr>
+								    <tr><td rowspan="3">百个</td><td>龙虎</td><td>3.7777</td><td>0%</td></tr>
+								    <tr><td>和</td><td>17.0000</td><td>0%</td></tr>
+								    <tr><td>单双</td><td>3.4000</td><td>0%</td></tr>
+								    <tr><td rowspan="3">十个</td><td>龙虎</td><td>3.7777</td><td>0%</td></tr>
+								    <tr><td>和</td><td>17.0000</td><td>0%</td></tr>
+								    <tr><td>单双</td><td>3.4000</td><td>0%</td></tr>
+								    <tr><td rowspan="20">任选</td><td rowspan="1">任一直选</td><td></td><td>17.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="1">任二直选</td><td></td><td>170.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="1">任二直选（单式）</td><td></td><td>170.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="1">任三直选</td><td></td><td>1,700.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="1">任三直选（单式）</td><td></td><td>1,700.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="1">任四直选</td><td></td><td>17,000.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="1">任四直选（单式）</td><td></td><td>17,000.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="1">任二组选</td><td></td><td>85.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="1">任二组选（单式）</td><td></td><td>85.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="1">任二组选和值</td><td></td><td>85.0000</td><td>0%</td></tr>
+								    <tr><td rowspan="2">任三组选和值</td><td>组三</td><td>566.6666</td><td>0%</td></tr>
+								    <tr><td>组六</td><td>283.3333</td><td>0%</td></tr>
+								    <tr><td rowspan="1">任三组三</td><td></td><td>566.6666</td><td>0%</td></tr>
+								    <tr><td rowspan="1">任三组六</td><td></td><td>283.3333</td><td>0%</td></tr>
+								    <tr><td rowspan="2">任三混合组选</td><td>组三</td><td>566.6666</td><td>0%</td></tr>
+								    <tr><td>组六</td><td>283.3333</td><td>0%</td></tr>
+								    <tr><td rowspan="1">任四组选24</td><td></td><td>708.3333</td><td>0%</td></tr>
+								    <tr><td rowspan="1">任四组选12</td><td></td><td>1,416.6666</td><td>0%</td></tr>
+								    <tr><td rowspan="1">任四组选6</td><td></td><td>2,833.3333</td><td>0%</td></tr>
+								    <tr><td rowspan="1">任四组选4</td><td></td><td>4,250.0000</td><td>0%</td></tr>
+								</tbody>
+							</table>
+						</li>
+						<li class="hide">
+							<div class="funds-con-tt">最高奖金组2000</div>
+							<table cellpadding="0" cellspacing="0">
+								<thead>
+									<tr style="height: 54px;">
+								        <th rowspan="2" style="width: 100px;">玩法组</th>
+								        <th rowspan="2">玩法</th>
+								        <th rowspan="2" style="width: 100px;">奖级</th>
+								        <th colspan="3" style="height: 34px;">奖金</th>
+								        <th rowspan="2" style="width: 125px;">返点</th>
+								    </tr>
+								    <tr id="bonusDetails_SSC2">
+								        <th style="width: 140px;">万位非6和9</th>
+								        <th style="width: 140px;">万位9</th>
+								        <th style="width: 140px;">万位6</th>
+								    </tr>
+								</thead>
+								<tbody>
+									<tr><td rowspan="14">后四</td><td rowspan="1">后四直选</td><td></td><td>20,000.0000</td><td>18,000.0000</td><td>15,000.0000</td><td>0.00%</td></tr>
+								    <tr><td rowspan="1">后四直选(单式)</td><td></td><td>20,000.0000</td><td>18,000.0000</td><td>15,000.0000</td><td>0.00%</td></tr>
+								    <tr><td rowspan="4">后四连选</td><td>一等奖</td><td>20,000.0000</td><td>18,000.0000</td><td>15,000.0000</td><td>0.00%</td></tr>
+								    <tr><td>二等奖</td><td>2,000.0000</td><td>1,800.0000</td><td>1,500.0000</td><td>0.00%</td></tr>
+								    <tr><td>三等奖</td><td>200.0000</td><td>180.0000</td><td>150.0000</td><td>0.00%</td></tr>
+								    <tr><td>四等奖</td><td>20.0000</td><td>18.0000</td><td>15.0000</td><td>0.00%</td></tr>
+								    <tr><td rowspan="4">后四连选(单式)</td><td>三等奖</td><td>200.0000</td><td>180.0000</td><td>150.0000</td><td>0.00%</td></tr>
+								    <tr><td>二等奖</td><td>2,000.0000</td><td>1,800.0000</td><td>1,500.0000</td><td>0.00%</td></tr>
+								    <tr><td>一等奖</td><td>20,000.0000</td><td>18,000.0000</td><td>15,000.0000</td><td>0.00%</td></tr>
+								    <tr><td>四等奖</td><td>20.0000</td><td>18.0000</td><td>15.0000</td><td>0.00%</td></tr>
+								    <tr><td rowspan="1">后四组选24</td><td></td><td>833.3334</td><td>750.0000</td><td>625.0000</td><td>0.00%</td></tr>
+								    <tr><td rowspan="1">后四组选12</td><td></td><td>1,666.6666</td><td>1,499.9999</td><td>1,249.9999</td><td>0.00%</td></tr>
+								    <tr><td rowspan="1">后四组选6</td><td></td><td>3,333.3334</td><td>3,000.0000</td><td>2,500.0000</td><td>0.00%</td></tr>
+								    <tr><td rowspan="1">后四组选4</td><td></td><td>5,000.0000</td><td>4,500.0000</td><td>3,750.0000</td><td>0.00%</td></tr>
+								    <tr><td rowspan="14">中三</td><td rowspan="1">中三直选</td><td></td><td>2,000.0000</td><td>1,800.0000</td><td>1,500.0000</td><td>0.00%</td></tr>
+								    <tr><td rowspan="1">中三直选(单式)</td><td></td><td>2,000.0000</td><td>1,800.0000</td><td>1,500.0000</td><td>0.00%</td></tr>
+								    <tr><td rowspan="3">中三连选</td><td>二等奖</td><td>200.0000</td><td>180.0000</td><td>150.0000</td><td>0.00%</td></tr>
+								    <tr><td>一等奖</td><td>2,000.0000</td><td>1,800.0000</td><td>1,500.0000</td><td>0.00%</td></tr>
+								    <tr><td>三等奖</td><td>20.0000</td><td>18.0000</td><td>15.0000</td><td>0.00%</td></tr>
+								    <tr><td rowspan="3">中三连选(单式)</td><td>三等奖</td><td>20.0000</td><td>18.0000</td><td>15.0000</td><td>0.00%</td></tr>
+								    <tr><td>二等奖</td><td>200.0000</td><td>180.0000</td><td>150.0000</td><td>0.00%</td></tr>
+								    <tr><td>一等奖</td><td>2,000.0000</td><td>1,800.0000</td><td>1,500.0000</td><td>0.00%</td></tr>
+								    <tr><td rowspan="1">中三直选组合</td><td></td><td>2,000.0000</td><td>1,800.0000</td><td>1,500.0000</td><td>0.00%</td></tr>
+								    <tr><td rowspan="1">中三和值</td><td></td><td>2,000.0000</td><td>1,800.0000</td><td>1,500.0000</td><td>0.00%</td></tr>
+								    <tr><td rowspan="1">中三组三</td><td></td><td>666.6668</td><td>600.0001</td><td>500.0001</td><td>0.00%</td></tr>
+								    <tr><td rowspan="1">中三组六</td><td></td><td>333.3334</td><td>300.0000</td><td>250.0000</td><td>0.00%</td></tr>
+								    <tr><td rowspan="2">中三混合组选</td><td>组六</td><td>333.3334</td><td>300.0000</td><td>250.0000</td><td>0.00%</td></tr>
+								    <tr><td>组三</td><td>666.6668</td><td>600.0001</td><td>500.0001</td><td>0.00%</td></tr>
+								    <tr><td rowspan="14">后三</td><td rowspan="1">后三直选</td><td></td><td>2,000.0000</td><td>1,800.0000</td><td>1,500.0000</td><td>0.00%</td></tr>
+								    <tr><td rowspan="1">后三直选(单式)</td><td></td><td>2,000.0000</td><td>1,800.0000</td><td>1,500.0000</td><td>0.00%</td></tr>
+								    <tr><td rowspan="3">后三连选</td><td>二等奖</td><td>200.0000</td><td>180.0000</td><td>150.0000</td><td>0.00%</td></tr>
+								    <tr><td>一等奖</td><td>2,000.0000</td><td>1,800.0000</td><td>1,500.0000</td><td>0.00%</td></tr>
+								    <tr><td>三等奖</td><td>20.0000</td><td>18.0000</td><td>15.0000</td><td>0.00%</td></tr>
+								    <tr><td rowspan="3">后三连选(单式)</td><td>二等奖</td><td>200.0000</td><td>180.0000</td><td>150.0000</td><td>0.00%</td></tr>
+								    <tr><td>三等奖</td><td>20.0000</td><td>18.0000</td><td>15.0000</td><td>0.00%</td></tr>
+								    <tr><td>一等奖</td><td>2,000.0000</td><td>1,800.0000</td><td>1,500.0000</td><td>0.00%</td></tr>
+								    <tr><td rowspan="1">后三直选组合</td><td></td><td>2,000.0000</td><td>1,800.0000</td><td>1,500.0000</td><td>0.00%</td></tr>
+								    <tr><td rowspan="1">后三和值</td><td></td><td>2,000.0000</td><td>1,800.0000</td><td>1,500.0000</td><td>0.00%</td></tr>
+								    <tr><td rowspan="1">后三组三</td><td></td><td>666.6668</td><td>600.0001</td><td>500.0001</td><td>0.00%</td></tr>
+								    <tr><td rowspan="1">后三组六</td><td></td><td>333.3334</td><td>300.0000</td><td>250.0000</td><td>0.00%</td></tr>
+								    <tr><td rowspan="2">后三混合组选</td><td>组六</td><td>333.3334</td><td>300.0000</td><td>250.0000</td><td>0.00%</td></tr>
+								    <tr><td>组三</td><td>666.6668</td><td>600.0001</td><td>500.0001</td><td>0.00%</td></tr>
+								    <tr><td rowspan="8">后二</td><td rowspan="1">后二直选</td><td></td><td>200.0000</td><td>180.0000</td><td>150.0000</td><td>0.00%</td></tr>
+								    <tr><td rowspan="1">后二直选(单式)</td><td></td><td>200.0000</td><td>180.0000</td><td>150.0000</td><td>0.00%</td></tr>
+								    <tr><td rowspan="2">后二连选</td><td>一等奖</td><td>200.0000</td><td>180.0000</td><td>150.0000</td><td>0.00%</td></tr>
+								    <tr><td>二等奖</td><td>20.0000</td><td>18.0000</td><td>15.0000</td><td>0.00%</td></tr>
+								    <tr><td rowspan="2">后二连选(单式)</td><td>二等奖</td><td>20.0000</td><td>18.0000</td><td>15.0000</td><td>0.00%</td></tr>
+								    <tr><td>一等奖</td><td>200.0000</td><td>180.0000</td><td>150.0000</td><td>0.00%</td></tr>
+								    <tr><td rowspan="1">后二和值</td><td></td><td>200.0000</td><td>180.0000</td><td>150.0000</td><td>0.00%</td></tr>
+								    <tr><td rowspan="1">后二组选</td><td></td><td>100.0000</td><td>90.0000</td><td>75.0000</td><td>0.00%</td></tr>
+								    <tr><td rowspan="6">一星</td><td rowspan="5">一星定位胆</td><td></td><td>20.0000</td><td>18.0000</td><td>15.0000</td><td>0.00%</td></tr>
+								    <tr><td></td><td>20.0000</td><td>18.0000</td><td>15.0000</td><td>0.00%</td></tr>
+								    <tr><td></td><td>20.0000</td><td>18.0000</td><td>15.0000</td><td>0.00%</td></tr>
+								    <tr><td></td><td>20.0000</td><td>18.0000</td><td>15.0000</td><td>0.00%</td></tr>
+								    <tr><td></td><td>20.0000</td><td>18.0000</td><td>15.0000</td><td>0.00%</td></tr>
+								    <tr><td rowspan="1">一星直选</td><td></td><td>20.0000</td><td>18.0000</td><td>15.0000</td><td>0.00%</td></tr>
+								    <tr><td rowspan="19">不定位</td><td rowspan="1">中三直选一码</td><td></td><td>7.3800</td><td>6.6420</td><td>5.5350</td><td>0.00%</td></tr>
+								    <tr><td rowspan="1">中三直选二码</td><td></td><td>37.0370</td><td>33.3333</td><td>27.7777</td><td>0.00%</td></tr>
+								    <tr><td rowspan="1">后三直选一码</td><td></td><td>7.3800</td><td>6.6420</td><td>5.5350</td><td>0.00%</td></tr>
+								    <tr><td rowspan="1">后三直选二码</td><td></td><td>37.0370</td><td>33.3333</td><td>27.7777</td><td>0.00%</td></tr>
+								    <tr><td rowspan="1">后二直选</td><td></td><td>10.5264</td><td>9.4737</td><td>7.8948</td><td>0.00%</td></tr>
+								    <tr><td rowspan="3">中三组选一码</td><td>豹子</td><td>2,000.0000</td><td>1,800.0000</td><td>1,500.0000</td><td>0.00%</td></tr>
+								    <tr><td>组三</td><td>666.6668</td><td>600.0001</td><td>500.0001</td><td>0.00%</td></tr>
+								    <tr><td>组六</td><td>333.3334</td><td>300.0000</td><td>250.0000</td><td>0.00%</td></tr>
+								    <tr><td rowspan="3">中三组选二码</td><td>组六</td><td>333.3334</td><td>300.0000</td><td>250.0000</td><td>0.00%</td></tr>
+								    <tr><td>组三</td><td>666.6668</td><td>600.0001</td><td>500.0001</td><td>0.00%</td></tr>
+								    <tr><td>豹子</td><td>2,000.0000</td><td>1,800.0000</td><td>1,500.0000</td><td>0.00%</td></tr>
+								    <tr><td rowspan="3">后三组选一码</td><td>组三</td><td>666.6668</td><td>600.0001</td><td>500.0001</td><td>0.00%</td></tr>
+								    <tr><td>豹子</td><td>2,000.0000</td><td>1,800.0000</td><td>1,500.0000</td><td>0.00%</td></tr>
+								    <tr><td>组六</td><td>333.3334</td><td>300.0000</td><td>250.0000</td><td>0.00%</td></tr>
+								    <tr><td rowspan="3">后三组选二码</td><td>组六</td><td>333.3334</td><td>300.0000</td><td>250.0000</td><td>0.00%</td></tr>
+								    <tr><td>豹子</td><td>2,000.0000</td><td>1,800.0000</td><td>1,500.0000</td><td>0.00%</td></tr>
+								    <tr><td>组三</td><td>666.6668</td><td>600.0001</td><td>500.0001</td><td>0.00%</td></tr>
+								    <tr><td rowspan="2">后二组选</td><td>对子</td><td>200.0000</td><td>180.0000</td><td>150.0000</td><td>0.00%</td></tr>
+								    <tr><td>非对子</td><td>100.0000</td><td>90.0000</td><td>75.0000</td><td>0.00%</td></tr>
+								    <tr><td rowspan="1">趣味</td><td rowspan="1">后二大小单双</td><td></td><td>8.0000</td><td>7.2000</td><td>6.0000</td><td>0.00%</td></tr>       
+								</tbody>
+							</table>
+						</li>
+						<li class="hide">
+							<div class="funds-con-tt">最高奖金组1680</div>
+							<table cellpadding="0" cellspacing="0">
+								<thead>
+							        <tr style="height: 54px;" id="bonusDetails_11X5">
+							            <th style="width: 100px;">玩法组</th>
+							            <th>玩法</th>
+							            <th style="width: 130px;">奖级</th>
+							            <th style="width: 423px;">奖金</th>
+							            <th style="width: 130px;">返点</th>
+							        </tr>
+								</thead>
+								<tbody>
+									 <tr>
+									 <td rowspan="29">任选</td><td rowspan="1">任一直选</td><td></td><td>3.7333</td><td>0%</td></tr><tr><td rowspan="2">任二直选</td><td></td><td>9.3333</td><td>0%</td></tr><tr><td>任选胆拖</td><td>9.3333</td><td>0%</td></tr><tr><td rowspan="2">任三直选</td><td></td><td>28.0000</td><td>0%</td></tr><tr><td>任选胆拖</td><td>28.0000</td><td>0%</td></tr><tr><td rowspan="2">任四直选</td><td>任选胆拖</td><td>112.0000</td><td>0%</td></tr><tr><td></td><td>112.0000</td><td>0%</td></tr><tr><td rowspan="2">任五直选</td><td></td><td>784.0000</td><td>0%</td></tr><tr><td>任选胆拖</td><td>784.0000</td><td>0%</td></tr><tr><td rowspan="2">任六直选</td><td>任选胆拖</td><td>130.6666</td><td>0%</td></tr><tr><td></td><td>130.6666</td><td>0%</td></tr><tr><td rowspan="2">任七直选</td><td></td><td>37.3333</td><td>0%</td></tr><tr><td>任选胆拖</td><td>37.3333</td><td>0%</td></tr><tr><td rowspan="2">任八直选</td><td></td><td>14.0000</td><td>0%</td></tr><tr><td>任选胆拖</td><td>14.0000</td><td>0%</td></tr><tr><td rowspan="2">任二直选（单式）</td><td>任选胆拖</td><td>9.3333</td><td>0%</td></tr><tr><td></td><td>9.3333</td><td>0%</td></tr><tr><td rowspan="2">任三直选（单式）</td><td>任选胆拖</td><td>28.0000</td><td>0%</td></tr><tr><td></td><td>28.0000</td><td>0%</td></tr><tr><td rowspan="2">任四直选（单式）</td><td>任选胆拖</td><td>112.0000</td><td>0%</td></tr><tr><td></td><td>112.0000</td><td>0%</td></tr><tr><td rowspan="2">任五直选（单式）</td><td>任选胆拖</td><td>784.0000</td><td>0%</td></tr><tr><td></td><td>784.0000</td><td>0%</td></tr><tr><td rowspan="2">任六直选（单式）</td><td></td><td>130.6666</td><td>0%</td></tr><tr><td>任选胆拖</td><td>130.6666</td><td>0%</td></tr><tr><td rowspan="2">任七直选（单式）</td><td>任选胆拖</td><td>37.3333</td><td>0%</td></tr><tr><td></td><td>37.3333</td><td>0%</td></tr><tr><td rowspan="2">任八直选（单式）</td><td></td><td>14.0000</td><td>0%</td></tr><tr><td>任选胆拖</td><td>14.0000</td><td>0%</td></tr><tr><td rowspan="6">定单双</td><td rowspan="6">定单双</td><td>二等奖</td><td>130.6666</td><td>0%</td></tr><tr><td>三等奖</td><td>26.1333</td><td>0%</td></tr><tr><td>四等奖</td><td>10.4533</td><td>0%</td></tr><tr><td>五等奖</td><td>5.2266</td><td>0%</td></tr><tr><td>六等奖</td><td>3.9200</td><td>0%</td></tr><tr><td>一等奖</td><td>784.0000</td><td>0%</td></tr><tr><td rowspan="4">猜中位</td><td rowspan="4">猜中位</td><td>二等奖</td><td>12.4443</td><td>0%</td></tr><tr><td>三等奖</td><td>8.7110</td><td>0%</td></tr><tr><td>四等奖</td><td>7.8400</td><td>0%</td></tr><tr><td>一等奖</td><td>28.0000</td><td>0%</td></tr><tr><td rowspan="4">前三</td><td rowspan="1">前三直选</td><td></td><td>1,680.0000</td><td>0%</td></tr><tr><td rowspan="1">前三直选（单式）</td><td></td><td>1,680.0000</td><td>0%</td></tr><tr><td rowspan="1">前三组选</td><td></td><td>280.0000</td><td>0%</td></tr><tr><td rowspan="1">前三组选（单式）</td><td></td><td>280.0000</td><td>0%</td></tr><tr><td rowspan="4">前二</td><td rowspan="1">前二直选</td><td></td><td>186.6666</td><td>0%</td></tr><tr><td rowspan="1">前二直选（单式）</td><td></td><td>186.6666</td><td>0%</td></tr><tr><td rowspan="1">前二组选</td><td></td><td>93.3333</td><td>0%</td></tr><tr><td rowspan="1">前二组选（单式）</td><td></td><td>93.3333</td><td>0%</td></tr><tr><td rowspan="1">不定位</td><td rowspan="1">前三不定位</td><td></td><td>6.2221</td><td>0%</td></tr><tr><td rowspan="1">定位胆</td><td rowspan="1">定位胆</td><td></td><td>18.6666</td><td>0%</td></tr>
+								</tbody>
+							</table>
+						</li>
+						<li class="hide">
+							<div class="funds-con-tt">最高奖金组1670</div>
+							<table cellpadding="0" cellspacing="0">
+								<thead>
+							        <tr style="height: 54px;" id="bonusDetails_PK101">
+							            <th style="width: 100px;">玩法组</th>
+								        <th>玩法</th>
+								        <th style="width: 130px;">奖级</th>
+								        <th style="width: 423px;">奖金</th>
+								        <th style="width: 130px;">返点</th>
+							        </tr>
+								</thead>
+								<tbody>
+									   <tr><td rowspan="9">三星</td><td rowspan="1">三星直选</td><td></td><td>1,670.0000</td><td>0%</td></tr><tr><td rowspan="1">三星直选（单式）</td><td></td><td>1,670.0000</td><td>0%</td></tr><tr><td rowspan="1">三星直选和值</td><td></td><td>1,670.0000</td><td>0%</td></tr><tr><td rowspan="1">三星组三</td><td>组三</td><td>556.6667</td><td>0%</td></tr><tr><td rowspan="1">三星组六</td><td>组六</td><td>278.3333</td><td>0%</td></tr><tr><td rowspan="2">三星组选和值</td><td>组六</td><td>278.3333</td><td>0%</td></tr><tr><td>组三</td><td>556.6667</td><td>0%</td></tr><tr><td rowspan="2">三星混合组选</td><td>组三</td><td>556.6667</td><td>0%</td></tr><tr><td>组六</td><td>278.3333</td><td>0%</td></tr><tr><td rowspan="3">前二</td><td rowspan="1">前二直选</td><td></td><td>167.0000</td><td>0%</td></tr><tr><td rowspan="1">前二直选（单式）</td><td></td><td>167.0000</td><td>0%</td></tr><tr><td rowspan="1">前二组选</td><td></td><td>83.5000</td><td>0%</td></tr><tr><td rowspan="3">后二</td><td rowspan="1">后二直选</td><td></td><td>167.0000</td><td>0%</td></tr><tr><td rowspan="1">后二直选（单式）</td><td></td><td>167.0000</td><td>0%</td></tr><tr><td rowspan="1">后二组选</td><td></td><td>83.5000</td><td>0%</td></tr><tr><td rowspan="3">不定位</td><td rowspan="1">一码不定位</td><td></td><td>6.1623</td><td>0%</td></tr><tr><td rowspan="2">二码不定位</td><td>非对子</td><td>30.9283</td><td>0%</td></tr><tr><td>对子</td><td>59.6190</td><td>0%</td></tr><tr><td rowspan="2">大小单双</td><td rowspan="1">前二大小单双</td><td></td><td>6.6800</td><td>0%</td></tr><tr><td rowspan="1">后二大小单双</td><td></td><td>6.6800</td><td>0%</td></tr><tr><td rowspan="1">定位胆</td><td rowspan="1">定位胆</td><td></td><td>16.7000</td><td>0%</td></tr>
+								</tbody>
+							</table>
+						</li>
+						<li class="hide">
+							<div class="funds-con-tt">最高奖金组1670</div>
+							<table cellpadding="0" cellspacing="0">
+								<thead>
+							        <tr style="height: 54px;" id="bonusDetails_PK101">
+							            <th style="width: 100px;">玩法组</th>
+								        <th>玩法</th>
+								        <th style="width: 130px;">奖级</th>
+								        <th style="width: 423px;">奖金</th>
+								        <th style="width: 130px;">返点</th>
+							        </tr>
+								</thead>
+								<tbody>
+									<tr><td rowspan="9">前三</td><td rowspan="1">P3直选</td><td></td><td>1,670.0000</td><td>0%</td></tr><tr><td rowspan="1">P3直选（单式）</td><td></td><td>1,670.0000</td><td>0%</td></tr><tr><td rowspan="1">P3直选和值</td><td></td><td>1,670.0000</td><td>0%</td></tr><tr><td rowspan="1">P3组三</td><td>组三</td><td>556.6667</td><td>0%</td></tr><tr><td rowspan="1">P3组六</td><td>组六</td><td>278.3333</td><td>0%</td></tr><tr><td rowspan="2">P3组选和值</td><td>组六</td><td>278.3333</td><td>0%</td></tr><tr><td>组三</td><td>556.6667</td><td>0%</td></tr><tr><td rowspan="2">P3混合组选</td><td>组三</td><td>556.6667</td><td>0%</td></tr><tr><td>组六</td><td>278.3333</td><td>0%</td></tr><tr><td rowspan="3">前三不定位</td><td rowspan="1">P3一码不定位</td><td></td><td>6.1623</td><td>0%</td></tr><tr><td rowspan="2">P3二码不定位</td><td>对子</td><td>59.6190</td><td>0%</td></tr><tr><td>非对子</td><td>30.9283</td><td>0%</td></tr><tr><td rowspan="3">前二</td><td rowspan="1">前二直选</td><td></td><td>167.0000</td><td>0%</td></tr><tr><td rowspan="1">前二直选（单式）</td><td></td><td>167.0000</td><td>0%</td></tr><tr><td rowspan="1">前二组选</td><td></td><td>83.5000</td><td>0%</td></tr><tr><td rowspan="6">后二</td><td rowspan="1">P3后二直选</td><td></td><td>167.0000</td><td>0%</td></tr><tr><td rowspan="1">P3后二直选（单式）</td><td></td><td>167.0000</td><td>0%</td></tr><tr><td rowspan="1">P5后二直选</td><td></td><td>167.0000</td><td>0%</td></tr><tr><td rowspan="1">P5后二直选（单式）</td><td></td><td>167.0000</td><td>0%</td></tr><tr><td rowspan="1">P3后二组选</td><td></td><td>83.5000</td><td>0%</td></tr><tr><td rowspan="1">后二组选</td><td></td><td>83.5000</td><td>0%</td></tr><tr><td rowspan="3">大小单双</td><td rowspan="1">前二大小单双</td><td></td><td>6.6800</td><td>0%</td></tr><tr><td rowspan="1">P3后二大小单双</td><td></td><td>6.6800</td><td>0%</td></tr><tr><td rowspan="1">后二大小单双</td><td></td><td>6.6800</td><td>0%</td></tr><tr><td rowspan="2">定位胆</td><td rowspan="2">定位胆</td><td></td><td>16.7000</td><td>0%</td></tr><tr><td></td><td>16.7000</td><td>0%</td></tr>
+								</tbody>
+							</table>
+						</li>
+						<li class="hide">
+							<div class="funds-con-tt">最高奖金组1700</div>
+							<table cellpadding="0" cellspacing="0">
+								<thead>
+							        <tr style="height: 54px;" id="bonusDetails_PK101">
+							            <th style="width: 100px;">玩法组</th>
+							            <th>玩法</th>
+							            <th style="width: 130px;">奖级</th>
+							            <th style="width: 423px;">奖金</th>
+							            <th style="width: 130px;">返点</th>
+							        </tr>
+								</thead>
+								<tbody>
+									 <tr><td rowspan="1">猜前一</td><td rowspan="1">猜前一</td><td></td><td>17.0000</td><td>0%</td></tr><tr><td rowspan="2">猜前二</td><td rowspan="1">猜前二</td><td></td><td>153.0000</td><td>0%</td></tr><tr><td rowspan="1">猜前二(单式)</td><td></td><td>153.0000</td><td>0%</td></tr><tr><td rowspan="2">猜前三</td><td rowspan="1">猜前三</td><td></td><td>1,224.0000</td><td>0%</td></tr><tr><td rowspan="1">猜前三(单式)</td><td></td><td>1,224.0000</td><td>0%</td></tr><tr><td rowspan="2">猜前四</td><td rowspan="1">猜前四</td><td></td><td>8,568.0000</td><td>0%</td></tr><tr><td rowspan="1">猜前四(单式)</td><td></td><td>8,568.0000</td><td>0%</td></tr><tr><td rowspan="2">猜前五</td><td rowspan="1">猜前五</td><td></td><td>51,408.0000</td><td>0%</td></tr><tr><td rowspan="1">猜前五(单式)</td><td></td><td>51,408.0000</td><td>0%</td></tr><tr><td rowspan="2">定位胆</td><td rowspan="1">前五定位胆</td><td></td><td>17.0000</td><td>0%</td></tr><tr><td rowspan="1">后五定位胆</td><td></td><td>17.0000</td><td>0%</td></tr><tr><td rowspan="19">猜和值</td><td rowspan="5">冠亚和值</td><td>3,4,18,19</td><td>76.5000</td><td>0%</td></tr><tr><td>5,6,16,17</td><td>38.2500</td><td>0%</td></tr><tr><td>7,8,14,15</td><td>25.5000</td><td>0%</td></tr><tr><td>9,10,12,13</td><td>19.1250</td><td>0%</td></tr><tr><td>11</td><td>15.3000</td><td>0%</td></tr><tr><td rowspan="9">冠亚季和值</td><td>6,7,26,27</td><td>204.0000</td><td>0%</td></tr><tr><td>8,25</td><td>68.0000</td><td>0%</td></tr><tr><td>9,24</td><td>51.0000</td><td>0%</td></tr><tr><td>10,23</td><td>40.8000</td><td>0%</td></tr><tr><td>11,22</td><td>40.8000</td><td>0%</td></tr><tr><td>12,21</td><td>29.1429</td><td>0%</td></tr><tr><td>13,20</td><td>25.5000</td><td>0%</td></tr><tr><td>14,19</td><td>22.6666</td><td>0%</td></tr><tr><td>15,16,17,18</td><td>20.4000</td><td>0%</td></tr><tr><td rowspan="5">首尾和值</td><td>3,4,18,19</td><td>76.5000</td><td>0%</td></tr><tr><td>5,6,16,17</td><td>38.2500</td><td>0%</td></tr><tr><td>7,8,14,15</td><td>25.5000</td><td>0%</td></tr><tr><td>9,10,12,13</td><td>19.1250</td><td>0%</td></tr><tr><td>11</td><td>15.3000</td><td>0%</td></tr><tr><td rowspan="12">大小单双</td><td rowspan="4">前五大小单双</td><td>双</td><td>3.4000</td><td>0%</td></tr><tr><td>单</td><td>3.4000</td><td>0%</td></tr><tr><td>小</td><td>3.4000</td><td>0%</td></tr><tr><td>大</td><td>3.4000</td><td>0%</td></tr><tr><td rowspan="4">后五大小单双</td><td>双</td><td>3.4000</td><td>0%</td></tr><tr><td>大</td><td>3.4000</td><td>0%</td></tr><tr><td>小</td><td>3.4000</td><td>0%</td></tr><tr><td>单</td><td>3.4000</td><td>0%</td></tr><tr><td rowspan="4">冠亚和大小单双</td><td>双</td><td>3.8250</td><td>0%</td></tr><tr><td>大</td><td>3.8250</td><td>0%</td></tr><tr><td>小</td><td>3.0600</td><td>0%</td></tr><tr><td>单</td><td>3.0600</td><td>0%</td></tr><tr><td rowspan="5">龙虎斗</td><td rowspan="1">第一名VS第十名</td><td></td><td>3.4000</td><td>0%</td></tr><tr><td rowspan="1">第二名VS第九名</td><td></td><td>3.4000</td><td>0%</td></tr><tr><td rowspan="1">第三名VS第八名</td><td></td><td>3.4000</td><td>0%</td></tr><tr><td rowspan="1">第四名VS第七名</td><td></td><td>3.4000</td><td>0%</td></tr><tr><td rowspan="1">第五名VS第六名</td><td></td><td>3.4000</td><td>0%</td></tr>
+								</tbody>
+							</table>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 底部 -->
+	<div id="footer" class="footer dark-color">
+		<div class="w1200">© 大圣彩版权所有 |  创新博弈，成功从大圣彩开始</div>
+	</div>
+
+	<script src="../js/jquery-1.11.1.min.js"></script>
+	<script src="../js/jquery.cookie.js"></script>
+	<script src="../js/layer/layer.js"></script>
+	<script src="../js/GLOBAL.js"></script>
+	<script src="../js/common.js"></script>
+	<script>
+		$(function(){
+			COMMON.USER.fundsDetail.init();
+		});
+	</script>
+</body>
+</html>

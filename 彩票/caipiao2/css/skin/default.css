@@ -1,0 +1,137 @@
+.below-line{
+    height: 1px;
+    background-color: #008698;
+}
+.text-l-color,
+.betting-sub-menu dd:hover,
+.betting-sub-menu dd.active,
+.user-nav dl dd a.active,
+.user-tips-t,
+a.text-l-color,
+.text-l-color,
+.user-funds-tt li.active{
+    color: #008698;
+}
+.chart-issue-c.active,
+.text-d-color{
+    color: #00515d;
+}
+.dark-color,
+.btn-d-color,
+.btn-add-num,
+.chart-check i.active,
+.bet-btns span:hover{
+    background-color: #00515d;
+}
+.betting-menu span:hover,
+.betting-menu span.active{
+    background-color: #fff;
+    color: #008698;
+}
+.border-l-color{
+    border-color: #008698;
+}
+.light-color,
+.btn-l-color,
+.user-header,
+.user-nav dl dt{
+    background-color: #008698;
+}
+.btn-red.disabled,
+.bet-btn.disabled,
+.btn-d-color.disabled,
+.btn-l-color.disabled{
+    color: #fff;
+    background-color: #9f9f9f;
+    cursor: no-drop;
+}
+
+/* 详情页选择 */
+.row-num li.active,
+.row-num li:hover{
+    color: #fff;
+    background-position: -250px -150px;
+}
+.row-text li.active,
+.row-text li:hover{
+    color: #fff;
+    background-color: #008698;
+    border-color: #008698;
+}
+.bet-list-switch span{
+    border: 1px solid #008698;
+}
+.bet-list-switch span.active{
+    color: #fff;
+    border-color: #00515d;
+    background-color: #00515d;
+}
+.link-reg-con span.active,
+.bet-checkbox > div > i.active{
+    color: #fff;
+    background-color: #008698;
+}
+
+/* 会员中心 */
+.user-tt span{
+    border-bottom: 2px solid #008698;
+    color: #008698;
+}
+.user-s-btn{
+    background-color: #008698;
+}
+.user-ljgl .user-table-c li > div.t2{
+    color: #00515d;
+}
+
+/* layer 扩展 */
+body .layui-layer-btn .layui-layer-btn0{
+    border-color: #008698;
+    background-color: #008698;
+}
+/* 分页 */
+#J_Paging .laypageskin_default .laypage_curr{
+    background-color: #008698;
+    color: #fff;
+}
+#J_Paging .laypage_main a:hover{
+        border-color: #008698;
+    color: #008698;
+}
+#J_Paging .laypage_main button{
+    background-color: #008698;
+    color: #fff;
+}
+
+.chosen-container .chosen-results li.highlighted {
+    background-color: #008698;
+    color: #fff
+}
+
+.single-double li.J_numWrp.active{
+    color: #fff;
+    border-color: #008698;
+    background-color: #008698;
+}
+
+.k3-dyts li.active,
+.k3-sth li.active,
+.k3-sbth li.active,
+.k3-slh li.active,
+.k3-ebth li.active,
+.k3-eth li.active{
+    background-color: #008698;
+}
+
+.chase-tt span.active,
+.chase-table-tt > div.active span{
+    background-color: #fff;
+    border-top: 2px solid #008698;
+}
+.chase-footer > p em.active{
+    background-color: #008698;
+}
+.chase-table-2 .t1 em.active{
+    border: 1px solid #008698;
+    background-color: #008698;
+}

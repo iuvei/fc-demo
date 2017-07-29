@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>链接管理</title>
+	<link rel="stylesheet" href="../css/reset.css">
+	<link rel="stylesheet" href="../css/chose.css">
+	<link rel="stylesheet" href="../css/user_common.css">
+	<link rel="stylesheet" href="../css/skin/default.css" id="J_skinCss">
+</head>
+<body class="bg-whit">
+	<!-- 顶部 -->
+	<div id="header" class="header dark-color">
+		<div class="w1200 clearfix rel">
+			<div class="fl header-post">
+				<a href="../index.html"><img src="../images/icon-logo.png" alt=""></a>
+				<em class="icon fl"></em>
+				<div class="fl">暂时没有滚动通告</div>
+			</div>
+			<div class="fr header-user">
+				<p class="fl">您好，<span id="J_headerUserName"></span></p>
+				<b class="fl">|</b>
+				<div class="fl"><span class="fl" id="J_totalBalance">余额 <i class="J_balance"></i></span><em class="fl icon icon-refresh cup" id="J_refresh"></em><span class="cup show fl" id="J_cutoverBalance" data-balance="">隐藏</span></div>
+				<b class="fl">|</b>
+				<span class="fl cup J_pageJump" data-page="recharge_online">充值</span>
+				<span class="fl cup J_pageJump" data-page="withdrawal_application">提款</span>
+				<b class="fl">|</b>
+				<em class="fl icon icon-signout cup" id="J_signOut"></em>
+				
+			</div>
+
+			<div class="skin" id="J_skin">
+				<span>皮肤</span>
+				<em></em>
+				<ul>
+					<li class="J_setSkin skin-default" data-skin="default"></li>
+					<li class="J_setSkin skin-blue" data-skin="blue"></li>
+					<!-- <li class="J_setSkin skin-red" data-skin="red"></li>
+					<li class="J_setSkin skin-black" data-skin="black"></li> -->
+				</ul>
+			</div>
+		</div>
+	</div>
+	
+	<!--  -->
+	<div class="user-header">
+		<div class="w1200 clearfix main-nav">
+			<div class="fl logo">
+				<img src="../images/logo.png" alt="" height="35">
+			</div>
+			<div class="sort rel fr">
+				<p class="abs">
+					<em class="abs"></em>
+				</p>
+				<span class="dark-color cup">全部彩票<em class="icon icon-sort"></em></span>
+				<div class="sort-box abs" id="J_cateList">
+                    <dl class="fl sort-ssc" id="J_cateList_1">
+                        <dt>时时彩</dt>
+                    </dl>
+                    <dl class="fl sort-syxw" id="J_cateList_3">
+                        <dt>十一选五</dt>
+                    </dl>
+                    <dl class="fl sort-dpc" id="J_cateList_2">
+                        <dt>低频彩</dt>
+                    </dl>
+                    <dl class="fl sort-pk10" id="J_cateList_4">
+                        <dt>PK10</dt>
+                    </dl>
+                </div>
+			</div>
+			<div class="nav fr">
+				<div class="nav-list J_pageJump" data-page="recharge_online">充值</div>
+				<div class="nav-list J_pageJump" data-page="withdrawal_application">提款</div>
+				<div class="nav-list J_pageJump" data-page="profile">个人</div>
+				<div class="nav-list J_pageJump" data-page="subordinate_management">代理</div>
+				<div class="nav-list J_pageJump" data-page="">客服</div>
+				<div class="nav-list J_pageJump" data-page="">帮助</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="w1200 clearfix">
+		<div class="user-nav fl" id="J_userNav">
+            <dl>
+                <dt><em class="icon icon-cz"></em><span>充值</span><i class="icon"></i></dt>
+                <dd><a href="../user/recharge_online.html">线上支付</a></dd>
+                <dd><a href="../user/recharge_transfer.html">网银转账</a></dd>
+                <dd><a href="../user/recharge_wechat.html">微信转账</a></dd>
+                <dd><a href="../user/recharge_ali.html">支付宝转账</a></dd>
+                <dd><a href="../user/recharge_record.html">充值记录</a></dd>
+            </dl>
+            <dl>
+                <dt><em class="icon icon-tk"></em><span>提款</span><i class="icon"></i></dt>
+                <dd><a href="../user/withdrawal_application.html">提款申请</a></dd>
+                <dd><a href="../user/withdrawal_records.html">提款记录</a></dd>
+                <dd><a href="../user/withdrawal_bindcard.html">绑定提款卡</a></dd>
+            </dl>
+            <dl>
+                <dt><em class="icon icon-user"></em><span>个人</span><i class="icon"></i></dt>
+                <dd><a href="../user/profile.html">我的资料</a></dd>
+                <dd><a href="../user/funds_detail.html">资金详情</a></dd>
+                <dd><a href="../user/betting_record.html">投注记录</a></dd>
+                <dd><a href="../user/chase_record.html">追号记录</a></dd>
+                <dd><a href="../user/account_details.html">账变明细</a></dd>
+                <dd><a href="../user/login_password.html">登录密码</a></dd>
+                <dd><a href="../user/capital_password.html">资金密码</a></dd>
+            </dl>
+            <dl class="open">
+                <dt><em class="icon icon-dl"></em><span>代理</span><i class="icon"></i></dt>
+                <dd><a href="../user/link_registration.html">链接注册</a></dd>
+                <dd><a href="../user/link_management.html" class="active">链接管理</a></dd>
+                <dd><a href="../user/subordinate_management.html">下级管理</a></dd>
+                <dd><a href="../user/report_management.html">报表管理</a></dd>
+                <dd><a href="../user/team_betting.html">团队投注</a></dd>
+            </dl>
+            <dl>
+                <dt><em class="icon icon-kf"></em><span>客服</span><i class="icon"></i></dt>
+            </dl>
+            <dl>
+                <dt><em class="icon icon-help"></em><span>帮助</span><i class="icon"></i></dt>
+            </dl>
+        </div>
+
+		<div class="user-content fl">
+			<div class="user-con">
+				<div class="user-tt">
+					<span>链接管理</span>
+				</div>
+				
+				<div class="user-search clearfix">
+					<div class="user-s-tt">渠道：</div>
+					<div class="user-s-inp">
+						<input type="text" id="channel">
+					</div>
+					<div class="user-s-tt">类型：</div>
+					<div class="user-s-sel">
+						<select id="J_linkType">
+							<option value="">全部</option>
+							<option value="member">会员</option>
+							<option value="agent">代理</option>
+						</select>
+					</div>
+					<div class="user-s-tt">状态：</div>
+					<div class="user-s-sel">
+						<select id="J_status">
+							<option value="">全部</option>
+							<option value="normal">正常</option>
+							<option value="cancel">取消</option>
+						</select>
+					</div>
+					<div class="user-s-btn fr" id="J_searchListBtn">查询</div>
+				</div>
+
+
+				<div class="user-table user-ljgl">
+					<ul class="user-table-t">
+						<li class="t1">渠道</li>
+						<li class="t2">点击复制</li>
+						<li class="t3">注册人数</li>
+						<li class="t4">类型</li>
+						<li class="t5">状态</li>
+						<li class="t6">创建日期 </li>
+						<li class="t7">到账日期</li>
+						<li class="t8">操作</li>
+					</ul>
+					<ul class="user-table-c" id="J_list">
+						<!-- <li class="empty">没有找到符合条件的数据</li> -->
+						<!-- <li>
+							<div class="t1">论坛</div>
+							<div class="t2 J_clipboard" data-clipboard-text="https://www.baidu.com/">https://www.baidu.com/</div>
+							<div class="t3">0</div>
+							<div class="t4">代理</div>
+							<div class="t5">正常</div>
+							<div class="t6">2017-06-30</div>
+							<div class="t7">2017-06-30</div>
+							<div class="t8">删除</div>
+						</li> -->
+						
+					</ul>
+					<div class="user-table-f">
+						<p>链接数量合计：<span>0</span></p>
+						<p>注册人数合计：<span>0</span></p>
+					</div>
+				</div>
+			</div>
+
+			<div id="J_Paging"></div>
+		</div>
+	</div>
+
+
+	<!-- 底部 -->
+	<div id="footer" class="footer dark-color">
+		<div class="w1200">© 大圣彩版权所有 |  创新博弈，成功从大圣彩开始</div>
+	</div>
+
+
+	<script src="../js/jquery-1.11.1.min.js"></script>
+	<script src="../js/clipboard.min.js"></script>
+	<script src="../js/chosen.jquery.min.js"></script>
+	<script src="../js/jquery.cookie.js"></script>
+	<script src="../js/layer/layer.js"></script>
+	<!-- <script src="../js/laydate/laydate.js"></script> -->
+	<script src="../js/laypage/laypage.js"></script>
+	<script src="../js/GLOBAL.js"></script>
+	<script src="../js/common.js"></script>
+	<script>
+		$(function(){
+			$('select').chosen();
+			COMMON.USER.linkManagement.init();
+		});	
+	</script>
+</body>
+</html>

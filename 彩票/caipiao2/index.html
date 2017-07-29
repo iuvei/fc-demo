@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>首页</title>
+	<link rel="stylesheet" href="./css/reset.css">
+	<link rel="stylesheet" href="./css/index.css">
+	<link rel="stylesheet" href="./css/skin/default.css" id="J_skinCss">
+</head>
+<body>
+	<!-- 顶部 -->
+	<div id="header" class="header dark-color">
+		<div class="w1200 clearfix rel">
+			<div class="fl header-post">
+				<a href="javascript:;"><img src="./images/icon-logo.png" alt=""></a>
+				<em class="icon fl"></em>
+				<div class="fl">暂时没有滚动通告</div>
+			</div>
+			<div class="fr header-user">
+				<p class="fl">您好，<span id="J_headerUserName"></span></p>
+				<b class="fl">|</b>
+				<div class="fl"><span class="fl" id="J_totalBalance">余额 <i class="J_balance"></i></span><em class="fl icon icon-refresh cup" id="J_refresh"></em><span class="cup show fl" id="J_cutoverBalance" data-balance="">隐藏</span></div>
+				<b class="fl">|</b>
+				<span class="fl cup J_pageJump" data-page="recharge_online">充值</span>
+				<span class="fl cup J_pageJump" data-page="withdrawal_application">提款</span>
+				<b class="fl">|</b>
+				<em class="fl icon icon-signout cup" id="J_signOut"></em>
+				
+			</div>
+
+			<div class="skin" id="J_skin">
+				<span>皮肤</span>
+				<em></em>
+				<ul>
+					<li class="J_setSkin skin-default" data-skin="default"></li>
+					<li class="J_setSkin skin-blue" data-skin="blue"></li>
+					<!-- <li class="J_setSkin skin-red" data-skin="red"></li>
+					<li class="J_setSkin skin-black" data-skin="black"></li> -->
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div id="content" class="rel">
+		<div class="banner-bg light-color abs"></div>
+		<div class="w1200 rel">
+			<div class="clearfix main-nav">
+				<div class="fl logo">
+					<img src="./images/logo.png" alt="" height="35">
+				</div>
+				<div class="sort rel fr">
+					<p class="abs">
+						<em class="abs"></em>
+					</p>
+					<span class="dark-color cup">全部彩票<em class="icon icon-sort"></em></span>
+					<div class="sort-box abs" id="J_cateList">
+						<dl class="fl sort-ssc" id="J_cateList_1">
+							<dt>时时彩</dt>
+							<!-- <dd class="hot"><a href="#">重庆时时彩</a></dd>
+							<dd class="new"><a>北京五分彩</a></dd>
+							<dd><a>腾讯分分彩</a></dd>
+							<dd class="hot"><a>大圣时时彩</a></dd>
+							<dd class="hot"><a>大圣时时彩</a></dd>
+							<dd><a>大圣时时彩</a></dd>
+							<dd><a>大圣时时彩</a></dd>
+							<dd><a>大圣时时彩</a></dd> -->
+						</dl>
+						<dl class="fl sort-syxw" id="J_cateList_3">
+							<dt>十一选五</dt>
+							<!-- <dd class="hot"><a>大圣时时彩</a></dd>
+							<dd class="new"><a>大圣时时彩</a></dd>
+							<dd><a>大圣时时彩</a></dd>
+							<dd><a>大圣时时彩</a></dd> -->
+						</dl>
+						<dl class="fl sort-dpc" id="J_cateList_2">
+							<dt>低频彩</dt>
+							<!-- <dd><a>大圣时时彩</a></dd>
+							<dd class="new"><a>大圣时时彩</a></dd>
+							<dd><a>大圣时时彩</a></dd> -->
+						</dl>
+						<dl class="fl sort-pk10" id="J_cateList_4">
+							<dt>PK10</dt>
+							<!-- <dd><a>大圣时时彩</a></dd>
+							<dd class="new"><a>大圣时时彩</a></dd>
+							<dd class="hot"><a>大圣时时彩</a></dd>
+							<dd><a>大圣时时彩</a></dd> -->
+						</dl>
+					</div>
+				</div>
+				<div class="nav fr">
+					<div class="nav-list J_pageJump" data-page="recharge_online">充值</div>
+					<div class="nav-list J_pageJump" data-page="withdrawal_application">提款</div>
+					<div class="nav-list J_pageJump" data-page="profile">个人</div>
+					<div class="nav-list J_pageJump" data-page="subordinate_management">代理</div>
+					<div class="nav-list J_pageJump" data-page="">客服</div>
+					<div class="nav-list J_pageJump" data-page="">帮助</div>
+				</div>
+			</div>
+	
+			<!-- banner -->
+			<div id="banner" class="banner w1200 rel">
+				<ul class="banner-list" id="J_bannerList">
+					<li class="active"><img src="./images/banner.jpg" alt=""></li>
+					<li><img src="./images/banner.jpg" alt=""></li>
+					<li><img src="./images/banner.jpg" alt=""></li>
+				</ul>
+				<div class="banner-doc" id="J_bannerDoc"></div>
+			</div>
+
+			<!-- 用户 -->
+			<div class="banner-user">
+				<div class="user-avatar"><img src="./images/default-avatar.png" alt=""></div>
+				<p class="user-name J_userName">&nbsp;</p>
+				<p class="user-balance">余额：<span class="J_balance"></span></p>
+				<a href="user/recharge_online.html" class="user-recharge">立即充值</a>
+				<div class="user-q clearfix">
+					<a href="javascript:;" class="fl">提款须知</a>
+					<a href="javascript:;" class="fr">如何充值</a>
+				</div>
+				<div class="user-log">- 上次登录2017/05/04 11:40 -</div>
+			</div>
+			
+			<!-- 公告 -->
+			<div class="w1200 clearfix">
+				<div id="lottery" class="lottery fl">
+					<ul class="lottery-list">
+						<li class="kind1">
+							<div class="cutdown">
+								<span id="J_hourShow1">00</span>:<span id="J_minuteShow1">00</span>:<span id="J_secondShow1">00</span>
+							</div>
+							<p>距离第<span id="J_betTimer1"></span>期开奖</p>
+							<a href="javascript:;" class="t1" id="J_jumpToPage1">立即投注</a>
+						</li>
+						<li class="kind2">
+							<div class="cutdown">
+								<span id="J_hourShow2">00</span>:<span id="J_minuteShow2">00</span>:<span id="J_secondShow2">00</span>
+							</div>
+							<p>距离第<span id="J_betTimer2"></span>期开奖</p>
+							<a href="javascript:;" class="t2" id="J_jumpToPage2">立即投注</a>
+						</li>
+						<li class="kind3">
+							<div class="cutdown">
+								<span id="J_hourShow3">00</span>:<span id="J_minuteShow3">00</span>:<span id="J_secondShow3">00</span>
+							</div>
+							<p>距离第<span id="J_betTimer3"></span>期开奖</p>
+							<a href="javascript:;" class="t3" id="J_jumpToPage3">立即投注</a>
+						</li>
+						<li class="kind4">
+							<div class="cutdown">
+								<span id="J_hourShow4">00</span>:<span id="J_minuteShow4">00</span>:<span id="J_secondShow4">00</span>
+							</div>
+							<p>距离第<span id="J_betTimer4"></span>期开奖</p>
+							<a href="javascript:;" class="t4" id="J_jumpToPage4">立即投注</a>
+						</li>
+						<li class="kind5">
+							<div class="cutdown">
+								<span id="J_hourShow5">00</span>:<span id="J_minuteShow5">00</span>:<span id="J_secondShow5">00</span>
+							</div>
+							<p>距离第<span id="J_betTimer5"></span>期开奖</p>
+							<a href="javascript:;" class="t5" id="J_jumpToPage5">立即投注</a>
+						</li>
+						<li class="kind6">
+							<div class="cutdown">
+								<span id="J_hourShow6">00</span>:<span id="J_minuteShow6">00</span>:<span id="J_secondShow6">00</span>
+							</div>
+							<p>距离第<span id="J_betTimer6"></span>期开奖</p>
+							<a href="javascript:;" class="t6" id="J_jumpToPage6">立即投注</a>
+						</li>
+						<li class="kind7">
+							<div class="cutdown">
+								<span id="J_hourShow7">00</span>:<span id="J_minuteShow7">00</span>:<span id="J_secondShow7">00</span>
+							</div>
+							<p>距离第<span id="J_betTimer7">00000000-000</span>期开奖</p>
+							<a href="javascript:;" class="t7" id="J_jumpToPage7">立即投注</a>
+						</li>
+						<li class="kind8">
+							<div class="cutdown">
+								<span id="J_hourShow8">00</span>:<span id="J_minuteShow8">00</span>:<span id="J_secondShow8">00</span>
+							</div>
+							<p>距离第<span id="J_betTimer8">00000000-000</span>期开奖</p>
+							<a href="javascript:;" class="t8" id="J_jumpToPage8">立即投注</a>
+						</li>
+					</ul>
+				</div>
+				<dl class="news fr">
+					<dt><em class="icon"></em>公告</dt>
+					<dd>
+						<p>腾讯分分彩上线啦！！！</p>
+						<span>2017/05/04</span>
+					</dd>
+					<dd>
+						<p>腾讯分分彩上线啦！！！</p>
+						<span>2017/05/04</span>
+					</dd>
+					<dd>
+						<p>腾讯分分彩上线啦！！！</p>
+						<span>2017/05/04</span>
+					</dd>
+					<dd>
+						<p>腾讯分分彩上线啦！！！</p>
+						<span>2017/05/04</span>
+					</dd>
+				</dl>
+			</div>
+		</div>
+	</div>
+
+	<!-- 底部 -->
+	<div id="footer" class="footer dark-color">
+		<div class="w1200">© 大圣彩版权所有 |  创新博弈，成功从大圣彩开始</div>
+	</div>
+
+	<script src="./js/jquery-1.11.1.min.js"></script>
+	<script src="./js/jquery.cookie.js"></script>
+	<script src="./js/layer/layer.js"></script>
+	<script src="./js/GLOBAL.js"></script>
+	<script src="./js/common.js"></script>
+	<script src="./js/index.js"></script>
+</body>
+</html>
