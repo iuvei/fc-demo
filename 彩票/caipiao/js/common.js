@@ -201,6 +201,11 @@
 			});
 		},
 		countDown: function(intDiff, suffix, $id) {
+			if(intDiff < 0){
+				// 防止数据出错的时候老弹窗提示 
+				return;
+			}
+
 			var timer = window.setInterval(function() {
 				var day = 0,
 					hour = 0,
@@ -214,11 +219,11 @@
 					second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
 				} else {
 					// TODO: 结束提示
+					COMMON.clearLottBetTimer();
 					if (COMMON.isDeatil || COMMON.isChart) {
 						GLOBAL.alert('第<span style="padding:0 5px;">' + $('.J_betTimer').html() + '</span>期已结束<br/>请留意投注期号。', 2000);
 					}
 
-					COMMON.clearLottBetTimer();
 					if(COMMON.isIndex){
 						COMMON.homeBallInfo();	//一起刷新
 					} else {
@@ -307,6 +312,9 @@
 
 					COMMON.lotteryNum('J_drawResult', data.prev_periods.lottery_num, $id);
 
+
+					// console.log(_renderHistory);
+
 					if(_renderHistory){
 						COMMON.renderHistory();
 					}
@@ -342,13 +350,6 @@
 					COMMON.getBallInfo(_url.id, false);
 				}, 10000);
 			}
-		},
-		renderChartTable: function() {
-			var _url = GLOBAL.getRequestURL();
-			var _type = _url.type;
-
-			// TODO:
-			// console.log(_type);
 		},
 		renderHistory: function(option){
 			option = option || {};
@@ -433,8 +434,10 @@
 						$('#J_chartTemplateBox').html(CHART_TEMPLATE.ELEVEN_FIVE());
 						COMMON.CHART.render11x5Chart(d.data);
 					} else if(_url.type == 3) {
+						$('#J_polyline').show();
 						$('#J_chartTemplateBox').html(CHART_TEMPLATE.K3());
 						COMMON.CHART.renderK3Chart(d.data);
+						COMMON.CHART.init();
 					} else if(_url.type == 4) {
 						$('#J_chartTemplateBox').html(CHART_TEMPLATE.PK10());
 						COMMON.CHART.renderPK10Chart(d.data);
@@ -474,9 +477,10 @@
 		                TEMPLATE.renderPK10.renderHeader();
 		            }
 
-					COMMON.renderChartTable();
 					COMMON.getBallInfo(_url.id, false);
 					COMMON.renderHistory();
+					
+					// COMMON.getBallInfo(_url.id);
 				}
 
 				if (_bettingBox) {
@@ -2341,6 +2345,12 @@
 				chart9: [0,0,0,0,0,0,0,0,0,0],
 				chart10: [0,0,0,0,0,0,0,0,0,0]
 			},
+			K3: {
+				chart1: [0,0,0,0,0,0],
+				chart2: [0,0,0,0,0,0],
+				chart3: [0,0,0,0,0,0],
+				chartLast: [0,0,0,0]
+			},
 			holder: {
 				winningNumber: [], //单行中奖号码
 				canvasColumns: []
@@ -2570,7 +2580,6 @@
 			},
 			render11x5Chart: function(data) {
 				var _str = '';
-
 				if(data && data.length){
 					$.each(data, function(i, n){
 						var _lottery_num = n.lottery_num.split(',');
@@ -2722,7 +2731,266 @@
 				});
 			},
 			renderK3Chart: function(data) {
-				console.log(data);
+				var _str = '';
+				if(data && data.length){
+					$.each(data, function(i, n){
+						var _lottery_num = n.lottery_num.split(',');
+						_str += '<div class="ch-row-contner" id="'+ n.date.replace(/\-/g, '') + '-' + n.num +'">';
+							_str += '<div class="firstdatail po-middle">';
+							_str += '	<ul class="ch-drawNumb po-middle">';
+							_str += '		<li>'+ n.date.replace(/\-/g, '') + '-' + n.num +'</li>';
+							_str += '	</ul>';
+							_str += '	<ul class="winning-Num po-middle">';
+							_str += '		<li>'+ _lottery_num[0] +'</li>';
+							_str += '		<li>'+ _lottery_num[1] +'</li>';
+							_str += '		<li>'+ _lottery_num[2] +'</li>';
+							_str += '	</ul>';
+							_str += '</div>';
+							_str += '<div class="numCount-wrp po-middle">';
+							_str += '	<ul class="J_winning winning-1 po-middle">';
+							_str += _getNums(_lottery_num[0], 1);
+							_str += '		';
+							_str += '</ul><ul class="J_winning winning-2 po-middle">';
+							_str += _getNums(_lottery_num[1], 2);
+							_str += '	</ul>';
+							_str += '	<ul class="J_winning winning-3 po-middle">';
+							_str += _getNums(_lottery_num[2], 3);
+							_str += '	</ul>';
+							_str += '	<ul class="winning-4 po-middle" data-x="'+ _lottery_num[0] +'" data-y="'+ _lottery_num[1] +'" data-z="'+ _lottery_num[2] +'">';
+							_str += '		<li class="J_nums" data-i="1">1</li>';
+							_str += '		<li class="J_nums" data-i="2">1</li>';
+							_str += '		<li class="J_nums" data-i="3">1</li>';
+							_str += '		<li class="J_nums" data-i="4">1</li>';
+							_str += '		<li class="J_nums" data-i="5">1</li>';
+							_str += '		<li class="J_nums" data-i="6">1</li>';
+							_str += '	</ul>';
+							_str += '</div>';
+							_str += '<div class="lastDetail-wrp po-middle">';
+							_str += '	<ul class="J_chartLastTd">';
+							_str += '		<li>'+ (Number(_lottery_num[0]) + Number(_lottery_num[1]) + Number(_lottery_num[2])) +'</li>';
+
+							if(_lottery_num[0] == _lottery_num[1] && _lottery_num[1] == _lottery_num[2]){
+		                    	_str += '<li class="orangeCheck J_wss1"></li><li class="J_wss2">1</li><li class="J_wss3">1</li>';
+			                } else {
+				                if(_lottery_num[0] == _lottery_num[1] || _lottery_num[0] == _lottery_num[2] || _lottery_num[1] == _lottery_num[2]) {
+				                    _str += '<li class="J_wss1">1</li><li class="bleCheck J_wss2"></li><li class="J_wss3">1</li>';
+				                } else {
+				                    _str += '<li class="J_wss1">1</li><li class="J_wss2">1</li><li class="orangeCheck J_wss3"></li>';
+				                }
+			                }
+			                if(isConnection(_lottery_num)){
+			                	_str += '<li class="bleCheck J_wss4"></li>';
+			                } else {
+			                	_str += '<li class="J_wss4">1</li>';
+			                }
+							_str += '</ul></div></div>';
+					});
+
+					/* 判断是否连号 */
+					function isConnection(numList){
+						var flag = false;
+						numList = numList.sort();
+						if(Number(numList[0]) + 1 == numList[1] && Number(numList[1]) + 1 == numList[2]){
+							flag = true;
+						}
+						return flag;
+					}
+
+					/**
+					 * [_getNums description]
+					 * @param  {[type]} num [中奖号码]
+					 * @param  {[type]} parity [奇偶, 0:hit-blue，1:hit-red]
+					 * @return {[type]}        [description]
+					 */
+					function _getNums(num, parity) {
+						var _li = '';
+						var _class = 'hit-blue';
+						if(parity % 2){
+							_class = 'hit-red';
+						}
+
+						for (var i = 1;i <= 6; i++) {
+							if(i == num){
+								_li += '<li class="J_'+ parity + '_'+ i +' '+ _class +'">'+ i +'</li>';
+							} else {
+								_li += '<li class="J_'+ parity + '_'+ i+'">1</li>';
+							}
+						}
+						return _li;
+					}
+				}
+
+				$('#J_chartBox').html(_str);
+
+				COMMON.CHART.K3.chart1 = [0,0,0,0,0,0];
+				COMMON.CHART.K3.chart2 = [0,0,0,0,0,0];
+				COMMON.CHART.K3.chart3 = [0,0,0,0,0,0];
+				COMMON.CHART.K3.chartLast = [0,0,0,0];
+
+				function _rendNum(num){
+					$('.winning-'+ num +' li').each(function(i, n){
+						$('.J_'+ num +'_'+ (i+1)).each(function(){
+							if($(this).hasClass('hit-blue') || $(this).hasClass('hit-red')){
+								COMMON.CHART.K3['chart'+num][i] = 0;
+							} else {
+								COMMON.CHART.K3['chart'+num][i] = COMMON.CHART.K3['chart'+num][i] + 1;
+								$(this).html(COMMON.CHART.K3['chart'+num][i]);
+							}
+						});
+					});
+				}
+
+				$('.J_winning').each(function(x, y){
+					_rendNum((x + 1));
+				});
+
+				$('.winning-4').each(function(i, n){
+					var _n1 = $(this).data('x');
+					var _n2 = $(this).data('y');
+					var _n3 = $(this).data('z');
+
+					if(_n1 == _n2 && _n2 == _n3){
+						$(this).find('li[data-i="'+ _n1 +'"]').addClass('n3').html(_n1);
+					} else {
+						if(_n1 == _n2){
+							$(this).find('li[data-i="'+ _n2 +'"]').addClass('n2').html(_n2);
+							$(this).find('li[data-i="'+ _n3 +'"]').addClass('n1').html(_n3);
+						} else if(_n2 == _n3) {
+							$(this).find('li[data-i="'+ _n1 +'"]').addClass('n1').html(_n1);
+							$(this).find('li[data-i="'+ _n2 +'"]').addClass('n2').html(_n2);
+						} else if(_n1 == _n3) {
+							$(this).find('li[data-i="'+ _n1 +'"]').addClass('n2').html(_n1);
+							$(this).find('li[data-i="'+ _n2 +'"]').addClass('n1').html(_n2);
+						} else {
+							$(this).find('li[data-i="'+ _n1 +'"]').addClass('n1').html(_n1);
+							$(this).find('li[data-i="'+ _n2 +'"]').addClass('n1').html(_n2);
+							$(this).find('li[data-i="'+ _n3 +'"]').addClass('n1').html(_n3);
+						}
+					}
+				});
+
+				$('.J_chartLastTd li').each(function(i, n) {
+					$('.J_wss' + (i+1)).each(function(k, v) {
+						if ($(this).hasClass('orangeCheck') || $(this).hasClass('bleCheck')) {
+							COMMON.CHART.K3.chartLast[i] = 0;
+						} else {
+							COMMON.CHART.K3.chartLast[i] = COMMON.CHART.K3.chartLast[i] + 1;
+							$(this).html(COMMON.CHART.K3.chartLast[i]);
+						}
+					});
+				});
+
+				// 出现总次数
+				$('.J_k3total').each(function(i){
+					for(var j = 0; j <6; j++){
+						var num1 = $('.hit-blue.J_'+ (i+1) +'_'+ (j+1)).length;
+						var num2 = $('.hit-red.J_'+ (i+1) +'_'+ (j+1)).length;
+						$('.J_k3totalLi').eq(i*6 + j).html(num1 ? num1 : num2);
+					}
+				});
+
+				$('.J_totalNum').each(function(i){
+					var _i = $(this).data('i');
+					var _n = $('.n1[data-i="'+ _i +'"]').length + $('.n2[data-i="'+ _i +'"]').length * 2 + $('.n3[data-i="'+ _i +'"]').length * 3
+					$(this).html(_n);
+				});
+
+				// 平均遗漏值
+				var _total = $('.J_recently.active').data('size');
+				$('.J_ylTotal').each(function(i){
+					for(var j = 0; j < 6; j++){
+						var num1 = $('.hit-blue.J_'+ (i+1) +'_'+ (j+1)).length;
+						var num2 = $('.hit-red.J_'+ (i+1) +'_'+ (j+1)).length;
+						// 正点的玩法向下取整且后面+1
+						$('.J_ylLi').eq(i*6 + j).html(num1 ? (num1 == 0 ? 31 : Math.floor((_total - num1) / num1) + 1) : (num2 == 0 ? 31 : Math.floor((_total - num2) / num2) + 1));
+					}
+				});
+
+				// TODO : 
+				// 平均遗漏值：三同号	二同号	三不同	三连号  次数/30-次数向上取整  0则为1
+				var _numWss1 = $('.orangeCheck.J_wss1').length
+				var _numWss2 = $('.bleCheck.J_wss2').length
+				var _numWss3 = $('.orangeCheck.J_wss3').length
+				var _numWss4 = $('.bleCheck.J_wss4').length
+
+				// 出现总次数
+				$('#J_3T').html(_numWss1);
+				$('#J_2T').html(_numWss2);
+				$('#J_2BT').html(_numWss3);
+				$('#J_3LH').html(_numWss4);
+
+				// 平均遗漏值
+				$('#J_3T_yl').html(_numWss1 == 0 ? 1 : Math.ceil(_numWss1 / (30 - _numWss1)));
+				$('#J_2T_yl').html(_numWss2 == 0 ? 1 : Math.ceil(_numWss2 / (30 - _numWss2)));
+				$('#J_2BT_yl').html(_numWss3 == 0 ? 1 : Math.ceil(_numWss3 / (30 - _numWss3)));
+				$('#J_3LH_yl').html(_numWss4 == 0 ? 1 : Math.ceil(_numWss4 / (30 - _numWss4)));
+
+				for(var f = 1; f < 7; f++){
+					for(var c = 1; c < 7; c++){
+						var _x = [];
+						var _y = '';
+						$('.J_'+ f +'_'+ c +'').each(function(){
+							if($(this).text()){
+								_x.push(Number($(this).text()));
+							}
+
+							if($(this).hasClass('hit-red') || $(this).hasClass('hit-blue')){
+								_y += '1';
+							} else {
+								_y += '0';
+							}
+						});
+						$('.J_yl_'+f+'_'+c).html(_x.sort(sortNumber)[_x.length - 1]);
+						if(_y.length){
+							$('.J_lc_'+f+'_'+c).html(getMaxLen(_y,/1+/ig));
+						}
+					}
+				}
+
+				_wss(1);
+				_wss(2);
+				_wss(3);
+				_wss(4);
+
+				function _wss(n) {
+					var _wss = [];
+					var _y = '';
+					$('.J_wss'+n).each(function(){
+						if($(this).text()){
+							_wss.push(Number($(this).text()));
+						}
+
+						if($(this).hasClass('bleCheck') || $(this).hasClass('orangeCheck')){
+							_y += '1';
+						} else {
+							_y += '0';
+						}
+					});
+					$('#J_yl_max_'+n).html(_wss.sort(sortNumber)[_wss.length - 1]);
+					if(_y.length){
+						$('#J_lc_max_'+n).html(getMaxLen(_y,/1+/ig));
+					}
+				}
+
+				function sortNumber(a,b) { return a - b }
+
+				// var str = "121211112122222121111111222";
+				// getMaxLen(str,/11+/ig)
+				/**
+				    var str 需要查询的字符串
+				    var regexp  正则表达式
+				    return maxLen 
+				*/
+				function getMaxLen(str,regexp){
+				    var maxLen = 0;
+				    var result = str.match(regexp) || [];
+				    for(var i=0; i<result.length; i++){
+				        if(result[i].length > maxLen){
+				            maxLen = result[i].length;
+				        }
+				    }
+				    return maxLen;
+				};
 			},
 			renderPK10Chart: function(data) {
 				var _str = '';
