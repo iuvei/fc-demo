@@ -1,35 +1,3 @@
-/*// body * {
-// 	font-size: 15px;
-// }
-// * {
-// 	font-family: Arial, "Microsoft YaHei", serif\9;
-// 	font-size: 15px;
-// 	letter-spacing: 1px;
-// }
-// ul {
-// 	list-style: none;
-// }
-// .page_content {
-// 	box-shadow: 5px 0 24px rgba(0, 0, 0, 0.12) inset;
-// 	padding-bottom: 44px;
-// 	padding-top: 6px;
-// }
-// .big_wrapper {
-// 	margin: 0 auto;
-// 	position: relative;
-// 	width: 1346px;
-// }
-// .wrapper {
-// 	margin: 0 auto;
-// 	position: relative;
-// 	width: 1200px;
-// }
-// .chart-wrap {
-// 	padding-top: 30px;
-// }*/
-
-
-
 /* chart */
 .chart-top{
     height: 63px;
@@ -65,7 +33,6 @@
 .top-title {
 	border-bottom: 1px solid #ddd;
 	background-color: #e9e9e9;
-	// padding-top: 10px;
 }
 .po-middle {
 	display: inline-block;
@@ -73,21 +40,17 @@
 }
 .firstTwo-wrp {
 	text-align: center;
-	// width: 192px;
 	float: left;
 }
 .chart-lastWrp.po-middle {
 	float: right;
-	// width: 120px;
     width: 144px;
 	padding-top: 24px;
 }
 .chart-lastWrp.po-middle li {
 	display: inline-block;
 	font-size: 13px;
-	// left: -10px;
 	letter-spacing: -1px;
-    // margin: 0 2px 0 3px;
 	margin: 0 -6px 0 15px;
 	position: relative;
 	float: left;
@@ -123,9 +86,6 @@
     float: left;
 }
 .game-type-list {
-	/*// left: 5px;
-	// max-width: 1000px;
-	// min-width: 850px;*/
 	position: relative;
 	text-align: center;
 }
@@ -165,7 +125,6 @@
 }
 .firstdatail.po-middle {
 	text-align: center;
-	// width: 182px;
 	float: left;
 }
 .ch-drawNumb.po-middle {
@@ -183,14 +142,9 @@
     border-right: 1px solid #ddd;
 }
 .winning-Num li {
-	// color: #e66161;
 	display: inline-block;
-	// letter-spacing: 0;
 }
 .numCount-wrp.po-middle {
-	// left: 5px;
-	// max-width: 1030px;
-	// min-width: 860px;
 	position: relative;
 	text-align: center;
 }
@@ -261,6 +215,7 @@
 /* =========================================================== */
 /* ==================  11选5 =============================== */
 /* =========================================================== */
+.my11X5 .winning-Num li{padding: 0 5px;}
 .my11X5 .mm-ch.po-middle,
 .my11X5 .winning-Num.po-middle{
     width: 149px;
@@ -365,6 +320,7 @@
     color: #e66161;
     display: inline-block;
     letter-spacing: 1px;
+    padding: 0 1px;
 }
 .total.firstTwo-wrp.po-middle {
     width: 100%;
@@ -398,7 +354,7 @@
     display: inline-block;
     font-size: 12px;
     letter-spacing: 0;
-    width: 14px;
+    width: 19px;
 }
 .pk10 .sum1 {
     width: 194px;
@@ -408,7 +364,7 @@
     width: 317px;
 }
 .pk10 .lastDetail-wrp li {
-    width: 52px;
+    width: 50px;
 }
 .pk10 .top-title ul {
     padding-top: 0;

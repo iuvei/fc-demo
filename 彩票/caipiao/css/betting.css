@@ -532,18 +532,7 @@
 .dragon-tiger li.no2.active{
     background-position: -151px -151px;
 }
-.pk10-below-history{
-    width: 274px;
-}
-.pk10-below-history .history-trend dd{
-    letter-spacing: 2px; 
-}
-.pk10-below-history .history-issue dd{
-    letter-spacing: 5px;
-}
-.pk10-below-history-box li em{
-    letter-spacing: 1px;
-}
+
 
 /* 快三 */
 .k3-sth{

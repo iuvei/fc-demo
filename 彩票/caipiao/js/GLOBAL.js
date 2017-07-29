@@ -60,7 +60,7 @@ var GLOBAL = {
 					}
 				} else if (d.status == 'ban_guest') {
 					// TODO: 未登录，此接口要求登录
-					// console.log('跳转到登录页面');
+					console.log('跳转到登录页面');
 					window.open("/login.html", "_self");
 					// GLOBAL.USER.relogin({}, true);
 				} else {

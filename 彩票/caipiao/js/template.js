@@ -334,8 +334,6 @@ var TEMPLATE = {
         // lott.manualEntryUI(!0, a),
         // lott.allManualEntryRandomBall(a.bits, a.miBall, a.digit)
     },
-
-//    
     getChaseData: function(type, name, currentPeriods) {
         // type : 游戏类型
         // name : 游戏名称 如 ： chong_qing_shi_shi
@@ -374,6 +372,14 @@ var TEMPLATE = {
             case 'beijing_pk_ten':
                 data.totalPeriods = 179;
                 data.maxPeriods = 358;
+            break;
+            case 'guangdong_eleven_choose_five':
+                data.totalPeriods = 84;
+                data.maxPeriods = 156;
+            break;
+            case 'anhui_fast_three':
+                data.totalPeriods = 82;
+                data.maxPeriods = 229;
             break;
         }
         var _n = Number(currentPeriods.split('-')[1]);
