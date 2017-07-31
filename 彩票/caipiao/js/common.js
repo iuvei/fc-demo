@@ -49,8 +49,10 @@
 				if ($(this).hasClass('show')) {
 					$(this).removeClass('show').html('显示');
 					$('#J_totalBalance').html('余额已隐藏');
+					$('#J_refresh').hide();
 				} else {
 					$(this).addClass('show').html('隐藏');
+					$('#J_refresh').show();
 					$('#J_totalBalance').html('余额 <i>￥' + $(this).data('balance') + '</i>');
 				}
 			});
@@ -522,7 +524,7 @@
 				GLOBAL.getAjaxData({
 					url: '/zone/lists',
 					data: {
-						id : pid || ''
+						pid : pid || ''
 					}
 				}, function(d) {
 					var _str = '';
@@ -1032,22 +1034,22 @@
 					this.bindEvent();
 				},
 				bindEvent: function(){
+					var _user = GLOBAL.COOKIE.getCookieItem('betUserInfo');
+					if(_user.payee){
+						$('#payee').val(_user.payee).prop('disabled', true);
+					}
 					// $('#money').on({
 					// 	keyup: function() {
 					// 		COMMON.USER.clearNoNum($(this));
 					// 	}
 					// });
 					
-					// var _user = GLOBAL.COOKIE.getCookieItem('betUserInfo');
-
 					$('#J_province').on('change',function(){
 						var _id = $(this).val();
 						COMMON.USER.renderAddressList(_id);
 					});
 
-					$('#J_addBankCard').click(function(){
-						// Todo:充值金额字段缺少
-
+					$('#J_addBankCard').click(function(){			
 						var bankId = $("#J_bankList").val(); //银行id
 						var cardNum = $('#J_cardNum').val(); //银行卡号
 						var cardConNum = $('#J_cardConNum').val(); //确认银行卡号
@@ -1055,10 +1057,16 @@
 						var cityId = $("#J_city").val();
 						var branch = $('#branch').val(); //银行分行
 						var reg = /^\d{16,19}$/;
-						var _user = GLOBAL.COOKIE.getCookieItem('betUserInfo');
+						var payee = $('#payee').val();
+						var email = (_user.email ? _user.email : '');
+						
+						if (payee == '') {
+							GLOBAL.alert('请在我的资料补全提款人姓名');
+							return false;
+						}
 
 						if (cardNum == '') {
-							GLOBAL.alert('请输入银行卡12号');
+							GLOBAL.alert('请输入银行卡号');
 							return false;
 						} else if (reg.test(cardNum) == false) {
 							GLOBAL.alert('请输入16到19位的银行卡号');
@@ -1087,9 +1095,6 @@
 							GLOBAL.alert('请输入银行分行');
 							return false;
 						}
-
-						var payee = (_user.payee ? _user.payee : '');
-						var email = (_user.email ? _user.email : '');
 
 						if (!payee) {
 							GLOBAL.alert('请在我的资料补全提款人姓名');
@@ -1250,7 +1255,7 @@
 						$.each(data.data, function(i, n){
 							_str += '<li>';
 							_str += '    <div class="t1">'+ n.product.name +'</div>';
-							_str += '    <div class="t2">'+ n.order_id +'</div>';
+							_str += '    <div class="t2"><a class="text-l-color" href="chase_detail.html?id='+ n.order_id +'">'+ n.order_id +'</a></div>';
 							_str += '    <div class="t3">'+ n.created +'</div>';
 							_str += '    <div class="t4">'+ n.periods.date + '-'+ n.periods.num +'</div>';
 							_str += '    <div class="t5">-</div>';
@@ -1887,13 +1892,14 @@
 						});
 					});
 				},
-				renderList: function(data) {
+				renderList: function(data, source) {
+					var _url = window.location.protocol + '//'+ window.location.host;
 					var _str = '';
 					if (data.total > 0){
 						$.each(data.data, function(i, n){
 							_str += '<li>';
 							_str += '    <div class="t1">'+ n.channel +'</div>';
-							_str += '    <div class="t2 J_clipboard J_clipboard_'+ i +'" data-clipboard-text="'+ n.code +'">'+ n.code +'</div>';
+							_str += '    <div class="t2 J_clipboard J_clipboard_'+ i +'" data-clipboard-text="'+ _url +'/register.html?code='+ n.code +'">'+ n.code +'</div>';
 							_str += '    <div class="t3">'+ n.register +'</div>';
 							_str += '    <div class="t4">'+ (n.type == 'member' ? '会员' : '代理') +'</div>';
 							_str += '    <div class="t5">'+ (n.status == 'normal'? '正常' : '取消') +'</div>';
@@ -1912,23 +1918,24 @@
 
 					$('#J_list').html(_str);
 
-					$.each($('.J_clipboard'), function(i, n){
-						var clipboard = new Clipboard('.J_clipboard_' + i);
-						clipboard.on('success', function(e) {
-						    // console.info('Action:', e.action);
-						    // console.info('Text:', e.text);
-						    // console.info('Trigger:', e.trigger);
-						    // GLOBAL.alert('复制成功', 2000, 1);
-						    e.clearSelection();
-						});
+					if(source){
+						$.each($('.J_clipboard'), function(i, n){
+							var clipboard = new Clipboard('.J_clipboard_' + i);
+							clipboard.on('success', function(e) {
+							    // console.info('Action:', e.action);
+							    // console.info('Text:', e.text);
+							    // console.info('Trigger:', e.trigger);
+							    layer.msg('复制成功')
+							    e.clearSelection();
+							});
 
-						clipboard.on('error', function(e) {
-							// console.log(e);
-						    // console.error('Action:', e.action);
-						    // console.error('Trigger:', e.trigger);
+							clipboard.on('error', function(e) {
+								// console.log(e);
+							    // console.error('Action:', e.action);
+							    // console.error('Trigger:', e.trigger);
+							});
 						});
-					});
-
+					}
 				},
 				getList: function(option) {
 					option = option || {};
@@ -1952,8 +1959,8 @@
 							page: option.page
 						}
 					}, function(d) {
-						COMMON.USER.linkManagement.renderList(d);
 						if(d.total > 10){
+							COMMON.USER.linkManagement.renderList(d, 'list');
 							laypage({
 								cont: 'J_Paging',
 								pages: Math.ceil(d.total / d.per_page),
