@@ -1731,7 +1731,7 @@
 					GLOBAL.getAjaxData({
 						url: '/user/balance-log',
 						data: {
-							status: option.type,
+							type: option.type,
 							created_min: option.created_min,
 							created_max: option.created_max,
 							pageSize: option.pageSize,
@@ -1768,7 +1768,7 @@
 					GLOBAL.getAjaxData({
 						url: '/user/balance-log',
 						data: {
-							status: option.type,
+							type: option.type,
 							created_min: option.created_min,
 							created_max: option.created_max,
 							pageSize: option.pageSize,
@@ -2349,6 +2349,7 @@
 				chart1: [0,0,0,0,0,0],
 				chart2: [0,0,0,0,0,0],
 				chart3: [0,0,0,0,0,0],
+				chart4: [0,0,0,0,0,0],
 				chartLast: [0,0,0,0]
 			},
 			holder: {
@@ -2732,6 +2733,7 @@
 			},
 			renderK3Chart: function(data) {
 				var _str = '';
+				var _total = $('.J_recently.active').data('size');
 				if(data && data.length){
 					$.each(data, function(i, n){
 						var _lottery_num = n.lottery_num.split(',');
@@ -2756,13 +2758,8 @@
 							_str += '	<ul class="J_winning winning-3 po-middle">';
 							_str += _getNums(_lottery_num[2], 3);
 							_str += '	</ul>';
-							_str += '	<ul class="winning-4 po-middle" data-x="'+ _lottery_num[0] +'" data-y="'+ _lottery_num[1] +'" data-z="'+ _lottery_num[2] +'">';
-							_str += '		<li class="J_nums" data-i="1">1</li>';
-							_str += '		<li class="J_nums" data-i="2">1</li>';
-							_str += '		<li class="J_nums" data-i="3">1</li>';
-							_str += '		<li class="J_nums" data-i="4">1</li>';
-							_str += '		<li class="J_nums" data-i="5">1</li>';
-							_str += '		<li class="J_nums" data-i="6">1</li>';
+							_str += '	<ul class="J_winning winning-4 po-middle" data-x="'+ _lottery_num[0] +'" data-y="'+ _lottery_num[1] +'" data-z="'+ _lottery_num[2] +'">';
+							_str += _getNums(_lottery_num[3], 4);
 							_str += '	</ul>';
 							_str += '</div>';
 							_str += '<div class="lastDetail-wrp po-middle">';
@@ -2804,16 +2801,19 @@
 					 */
 					function _getNums(num, parity) {
 						var _li = '';
-						var _class = 'hit-blue';
-						if(parity % 2){
-							_class = 'hit-red';
+						var _class = '';
+						if(parity != 4){
+							_class = 'hit-blue';
+							if(parity % 2){
+								_class = 'hit-red';
+							}
 						}
 
 						for (var i = 1;i <= 6; i++) {
 							if(i == num){
-								_li += '<li class="J_'+ parity + '_'+ i +' '+ _class +'">'+ i +'</li>';
+								_li += '<li class="'+ (parity == 4 ? 'J_nums' : '') +' J_'+ parity + '_'+ i +' '+ _class +'" '+ (parity == 4 ? 'data-i="'+ i +'"' : '') +'>'+ i +'</li>';
 							} else {
-								_li += '<li class="J_'+ parity + '_'+ i+'">1</li>';
+								_li += '<li class="'+ (parity == 4 ? 'J_nums' : '') +' J_'+ parity + '_'+ i+'" '+ (parity == 4 ? 'data-i="'+ i +'"' : '') +'>1</li>';
 							}
 						}
 						return _li;
@@ -2825,24 +2825,8 @@
 				COMMON.CHART.K3.chart1 = [0,0,0,0,0,0];
 				COMMON.CHART.K3.chart2 = [0,0,0,0,0,0];
 				COMMON.CHART.K3.chart3 = [0,0,0,0,0,0];
+				COMMON.CHART.K3.chart4 = [0,0,0,0,0,0];
 				COMMON.CHART.K3.chartLast = [0,0,0,0];
-
-				function _rendNum(num){
-					$('.winning-'+ num +' li').each(function(i, n){
-						$('.J_'+ num +'_'+ (i+1)).each(function(){
-							if($(this).hasClass('hit-blue') || $(this).hasClass('hit-red')){
-								COMMON.CHART.K3['chart'+num][i] = 0;
-							} else {
-								COMMON.CHART.K3['chart'+num][i] = COMMON.CHART.K3['chart'+num][i] + 1;
-								$(this).html(COMMON.CHART.K3['chart'+num][i]);
-							}
-						});
-					});
-				}
-
-				$('.J_winning').each(function(x, y){
-					_rendNum((x + 1));
-				});
 
 				$('.winning-4').each(function(i, n){
 					var _n1 = $(this).data('x');
@@ -2869,6 +2853,24 @@
 					}
 				});
 
+				function _rendNum(num){
+					$('.winning-'+ num +' li').each(function(i, n){
+						$('.J_'+ num +'_'+ (i+1)).each(function(){
+							if($(this).hasClass('hit-blue') || $(this).hasClass('hit-red') || $(this).hasClass('n1') || $(this).hasClass('n2') || $(this).hasClass('n3')){
+								// console.log(num);
+								COMMON.CHART.K3['chart'+num][i] = 0;
+							} else {
+								COMMON.CHART.K3['chart'+num][i] = COMMON.CHART.K3['chart'+num][i] + 1;
+								$(this).html(COMMON.CHART.K3['chart'+num][i]);
+							}
+						});
+					});
+				}
+
+				for(var m = 1; m <= 4; m++){
+					_rendNum(m);
+				}
+
 				$('.J_chartLastTd li').each(function(i, n) {
 					$('.J_wss' + (i+1)).each(function(k, v) {
 						if ($(this).hasClass('orangeCheck') || $(this).hasClass('bleCheck')) {
@@ -2893,10 +2895,17 @@
 					var _i = $(this).data('i');
 					var _n = $('.n1[data-i="'+ _i +'"]').length + $('.n2[data-i="'+ _i +'"]').length * 2 + $('.n3[data-i="'+ _i +'"]').length * 3
 					$(this).html(_n);
+
+					$('#J_k3_pjyl li').eq(i).html(_n == 0 ? 31 : (Math.floor((_total - _n) / _n) + 1))
 				});
+				
+
+				// 总出现次数：总共出现的次数
+				// 平均遗漏值：（彩票总期数-历史出现次数）/历史出现次数
+				// 最大遗漏值：最多连续不出现的次数
+				// 最大连出值：最多连续出现的次数
 
 				// 平均遗漏值
-				var _total = $('.J_recently.active').data('size');
 				$('.J_ylTotal').each(function(i){
 					for(var j = 0; j < 6; j++){
 						var num1 = $('.hit-blue.J_'+ (i+1) +'_'+ (j+1)).length;
@@ -2920,12 +2929,13 @@
 				$('#J_3LH').html(_numWss4);
 
 				// 平均遗漏值
-				$('#J_3T_yl').html(_numWss1 == 0 ? 1 : Math.ceil(_numWss1 / (30 - _numWss1)));
-				$('#J_2T_yl').html(_numWss2 == 0 ? 1 : Math.ceil(_numWss2 / (30 - _numWss2)));
-				$('#J_2BT_yl').html(_numWss3 == 0 ? 1 : Math.ceil(_numWss3 / (30 - _numWss3)));
-				$('#J_3LH_yl').html(_numWss4 == 0 ? 1 : Math.ceil(_numWss4 / (30 - _numWss4)));
+				$('#J_3T_yl').html(_numWss1 == 0 || (_numWss1 == 30) ? 1 : Math.ceil(_numWss1 / (30 - _numWss1)));
+				$('#J_2T_yl').html(_numWss2 == 0 || (_numWss2 == 30) ? 1 : Math.ceil(_numWss2 / (30 - _numWss2)));
+				$('#J_2BT_yl').html(_numWss3 == 0 || (_numWss3 == 30) ? 1 : Math.ceil(_numWss3 / (30 - _numWss3)));
+				$('#J_3LH_yl').html(_numWss4 == 0 || (_numWss4 == 30) ? 1 : Math.ceil(_numWss4 / (30 - _numWss4)));
 
-				for(var f = 1; f < 7; f++){
+				// 最大遗漏值、最大连出值
+				for(var f = 1; f < 5; f++){
 					for(var c = 1; c < 7; c++){
 						var _x = [];
 						var _y = '';
@@ -2934,17 +2944,42 @@
 								_x.push(Number($(this).text()));
 							}
 
-							if($(this).hasClass('hit-red') || $(this).hasClass('hit-blue')){
+							if($(this).hasClass('hit-red') || $(this).hasClass('hit-blue') || $(this).hasClass('n1')){
 								_y += '1';
+							} else if($(this).hasClass('n2')) {
+								_y += '11';
+							} else if($(this).hasClass('n3')) {
+								_y += '111';
 							} else {
 								_y += '0';
 							}
 						});
-						$('.J_yl_'+f+'_'+c).html(_x.sort(sortNumber)[_x.length - 1]);
+						if(duplicate(_x)){
+							$('.J_yl_'+f+'_'+c).html(0);
+						} else {
+							$('.J_yl_'+f+'_'+c).html(_x.sort(sortNumber)[_x.length - 1]);
+						}
 						if(_y.length){
 							$('.J_lc_'+f+'_'+c).html(getMaxLen(_y,/1+/ig));
 						}
 					}
+				}
+
+				function duplicate(nums){
+					var _nums = nums.sort();
+					var _len = _nums.length;
+					var _x = 0;
+					var _flag = false;
+					for(var i = 0; i <= _len; i++){
+						if(_nums[i] == _nums[i + 1])		{
+							_x++;
+						}
+					}
+					if(_x == _len){
+						_flag = true;
+					}
+
+					return _flag;
 				}
 
 				_wss(1);
