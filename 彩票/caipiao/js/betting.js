@@ -2223,7 +2223,7 @@ $(function() {
                     $.each(data.data, function(i, n){
                         _str += '<li class="clearfix">';
                         _str += '    <div class="t1">'+ n.product.name +'</div>';
-                        _str += '    <div class="t2"><a class="text-l-color" href="user/chase_detail.html?id='+ n.order_id +'">'+ n.order_id +'</a></div>';
+                        _str += '    <div class="t2"><a class="text-l-color" href="user/chase_detail.html?source=betting&id='+ n.order_id +'">'+ n.order_id +'</a></div>';
                         _str += '    <div class="t3">'+ n.created +'</div>';
                         _str += '    <div class="t4">'+ n.periods.date +'-'+ n.periods.num +'</div>';
                         _str += '    <div class="t5">'+ (n.periods.lottery_num ? n.periods.lottery_num : '-') +'</div>';

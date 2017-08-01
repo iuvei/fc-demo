@@ -745,6 +745,7 @@
 				init: function() {
 					COMMON.USER.initDatePick();
 					this.bindEvent();
+					// this.getList();
 				},
 				bindEvent: function() {
 					$('#J_searchListBtn').click(function(){
@@ -840,6 +841,10 @@
 				init: function(){
 					this.initDetail();
 					this.bindEvent();
+
+					setTimeout(function(){
+						$('#money,#password').val('');
+					},0);
 				},
 				bindEvent: function(){
 					$('#money').on({
@@ -942,6 +947,7 @@
 				init: function() {
 					COMMON.USER.initDatePick();
 					this.bindEvent();
+					// this.getList();
 				},
 				bindEvent: function(d){
 					$('#J_searchListBtn').click(function() {
@@ -1243,6 +1249,7 @@
 				init: function(){
 					COMMON.USER.initDatePick();
 					this.bindEvent();
+					// this.getList();
 				},
 				bindEvent: function(d){
 					$('#J_searchListBtn').click(function() {
@@ -1255,7 +1262,7 @@
 						$.each(data.data, function(i, n){
 							_str += '<li>';
 							_str += '    <div class="t1">'+ n.product.name +'</div>';
-							_str += '    <div class="t2"><a class="text-l-color" href="chase_detail.html?id='+ n.order_id +'">'+ n.order_id +'</a></div>';
+							_str += '    <div class="t2"><a class="text-l-color" href="chase_detail.html?source=betting&id='+ n.order_id +'">'+ n.order_id +'</a></div>';
 							_str += '    <div class="t3">'+ n.created +'</div>';
 							_str += '    <div class="t4">'+ n.periods.date + '-'+ n.periods.num +'</div>';
 							_str += '    <div class="t5">-</div>';
@@ -1334,6 +1341,7 @@
 				init: function(){
 					COMMON.USER.initDatePick();
 					this.bindEvent();
+					// this.getList();
 				},
 				bindEvent: function(d){
 					$('#J_searchListBtn').click(function() {
@@ -1367,7 +1375,7 @@
 					option.status = option.status || $('#J_status').val() || '';
 					option.created_min = option.created_min || $('#J_startDay').val() || '';
 					option.created_max = option.created_max || $('#J_endDay').val() || '';
-					option.pageSize = option.pageSize || 12;
+					option.pageSize = option.pageSize || 10;
 					option.page = option.page || 1;
 
 					GLOBAL.getAjaxData({
@@ -1381,7 +1389,7 @@
 						}
 					}, function(d) {
 						COMMON.USER.chaseRecord.renderList(d);
-						if(d.total > 12){
+						if(d.total > 10){
 							laypage({
 								cont: 'J_Paging',
 								pages: Math.ceil(d.total / d.per_page),
@@ -1401,12 +1409,11 @@
 					});
 				},
 				getData: function(option){
-					console.log(1);
 					option = option || {};
 					option.status = option.status || $('#J_status').val() || '';
 					option.created_min = option.created_min || $('#J_startDay').val() || '';
 					option.created_max = option.created_max || $('#J_endDay').val() || '';
-					option.pageSize = option.pageSize || 12;
+					option.pageSize = option.pageSize || 10;
 					option.page = option.page || 1;
 					GLOBAL.getAjaxData({
 						url: '/chase/lists',
@@ -1511,7 +1518,6 @@
 						}
 					}, function(d) {
 						COMMON.USER.chaseOrder.renderList(d);
-
 						if(d.total > 10){
 							laypage({
 								cont: 'J_Paging',
@@ -1588,7 +1594,7 @@
 							_str += '    <div class="t4">'+ COMMON.USER.converWinningStatus(n.status) +'</div>';
 							_str += '    <div class="t5">'+ n.money +'</div>';
 							_str += '    <div class="t6">'+ n.bonus +'</div>';
-							_str += '    <div class="t7"><a href="chase_detail.html?id='+ n.order_id +'">查看</a></div>';
+							_str += '    <div class="t7"><a href="chase_detail.html?source=chase&id='+ n.order_id +'">查看</a></div>';
 							_str += '</li>';
 						});					
 					} else {
@@ -1601,6 +1607,12 @@
 			// 订单详情
 			chaseDetail: {
 				init: function(){
+					var _url = GLOBAL.getRequestURL();
+					if(_url.source == 'betting'){
+						$('[data-source="betting"]').addClass('active');
+					}else{
+						$('[data-source="chase"]').addClass('active');
+					}
 					this.renderDeatil();
 					// this.renderList();
 					this.getList();
@@ -1653,7 +1665,7 @@
 				},
 				renderList: function(data){
 					var _str = '';
-					if (data.total > 10){
+					if (data.total > 0){
 						$.each(data.data, function(i, n){
 							_str += '<li>';
 							_str += '    <div class="t1">'+ n.rule +'</div>';
@@ -1701,6 +1713,7 @@
 				init: function(){
 					COMMON.USER.initDatePick();
 					this.bindEvent();
+					// this.getList();
 				},
 				bindEvent: function(d){
 					$('#J_searchListBtn').click(function() {
@@ -2123,9 +2136,9 @@
 			// 报表管理
 			reportManagement: {
 				init: function() {
-					setTimeout(function(){
-						$('#J_userNames').html('<span class="J_name">' + $('#J_headerUserName').data('n') + '</span>');
-					}, 200);
+					var _user = GLOBAL.COOKIE.getCookieItem('betUserInfo');
+					console.log(_user);
+					$('#J_userNames').html('<span class="J_name">' + _user.username + '</span>');
 					COMMON.USER.initDatePick();
 					this.bindEvent();
 				},
