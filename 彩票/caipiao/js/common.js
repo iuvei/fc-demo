@@ -527,7 +527,12 @@
 					var _str = '<option value="">全部</option>';
 					if(d.length){
 						$.each(d, function(i, n){
-							_str += '<option value="'+ n.id +'">'+ n.name +'</option>';
+							_str += '<option disabled="disabled" value="'+ n.id +'">'+ n.name +'</option>';
+							if(n.product && n.product.length){
+								$.each(n.product, function(x, y){
+									_str += '<option value="'+ y.id +'">'+ y.name +'</option>';
+								});
+							}
 						});
 					}
 					$('#J_LotteryTypeList').html(_str);
