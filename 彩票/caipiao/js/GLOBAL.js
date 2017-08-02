@@ -34,8 +34,8 @@ var GLOBAL = {
 
 		$.ajax({
 			// TODO: 去掉api
-			// url: '/api' + options.url,
-			url: options.url,
+			url: '/api' + options.url,
+			// url: options.url,
 			async: options.async,
 			data: JSON.stringify(options.data),
 			dataType: options.dataType,
