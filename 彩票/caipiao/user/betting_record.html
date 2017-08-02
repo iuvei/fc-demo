@@ -142,8 +142,7 @@
 					</div>
 					<div class="user-s-tt">彩种：</div>
 					<div class="user-s-sel">
-						<select id="">
-							<option value="111">全部</option>
+						<select id="J_LotteryTypeList">
 						</select>
 					</div>
 					<div class="user-s-tt">日期：</div>
@@ -157,11 +156,11 @@
 				<div class="user-search clearfix betting-search">
 					<div class="user-s-tt">订单：</div>
 					<div class="user-s-inp">
-						<input type="text">
+						<input type="text" id="J_orderId">
 					</div>
 					<div class="user-s-tt">期号：</div>
 					<div class="user-s-inp">
-						<input type="text">
+						<input type="text" id="J_periods_num">
 					</div>
 					<!-- <div class="user-s-tt">追号：</div>
 					<div class="user-s-sel">
@@ -224,7 +223,7 @@
 
 	<script>
 		$(function(){
-			$('select').chosen();
+			// $('select').chosen();
 			COMMON.USER.bettingRecord.init();
 		});
 	</script>

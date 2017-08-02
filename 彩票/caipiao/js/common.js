@@ -271,13 +271,13 @@
 			// console.log(COMMON.lottBetTimer);
 		},
 		clearLottBetTimer: function() {
-	        if (COMMON.lottBetTimer.length > 0) {
-	            for (var i = 0; i < COMMON.lottBetTimer.length; i++){
-	            	window.clearInterval(COMMON.lottBetTimer[i]);
-	            }
-	            COMMON.lottBetTimer = []
-	        }
-	    },
+			if (COMMON.lottBetTimer.length > 0) {
+				for (var i = 0; i < COMMON.lottBetTimer.length; i++){
+					window.clearInterval(COMMON.lottBetTimer[i]);
+				}
+				COMMON.lottBetTimer = []
+			}
+		},
 		getBallInfo: function($id, getList) {
 			var _url = GLOBAL.getRequestURL();
 			var _renderHistory = getList != undefined ? getList : true;
@@ -469,15 +469,15 @@
 					COMMON.isChart = true;
 
 					// 渲染头部
-		            if(_url.type == 1){
-		                TEMPLATE.renderSSC.renderHeader();
-		            } else if(_url.type == 2) {
-		                TEMPLATE.render11X5.renderHeader();
-		            } else if(_url.type == 3) {
-		                TEMPLATE.renderK3.renderHeader();
-		            } else if(_url.type == 4) {
-		                TEMPLATE.renderPK10.renderHeader();
-		            }
+					if(_url.type == 1){
+						TEMPLATE.renderSSC.renderHeader();
+					} else if(_url.type == 2) {
+						TEMPLATE.render11X5.renderHeader();
+					} else if(_url.type == 3) {
+						TEMPLATE.renderK3.renderHeader();
+					} else if(_url.type == 4) {
+						TEMPLATE.renderPK10.renderHeader();
+					}
 
 					COMMON.getBallInfo(_url.id, false);
 					COMMON.renderHistory();
@@ -519,6 +519,22 @@
 					$('select').chosen();
 				});
 			},
+			renderLotteryTypeList: function(){
+				// 渲染彩种选项
+				GLOBAL.getAjaxData({
+					url: '/product/cate-lists'
+				}, function(d) {
+					var _str = '<option value="">全部</option>';
+					if(d.length){
+						$.each(d, function(i, n){
+							_str += '<option value="'+ n.id +'">'+ n.name +'</option>';
+						});
+					}
+					$('#J_LotteryTypeList').html(_str);
+
+					$('select').chosen();
+				});
+			},
 			renderAddressList: function(pid) {
 				// 渲染地址列表
 				GLOBAL.getAjaxData({
@@ -548,7 +564,7 @@
 					max: laydate.now(),
 					istoday: false,
 					issure: false,
-					isclear: false,
+					isclear: true,
 					choose: function(datas) {
 						end.min = datas; //开始日选好后，重置结束日的最小日期
 						end.start = datas //将结束日的初始值设定为开始日
@@ -560,7 +576,7 @@
 					max: laydate.now(),
 					istoday: false,
 					issure: false,
-					isclear: false,
+					isclear: true,
 					choose: function(datas) {
 						start.max = datas; //结束日选好后，重置开始日的最大日期
 					}
@@ -570,91 +586,91 @@
 			},
 			converUnit: function(unit){
 				var _txt = '';
-                switch(unit){
-                    case 'yuan':
-                    _txt = '元';
-                    break;
-                    case 'jiao':
-                    _txt = '角';
-                    break;
-                    case 'fen':
-                    _txt = '分';
-                    break;
-                    case 'li':
-                    _txt = '厘';
-                    break;
-                }
+				switch(unit){
+					case 'yuan':
+					_txt = '元';
+					break;
+					case 'jiao':
+					_txt = '角';
+					break;
+					case 'fen':
+					_txt = '分';
+					break;
+					case 'li':
+					_txt = '厘';
+					break;
+				}
 
-                return _txt;
+				return _txt;
 			},
 			converWinningStatus: function(status){
-                var _txt = '';
-                switch(status){
-                    case 'wait':
-                    _txt = '等待支付';
-                    break;
-                    case 'pay':
-                    _txt = '已经支付';
-                    break;
-                    case 'expire':
-                    _txt = '过期';
-                    break;
-                    case 'retreat':
-                    _txt = '撤销';
-                    break;
-                    case 'regret':
-                    _txt = '未中奖';
-                    break;
-                    case 'winning':
-                    _txt = '中奖';
-                    break;
-                    case 'finish':
-                    _txt = '结束';
-                    break;
-                    case 'stop':
-                    _txt = '中奖停止';
-                    break;
-                }
+				var _txt = '';
+				switch(status){
+					case 'wait':
+					_txt = '等待支付';
+					break;
+					case 'pay':
+					_txt = '已经支付';
+					break;
+					case 'expire':
+					_txt = '过期';
+					break;
+					case 'retreat':
+					_txt = '撤销';
+					break;
+					case 'regret':
+					_txt = '未中奖';
+					break;
+					case 'winning':
+					_txt = '中奖';
+					break;
+					case 'finish':
+					_txt = '结束';
+					break;
+					case 'stop':
+					_txt = '中奖停止';
+					break;
+				}
 
-                return _txt;
-            },
-            converRechargeStatus: function(status){
-                var _txt = '';
-                switch(status){
-                    case 'wait':
-                    _txt = '待确认';
-                    break;
-                    case 'fail':
-                    _txt = '充值失败';
-                    break;
-                    case 'success':
-                    _txt = '充值成功';
-                    break;
-                }
+				return _txt;
+			},
+			converRechargeStatus: function(status){
+				var _txt = '';
+				switch(status){
+					case 'wait':
+					_txt = '待确认';
+					break;
+					case 'fail':
+					_txt = '充值失败';
+					break;
+					case 'success':
+					_txt = '充值成功';
+					break;
+				}
 
-                return _txt;
-            },
-            converRechargeType: function(status){
-                var _txt = '';
-                switch(status){
-                    case 'bank':
-                    _txt = '银行';
-                    break;
-                    case 'alipay':
-                    _txt = '支付宝';
-                    break;
-                    case 'weixin':
-                    _txt = '微信';
-                    break;
-                    case 'quick':
-                    _txt = '快捷支付';
-                    break;
-                }
+				return _txt;
+			},
+			converRechargeType: function(status){
+				var _txt = '';
+				switch(status){
+					case 'bank':
+					_txt = '银行';
+					break;
+					case 'alipay':
+					_txt = '支付宝';
+					break;
+					case 'weixin':
+					_txt = '微信';
+					break;
+					case 'quick':
+					_txt = '快捷支付';
+					break;
+				}
 
-                return _txt;
-            },
-            recharge: function(money, type) {
-            	GLOBAL.getAjaxData({
+				return _txt;
+			},
+			recharge: function(money, type) {
+				GLOBAL.getAjaxData({
 					url: '/recharge/add',
 					data: {
 						money: money,
@@ -664,7 +680,7 @@
 				}, function(data) {
 					GLOBAL.alert('充值成功', 2000, 1);
 				});
-            },
+			},
 			// 线上支付
 			rechargeOnline: {
 				init: function(){
@@ -742,13 +758,15 @@
 			},
 			// 充值记录
 			rechargeRecord: {
+				firstTime: 1,
 				init: function() {
 					COMMON.USER.initDatePick();
 					this.bindEvent();
-					// this.getList();
+					this.getList();
 				},
 				bindEvent: function() {
 					$('#J_searchListBtn').click(function(){
+						COMMON.USER.rechargeRecord.firstTime = 1;
 						COMMON.USER.rechargeRecord.getList();
 					});
 				},
@@ -781,7 +799,6 @@
 					option.created_max = option.created_max || $('#J_endDay').val() || '';
 					option.pageSize = option.pageSize || 10;
 					option.page = option.page || 1;
-
 					GLOBAL.getAjaxData({
 						url: '/recharge/lists',
 						data: {
@@ -793,7 +810,6 @@
 							page: option.page
 						}
 					}, function(d) {
-						COMMON.USER.rechargeRecord.renderList(d);
 						if(d.total > 10){
 							laypage({
 								cont: 'J_Paging',
@@ -805,11 +821,19 @@
 								skip: true, //是否开启跳页
 								groups: 10, //连续显示分页数
 								jump: function(obj) {
-									COMMON.USER.rechargeRecord.getData({
-										page: obj.curr
-									});
+									if(COMMON.USER.rechargeRecord.firstTime){
+										COMMON.USER.rechargeRecord.renderList(d);
+										COMMON.USER.rechargeRecord.firstTime = 0;
+									} else {
+										COMMON.USER.rechargeRecord.getData({
+											page: obj.curr
+										});
+									}
 								}
 							});
+						} else {
+							$('#J_Paging').html('');
+							COMMON.USER.rechargeRecord.renderList(d);
 						}
 					});
 				},
@@ -844,7 +868,7 @@
 
 					setTimeout(function(){
 						$('#money,#password').val('');
-					},0);
+					}, 300);
 				},
 				bindEvent: function(){
 					$('#money').on({
@@ -944,13 +968,15 @@
 			},
 			// 提款记录
 			withdrawalRecords: {
+				firstTime: 1,
 				init: function() {
 					COMMON.USER.initDatePick();
 					this.bindEvent();
-					// this.getList();
+					this.getList();
 				},
 				bindEvent: function(d){
 					$('#J_searchListBtn').click(function() {
+						COMMON.USER.withdrawalRecords.firstTime = 1;
 						COMMON.USER.withdrawalRecords.getList();
 					});
 				},
@@ -1003,11 +1029,19 @@
 								skip: true, //是否开启跳页
 								groups: 10, //连续显示分页数
 								jump: function(obj) {
-									COMMON.USER.withdrawalRecords.getData({
-										page: obj.curr
-									});
+									if(COMMON.USER.withdrawalRecords.firstTime){
+										COMMON.USER.withdrawalRecords.renderList(d);
+										COMMON.USER.withdrawalRecords.firstTime = 0;
+									} else {
+										COMMON.USER.withdrawalRecords.getData({
+											page: obj.curr
+										});
+									}
 								}
 							});
+						} else {
+							$('#J_Paging').html('');
+							COMMON.USER.withdrawalRecords.renderList(d);
 						}
 					});
 				},
@@ -1246,13 +1280,16 @@
 			},
 			// 投注记录
 			bettingRecord: {
+				firstTime: 1,
 				init: function(){
 					COMMON.USER.initDatePick();
+					COMMON.USER.renderLotteryTypeList();
 					this.bindEvent();
-					// this.getList();
+					this.getList();
 				},
 				bindEvent: function(d){
 					$('#J_searchListBtn').click(function() {
+						COMMON.USER.bettingRecord.firstTime = 1;
 						COMMON.USER.bettingRecord.getList();
 					});
 				},
@@ -1279,23 +1316,28 @@
 				},
 				getList: function(option) {
 					option = option || {};
+					option.product_id = option.product_id || $('#J_LotteryTypeList').val() || '';
 					option.status = option.status || $('#J_status').val() || '';
 					option.created_min = option.created_min || $('#J_startDay').val() || '';
 					option.created_max = option.created_max || $('#J_endDay').val() || '';
+					option.id = option.id || $('#J_orderId').val() || '';
+					option.periods_num = option.periods_num || $('#J_periods_num').val() || '';
 					option.pageSize = option.pageSize || 10;
 					option.page = option.page || 1;
 
 					GLOBAL.getAjaxData({
 						url: '/bet/lists',
 						data: {
+							product_id: option.product_id,
 							status: option.status,
 							created_min: option.created_min,
 							created_max: option.created_max,
+							id: option.id,
+							periods_num: option.periods_num,
 							pageSize: option.pageSize,
 							page: option.page
 						}
 					}, function(d) {
-						COMMON.USER.bettingRecord.renderList(d);
 						if(d.total > 10){
 							laypage({
 								cont: 'J_Paging',
@@ -1307,27 +1349,42 @@
 								skip: true, //是否开启跳页
 								groups: 10, //连续显示分页数
 								jump: function(obj) {
-									COMMON.USER.bettingRecord.getData({
-										page: obj.curr
-									});
+									if(COMMON.USER.bettingRecord.firstTime){
+										COMMON.USER.bettingRecord.renderList(d);
+										COMMON.USER.bettingRecord.firstTime = 0;
+									} else {
+										COMMON.USER.bettingRecord.getData({
+											page: obj.curr
+										});
+									}
 								}
 							});
+						}else{
+							$('#J_Paging').html('');
+							COMMON.USER.bettingRecord.renderList(d);
 						}
 					});
 				},
 				getData: function(option){
 					option = option || {};
+					option.product_id = option.product_id || $('#J_LotteryTypeList').val() || '';
 					option.status = option.status || $('#J_status').val() || '';
 					option.created_min = option.created_min || $('#J_startDay').val() || '';
 					option.created_max = option.created_max || $('#J_endDay').val() || '';
+					option.id = option.id || $('#J_orderId').val() || '';
+					option.periods_num = option.periods_num || $('#J_periods_num').val() || '';
 					option.pageSize = option.pageSize || 10;
 					option.page = option.page || 1;
+
 					GLOBAL.getAjaxData({
 						url: '/bet/lists',
 						data: {
+							product_id: option.product_id,
 							status: option.status,
 							created_min: option.created_min,
 							created_max: option.created_max,
+							id: option.id,
+							periods_num: option.periods_num,
 							pageSize: option.pageSize,
 							page: option.page
 						}
@@ -1338,13 +1395,15 @@
 			},
 			// 追号记录
 			chaseRecord: {
+				firstTime: 1,
 				init: function(){
 					COMMON.USER.initDatePick();
 					this.bindEvent();
-					// this.getList();
+					this.getList();
 				},
 				bindEvent: function(d){
 					$('#J_searchListBtn').click(function() {
+						COMMON.USER.chaseRecord.firstTime = 1;
 						COMMON.USER.chaseRecord.getList();
 					});
 				},
@@ -1356,7 +1415,7 @@
 							_str += '    <div class="t1">'+ n.product.name +'</div>';
 							_str += '    <div class="t2"><a href="chase_order.html?id='+ n.order_id +'" class="text-l-color">'+ n.order_id +'</a></div>';
 							_str += '    <div class="t3">'+ (n.start_periods_num ? n.start_periods_num.split(',')[0].replace(/\-/g, '') + '-' +COMMON.fillLenght(n.start_periods_num.split(',')[1], 3, '0') : '-') +'</div>';
-							_str += '    <div class="t4">'+ (n.end_periods_num ? n.end_periods_num.split(',')[0].replace(/\-/g, '') + '-' +COMMON.fillLenght(n.start_periods_num.split(',')[1], 3, '0') : '-') +'</div>';
+							_str += '    <div class="t4">'+ (n.end_periods_num ? n.end_periods_num.split(',')[0].replace(/\-/g, '') + '-' +COMMON.fillLenght(n.end_periods_num.split(',')[1], 3, '0') : '-') +'</div>';
 							_str += '    <div class="t5">'+ n.chase_periods +'</div>';
 							_str += '    <div class="t6">'+ n.already_chase +'</div>';
 							_str += '    <div class="t7">'+ n.money +'</div>';
@@ -1388,7 +1447,6 @@
 							page: option.page
 						}
 					}, function(d) {
-						COMMON.USER.chaseRecord.renderList(d);
 						if(d.total > 10){
 							laypage({
 								cont: 'J_Paging',
@@ -1400,11 +1458,19 @@
 								skip: true, //是否开启跳页
 								groups: 10, //连续显示分页数
 								jump: function(obj) {
-									COMMON.USER.chaseRecord.getData({
-										page: obj.curr
-									});
+									if(COMMON.USER.chaseRecord.firstTime){
+										COMMON.USER.chaseRecord.renderList(d);
+										COMMON.USER.chaseRecord.firstTime = 0;
+									} else {
+										COMMON.USER.chaseRecord.getData({
+											page: obj.curr
+										});
+									}
 								}
 							});
+						} else {
+							$('#J_Paging').html('');
+							COMMON.USER.chaseRecord.renderList(d);
 						}
 					});
 				},
@@ -1534,6 +1600,8 @@
 									});
 								}
 							});
+						} else {
+							$('#J_Paging').html('');
 						}
 					});
 				},
@@ -1606,6 +1674,7 @@
 			},
 			// 订单详情
 			chaseDetail: {
+				firstTime: 1,
 				init: function(){
 					var _url = GLOBAL.getRequestURL();
 					if(_url.source == 'betting'){
@@ -1619,8 +1688,8 @@
 				},
 				getList: function(option) {
 					option = option || {};
-					option.pageSize = option.pageSize || 10;
-					option.page = option.page || 1;
+					option.pageSize = option.pageSize || 1;
+					option.page = option.page || 10;
 
 					GLOBAL.getAjaxData({
 						url: '/bet/items',
@@ -1629,29 +1698,36 @@
 						}
 					}, function(d) {
 						COMMON.USER.chaseDetail.renderList(d);
-						if(d.total > 10){
-							laypage({
-								cont: 'J_Paging',
-								pages: Math.ceil(d.total / d.per_page),
-								prev: '<',
-								next: '>',
-								first: false,
-								last: false,
-								skip: true, //是否开启跳页
-								groups: 10, //连续显示分页数
-								jump: function(obj) {
-									COMMON.USER.chaseDetail.getData({
-										page: obj.curr
-									});
-								}
-							});
-						}
+						// if(d.total > 10){
+						// 	laypage({
+						// 		cont: 'J_Paging',
+						// 		pages: Math.ceil(d.total / d.per_page),
+						// 		prev: '<',
+						// 		next: '>',
+						// 		first: false,
+						// 		last: false,
+						// 		skip: true, //是否开启跳页
+						// 		groups: 10, //连续显示分页数
+						// 		jump: function(obj) {
+						// 			if(COMMON.USER.chaseDetail.firstTime){
+						// 				COMMON.USER.chaseDetail.renderList(d);
+						// 				COMMON.USER.chaseDetail.firstTime = 0;
+						// 			} else {
+						// 				COMMON.USER.chaseDetail.getData({
+						// 					page: obj.curr
+						// 				});
+						// 			}
+						// 		}
+						// 	});
+						// } else{
+						// 	COMMON.USER.chaseDetail.renderList(d);
+						// }
 					});
 				},
 				getData: function(option){
 					option = option || {};
-					option.pageSize = option.pageSize || 10;
-					option.page = option.page || 1;
+					option.pageSize = option.pageSize || 1;
+					option.page = option.page || 10;
 					GLOBAL.getAjaxData({
 						url: '/bet/items',
 						data: {
@@ -1710,13 +1786,15 @@
 			},
 			// 账变明细
 			accountDetails: {
+				firstTime: 1,
 				init: function(){
 					COMMON.USER.initDatePick();
 					this.bindEvent();
-					// this.getList();
+					this.getList();
 				},
 				bindEvent: function(d){
 					$('#J_searchListBtn').click(function() {
+						COMMON.USER.accountDetails.firstTime = 1;
 						COMMON.USER.accountDetails.getList();
 					});
 				},
@@ -1756,7 +1834,7 @@
 							page: option.page
 						}
 					}, function(d) {
-						COMMON.USER.accountDetails.renderList(d);
+						
 						if(d.total > 10){
 							laypage({
 								cont: 'J_Paging',
@@ -1768,12 +1846,20 @@
 								skip: true, //是否开启跳页
 								groups: 10, //连续显示分页数
 								jump: function(obj) {
-									COMMON.USER.accountDetails.getData({
-										page: obj.curr
-									});
+									if(COMMON.USER.accountDetails.firstTime){
+			                            COMMON.USER.accountDetails.renderList(d);
+			                            COMMON.USER.accountDetails.firstTime = 0;
+			                        } else {
+			                            COMMON.USER.accountDetails.getData({
+			                                page: obj.curr
+			                            });
+			                        }
 								}
 							});
-						}
+						} else {
+							$('#J_Paging').html('');
+			                COMMON.USER.accountDetails.renderList(d);
+			            }
 					});
 				},
 				getData: function(option){
@@ -1858,6 +1944,9 @@
 							if (password != confirm_password) {
 								GLOBAL.alert(_msg, 2000, 1);
 								return false;
+							} else {
+								GLOBAL.alert(data, 2000, 1);
+								$('#old_password,#password,#confirm_password').val('');
 							}
 						});
 					});
@@ -1877,11 +1966,14 @@
 			},
 			// 链接管理
 			linkManagement: {
+				firstTime: 1,
 				init: function() {
 					this.bindEvent();
+					this.getList();
 				},
 				bindEvent: function() {
 					$('#J_searchListBtn').click(function() {
+						COMMON.USER.linkManagement.firstTime = 1;
 						COMMON.USER.linkManagement.getList();
 					});
 
@@ -1935,17 +2027,17 @@
 						$.each($('.J_clipboard'), function(i, n){
 							var clipboard = new Clipboard('.J_clipboard_' + i);
 							clipboard.on('success', function(e) {
-							    // console.info('Action:', e.action);
-							    // console.info('Text:', e.text);
-							    // console.info('Trigger:', e.trigger);
-							    layer.msg('复制成功')
-							    e.clearSelection();
+								// console.info('Action:', e.action);
+								// console.info('Text:', e.text);
+								// console.info('Trigger:', e.trigger);
+								layer.msg('复制成功')
+								e.clearSelection();
 							});
 
 							clipboard.on('error', function(e) {
 								// console.log(e);
-							    // console.error('Action:', e.action);
-							    // console.error('Trigger:', e.trigger);
+								// console.error('Action:', e.action);
+								// console.error('Trigger:', e.trigger);
 							});
 						});
 					}
@@ -1973,7 +2065,7 @@
 						}
 					}, function(d) {
 						if(d.total > 10){
-							COMMON.USER.linkManagement.renderList(d, 'list');
+							// COMMON.USER.linkManagement.renderList(d, 'list');
 							laypage({
 								cont: 'J_Paging',
 								pages: Math.ceil(d.total / d.per_page),
@@ -1984,11 +2076,19 @@
 								skip: true, //是否开启跳页
 								groups: 10, //连续显示分页数
 								jump: function(obj) {
-									COMMON.USER.linkManagement.getData({
-										page: obj.curr
-									});
+									if(COMMON.USER.linkManagement.firstTime){
+			                            COMMON.USER.linkManagement.renderList(d, 'list');
+			                            COMMON.USER.linkManagement.firstTime = 0;
+			                        } else {
+			                            COMMON.USER.linkManagement.getData({
+			                                page: obj.curr
+			                            });
+			                        }
 								}
 							});
+						} else {
+							$('#J_Paging').html('');
+							COMMON.USER.linkManagement.renderList(d, 'list');
 						}
 					});
 				},
@@ -2019,15 +2119,17 @@
 			},
 			// 下级管理
 			subordinateManagement: {
+				firstTime: 1,
 				init: function() {
-					setTimeout(function(){
-						$('#J_userNames').html('<span class="J_name">' + $('#J_headerUserName').data('n') + '</span>');
-					}, 200);
+					var _user = GLOBAL.COOKIE.getCookieItem('betUserInfo');
+					$('#J_userNames').html('<span class="J_name">' + _user.username + '</span>');
 					COMMON.USER.initDatePick();
 					this.bindEvent();
+					this.getList();
 				},
 				bindEvent: function() {
 					$('#J_searchListBtn').click(function() {
+						COMMON.USER.subordinateManagement.firstTime = 1;
 						COMMON.USER.subordinateManagement.getList();
 					});
 
@@ -2090,7 +2192,6 @@
 							page: option.page
 						}
 					}, function(d) {
-						COMMON.USER.subordinateManagement.renderList(d);
 						if(d.total > 10){
 							laypage({
 								cont: 'J_Paging',
@@ -2102,11 +2203,19 @@
 								skip: true, //是否开启跳页
 								groups: 10, //连续显示分页数
 								jump: function(obj) {
-									COMMON.USER.subordinateManagement.getData({
-										page: obj.curr
-									});
+									if(COMMON.USER.subordinateManagement.firstTime){
+			                            COMMON.USER.subordinateManagement.renderList(d);
+			                            COMMON.USER.subordinateManagement.firstTime = 0;
+			                        } else {
+			                            COMMON.USER.subordinateManagement.getData({
+			                                page: obj.curr
+			                            });
+			                        }
 								}
 							});
+						} else {
+							$('#J_Paging').html('');
+							COMMON.USER.subordinateManagement.renderList(d);
 						}
 					});
 				},
@@ -2135,15 +2244,17 @@
 			},
 			// 报表管理
 			reportManagement: {
+				firstTime: 1,
 				init: function() {
 					var _user = GLOBAL.COOKIE.getCookieItem('betUserInfo');
-					console.log(_user);
 					$('#J_userNames').html('<span class="J_name">' + _user.username + '</span>');
 					COMMON.USER.initDatePick();
 					this.bindEvent();
+					this.getList();
 				},
 				bindEvent: function() {
 					$('#J_searchListBtn').click(function() {
+						COMMON.USER.reportManagement.firstTime = 1;
 						COMMON.USER.reportManagement.getList();
 					});
 
@@ -2204,7 +2315,6 @@
 							page: option.page
 						}
 					}, function(d) {
-						COMMON.USER.reportManagement.renderList(d);
 						if(d.total > 10){
 							laypage({
 								cont: 'J_Paging',
@@ -2216,11 +2326,19 @@
 								skip: true, //是否开启跳页
 								groups: 10, //连续显示分页数
 								jump: function(obj) {
-									COMMON.USER.reportManagement.getData({
-										page: obj.curr
-									});
+									if(COMMON.USER.reportManagement.firstTime){
+			                            COMMON.USER.reportManagement.renderList(d);
+			                            COMMON.USER.reportManagement.firstTime = 0;
+			                        } else {
+			                            COMMON.USER.reportManagement.getData({
+			                                page: obj.curr
+			                            });
+			                        }
 								}
 							});
+						} else {
+							$('#J_Paging').html('');
+							COMMON.USER.reportManagement.renderList(d);
 						}
 					});
 				},
@@ -2247,12 +2365,16 @@
 			},
 			// 团队投注
 			teamBetting: {
+				firstTime: 1,
 				init: function() {
 					COMMON.USER.initDatePick();
+					COMMON.USER.renderLotteryTypeList();
 					this.bindEvent();
+					this.getList();
 				},
 				bindEvent: function(d){
 					$('#J_searchListBtn').click(function() {
+						COMMON.USER.teamBetting.firstTime = 1;
 						COMMON.USER.teamBetting.getList();
 					});
 				},
@@ -2279,15 +2401,23 @@
 				},
 				getList: function(option) {
 					option = option || {};
+					option.product_id = option.product_id || $('#J_LotteryTypeList').val() || '';
+					option.range = option.range || $('#J_range').val() || '';
+					option.periods_num = option.periods_num || $('#J_periods_num').val() || '';
 					option.username = option.username || $('#username').val() || '';
 					option.date_min = option.date_min || $('#J_startDay').val() || '';
 					option.date_max = option.date_max || $('#J_endDay').val() || '';
 					option.pageSize = option.pageSize || 10;
 					option.page = option.page || 1;
+					option.id = option.id || $('#J_orderId').val();
 
 					GLOBAL.getAjaxData({
 						url: '/invite/bet',
 						data: {
+							product_id: option.product_id,
+							id: option.id,
+							range: option.range,
+							periods_num: option.periods_num,
 							username: option.username,
 							date_min: option.date_min,
 							date_max: option.date_max,
@@ -2295,7 +2425,6 @@
 							page: option.page
 						}
 					}, function(d) {
-						COMMON.USER.teamBetting.renderList(d);
 						if(d.total > 10){
 							laypage({
 								cont: 'J_Paging',
@@ -2307,25 +2436,41 @@
 								skip: true, //是否开启跳页
 								groups: 10, //连续显示分页数
 								jump: function(obj) {
-									COMMON.USER.teamBetting.getData({
-										page: obj.curr
-									});
+									if(COMMON.USER.teamBetting.firstTime){
+			                            COMMON.USER.teamBetting.renderList(d);
+			                            COMMON.USER.teamBetting.firstTime = 0;
+			                        } else {
+			                            COMMON.USER.teamBetting.getData({
+			                                page: obj.curr
+			                            });
+			                        }
 								}
 							});
+						} else {
+							$('#J_Paging').html('');
+							COMMON.USER.teamBetting.renderList(d);
 						}
 					});
 				},
 				getData: function(option){
 					option = option || {};
-					// option.status = option.status || $('#J_status').val() || '';
+					option.product_id = option.product_id || $('#J_LotteryTypeList').val() || '';
+					option.range = option.range || $('#J_range').val() || '';
+					option.periods_num = option.periods_num || $('#J_periods_num').val() || '';
+					option.username = option.username || $('#username').val() || '';
 					option.date_min = option.date_min || $('#J_startDay').val() || '';
 					option.date_max = option.date_max || $('#J_endDay').val() || '';
 					option.pageSize = option.pageSize || 10;
 					option.page = option.page || 1;
-					option.username = option.username || $('#username').val() || '';
+					option.id = option.id || $('#J_orderId').val();
+
 					GLOBAL.getAjaxData({
 						url: '/invite/bet',
 						data: {
+							product_id: option.product_id,
+							id: option.id,
+							range: option.range,
+							periods_num: option.periods_num,
 							username: option.username,
 							date_min: option.date_min,
 							date_max: option.date_max,
@@ -2392,17 +2537,17 @@
 			},
 			getBetHistory: function(options) {
 				options = options || {};
-	            options.page = options.page || 1;
-	            options.pageSize = options.pageSize || 30;
+				options.page = options.page || 1;
+				options.pageSize = options.pageSize || 30;
 
 				 GLOBAL.getAjaxData({
-	                url: '/bet/lists',
-	                data: {
-	                    page: options.page,
-	                    pageSize: options.pageSize
-	                }
-	            }, function(data) {
-	            });
+					url: '/bet/lists',
+					data: {
+						page: options.page,
+						pageSize: options.pageSize
+					}
+				}, function(data) {
+				});
 			},
 			draw: function(a) {
 				COMMON.CHART.clearCanvas();
@@ -2521,14 +2666,14 @@
 						_str += '	<div class="lastDetail-wrp po-middle">';
 						_str += '        <ul class="J_chartLastTd">';
 						if(_lottery_num[2] == _lottery_num[3] && _lottery_num[3] == _lottery_num[4]){
-		                    _str += '<li class="orangeCheck J_wss1"></li><li class="J_wss2">1</li><li class="J_wss3">1</li>';
-		                } else {
-			                if(_lottery_num[2] == _lottery_num[3] || _lottery_num[2] == _lottery_num[4] || _lottery_num[3] == _lottery_num[4]) {
-			                    _str += '<li class="J_wss1">1</li><li class="bleCheck J_wss2"></li><li class="J_wss3">1</li>';
-			                } else {
-			                    _str += '<li class="J_wss1">1</li><li class="J_wss2">1</li><li class="orangeCheck J_wss3"></li>';
-			                }
-		                }
+							_str += '<li class="orangeCheck J_wss1"></li><li class="J_wss2">1</li><li class="J_wss3">1</li>';
+						} else {
+							if(_lottery_num[2] == _lottery_num[3] || _lottery_num[2] == _lottery_num[4] || _lottery_num[3] == _lottery_num[4]) {
+								_str += '<li class="J_wss1">1</li><li class="bleCheck J_wss2"></li><li class="J_wss3">1</li>';
+							} else {
+								_str += '<li class="J_wss1">1</li><li class="J_wss2">1</li><li class="orangeCheck J_wss3"></li>';
+							}
+						}
 
 						_str += '            <li>'+ (Number(_lottery_num[2]) + Number(_lottery_num[3]) + Number(_lottery_num[4])) +'</li>';
 						_str += '        </ul>';
@@ -2787,19 +2932,19 @@
 							_str += '		<li>'+ (Number(_lottery_num[0]) + Number(_lottery_num[1]) + Number(_lottery_num[2])) +'</li>';
 
 							if(_lottery_num[0] == _lottery_num[1] && _lottery_num[1] == _lottery_num[2]){
-		                    	_str += '<li class="orangeCheck J_wss1"></li><li class="J_wss2">1</li><li class="J_wss3">1</li>';
-			                } else {
-				                if(_lottery_num[0] == _lottery_num[1] || _lottery_num[0] == _lottery_num[2] || _lottery_num[1] == _lottery_num[2]) {
-				                    _str += '<li class="J_wss1">1</li><li class="bleCheck J_wss2"></li><li class="J_wss3">1</li>';
-				                } else {
-				                    _str += '<li class="J_wss1">1</li><li class="J_wss2">1</li><li class="orangeCheck J_wss3"></li>';
-				                }
-			                }
-			                if(isConnection(_lottery_num)){
-			                	_str += '<li class="bleCheck J_wss4"></li>';
-			                } else {
-			                	_str += '<li class="J_wss4">1</li>';
-			                }
+								_str += '<li class="orangeCheck J_wss1"></li><li class="J_wss2">1</li><li class="J_wss3">1</li>';
+							} else {
+								if(_lottery_num[0] == _lottery_num[1] || _lottery_num[0] == _lottery_num[2] || _lottery_num[1] == _lottery_num[2]) {
+									_str += '<li class="J_wss1">1</li><li class="bleCheck J_wss2"></li><li class="J_wss3">1</li>';
+								} else {
+									_str += '<li class="J_wss1">1</li><li class="J_wss2">1</li><li class="orangeCheck J_wss3"></li>';
+								}
+							}
+							if(isConnection(_lottery_num)){
+								_str += '<li class="bleCheck J_wss4"></li>';
+							} else {
+								_str += '<li class="J_wss4">1</li>';
+							}
 							_str += '</ul></div></div>';
 					});
 
@@ -3032,19 +3177,19 @@
 				// var str = "121211112122222121111111222";
 				// getMaxLen(str,/11+/ig)
 				/**
-				    var str 需要查询的字符串
-				    var regexp  正则表达式
-				    return maxLen 
+					var str 需要查询的字符串
+					var regexp  正则表达式
+					return maxLen 
 				*/
 				function getMaxLen(str,regexp){
-				    var maxLen = 0;
-				    var result = str.match(regexp) || [];
-				    for(var i=0; i<result.length; i++){
-				        if(result[i].length > maxLen){
-				            maxLen = result[i].length;
-				        }
-				    }
-				    return maxLen;
+					var maxLen = 0;
+					var result = str.match(regexp) || [];
+					for(var i=0; i<result.length; i++){
+						if(result[i].length > maxLen){
+							maxLen = result[i].length;
+						}
+					}
+					return maxLen;
 				};
 			},
 			renderPK10Chart: function(data) {

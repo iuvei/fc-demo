@@ -52,7 +52,7 @@ body .laydate_box .laydate_top {
 .laydate_body .laydate_table .laydate_nothis{color:#999;}
 .laydate_body .laydate_table thead{height:21px!important; line-height:21px!important;}
 .laydate_body .laydate_table thead th{border-bottom:1px solid #ccc;}
-.laydate_body .laydate_bottom{border-bottom:1px solid #C6C6C6;}
+.laydate_body .laydate_bottom{border-bottom:1px solid #C6C6C6;height: 32px;}
 .laydate_body .laydate_bottom #laydate_hms{background-color:#fff;}
 .laydate_body .laydate_time{background-color:#fff;}
 .laydate_body .laydate_bottom .laydate_sj{border-right:1px solid #C6C6C6; background-color:#F6F6F6;}
@@ -67,5 +67,3 @@ body .laydate_box .laydate_top {
 .laydate_body .laydate_y .laydate_yms ul li:hover,
 .laydate_body .laydate_table td:hover,
 .laydate_body .laydate_time .laydate_hmsno span:hover{background-color:#F3F3F3}
-
-

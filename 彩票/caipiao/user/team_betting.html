@@ -134,8 +134,10 @@
 					</div>
 					<div class="user-s-tt">范围：</div>
 					<div class="user-s-sel">
-						<select name="" id="">
-							<option value="">全部</option>
+						<select id="J_range">
+                            <option value="all">全部</option>
+                            <option value="sub">下级</option>
+							<option value="self">自己</option>
 						</select>
 					</div>
 					<div class="user-s-tt">日期：</div>
@@ -148,25 +150,35 @@
 				</div>
 				<div class="user-search clearfix betting-search">
 					<div class="user-s-tt">彩种：</div>
-					<div class="user-s-inp">
-						<input type="text">
+					<div class="user-s-sel">
+                        <select id="J_LotteryTypeList"></select>
 					</div>
 					<div class="user-s-tt">订单：</div>
 					<div class="user-s-inp">
-						<input type="text">
+						<input type="text" id="J_orderId">
 					</div>
 					<div class="user-s-tt">期号：</div>
 					<div class="user-s-inp">
-						<input type="text">
+						<input type="text" id="J_periods_num">
 					</div>
 					<div class="user-s-tt">状态：</div>
 					<div class="user-s-sel">
-						<select id="J_teamStatus">
+						<!-- <select id="J_teamStatus">
 							<option value="">全部</option>
 							<option value="wait">等待支付</option>
 							<option value="winning">中奖</option>
 							<option value="regret">未中奖</option>
-						</select>
+						</select> -->
+
+                        <select id="J_teamStatus">
+                            <option value="">全部</option>
+                            <option value="wait">等待支付</option>
+                            <option value="pay">已经支付</option>
+                            <option value="expire">过期</option>
+                            <option value="retreat">撤销</option>
+                            <option value="regret">未中奖</option>
+                            <option value="winning">中奖</option>
+                        </select>
 					</div>
 				</div>
 
@@ -218,7 +230,6 @@
 	<script src="../js/common.js"></script>
 	<script>
 		$(function(){
-			$('select').chosen();
 			COMMON.USER.teamBetting.init();
 		});
 	</script>
