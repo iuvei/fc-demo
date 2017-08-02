@@ -659,6 +659,9 @@ $(function() {
                     content : $('#J_chase').html(),
                     success : function(layero, index) {
                         $('.J_betTimer').html($('.J_betTimer').html());
+                        var _logo = $('.below-header .J_productLogo').attr('src');
+                        console.log(_logo);
+                        $('.J_productLogo').attr('src', _logo);
                         if(!_hasProfit){
                             $('#J_chaseTt span').eq(2).hide();
 

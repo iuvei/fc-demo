@@ -1183,39 +1183,24 @@
 						var _email = $('#email').val();
 
 						if (!_payee) {
-							layer.alert('请输入提款人姓名！', {
-								skin: 'bett-alert-dialog',
-								icon: 2
-							});
+							GLOBAL.alert('请输入提款人姓名！');
 							return false;
 						}
 						if (_fund_password.length < 6 || _fund_password.length > 18) {
-							layer.alert('请输入6-18位资金密码！', {
-								skin: 'bett-alert-dialog',
-								icon: 2
-							});
+							GLOBAL.alert('请输入6-18位资金密码！');
 							return false;
 						}
 						if (!_confirm_fund_password) {
-							layer.alert('请输入确认资金密码！', {
-								skin: 'bett-alert-dialog',
-								icon: 2
-							});
+							GLOBAL.alert('请输入确认资金密码！');
 							return false;
 						}
 						if (!_email) {
-							layer.alert('请输入安全邮箱！', {
-								skin: 'bett-alert-dialog',
-								icon: 2
-							});
+							GLOBAL.alert('请输入安全邮箱！');
 							return false;
 						}
 
 						if (_fund_password != _confirm_fund_password) {
-							layer.alert('确认资金密码必需与资金密码一致', {
-								skin: 'bett-alert-dialog',
-								icon: 2
-							});
+							GLOBAL.alert('确认资金密码必需与资金密码一致');
 							$('#fund_password,#confirm_fund_password').val('');
 							return false;
 						}
@@ -1234,11 +1219,7 @@
 							url: '/user/perfect',
 							data: _data
 						}, function(data) {
-							layer.alert('我的资料修改成功', {
-								skin: 'bett-alert-dialog',
-								icon: 1,
-								time: 2000
-							});
+							GLOBAL.alert('我的资料修改成功', 2000, 1);
 							COMMON.USER.profile.detail();
 						});
 					});
@@ -1502,11 +1483,12 @@
 			},
 			// 追号订单内容
 			chaseOrder: {
+				firstTime2: 1,
 				init: function() {
 					var _id = Number(GLOBAL.getRequestURL().id);
 					this.bindEvent();
 					this.renderDeatil(_id);
-					this.getData2(_id);
+					this.getList2();
 				},
 				bindEvent: function() {
 					// $('.J_chaseOrderTt').click(function(){
@@ -1625,13 +1607,54 @@
 						COMMON.USER.chaseOrder.renderList(d);
 					});
 				},
-				getData2: function(option){
+				getList2: function(option) {
 					option = option || {};
-					option.pageSize = option.pageSize || 1;
-					option.page = option.page || 10;
+					option.pageSize = option.pageSize || 10;
+					option.page = option.page || 1;
 					GLOBAL.getAjaxData({
 						url: '/bet/lists',
 						data: {
+							bet_chase_id: Number(GLOBAL.getRequestURL().id),
+							pageSize: option.pageSize,
+                            page: option.page
+						}
+					}, function(d) {
+						if(d.total > 10){
+							laypage({
+								cont: 'J_Paging',
+								pages: Math.ceil(d.total / d.per_page),
+								prev: '<',
+								next: '>',
+								first: false,
+								last: false,
+								skip: true, //是否开启跳页
+								groups: 10, //连续显示分页数
+								jump: function(obj) {
+									if(COMMON.USER.chaseOrder.firstTime2){
+                                        COMMON.USER.chaseOrder.renderList2(d);
+                                        COMMON.USER.chaseOrder.firstTime2 = 0;
+                                    } else {
+                                        COMMON.USER.chaseOrder.getData2({
+                                            page: obj.curr
+                                        });
+                                    }
+								}
+							});
+						} else {
+							$('#J_Paging').html('');
+							COMMON.USER.chaseOrder.renderList(d);
+						}
+					});
+				},
+				getData2: function(option){
+					option = option || {};
+					option.pageSize = option.pageSize || 10;
+					option.page = option.page || 1;
+					GLOBAL.getAjaxData({
+						url: '/bet/lists',
+						data: {
+							pageSize: option.pageSize,
+                            page: option.page,
 							bet_chase_id: Number(GLOBAL.getRequestURL().id)
 						}
 					}, function(d) {
@@ -1661,7 +1684,11 @@
 					if (data.total > 0){
 						$.each(data.data, function(i, n){
 							_str += '<li>';
-							_str += '    <div class="t1"><em class="J_chaseChose" data-id="'+ n.order_id +'"></em></div>';
+							if(n.status == 'pay'){
+								_str += '    <div class="t1"><em class="J_chaseChose" data-id="'+ n.order_id +'"></em></div>';
+							}else{
+								_str += '    <div class="t1">&nbsp;</div>';
+							}
 							_str += '    <div class="t2">'+ n.periods.date.replace(/\-/g,'') + '-'+ COMMON.fillLenght(n.periods.num, 3, '0') +'</div>';
 							_str += '    <div class="t3">'+ (n.periods.lottery_num ?n.periods.lottery_num : '-') +'</div>';
 							_str += '    <div class="t4">'+ COMMON.USER.converWinningStatus(n.status) +'</div>';
@@ -1693,46 +1720,47 @@
 				},
 				getList: function(option) {
 					option = option || {};
-					option.pageSize = option.pageSize || 1;
-					option.page = option.page || 10;
+					option.pageSize = option.pageSize || 10;
+					option.page = option.page || 1;
 
 					GLOBAL.getAjaxData({
 						url: '/bet/items',
 						data: {
-							id: Number(GLOBAL.getRequestURL().id)
+							id: Number(GLOBAL.getRequestURL().id),
+							pageSize: option.pageSize,
+                            page: option.page
 						}
 					}, function(d) {
-						COMMON.USER.chaseDetail.renderList(d);
-						// if(d.total > 10){
-						// 	laypage({
-						// 		cont: 'J_Paging',
-						// 		pages: Math.ceil(d.total / d.per_page),
-						// 		prev: '<',
-						// 		next: '>',
-						// 		first: false,
-						// 		last: false,
-						// 		skip: true, //是否开启跳页
-						// 		groups: 10, //连续显示分页数
-						// 		jump: function(obj) {
-						// 			if(COMMON.USER.chaseDetail.firstTime){
-						// 				COMMON.USER.chaseDetail.renderList(d);
-						// 				COMMON.USER.chaseDetail.firstTime = 0;
-						// 			} else {
-						// 				COMMON.USER.chaseDetail.getData({
-						// 					page: obj.curr
-						// 				});
-						// 			}
-						// 		}
-						// 	});
-						// } else{
-						// 	COMMON.USER.chaseDetail.renderList(d);
-						// }
+						if(d.total > 10){
+							laypage({
+								cont: 'J_Paging',
+								pages: Math.ceil(d.total / d.per_page),
+								prev: '<',
+								next: '>',
+								first: false,
+								last: false,
+								skip: true, //是否开启跳页
+								groups: 10, //连续显示分页数
+								jump: function(obj) {
+									if(COMMON.USER.chaseDetail.firstTime){
+										COMMON.USER.chaseDetail.renderList(d);
+										COMMON.USER.chaseDetail.firstTime = 0;
+									} else {
+										COMMON.USER.chaseDetail.getData({
+											page: obj.curr
+										});
+									}
+								}
+							});
+						} else{
+							COMMON.USER.chaseDetail.renderList(d);
+						}
 					});
 				},
 				getData: function(option){
 					option = option || {};
-					option.pageSize = option.pageSize || 1;
-					option.page = option.page || 10;
+					option.pageSize = option.pageSize || 10;
+					option.page = option.page || 1;
 					GLOBAL.getAjaxData({
 						url: '/bet/items',
 						data: {
@@ -1808,11 +1836,12 @@
 					if (data.total > 0){
 						$.each(data.data, function(i, n){
 							_str += '<li>';
-							_str += '    <div class="t1">'+ n.comment +'</div>';
-							_str += '    <div class="t2">'+ n.id +'</div>';
-							_str += '    <div class="t3">'+ (n.form == 'expend'? '支出' : '收入') +'</div>';
+							_str += '    <div class="t1">'+ n.id +'</div>';
+							_str += '    <div class="t2">'+ (n.form == 'expend'? '支出' : '收入') +'</div>';
+							_str += '    <div class="t3">'+ n.created +'</div>';
 							_str += '    <div class="t4">'+ n.num +'</div>';
-							_str += '    <div class="t5">-</div>';
+							_str += '    <div class="t5">'+ n.comment +'</div>';
+							// _str += '    <div class="t6">-</div>';
 							_str += '</li>';
 						});					
 					} else {
@@ -1891,7 +1920,11 @@
 			// 登录密码 / 资金密码
 			password: {
 				init: function(type){
+					var _user = GLOBAL.COOKIE.getCookieItem('betUserInfo');
 					this.bindEvent(type);
+					if(type == 'fund' && _user.set_fund_password){
+						$('#J_set_fund_password').removeClass('hide');
+					}
 				},
 				bindEvent: function(type){
 					$('#J_confirmBtn').click(function(){
@@ -1899,12 +1932,7 @@
 						var password = $('#password').val();
 						var confirm_password = $('#confirm_password').val();
 
-						if (type == 'fund') {
-							//TODO: 如果有原密码则必填，修改登录密码时必填，修改资金安全密码时需要核查用户详情是否设置资金密码状态。
-							
-						}
-
-						if (!old_password) {
+						if (!old_password && type == 'login' || !old_password && type == 'fund' && !$('#J_set_fund_password').hasClass('hide')) {
 							GLOBAL.alert('请输入旧密码！');
 							return false;
 						}
@@ -1942,7 +1970,7 @@
 							}
 						}, function(data) {
 							var _msg = '登录密码修改成功'
-							if (type == '') {
+							if (type == 'fund') {
 								_msg = '资金密码修改成功';
 							}
 
