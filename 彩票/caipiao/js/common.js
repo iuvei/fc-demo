@@ -1985,6 +1985,78 @@
 					});
 				}
 			},
+			// 精准注册
+			accurateRegistration: {
+				init: function() {
+					$('#J_inviteType span').click(function(){
+						$(this).addClass('active').siblings().removeClass('active');
+					});
+
+					$('#J_promotionChannels').on('change',function(){
+						var _val = $(this).val();
+						if(!_val){
+							$('#J_zdyChannels').removeClass('hide');
+						} else {
+							$('#J_zdyChannels').addClass('hide');
+						}
+					});
+
+					$('#J_confirmBtn').click(function(){
+						var _type = $('#J_inviteType span.active').data('t');
+						var _term_at = $('#J_term').val();
+						var _channel = $('#J_promotionChannels').val();
+						var _zdy = $('#J_zdyChannelsVal').val();
+						// /invite/add
+						if(!_channel){
+							_channel = _zdy;
+						}
+						if(!_channel && !_zdy){
+							GLOBAL.alert('请填写推广渠道');
+							return false;
+						}
+
+						GLOBAL.getAjaxData({
+							url: '/invite/add',
+							data: {
+								type : _type,
+								term_at : _term_at,
+								channel : _channel
+							}
+						}, function(data) {
+							var _nowUrl = window.location.protocol + '//'+ window.location.host;
+							layer.confirm(data.title, {
+								icon: 2,
+								closeBtn: 0,
+								maxWidth: '520px',
+								btn: ['复制并关闭', '到链接管理']
+							}, function(index) {
+								$('.layui-layer-btn0').attr('data-clipboard-text', _nowUrl +'/register.html?code='+ data.info.code);
+								// $('.layui-layer-btn0')
+
+								var clipboard = new Clipboard('.layui-layer-btn0');
+	                            clipboard.on('success', function(e) {
+	                                // console.info('Action:', e.action);
+	                                // console.info('Text:', e.text);
+	                                // console.info('Trigger:', e.trigger);
+	                                layer.msg('复制成功')
+	                                e.clearSelection();
+	                            });
+
+	                            clipboard.on('error', function(e) {
+	                                // console.log(e);
+	                                // console.error('Action:', e.action);
+	                                // console.error('Trigger:', e.trigger);
+	                            });
+
+								// layer.close(index);
+							}, function(index) {
+								window.location.href = 'link_management.html';
+								return false;
+							});
+						});
+					});
+				}
+			},
 			// 链接注册
 			linkRegistration: {
 				init: function() {
@@ -1994,6 +2066,44 @@
 
 					$('#J_confirmBtn').click(function(){
 						var _type = $('#J_inviteType span.active').data('t');
+					});
+
+					$('#J_confirmBtn').click(function(){
+						var _type = $('#J_inviteType span.active').data('t');
+						var _username = $('#J_username').val();
+						var _password = $('#J_password').val();
+
+						if(!_username){
+							GLOBAL.alert('请填写注册账号');
+							return false;
+						}
+
+						if(2 > _username.length || _username.length > 30){
+							GLOBAL.alert('注册账号必须在 2 和 30 字符之间');
+							return false;
+						}
+
+						if(!_password){
+							GLOBAL.alert('请填写登录密码');
+							return false;
+						}
+
+						if(6 > _password.length || _password.length > 18){
+							GLOBAL.alert('登录密码必须在 6 和 18 字符之间');
+							return false;
+						}
+						
+						GLOBAL.getAjaxData({
+							url: '/user/add',
+							data: {
+								type : _type,
+								username : _username,
+								password : _password
+							}
+						}, function(data) {
+							GLOBAL.alert('注册成功', 2000, 1);
+							$('#J_username,#J_password').val('');
+						});
 					});
 				}
 			},

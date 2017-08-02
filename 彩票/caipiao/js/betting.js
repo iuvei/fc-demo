@@ -2219,6 +2219,7 @@ $(function() {
                 }
             }, function(data) {
                 var _str = '';
+                var _url = GLOBAL.getRequestURL();
 
                 // console.log(Betting.playCode);
 
@@ -2228,7 +2229,11 @@ $(function() {
                         _str += '    <div class="t1">'+ n.product.name +'</div>';
                         _str += '    <div class="t2"><a class="text-l-color" href="user/chase_detail.html?source=betting&id='+ n.order_id +'">'+ n.order_id +'</a></div>';
                         _str += '    <div class="t3">'+ n.created +'</div>';
-                        _str += '    <div class="t4">'+ n.periods.date +'-'+ n.periods.num +'</div>';
+                        if(_url.name.indexOf('beijing') > -1){
+                            _str += '    <div class="t4">'+ n.periods.num +'</div>';
+                        }else{
+                            _str += '    <div class="t4">'+ n.periods.date.replace(/\-/g, '') +'-'+ COMMON.fillLenght(n.periods.num, 3, '0') +'</div>';
+                        }
                         _str += '    <div class="t5">'+ (n.periods.lottery_num ? n.periods.lottery_num : '-') +'</div>';
                         _str += '    <div class="t6">'+ n.money +'</div>';
                         _str += '    <div class="t7">'+ n.bonus +'</div>';

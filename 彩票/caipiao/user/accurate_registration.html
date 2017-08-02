@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>链接注册</title>
+    <title>精准注册</title>
     <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/chose.css">
     <link rel="stylesheet" href="../css/user_common.css">
     <link rel="stylesheet" href="../css/skin/default.css" id="J_skinCss">
 </head>
@@ -106,8 +107,8 @@
             </dl>
             <dl class="open">
                 <dt><em class="icon icon-dl"></em><span>代理</span><i class="icon"></i></dt>
-                <dd><a href="../user/accurate_registration.html">精准注册</a></dd>
-                <dd><a href="../user/link_registration.html" class="active">链接注册</a></dd>
+                <dd><a href="../user/accurate_registration.html" class="active">精准注册</a></dd>
+                <dd><a href="../user/link_registration.html">链接注册</a></dd>
                 <dd><a href="../user/link_management.html">链接管理</a></dd>
                 <dd><a href="../user/subordinate_management.html">下级管理</a></dd>
                 <dd><a href="../user/report_management.html">报表管理</a></dd>
@@ -124,7 +125,7 @@
         <div class="user-content fl">
             <div class="user-con">
                 <div class="user-tt">
-                    <span>链接注册</span>
+                    <span>精准注册</span>
                 </div>
 
                 <div class="user-link-reg clearfix rel">
@@ -133,13 +134,28 @@
                         <div class="link-reg-con" id="J_inviteType">
                             <span data-t="member" class="active">会员</span><span data-t="agent">代理</span>
                         </div>
-                        <div class="link-reg-tt">注册账号：</div>
-                        <div class="link-reg-con">
-                            <input type="text" id="J_username">
+                        <div class="link-reg-tt">设置期限：</div>
+                        <div class="link-reg-sel">
+                            <!-- <input type="text"> -->
+                            <select id="J_term" style="width:120px;">
+                                <option value="">永久有效</option>
+                                <option value="1day">1天</option>
+                                <option value="7day">7天</option>
+                                <option value="30day">30天</option>
+                                <option value="1year">1年</option>
+                            </select>
                         </div>
-                        <div class="link-reg-tt">登录密码：</div>
-                        <div class="link-reg-con">
-                            <input type="password" id="J_password">
+                        <div class="link-reg-tt">推广渠道：</div>
+                        <div class="link-reg-sel">
+                            <!-- <input type="text"> -->
+                            <select id="J_promotionChannels" style="width:120px;">
+                                <option value="论坛">论坛</option>
+                                <option value="QQ">QQ群</option>
+                                <option value="">自定义</option>
+                            </select>
+                        </div>
+                        <div class="link-reg-con hide" id="J_zdyChannels">
+                            <input type="text" id="J_zdyChannelsVal">
                         </div>
                     </div>
 
@@ -202,13 +218,16 @@
     </div>
 
     <script src="../js/jquery-1.11.1.min.js"></script>
+    <script src="../js/clipboard.min.js"></script>
+    <script src="../js/chosen.jquery.min.js"></script>
     <script src="../js/jquery.cookie.js"></script>
     <script src="../js/layer/layer.js"></script>
     <script src="../js/GLOBAL.js"></script>
     <script src="../js/common.js"></script>
     <script>
         $(function(){
-            COMMON.USER.linkRegistration.init();
+            $('select').chosen();
+            COMMON.USER.accurateRegistration.init();
         });
     </script>
 </body>
