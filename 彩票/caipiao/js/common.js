@@ -2149,7 +2149,7 @@
 							_str += '    <div class="t4">'+ (n.type == 'member' ? '会员' : '代理') +'</div>';
 							_str += '    <div class="t5">'+ (n.status == 'normal'? '正常' : '取消') +'</div>';
 							_str += '    <div class="t6">'+ n.created +'</div>';
-							_str += '    <div class="t7">'+ n.term_at +'</div>';
+							_str += '    <div class="t7">'+ (n.term_at ? n.term_at : '-') +'</div>';
 							if(n.status == 'normal'){
 								_str += '<div class="t8 J_delLink" data-id="'+ n.id +'">删除</div>';
 							}else{

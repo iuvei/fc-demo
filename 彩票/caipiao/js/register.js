@@ -91,10 +91,10 @@ $(function() {
                 confirm_password: confirm_password
             },
             beforeSend: function(XMLHttpRequest) {
-                $("#registerBtn").val('正在登录...');
+                $("#registerBtn").val('正在注册...');
             }
         }, function(data) {
-            if (data == '登录成功') {
+            if (data.title == '注册成功') {
                 layer.confirm('注册成功', {
                     icon: 1,
                     closeBtn: 0,
@@ -103,6 +103,10 @@ $(function() {
                 }, function(index) {
                     window.location.href = '/login.html';
                 });
+            }
+        }, function(data) {
+            if(data.title == '注册失败'){
+                GLOBAL.alert(data.info[0]);
             }
         });
     }
