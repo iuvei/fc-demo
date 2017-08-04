@@ -945,8 +945,8 @@ $(function() {
                 _price = $('#J_selectionBallAmount').text();
             }
 
-            console.log(_data);
-            return;
+            // console.log(_data);
+            // return;
             layer.confirm('<h4>请确认投注信息</h4><p style="    line-height: 40px;">'+ $('#J_productName').val() +' 第'+ $('.J_betTimer').eq(0).text() +'期</p><p style="text-align: left;padding-left: 95px;"><span style="display: inline-block;width: 80px;">注数：</span>'+ _num +'注</p><p style="text-align: left;padding-left: 95px;"><span>投注金额：</span>'+ _price +'</p><p style="text-align: left;padding-left: 95px;"><span>是否追号：</span>'+ ($('#J_chaseFooterCheck').hasClass('active') ? '是' : '否') +'</p>', {
                 icon: 2,
                 closeBtn: 0,
@@ -1526,7 +1526,11 @@ console.log('-=======')
                         }
                     }
                     if(_ddd.w == '#'){
-                        _ddd.w = '';
+                        if(_subNav == 'Any1' || _subNav == 'Any2' || _subNav == 'Any3' || _subNav == 'Any4'){
+                            _ddd.w = '@';
+                        }else{
+                            _ddd.w = '';
+                        }
                         if (type == undefined) {
                             _need += 'w#';
                         }
@@ -1574,7 +1578,12 @@ console.log('-=======')
                         }
                     }
                     if(_ddd.q == '#'){
-                        _ddd.q = '';
+                        // _ddd.q = '';
+                        if(_subNav == 'Any1' || _subNav == 'Any2' || _subNav == 'Any3' || _subNav == 'Any4'){
+                            _ddd.q = '@';
+                        }else{
+                            _ddd.q = '';
+                        }
                         if (type == undefined) {
                             _need += 'q#';
                         }
@@ -1622,7 +1631,12 @@ console.log('-=======')
                     }
 
                     if(_ddd.b == '#'){
-                        _ddd.b = '';
+                        if(_subNav == 'Any1' || _subNav == 'Any2' || _subNav == 'Any3' || _subNav == 'Any4'){
+                            _ddd.b = '@';
+                        }else{
+                            _ddd.b = '';
+                        }
+                        // _ddd.b = '';
                         if (type == undefined) {
                             _need += 'b#';
                         }
@@ -1669,7 +1683,12 @@ console.log('-=======')
                         }
                     }
                     if(_ddd.s == '#'){
-                        _ddd.s = '';
+                        if(_subNav == 'Any1' || _subNav == 'Any2' || _subNav == 'Any3' || _subNav == 'Any4'){
+                            _ddd.s = '@';
+                        }else{
+                            _ddd.s = '';
+                        }
+                        // _ddd.s = '';
                         if (type == undefined) {
                             _need += 's#';
                         }
@@ -1716,7 +1735,12 @@ console.log('-=======')
                         }
                     }
                     if(_ddd.g == '#'){
-                        _ddd.g = '';
+                        if(_subNav == 'Any1' || _subNav == 'Any2' || _subNav == 'Any3' || _subNav == 'Any4'){
+                            _ddd.g = '@';
+                        }else{
+                            _ddd.g = '';
+                        }
+                        // _ddd.g = '';
                         if (type == undefined) {
                             _need += 'g';
                         }
@@ -1895,32 +1919,32 @@ console.log('-=======')
                     // console.log(k);
                     var _html = '';
                     if (k.w) {
-                        if(k.ajaxType == 'any3' || k.ajaxType == 'any4' || k.ajaxType == 'sizeB5' || k.ajaxType == 'sizeA5'){
-                            _html += k.w;
-                        } else {
+                        // if(k.ajaxType == 'any3' || k.ajaxType == 'any4' || k.ajaxType == 'sizeB5' || k.ajaxType == 'sizeA5'){
+                            // _html += k.w;
+                        // } else {
                             _html += k.w + (k.q ? ' | ' : '');
-                        }
+                        // }
                     }
                     if (k.q) {
-                        if(k.ajaxType == 'any3' || k.ajaxType == 'any4' || k.ajaxType == 'sizeB5' || k.ajaxType == 'sizeA5'){
-                            _html += k.q;
-                        } else {
+                        // if(k.ajaxType == 'any3' || k.ajaxType == 'any4' || k.ajaxType == 'sizeB5' || k.ajaxType == 'sizeA5'){
+                            // _html += k.q;
+                        // } else {
                             _html += k.q + (k.b ? ' | ' : '');
-                        }
+                        // }
                     }
                     if (k.b) {
-                        if(k.ajaxType == 'any3' || k.ajaxType == 'any4' || k.ajaxType == 'sizeB5' || k.ajaxType == 'sizeA5'){
-                            _html += k.b;
-                        } else {
+                        // if(k.ajaxType == 'any3' || k.ajaxType == 'any4' || k.ajaxType == 'sizeB5' || k.ajaxType == 'sizeA5'){
+                            // _html += k.b;
+                        // } else {
                             _html += k.b + (k.s ? ' | ' : '');
-                        }
+                        // }
                     }
                     if (k.s) {
-                        if(k.ajaxType == 'any3' || k.ajaxType == 'any4' || k.ajaxType == 'sizeB5' || k.ajaxType == 'sizeA5'){
-                            _html += k.s;
-                        } else {
+                        // if(k.ajaxType == 'any3' || k.ajaxType == 'any4' || k.ajaxType == 'sizeB5' || k.ajaxType == 'sizeA5'){
+                            // _html += k.s;
+                        // } else {
                             _html += k.s + (k.g ? ' | ' : '');
-                        }
+                        // }
                     }
                     if (k.g) {
                         _html += k.g;
@@ -2182,8 +2206,18 @@ console.log('-=======')
                         } else {
                             $.each(_need.split('#'), function(i, n){
                                 if (n) {
-                                    _ajaxData[n] = _this.data(n) + '';
-                                    _ajaxData[n] = _ajaxData[n].split('').sort().join('');
+                                    if(_subNav == 'Any1' || _subNav == 'Any2' || _subNav == 'Any3' || _subNav == 'Any4'){
+                                        if(_this.data(n) == '@'){
+                                            _ajaxData[n] = '';
+                                            // _ajaxData[n] = _ajaxData[n].split('').sort().join('');
+                                        }else {
+                                            _ajaxData[n] = _this.data(n) + '';
+                                            _ajaxData[n] = _ajaxData[n].split('').sort().join('');
+                                        }
+                                    } else{
+                                        _ajaxData[n] = _this.data(n) + '';
+                                        _ajaxData[n] = _ajaxData[n].split('').sort().join('');
+                                    }
                                 }
                             });
                         }
@@ -2498,7 +2532,15 @@ console.log('-=======')
                 } else {
                     $.each(_data[0].need.split('#'), function(i, n){
                         if (n) {
-                            _ajaxData[n] = _data[0][n];
+                            if(_subNav == 'Any1' || _subNav == 'Any2' || _subNav == 'Any3' || _subNav == 'Any4'){
+                                if(_data[0][n] == '@'){
+                                    _ajaxData[n] = '';
+                                }else{
+                                    _ajaxData[n] = _data[0][n];
+                                }
+                            }else{
+                                _ajaxData[n] = _data[0][n];
+                            }
                         }
                     });
                 }
@@ -2746,6 +2788,9 @@ console.log('-=======')
                             }
                         } else {
                             _d.w = $('[data-row="FIRST"] .J_numWrp.active').text();
+                            if(!_d.w && (_subNav == 'Any1' || _subNav == 'Any2' || _subNav == 'Any3' || _subNav == 'Any4')){
+                                _d.w = '@';
+                            }
                         }
                         _need += 'w#';
                     } else if(n.split('#')[0] == 'SECOND') {  //千
@@ -2763,6 +2808,9 @@ console.log('-=======')
                             // _d.q = x.substr(1);
                         } else {
                             _d.q = $('[data-row="SECOND"] .J_numWrp.active').text();
+                            if(!_d.q && (_subNav == 'Any1' || _subNav == 'Any2' || _subNav == 'Any3' || _subNav == 'Any4')){
+                                _d.q = '@';
+                            }
                         }
                         _need += 'q#';
                     } else if(n.split('#')[0] == 'THIRD') {   //百
@@ -2780,6 +2828,9 @@ console.log('-=======')
                             // _d.b = x.substr(1);
                         } else {
                             _d.b = $('[data-row="THIRD"] .J_numWrp.active').text();
+                            if(!_d.b && (_subNav == 'Any1' || _subNav == 'Any2' || _subNav == 'Any3' || _subNav == 'Any4')){
+                                _d.b = '@';
+                            }
                         }
                         _need += 'b#';
                     } else if(n.split('#')[0] == 'FOURTH') {  //十
@@ -2797,6 +2848,9 @@ console.log('-=======')
                             // _d.s = x.substr(1);
                         } else {
                             _d.s = $('[data-row="FOURTH"] .J_numWrp.active').text();
+                            if(!_d.s && (_subNav == 'Any1' || _subNav == 'Any2' || _subNav == 'Any3' || _subNav == 'Any4')){
+                                _d.s = '@';
+                            }
                         }
                         _need += 's#';
                     } else if(n.split('#')[0] == 'FIFTH') {   //个
@@ -2814,6 +2868,9 @@ console.log('-=======')
                             // _d.g = x.substr(1);
                         } else {
                             _d.g = $('[data-row="FIFTH"] .J_numWrp.active').text();
+                            if(!_d.g && (_subNav == 'Any1' || _subNav == 'Any2' || _subNav == 'Any3' || _subNav == 'Any4')){
+                                _d.g = '@';
+                            }
                         }
                         _need += 'g';
                     } else if(n.split('#')[0] == 'NONE') {   //组选就一个值
