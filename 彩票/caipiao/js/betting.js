@@ -276,16 +276,16 @@ $(function() {
             $('#J_maxBonus').html(_data.maxBonus);
             
             // 重置选号区域底部
-            $('#J_beishu').val(1);
+            // $('#J_beishu').val(1);
             $('#J_selectionBallStakes').text(0);
             $('#J_selectionBallAmount').text('0.0000');
             $('#J_addBallToCart,#J_shortcutPlaceOrder').addClass('disabled');
-            $('#J_unit').next('.nice-select').find('.current').html('元');
-            $('#J_unit').next('.nice-select').find('[data-value="1#1#yuan"]').addClass('selected').siblings('li').removeClass('selected');
-            $('#J_unit').data({
-                txt: '1#1#yuan',
-                val: '元'
-            });
+            // $('#J_unit').next('.nice-select').find('.current').html('元');
+            // $('#J_unit').next('.nice-select').find('[data-value="1#1#yuan"]').addClass('selected').siblings('li').removeClass('selected');
+            // $('#J_unit').data({
+            //     txt: '1#1#yuan',
+            //     val: '元'
+            // });
         },
         renderCheckbox: function() {
             // 渲染复选框区域内容
@@ -935,32 +935,50 @@ $(function() {
             });
         },
         confirmCart: function(_data, type) {
-            // console.log(_data);
-            // return;
-            // type : confirm 确认投注    shortcut : 一键投注
-            
-            GLOBAL.getAjaxData({
-                url: '/bet/buy',
-                data: {
-                    id : $('#orderId').val(),
-                    items : _data
-                }
-            }, function(data) {
-                // TODO:根据返回金额校验当前用户余额是否足够
-                layer.alert('订单支付成功<br/>投注期号：' + $('.J_betTimer').html() + '期<br/>投注总额：' + data + '元', {
-                    skin: 'bett-alert-dialog',
-                    icon: 1
+            var _num = 0;
+            var _price = 0;
+            if(type == 'confirm') {
+                _num = $('#J_totalNum').text();
+                _price = $('#J_totalSum').text();
+            } else if(type == 'shortcut'){
+                _num = $('#J_selectionBallStakes').text();
+                _price = $('#J_selectionBallAmount').text();
+            }
+
+            console.log(_data);
+            return;
+            layer.confirm('<h4>请确认投注信息</h4><p style="    line-height: 40px;">'+ $('#J_productName').val() +' 第'+ $('.J_betTimer').eq(0).text() +'期</p><p style="text-align: left;padding-left: 95px;"><span style="display: inline-block;width: 80px;">注数：</span>'+ _num +'注</p><p style="text-align: left;padding-left: 95px;"><span>投注金额：</span>'+ _price +'</p><p style="text-align: left;padding-left: 95px;"><span>是否追号：</span>'+ ($('#J_chaseFooterCheck').hasClass('active') ? '是' : '否') +'</p>', {
+                icon: 2,
+                closeBtn: 0,
+                maxWidth: '520px'
+            }, function(index) {
+                layer.closeAll();
+                // console.log(_data);
+                // return;
+                // type : confirm 确认投注    shortcut : 一键投注
+                GLOBAL.getAjaxData({
+                    url: '/bet/buy',
+                    data: {
+                        id : $('#orderId').val(),
+                        items : _data
+                    }
+                }, function(data) {
+                    // TODO:根据返回金额校验当前用户余额是否足够
+                    layer.alert('订单支付成功<br/>投注期号：' + $('.J_betTimer').html() + '期<br/>投注总额：' + data + '元', {
+                        skin: 'bett-alert-dialog',
+                        icon: 1
+                    });
+
+                    COMMON.renderUserInfo();
+
+                    if (type == 'confirm') {
+                        $('#J_betList').html('');
+                        $('#J_confirmBets,#J_chaseNumber').addClass('disabled');
+                        Betting.renderTotal();
+                    } else if(type == 'shortcut'){
+                        Betting.resetSelectArea();
+                    }
                 });
-
-                COMMON.renderUserInfo();
-
-                if (type == 'confirm') {
-                    $('#J_betList').html('');
-                    $('#J_confirmBets,#J_chaseNumber').addClass('disabled');
-                    Betting.renderTotal();
-                } else if(type == 'shortcut'){
-                    Betting.resetSelectArea();
-                }
             });
         },
         randomBalls : function(times) {
@@ -1127,7 +1145,7 @@ $(function() {
                                 g = "";
                             g = "First5Fixed_PK10" == _subNav ? Betting.numberRandom(0, 4, 1)[0] + "" : "Last5Fixed_PK10" == _subNav ? Betting.numberRandom(5, 9, 1)[0] + "" : Betting.numberRandom(2, 4, 1)[0] + "";
                             var h = d == 1 * c - 1;
-                            console.log(f, 1, b, g, 1, h);
+                            // console.log(f, 1, b, g, 1, h);
                             // lott.createBetCart(f, 1, b, g, 1, h)
                             _data.push(_getTextRoundData(f, 1, g));
                         }
@@ -1454,7 +1472,7 @@ $(function() {
                 // num : 倍数
                 // type : 位置 01234 = 个十百千万
                 
-                // console.log(j, num, type);
+                console.log(j, num, type);
                 
                 var _ddd = {};
                 var _need = '';
@@ -1471,16 +1489,21 @@ $(function() {
                 var _FOURTH = $('[data-row="FOURTH"]');
                 var _FIFTH = $('[data-row="FIFTH"]');
 
+console.log('-=======')
                 if(_FIRST.length) {
                     if(_currentRule.opt.type == 'taste') {
                         if(Betting.playCode == 'PK10' && type == 4){
                             _ddd.w = TEMPLATE._transText(j);
-                            console.log(_ddd.w);
                         } else {
                             if (type == undefined) {
                                 _ddd.w = TEMPLATE._transText(j.split('_').join('').split('')[_FIRST.parent('li').index()]);
                             }else{
-                                _ddd.w = '';
+                                if(_subNav == 'First5BSOE_PK10' || _subNav == 'Last5BSOE_PK10'){
+                                    _ddd.w = '@';
+                                }else{
+                                    _ddd.w = '';
+                                }
+                                // _ddd.w = '';
                             }
                         }
                     } else {
@@ -1494,7 +1517,11 @@ $(function() {
                                     _ddd.w = j.split('_').join('').split('')[_FIRST.parent('li').index()];
                                 }
                             } else {
-                                _ddd.w = '';
+                                if(_subNav == 'FixedPlace_11X5' || _subNav == 'First5Fixed_PK10' || _subNav == 'Last5Fixed_PK10'){
+                                    _ddd.w = '@';
+                                }else{
+                                    _ddd.w = '';
+                                }
                             }
                         }
                     }
@@ -1518,17 +1545,31 @@ $(function() {
                             if (type == undefined) {
                                 _ddd.q = TEMPLATE._transText(j.split('_').join('').split('')[_SECOND.parent('li').index()]);
                             }else{
-                                _ddd.q = '';
+                                if(_subNav == 'First5BSOE_PK10' || _subNav == 'Last5BSOE_PK10'){
+                                    _ddd.q = '@';
+                                }else{
+                                    _ddd.q = '';
+                                }
+                                // _ddd.q = '';
                             }
                         }
                     } else {
                         if (type == 3 || type == 6) {
                             _ddd.q = j;
                         } else {
-                            if(Betting.playCode == '11X5' || Betting.playCode == 'PK10') {
-                                _ddd.q = j.split('_')[_SECOND.parent('li').index()];
-                            } else {
-                                _ddd.q = j.split('_').join('').split('')[_SECOND.parent('li').index()];
+                            if (type == undefined) {
+                                if(Betting.playCode == '11X5' || Betting.playCode == 'PK10') {
+                                    _ddd.q = j.split('_')[_SECOND.parent('li').index()];
+                                } else {
+                                    _ddd.q = j.split('_').join('').split('')[_SECOND.parent('li').index()];
+                                }
+                            }else{
+                                if(_subNav == 'FixedPlace_11X5' || _subNav == 'First5Fixed_PK10' || _subNav == 'Last5Fixed_PK10'){
+                                    _ddd.q = '@';
+                                }else{
+                                    _ddd.q = '';
+                                }
+                                // _ddd.q = '';
                             }
                         }
                     }
@@ -1552,17 +1593,30 @@ $(function() {
                             if (type == undefined) {
                                 _ddd.b = TEMPLATE._transText(j.split('_').join('').split('')[_THIRD.parent('li').index()]);
                             }else{
-                                _ddd.b = '';
+                                if(_subNav == 'First5BSOE_PK10' || _subNav == 'Last5BSOE_PK10'){
+                                    _ddd.b = '@';
+                                }else{
+                                    _ddd.b = '';
+                                }
+                                // _ddd.b = '';
                             }
                         }
                     } else {
                         if (type == 2 || type == 7) {
                             _ddd.b = j;
                         } else {
-                            if(Betting.playCode == '11X5' || Betting.playCode == 'PK10') {
-                                _ddd.b = j.split('_')[_THIRD.parent('li').index()];
-                            } else {
-                                _ddd.b = j.split('_').join('').split('')[_THIRD.parent('li').index()];
+                            if(type == undefined){
+                                if(Betting.playCode == '11X5' || Betting.playCode == 'PK10') {
+                                    _ddd.b = j.split('_')[_THIRD.parent('li').index()];
+                                } else {
+                                    _ddd.b = j.split('_').join('').split('')[_THIRD.parent('li').index()];
+                                }
+                            }else{
+                                if(_subNav == 'FixedPlace_11X5' || _subNav == 'First5Fixed_PK10' || _subNav == 'Last5Fixed_PK10'){
+                                    _ddd.b = '@';
+                                }else{
+                                    _ddd.b = '';
+                                }
                             }
                         }
                     }
@@ -1587,17 +1641,30 @@ $(function() {
                             if (type == undefined) {
                                 _ddd.s = TEMPLATE._transText(j.split('_').join('').split('')[_FOURTH.parent('li').index()]);
                             }else{
-                                _ddd.s = '';
+                                if(_subNav == 'First5BSOE_PK10' || _subNav == 'Last5BSOE_PK10'){
+                                    _ddd.s = '@';
+                                }else{
+                                    _ddd.s = '';
+                                }
+                                // _ddd.s = '';
                             }
                         }
                     } else {
                         if (type == 1 || type == 8) {
                             _ddd.s = j;
                         } else {
-                            if(Betting.playCode == '11X5' || Betting.playCode == 'PK10') {
-                                _ddd.s = j.split('_')[_FOURTH.parent('li').index()];
-                            } else {
-                                _ddd.s = j.split('_').join('').split('')[_FOURTH.parent('li').index()];
+                            if(type == undefined){
+                                if(Betting.playCode == '11X5' || Betting.playCode == 'PK10') {
+                                    _ddd.s = j.split('_')[_FOURTH.parent('li').index()];
+                                } else {
+                                    _ddd.s = j.split('_').join('').split('')[_FOURTH.parent('li').index()];
+                                }
+                            }else{
+                                if(_subNav == 'First5Fixed_PK10' || _subNav == 'Last5Fixed_PK10'){
+                                    _ddd.s = '@';
+                                }else{
+                                    _ddd.s = '';
+                                }
                             }
                         }
                     }
@@ -1621,17 +1688,30 @@ $(function() {
                             if (type == undefined) {
                                 _ddd.g = TEMPLATE._transText(j.split('_').join('').split('')[_FIFTH.parent('li').index()]);
                             }else{
-                                _ddd.g = '';
+                                if(_subNav == 'First5BSOE_PK10' || _subNav == 'Last5BSOE_PK10'){
+                                    _ddd.g = '@';
+                                }else{
+                                    _ddd.g = '';
+                                }
+                                // _ddd.g = '';
                             }
                         }
                     } else {
                         if (type == 0 || type == 9) {
                             _ddd.g = j;
                         } else {
-                            if(Betting.playCode == '11X5' || Betting.playCode == 'PK10') {
-                                _ddd.g = j.split('_')[_FIFTH.parent('li').index()];
-                            } else {
-                                _ddd.g = j.split('_').join('').split('')[_FIFTH.parent('li').index()];
+                            if (type == undefined) {
+                                if(Betting.playCode == '11X5' || Betting.playCode == 'PK10') {
+                                    _ddd.g = j.split('_')[_FIFTH.parent('li').index()];
+                                } else {
+                                    _ddd.g = j.split('_').join('').split('')[_FIFTH.parent('li').index()];
+                                }
+                            }else{
+                                if(_subNav == 'First5Fixed_PK10' || _subNav == 'Last5Fixed_PK10'){
+                                    _ddd.g = '@';
+                                }else{
+                                    _ddd.g = '';
+                                }
                             }
                         }
                     }
@@ -1777,7 +1857,8 @@ $(function() {
             Betting.renderCart(_data);
         },
         renderCart: function(data) {
-            // console.log(data);
+            var _mainNav = $('.J_withChild.active').data('info').split('#')[1];
+            var _subNav = ($('.J_subMenu.active').length ? $('.J_subMenu.active').data('info').split('#')[1] : _mainNav);
             // 渲染购物车
             var _str = '';
             var _len = data.length;
@@ -1785,7 +1866,17 @@ $(function() {
                 $.each(data, function(i, n) {
                     // console.log(n);
                     _str += '<li class="clearfix" data-type="'+ n.type +'" data-ajaxtype="'+ n.ajaxType +'" data-hex="'+ (n.hex ? n.hex : '') +'" data-need="'+ (n.need == 'sum' ? 'n' : n.need) +'" data-unit="'+ n.unit +'" data-multiple="'+ n.multiple +'" data-w="'+ (n.w ? n.w : '') +'" data-q="'+ (n.q ? n.q : '') +'" data-b="'+ (n.b ? n.b : '') +'" data-s="'+ (n.s ? n.s : '') +'" data-g="'+ (n.g ? n.g : '') +'" data-n="'+ (n.n ? n.n : '') +'" data-n1="'+ (n.n1 ? n.n1 : '') +'" data-n2="'+ (n.n2 ? n.n2 : '') +'" >';
-                    _str += '    <div class="t1">'+ n.typeName +'</div>';
+                    // if(_subNav == 'FixedPlace_11X5'){
+                    //     if(n.w && n.w != '@'){
+                    //         _str += '<div class="t1">'+ n.typeName +'第一位</div>';
+                    //     } else if(n.q && n.q != '@'){
+                    //         _str += '<div class="t1">'+ n.typeName +'第二位</div>';
+                    //     } else if(n.b && n.b != '@'){
+                    //         _str += '<div class="t1">'+ n.typeName +'第三位</div>';
+                    //     }
+                    // } else {
+                        _str += '<div class="t1">'+ n.typeName +'</div>';
+                    // }
                     _str += '    <div class="t2"><div>';
                     _str += _changeNum(n);
                     _str += '<span class="cm_number hide J_cartNums">';
@@ -1913,11 +2004,13 @@ $(function() {
                             if(_subNav != 'First2Straight_11X5'){
                                 _ajaxData.three = '';
                             }
+                            // console.log(_need)
+                            console.log(_nums);
                             $.each(_need.split('#'), function(i, n){
                                 switch(n){
                                     case 'w':
                                         if(_nums.indexOf('|') > -1) {
-                                            _ajaxData.one = _nums.split('|')[0].replace(/\-/g, ',');
+                                            _ajaxData.one = _nums.split('|')[0].replace(/\-/g, ',').replace(/\@/g, '');
                                         } else {
                                             if(_this.data('w')){
                                                 _ajaxData.one = _nums;
@@ -1926,7 +2019,7 @@ $(function() {
                                     break;
                                     case 'q':
                                         if(_nums.indexOf('|') > -1) {
-                                            _ajaxData.two = _nums.split('|')[1].replace(/\-/g, ',');
+                                            _ajaxData.two = _nums.split('|')[1].replace(/\-/g, ',').replace(/\@/g, '');
                                         } else {
                                             if(_this.data('q')){
                                                 _ajaxData.two = _nums;
@@ -1935,7 +2028,7 @@ $(function() {
                                     break;
                                     case 'b':
                                         if(_nums.indexOf('|') > -1) {
-                                            _ajaxData.three = _nums.split('|')[2].replace(/\-/g, ',');
+                                            _ajaxData.three = _nums.split('|')[2].replace(/\-/g, ',').replace(/\@/g, '');
                                         } else {
                                             if(_this.data('b')){
                                                 _ajaxData.three = _nums;
@@ -1988,7 +2081,7 @@ $(function() {
                                     _ajaxData.five = '';
                                 }
                             }
-                                    console.log(_nums);
+                            console.log(_need, _nums);
                             $.each(_need.split('#'), function(i, n){
                                 if (n) {
                                     // console.log(n);
@@ -1996,13 +2089,13 @@ $(function() {
                                     switch(n){
                                         case 'w':
                                         if(_subNav == 'First5Fixed_PK10'){
-                                            if(_this.data('w')){
-                                                _ajaxData.one = _nums.replace(/\-/g, ',');
+                                            if(_this.data('w') && _this.data('w') != '@'){
+                                                _ajaxData.one = _this.data('w').replace(/\-/g, ',').replace(/\@/g, '').replace(/\|/g, '');
                                             }
                                         } else {
                                             if(_subNav == 'Last5Fixed_PK10'){
-                                                if(_this.data('w')){
-                                                    _ajaxData.six = _nums.replace(/\-/g, ',');
+                                                if(_this.data('w') && _this.data('w') != '@'){
+                                                    _ajaxData.six = _this.data('w').replace(/\-/g, ',').replace(/\@/g, '').replace(/\|/g, '');
                                                 }
                                             } else {
                                                 _ajaxData.one = _nums.replace(/\-/g, ',').split('|')[0];
@@ -2011,13 +2104,13 @@ $(function() {
                                         break;
                                         case 'q':
                                         if(_subNav == 'First5Fixed_PK10'){
-                                            if(_this.data('q')){
-                                                _ajaxData.two = _nums.replace(/\-/g, ',');
+                                            if(_this.data('q') && _this.data('q') != '@'){
+                                                _ajaxData.two = _this.data('q').replace(/\-/g, ',').replace(/\@/g, '').replace(/\|/g, '');
                                             }
                                         } else {
                                             if(_subNav == 'Last5Fixed_PK10'){
-                                                if(_this.data('q')){
-                                                    _ajaxData.seven = _nums.replace(/\-/g, ',');
+                                                if(_this.data('q') && _this.data('q') != '@'){
+                                                    _ajaxData.seven = _this.data('q').replace(/\-/g, ',').replace(/\@/g, '').replace(/\|/g, '');
                                                 }
                                             } else {
                                                 _ajaxData.two = _nums.replace(/\-/g, ',').split('|')[1];
@@ -2026,13 +2119,13 @@ $(function() {
                                         break;
                                         case 'b':
                                         if(_subNav == 'First5Fixed_PK10'){
-                                            if(_this.data('b')){
-                                                _ajaxData.three = _nums.replace(/\-/g, ',');
+                                            if(_this.data('b') && _this.data('b') != '@'){
+                                                _ajaxData.three = _this.data('b').replace(/\-/g, ',').replace(/\@/g, '').replace(/\|/g, '');
                                             }
                                         } else {
                                             if(_subNav == 'Last5Fixed_PK10'){
-                                                if(_this.data('b')){
-                                                    _ajaxData.eight = _nums.replace(/\-/g, ',');
+                                                if(_this.data('b') && _this.data('b') != '@'){
+                                                    _ajaxData.eight = _this.data('b').replace(/\-/g, ',').replace(/\@/g, '').replace(/\|/g, '');
                                                 }
                                             } else {
                                                 _ajaxData.three = _nums.replace(/\-/g, ',').split('|')[2];
@@ -2041,13 +2134,13 @@ $(function() {
                                         break;
                                         case 's':
                                         if(_subNav == 'First5Fixed_PK10'){
-                                            if(_this.data('s')){
-                                                _ajaxData.four = _nums.replace(/\-/g, ',');
+                                            if(_this.data('s') && _this.data('s') != '@'){
+                                                _ajaxData.four = _this.data('s').replace(/\-/g, ',').replace(/\@/g, '').replace(/\|/g, '');
                                             }
                                         } else {
                                             if(_subNav == 'Last5Fixed_PK10'){
-                                                if(_this.data('s')){
-                                                    _ajaxData.nine = _nums.replace(/\-/g, ',');
+                                                if(_this.data('s') && _this.data('s') != '@'){
+                                                    _ajaxData.nine = _this.data('s').replace(/\-/g, ',').replace(/\@/g, '').replace(/\|/g, '');
                                                 }
                                             } else {
                                                 _ajaxData.four = _nums.replace(/\-/g, ',').split('|')[3];
@@ -2056,13 +2149,13 @@ $(function() {
                                         break;
                                         case 'g':
                                         if(_subNav == 'First5Fixed_PK10'){
-                                            if(_this.data('g')){
-                                                _ajaxData.five = _nums.replace(/\-/g, ',');
+                                            if(_this.data('g') && _this.data('g') != '@'){
+                                                _ajaxData.five = _this.data('g').replace(/\-/g, ',').replace(/\@/g, '').replace(/\|/g, '');
                                             }
                                         } else {
                                             if(_subNav == 'Last5Fixed_PK10'){
-                                                if(_this.data('g')){
-                                                    _ajaxData.ten = _nums.replace(/\-/g, ',');
+                                                if(_this.data('g') && _this.data('g') != '@'){
+                                                    _ajaxData.ten = _this.data('g').replace(/\-/g, ',').replace(/\@/g, '').replace(/\|/g, '');
                                                 }
                                             } else {
                                                 _ajaxData.five = _nums.replace(/\-/g, ',').split('|')[4];
@@ -2138,44 +2231,56 @@ $(function() {
                                 _ajaxData.four = '';
                                 _ajaxData.five = '';
                             }
-                            console.log(_nums);
+                            // console.log(_nums);
                             $.each(_need.split('#'), function(i, n){
                                 if (n && _this.data(n)) {
-                                    // console.log(n);
                                     switch(n){
                                         case 'w':
-                                        if(_subNav == 'Last5BSOE_PK10'){
-                                            _ajaxData.six = TEMPLATE._exchangeToNum(_this.data(n));
-                                        }else{
-                                            _ajaxData.one = TEMPLATE._exchangeToNum(_this.data(n));
+                                        if(_this.data('w') && _this.data('w') != '@'){
+                                            if(_subNav == 'Last5BSOE_PK10'){
+                                                // if(_this.data('w') && _this.data('w') != '@'){
+                                                //     _ajaxData.one = _this.data('w').replace(/\-/g, ',').replace(/\@/g, '').replace(/\|/g, '');
+                                                // }
+                                                _ajaxData.six = TEMPLATE._exchangeToNum(_this.data(n));
+                                            }else{
+                                                _ajaxData.one = TEMPLATE._exchangeToNum(_this.data(n));
+                                            }
                                         }
                                         break;
                                         case 'q':
-                                        if(_subNav == 'Last5BSOE_PK10'){
-                                            _ajaxData.seven = TEMPLATE._exchangeToNum(_this.data(n));
-                                        }else{
-                                            _ajaxData.two = TEMPLATE._exchangeToNum(_this.data(n));
+                                        if(_this.data(n) && _this.data(n) != '@'){
+                                            if(_subNav == 'Last5BSOE_PK10'){
+                                                _ajaxData.seven = TEMPLATE._exchangeToNum(_this.data(n));
+                                            }else{
+                                                _ajaxData.two = TEMPLATE._exchangeToNum(_this.data(n));
+                                            }
                                         }
                                         break;
                                         case 'b':
-                                        if(_subNav == 'Last5BSOE_PK10'){
-                                            _ajaxData.eight = TEMPLATE._exchangeToNum(_this.data(n));
-                                        }else{
-                                            _ajaxData.three = TEMPLATE._exchangeToNum(_this.data(n));
+                                        if(_this.data(n) && _this.data(n) != '@'){
+                                            if(_subNav == 'Last5BSOE_PK10'){
+                                                _ajaxData.eight = TEMPLATE._exchangeToNum(_this.data(n));
+                                            }else{
+                                                _ajaxData.three = TEMPLATE._exchangeToNum(_this.data(n));
+                                            }
                                         }
                                         break;
                                         case 's':
-                                        if(_subNav == 'Last5BSOE_PK10'){
-                                            _ajaxData.nine = TEMPLATE._exchangeToNum(_this.data(n));
-                                        }else{
-                                            _ajaxData.four = TEMPLATE._exchangeToNum(_this.data(n));
+                                        if(_this.data(n) && _this.data(n) != '@'){
+                                            if(_subNav == 'Last5BSOE_PK10'){
+                                                _ajaxData.nine = TEMPLATE._exchangeToNum(_this.data(n));
+                                            }else{
+                                                _ajaxData.four = TEMPLATE._exchangeToNum(_this.data(n));
+                                            }
                                         }
                                         break;
                                         case 'g':
-                                        if(_subNav == 'Last5BSOE_PK10'){
-                                            _ajaxData.ten = TEMPLATE._exchangeToNum(_this.data(n));
-                                        }else{
-                                            _ajaxData.five = TEMPLATE._exchangeToNum(_this.data(n));
+                                        if(_this.data(n) && _this.data(n) != '@'){
+                                            if(_subNav == 'Last5BSOE_PK10'){
+                                                _ajaxData.ten = TEMPLATE._exchangeToNum(_this.data(n));
+                                            }else{
+                                                _ajaxData.five = TEMPLATE._exchangeToNum(_this.data(n));
+                                            }
                                         }
                                         break;
                                     }
@@ -2298,7 +2403,6 @@ $(function() {
                 _ajaxData.hex = _data[0].hex.split('').join(',');
             }
 
-
             console.log(_type, _subNav);
             console.log(_data);
 
@@ -2349,46 +2453,44 @@ $(function() {
                         _ajaxData.n = _dds;
                     } else {
                         $.each(_data[0].need.split('#'), function(i, n){
-                            console.log(n);
                             if (n) {
                                 // _ajaxData[n] = _data[0][n];
                                 switch(n){
                                     case 'w':
                                     if(_subNav == 'Last5Fixed_PK10'){
-                                        _ajaxData.six = _data[0].w.replace(/\-/g, ',');
+                                        _ajaxData.six = (_data[0].w == '@' ? '' : _data[0].w.replace(/\-/g, ','));
                                     } else {
-                                        _ajaxData.one = _data[0].w.replace(/\-/g, ',');
+                                        _ajaxData.one = (_data[0].w == '@' ? '' : _data[0].w.replace(/\-/g, ','));
                                     }
                                     break;
                                     case 'q':
                                     if(_subNav == 'Last5Fixed_PK10'){
-                                        _ajaxData.seven = _data[0].q.replace(/\-/g, ',');
+                                        _ajaxData.seven = (_data[0].q == '@' ? '' : _data[0].q.replace(/\-/g, ','));
                                     } else {
-                                        _ajaxData.two = _data[0].q.replace(/\-/g, ',');
+                                        _ajaxData.two = (_data[0].q == '@' ? '' : _data[0].q.replace(/\-/g, ','));
                                     }
                                     break;
                                     case 'b':
                                     if(_subNav == 'Last5Fixed_PK10'){
-                                        _ajaxData.eight = _data[0].b.replace(/\-/g, ',');
+                                        _ajaxData.eight = (_data[0].b == '@' ? '' : _data[0].b.replace(/\-/g, ','));
                                     } else {
-                                        _ajaxData.three = _data[0].b.replace(/\-/g, ',');
+                                        _ajaxData.three = (_data[0].b == '@' ? '' : _data[0].b.replace(/\-/g, ','));
                                     }
                                     break;
                                     case 's':
                                     if(_subNav == 'Last5Fixed_PK10'){
-                                        _ajaxData.nine = _data[0].s.replace(/\-/g, ',');
+                                        _ajaxData.nine = (_data[0].s == '@' ? '' : _data[0].s.replace(/\-/g, ','));
                                     } else {
-                                        _ajaxData.four = _data[0].s.replace(/\-/g, ',');
+                                        _ajaxData.four = (_data[0].s == '@' ? '' : _data[0].s.replace(/\-/g, ','));
                                     }
                                     break;
                                     case 'g':
                                     if(_subNav == 'Last5Fixed_PK10'){
-                                        _ajaxData.ten = _data[0].g.replace(/\-/g, ',');
+                                        _ajaxData.ten = (_data[0].g == '@' ? '' : _data[0].g.replace(/\-/g, ','));
                                     } else {
-                                        _ajaxData.five = _data[0].g.replace(/\-/g, ',');
+                                        _ajaxData.five = (_data[0].g == '@' ? '' : _data[0].g.replace(/\-/g, ','));
                                     }
                                     break;
-
                                 }
                             }
                         });
@@ -2455,50 +2557,64 @@ $(function() {
                             if (n && _data[0][n]) {
                                 switch(n){
                                     case 'w':
-                                    if(_subNav == 'Last5BSOE_PK10'){
-                                        _ajaxData.six = TEMPLATE._exchangeToNum(_data[0].w);
-                                    } else {
-                                        _ajaxData.one = TEMPLATE._exchangeToNum(_data[0].w);
+                                    if(_data[0].w && _data[0].w != '@'){
+                                        if(_subNav == 'Last5BSOE_PK10'){
+                                            _ajaxData.six = TEMPLATE._exchangeToNum(_data[0].w);
+                                        } else {
+                                            _ajaxData.one = TEMPLATE._exchangeToNum(_data[0].w);
+                                        }
                                     }
                                     break;
                                     case 'q':
-                                    if(_subNav == 'Last5BSOE_PK10'){
-                                        _ajaxData.seven = TEMPLATE._exchangeToNum(_data[0].q);
-                                    } else {
-                                        _ajaxData.two = TEMPLATE._exchangeToNum(_data[0].q);
+                                    if(_data[0].q && _data[0].q != '@'){
+                                        if(_subNav == 'Last5BSOE_PK10'){
+                                            _ajaxData.seven = TEMPLATE._exchangeToNum(_data[0].q);
+                                        } else {
+                                            _ajaxData.two = TEMPLATE._exchangeToNum(_data[0].q);
+                                        }
                                     }
                                     break;
                                     case 'b':
-                                    if(_subNav == 'Last5BSOE_PK10'){
-                                        _ajaxData.eight = TEMPLATE._exchangeToNum(_data[0].b);
-                                    } else {
-                                        _ajaxData.three = TEMPLATE._exchangeToNum(_data[0].b);
+                                    if(_data[0].b && _data[0].b != '@'){
+                                        if(_subNav == 'Last5BSOE_PK10'){
+                                            _ajaxData.eight = TEMPLATE._exchangeToNum(_data[0].b);
+                                        } else {
+                                            _ajaxData.three = TEMPLATE._exchangeToNum(_data[0].b);
+                                        }
                                     }
                                     break;
                                     case 's':
-                                    if(_subNav == 'Last5BSOE_PK10'){
-                                        _ajaxData.nine = TEMPLATE._exchangeToNum(_data[0].s);
-                                    } else {
-                                        _ajaxData.four = TEMPLATE._exchangeToNum(_data[0].s);
+                                    if(_data[0].s && _data[0].s != '@'){
+                                        if(_subNav == 'Last5BSOE_PK10'){
+                                            _ajaxData.nine = TEMPLATE._exchangeToNum(_data[0].s);
+                                        } else {
+                                            _ajaxData.four = TEMPLATE._exchangeToNum(_data[0].s);
+                                        }
                                     }
                                     break;
                                     case 'g':
-                                    if(_subNav == 'Last5BSOE_PK10'){
-                                        _ajaxData.ten = TEMPLATE._exchangeToNum(_data[0].g);
-                                    } else {
-                                        _ajaxData.five = TEMPLATE._exchangeToNum(_data[0].g);
+                                    if(_data[0].g && _data[0].g != '@'){
+                                        if(_subNav == 'Last5BSOE_PK10'){
+                                            _ajaxData.ten = TEMPLATE._exchangeToNum(_data[0].g);
+                                        } else {
+                                            _ajaxData.five = TEMPLATE._exchangeToNum(_data[0].g);
+                                        }
                                     }
                                     break;
                                 }
                             }
                         });
                     } else {
-                        _ajaxData.n = TEMPLATE._exchangeToNum(_data[0].n);
+                        if(_data[0].n && _data[0].n != '@'){
+                            _ajaxData.n = TEMPLATE._exchangeToNum(_data[0].n);
+                        }
                     }
                 } else {
                     $.each(_data[0].need.split('#'), function(i, n){
                         if (n) {
-                            _ajaxData[n] = TEMPLATE._exchangeToNum(_data[0][n]);
+                            if(_data[0].n && _data[0].n != '@'){
+                                _ajaxData[n] = TEMPLATE._exchangeToNum(_data[0][n]);
+                            }
                         }
                     });
                 }
@@ -2597,6 +2713,7 @@ $(function() {
             });
             var _opt = _rule.opt;
             var _d = {};
+            console.log(_opt);
 
             _d.type = _opt.type;   //选号类型
             _d.multiple = $('#J_beishu').val(); //投注倍数
@@ -2622,7 +2739,11 @@ $(function() {
                             $.each($('[data-row="FIRST"] .J_numWrp.active'), function(){
                                 x += '-' + $(this).text();
                             });
-                            _d.w = x.substr(1);
+                            if(!x && _subNav == 'FixedPlace_11X5' || !x && _subNav == 'First5Fixed_PK10' || !x && _subNav == 'Last5Fixed_PK10' || !x && _subNav == 'First5BSOE_PK10' || !x && _subNav == 'Last5BSOE_PK10') {
+                                _d.w = '@';
+                            } else {
+                                _d.w = x.substr(1);
+                            }
                         } else {
                             _d.w = $('[data-row="FIRST"] .J_numWrp.active').text();
                         }
@@ -2634,7 +2755,12 @@ $(function() {
                             $.each($('[data-row="SECOND"] .J_numWrp.active'), function(){
                                 x += '-' + $(this).text();
                             });
-                            _d.q = x.substr(1);
+                            if(!x && _subNav == 'FixedPlace_11X5' || !x && _subNav == 'First5Fixed_PK10' || !x && _subNav == 'Last5Fixed_PK10' || !x && _subNav == 'First5BSOE_PK10' || !x && _subNav == 'Last5BSOE_PK10') {
+                                _d.q = '@';
+                            } else {
+                                _d.q = x.substr(1);
+                            }
+                            // _d.q = x.substr(1);
                         } else {
                             _d.q = $('[data-row="SECOND"] .J_numWrp.active').text();
                         }
@@ -2646,7 +2772,12 @@ $(function() {
                             $.each($('[data-row="THIRD"] .J_numWrp.active'), function(){
                                 x += '-' + $(this).text();
                             });
-                            _d.b = x.substr(1);
+                            if(!x && _subNav == 'FixedPlace_11X5' || !x && _subNav == 'First5Fixed_PK10' || !x && _subNav == 'Last5Fixed_PK10' || !x && _subNav == 'First5BSOE_PK10' || !x && _subNav == 'Last5BSOE_PK10') {
+                                _d.b = '@';
+                            } else {
+                                _d.b = x.substr(1);
+                            }
+                            // _d.b = x.substr(1);
                         } else {
                             _d.b = $('[data-row="THIRD"] .J_numWrp.active').text();
                         }
@@ -2658,7 +2789,12 @@ $(function() {
                             $.each($('[data-row="FOURTH"] .J_numWrp.active'), function(){
                                 x += '-' + $(this).text();
                             });
-                            _d.s = x.substr(1);
+                            if(!x && _subNav == 'First5Fixed_PK10' || !x && _subNav == 'Last5Fixed_PK10' || !x && _subNav == 'First5BSOE_PK10' || !x && _subNav == 'Last5BSOE_PK10') {
+                                _d.s = '@';
+                            } else {
+                                _d.s = x.substr(1);
+                            }
+                            // _d.s = x.substr(1);
                         } else {
                             _d.s = $('[data-row="FOURTH"] .J_numWrp.active').text();
                         }
@@ -2670,7 +2806,12 @@ $(function() {
                             $.each($('[data-row="FIFTH"] .J_numWrp.active'), function(){
                                 x += '-' + $(this).text();
                             });
-                            _d.g = x.substr(1);
+                            if(!x && _subNav == 'First5Fixed_PK10' || !x && _subNav == 'Last5Fixed_PK10' || !x && _subNav == 'First5BSOE_PK10' || !x && _subNav == 'Last5BSOE_PK10') {
+                                _d.g = '@';
+                            } else {
+                                _d.g = x.substr(1);
+                            }
+                            // _d.g = x.substr(1);
                         } else {
                             _d.g = $('[data-row="FIFTH"] .J_numWrp.active').text();
                         }
@@ -2805,7 +2946,7 @@ $(function() {
             }
 
             _data.push(_d);
-            // console.log(_data);
+            console.log(_data);
 
             return _data;
         },

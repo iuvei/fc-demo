@@ -309,6 +309,7 @@
 					$('.J_betTimer').data('n', (data.periods.date + '-' + COMMON.fillLenght(data.periods.num, 3, '0')));
 					// $('#countDown').val(parseInt(data.periods.lottery_surplus)); //距离开奖时间 秒数
 					$('#orderId').val(data.periods.id);
+					$('#J_productName').val(data.name);
 
 					COMMON.countDown(parseInt(data.periods.lottery_surplus), '', $id);
 
