@@ -2114,12 +2114,12 @@ console.log('-=======')
                                         case 'w':
                                         if(_subNav == 'First5Fixed_PK10'){
                                             if(_this.data('w') && _this.data('w') != '@'){
-                                                _ajaxData.one = _this.data('w').replace(/\-/g, ',').replace(/\@/g, '').replace(/\|/g, '');
+                                                _ajaxData.one = _this.data('w').toString().replace(/\-/g, ',').replace(/\@/g, '').replace(/\|/g, '');
                                             }
                                         } else {
                                             if(_subNav == 'Last5Fixed_PK10'){
                                                 if(_this.data('w') && _this.data('w') != '@'){
-                                                    _ajaxData.six = _this.data('w').replace(/\-/g, ',').replace(/\@/g, '').replace(/\|/g, '');
+                                                    _ajaxData.six = _this.data('w').toString().replace(/\-/g, ',').replace(/\@/g, '').replace(/\|/g, '');
                                                 }
                                             } else {
                                                 _ajaxData.one = _nums.replace(/\-/g, ',').split('|')[0];
@@ -2129,12 +2129,12 @@ console.log('-=======')
                                         case 'q':
                                         if(_subNav == 'First5Fixed_PK10'){
                                             if(_this.data('q') && _this.data('q') != '@'){
-                                                _ajaxData.two = _this.data('q').replace(/\-/g, ',').replace(/\@/g, '').replace(/\|/g, '');
+                                                _ajaxData.two = _this.data('q').toString().replace(/\-/g, ',').replace(/\@/g, '').replace(/\|/g, '');
                                             }
                                         } else {
                                             if(_subNav == 'Last5Fixed_PK10'){
                                                 if(_this.data('q') && _this.data('q') != '@'){
-                                                    _ajaxData.seven = _this.data('q').replace(/\-/g, ',').replace(/\@/g, '').replace(/\|/g, '');
+                                                    _ajaxData.seven = _this.data('q').toString().replace(/\-/g, ',').replace(/\@/g, '').replace(/\|/g, '');
                                                 }
                                             } else {
                                                 _ajaxData.two = _nums.replace(/\-/g, ',').split('|')[1];
@@ -2144,12 +2144,12 @@ console.log('-=======')
                                         case 'b':
                                         if(_subNav == 'First5Fixed_PK10'){
                                             if(_this.data('b') && _this.data('b') != '@'){
-                                                _ajaxData.three = _this.data('b').replace(/\-/g, ',').replace(/\@/g, '').replace(/\|/g, '');
+                                                _ajaxData.three = _this.data('b').toString().replace(/\-/g, ',').replace(/\@/g, '').replace(/\|/g, '');
                                             }
                                         } else {
                                             if(_subNav == 'Last5Fixed_PK10'){
                                                 if(_this.data('b') && _this.data('b') != '@'){
-                                                    _ajaxData.eight = _this.data('b').replace(/\-/g, ',').replace(/\@/g, '').replace(/\|/g, '');
+                                                    _ajaxData.eight = _this.data('b').toString().replace(/\-/g, ',').replace(/\@/g, '').replace(/\|/g, '');
                                                 }
                                             } else {
                                                 _ajaxData.three = _nums.replace(/\-/g, ',').split('|')[2];
@@ -2159,12 +2159,12 @@ console.log('-=======')
                                         case 's':
                                         if(_subNav == 'First5Fixed_PK10'){
                                             if(_this.data('s') && _this.data('s') != '@'){
-                                                _ajaxData.four = _this.data('s').replace(/\-/g, ',').replace(/\@/g, '').replace(/\|/g, '');
+                                                _ajaxData.four = _this.data('s').toString().replace(/\-/g, ',').replace(/\@/g, '').replace(/\|/g, '');
                                             }
                                         } else {
                                             if(_subNav == 'Last5Fixed_PK10'){
                                                 if(_this.data('s') && _this.data('s') != '@'){
-                                                    _ajaxData.nine = _this.data('s').replace(/\-/g, ',').replace(/\@/g, '').replace(/\|/g, '');
+                                                    _ajaxData.nine = _this.data('s').toString().replace(/\-/g, ',').replace(/\@/g, '').replace(/\|/g, '');
                                                 }
                                             } else {
                                                 _ajaxData.four = _nums.replace(/\-/g, ',').split('|')[3];
@@ -2174,12 +2174,12 @@ console.log('-=======')
                                         case 'g':
                                         if(_subNav == 'First5Fixed_PK10'){
                                             if(_this.data('g') && _this.data('g') != '@'){
-                                                _ajaxData.five = _this.data('g').replace(/\-/g, ',').replace(/\@/g, '').replace(/\|/g, '');
+                                                _ajaxData.five = _this.data('g').toString().replace(/\-/g, ',').replace(/\@/g, '').replace(/\|/g, '');
                                             }
                                         } else {
                                             if(_subNav == 'Last5Fixed_PK10'){
                                                 if(_this.data('g') && _this.data('g') != '@'){
-                                                    _ajaxData.ten = _this.data('g').replace(/\-/g, ',').replace(/\@/g, '').replace(/\|/g, '');
+                                                    _ajaxData.ten = _this.data('g').toString().replace(/\-/g, ',').replace(/\@/g, '').replace(/\|/g, '');
                                                 }
                                             } else {
                                                 _ajaxData.five = _nums.replace(/\-/g, ',').split('|')[4];

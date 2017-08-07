@@ -16,6 +16,8 @@ a.text-l-color,
 .text-d-color{
     color: #244c88;
 }
+#footer div,
+.header-user,
 .dark-color,
 .btn-d-color,
 .btn-add-num,
@@ -31,6 +33,7 @@ a.text-l-color,
 .border-l-color{
     border-color: #3661a2;
 }
+.main-nav,
 .light-color,
 .btn-l-color,
 .user-header,
