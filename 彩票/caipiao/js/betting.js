@@ -2,6 +2,7 @@ $(function() {
     var Betting = {
         textArea: [],   //用来存放textarea已选的号码
         singleStakesPrice: 2,   //默认一注的单价
+        defaultSelectionBallStakes: 0, //默认投注注数
         playCode: 'SSC',    //彩种
         init: function() {
             // type 彩种类型
@@ -278,6 +279,7 @@ $(function() {
             // 重置选号区域底部
             // $('#J_beishu').val(1);
             $('#J_selectionBallStakes').text(0);
+            Betting.defaultSelectionBallStakes = 0;
             $('#J_selectionBallAmount').text('0.0000');
             $('#J_addBallToCart,#J_shortcutPlaceOrder').addClass('disabled');
             // $('#J_unit').next('.nice-select').find('.current').html('元');
@@ -307,6 +309,7 @@ $(function() {
             } else {
                 $('#J_addBallToCart,#J_shortcutPlaceOrder').addClass('disabled');
                 $('#J_selectionBallStakes').text(0);
+                Betting.defaultSelectionBallStakes = 0;
                 $('#J_selectionBallAmount').text('0.0000');
             }
 
@@ -2740,6 +2743,7 @@ console.log('-=======')
             }
 
             $('#J_selectionBallStakes').text(_selectNum);
+            Betting.defaultSelectionBallStakes = _selectNum;
 
             Betting.calculateAmount();
         },
@@ -3128,10 +3132,10 @@ console.log('-=======')
             var _amount = 0;
 
             if (0 == _type.indexOf("Any4Com") || 0 == _type.indexOf("Any3Com") || 0 == _type.indexOf("Any3Sum") || 0 == _type.indexOf("Any2Com") || 0 == _type.indexOf("Any2Sum")) {
-                $('#J_selectionBallStakes').html($('#J_selectionBallStakes').text() * $('#J_planNum').text());
+                $('#J_selectionBallStakes').html(Betting.defaultSelectionBallStakes * $('#J_planNum').text());
             }
 
-            _amount = Betting.singleStakesPrice * Number($('#J_beishu').val()) * Number($('#J_selectionBallStakes').text()) * Number($('#J_unit').data('txt').split('#')[1]);
+            _amount = Betting.singleStakesPrice * Number($('#J_beishu').val()) * Number(Betting.defaultSelectionBallStakes) * Number($('#J_unit').data('txt').split('#')[1]);
 
             if (0 == _type.indexOf("Any4Com") || 0 == _type.indexOf("Any3Com") || 0 == _type.indexOf("Any3Sum") || 0 == _type.indexOf("Any2Com") || 0 == _type.indexOf("Any2Sum")) {
                 _amount = _amount * $('#J_planNum').text();
