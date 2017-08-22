@@ -688,6 +688,8 @@ $(function() {
                 }
                 
                 var _data = Betting.getConfirmData();
+                // console.log(_data);
+                // return;
                 Betting.confirmCart(_data, 'confirm');
             });
 
@@ -2024,15 +2026,14 @@ console.log('-=======')
 
                 if (_type == 'ball') {
                     if(Betting.playCode == '11X5'){
-                        if(_subNav == 'First3Straight_11X5' || _subNav == 'First2Straight_11X5' || _subNav == 'FixedPlace_11X5'){
+                        if(_ajaxData.type == 'before3' || _ajaxData.type == 'before2' || _ajaxData.type == 'sure'){
                             // 11选5前三直选 前二直选 定胆位
                             _ajaxData.one = '';
                             _ajaxData.two = '';
-                            if(_subNav != 'First2Straight_11X5'){
+                            if(_ajaxData.type != 'before2'){
                                 _ajaxData.three = '';
                             }
                             // console.log(_need)
-                            console.log(_nums);
                             $.each(_need.split('#'), function(i, n){
                                 switch(n){
                                     case 'w':
@@ -2068,7 +2069,7 @@ console.log('-=======')
                             // 11选5定单双 前三组选 前二组选 前三不定位
                             var _dds = '';
                             $.each(_nums.split('-'), function(i, n){
-                                if (n && _subNav == 'OECounts_11X5') {
+                                if (n && _ajaxData.type == 'sd') {
                                     _dds += (i == 0 ? '' : ',') + n[0] + n[2];
                                 } else{
                                     _dds += (i == 0 ? '' : ',') + n;
@@ -2077,10 +2078,10 @@ console.log('-=======')
                             _ajaxData.n = _dds;
                         }
                     } else if(Betting.playCode == 'PK10') {
-                        if(_subNav == 'First1_PK10'){
+                        if(_ajaxData.type == 'before1'){
                             var _dds = '';
                             $.each(_nums.split('-'), function(i, n){
-                                if (n && _subNav == 'OECounts_11X5') {
+                                if (n && _ajaxData.type == 'sd') {
                                     _dds += (i == 0 ? '' : ',') + n[0] + n[2];
                                 } else{
                                     _dds += (i == 0 ? '' : ',') + n;
@@ -2088,7 +2089,7 @@ console.log('-=======')
                             });
                             _ajaxData.n = _dds;
                         } else {
-                            if(_subNav == 'Last5Fixed_PK10'){
+                            if(_ajaxData.type == 'surA5'){
                                 _ajaxData.six = '';
                                 _ajaxData.seven = '';
                                 _ajaxData.eight = '';
@@ -2098,29 +2099,38 @@ console.log('-=======')
                                 _ajaxData.one = '';
                                 _ajaxData.two = '';
 
-                                if(_subNav.indexOf('First3') > -1 || _subNav.indexOf('First4') > -1 || _subNav.indexOf('First5') > -1){
+                                if(_ajaxData.type == 'beforeS3' || _ajaxData.type == 'before3' || _ajaxData.type == 'beforeS4' || _ajaxData.type == 'before4' || _ajaxData.type == 'beforeS5' || _ajaxData.type == 'before5'){
                                     _ajaxData.three = '';
                                 }
-                                if(_subNav.indexOf('First4') > -1 || _subNav.indexOf('First5') > -1){
+                                if(_ajaxData.type == 'beforeS4' || _ajaxData.type == 'before4' || _ajaxData.type == 'beforeS5' || _ajaxData.type == 'before5'){
                                     _ajaxData.four = '';
                                 }
-                                if(_subNav.indexOf('First5') > -1){
+                                if(_ajaxData.type == 'beforeS5' || _ajaxData.type == 'before5'){
                                     _ajaxData.five = '';
                                 }
+                                // if(_subNav.indexOf('First3') > -1 || _subNav.indexOf('First4') > -1 || _subNav.indexOf('First5') > -1){
+                                //     _ajaxData.three = '';
+                                // }
+                                // if(_subNav.indexOf('First4') > -1 || _subNav.indexOf('First5') > -1){
+                                //     _ajaxData.four = '';
+                                // }
+                                // if(_subNav.indexOf('First5') > -1){
+                                //     _ajaxData.five = '';
+                                // }
                             }
-                            console.log(_need, _nums);
+                            // console.log(_need, _nums);
                             $.each(_need.split('#'), function(i, n){
                                 if (n) {
                                     // console.log(n);
                                     // _ajaxData[n] = _data[0][n];
                                     switch(n){
                                         case 'w':
-                                        if(_subNav == 'First5Fixed_PK10'){
+                                        if(_ajaxData.type == 'sureB5'){
                                             if(_this.data('w') && _this.data('w') != '@'){
                                                 _ajaxData.one = _this.data('w').toString().replace(/\-/g, ',').replace(/\@/g, '').replace(/\|/g, '');
                                             }
                                         } else {
-                                            if(_subNav == 'Last5Fixed_PK10'){
+                                            if(_ajaxData.type == 'surA5'){
                                                 if(_this.data('w') && _this.data('w') != '@'){
                                                     _ajaxData.six = _this.data('w').toString().replace(/\-/g, ',').replace(/\@/g, '').replace(/\|/g, '');
                                                 }
@@ -2130,12 +2140,12 @@ console.log('-=======')
                                         }
                                         break;
                                         case 'q':
-                                        if(_subNav == 'First5Fixed_PK10'){
+                                        if(_ajaxData.type == 'sureB5'){
                                             if(_this.data('q') && _this.data('q') != '@'){
                                                 _ajaxData.two = _this.data('q').toString().replace(/\-/g, ',').replace(/\@/g, '').replace(/\|/g, '');
                                             }
                                         } else {
-                                            if(_subNav == 'Last5Fixed_PK10'){
+                                            if(_ajaxData.type == 'surA5'){
                                                 if(_this.data('q') && _this.data('q') != '@'){
                                                     _ajaxData.seven = _this.data('q').toString().replace(/\-/g, ',').replace(/\@/g, '').replace(/\|/g, '');
                                                 }
@@ -2145,12 +2155,12 @@ console.log('-=======')
                                         }
                                         break;
                                         case 'b':
-                                        if(_subNav == 'First5Fixed_PK10'){
+                                        if(_ajaxData.type == 'sureB5'){
                                             if(_this.data('b') && _this.data('b') != '@'){
                                                 _ajaxData.three = _this.data('b').toString().replace(/\-/g, ',').replace(/\@/g, '').replace(/\|/g, '');
                                             }
                                         } else {
-                                            if(_subNav == 'Last5Fixed_PK10'){
+                                            if(_ajaxData.type == 'surA5'){
                                                 if(_this.data('b') && _this.data('b') != '@'){
                                                     _ajaxData.eight = _this.data('b').toString().replace(/\-/g, ',').replace(/\@/g, '').replace(/\|/g, '');
                                                 }
@@ -2160,12 +2170,12 @@ console.log('-=======')
                                         }
                                         break;
                                         case 's':
-                                        if(_subNav == 'First5Fixed_PK10'){
+                                        if(_ajaxData.type == 'sureB5'){
                                             if(_this.data('s') && _this.data('s') != '@'){
                                                 _ajaxData.four = _this.data('s').toString().replace(/\-/g, ',').replace(/\@/g, '').replace(/\|/g, '');
                                             }
                                         } else {
-                                            if(_subNav == 'Last5Fixed_PK10'){
+                                            if(_ajaxData.type == 'surA5'){
                                                 if(_this.data('s') && _this.data('s') != '@'){
                                                     _ajaxData.nine = _this.data('s').toString().replace(/\-/g, ',').replace(/\@/g, '').replace(/\|/g, '');
                                                 }
@@ -2175,12 +2185,12 @@ console.log('-=======')
                                         }
                                         break;
                                         case 'g':
-                                        if(_subNav == 'First5Fixed_PK10'){
+                                        if(_ajaxData.type == 'surA5'){
                                             if(_this.data('g') && _this.data('g') != '@'){
                                                 _ajaxData.five = _this.data('g').toString().replace(/\-/g, ',').replace(/\@/g, '').replace(/\|/g, '');
                                             }
                                         } else {
-                                            if(_subNav == 'Last5Fixed_PK10'){
+                                            if(_ajaxData.type == 'surA5'){
                                                 if(_this.data('g') && _this.data('g') != '@'){
                                                     _ajaxData.ten = _this.data('g').toString().replace(/\-/g, ',').replace(/\@/g, '').replace(/\|/g, '');
                                                 }
@@ -2194,7 +2204,7 @@ console.log('-=======')
                             });
                         }
                     } else {
-                        if(_subNav == 'FixedPlace'){
+                        if(_ajaxData.type == 'sure1'){
                             _ajaxData.w = '';
                             _ajaxData.q = '';
                             _ajaxData.b = '';
@@ -2209,7 +2219,7 @@ console.log('-=======')
                         } else {
                             $.each(_need.split('#'), function(i, n){
                                 if (n) {
-                                    if(_subNav == 'Any1' || _subNav == 'Any2' || _subNav == 'Any3' || _subNav == 'Any4'){
+                                    if(_ajaxData.type == 'any1' || _ajaxData.type == 'any2' || _ajaxData.type == 'any3' || _ajaxData.type == 'any4'){
                                         if(_this.data(n) == '@'){
                                             _ajaxData[n] = '';
                                             // _ajaxData[n] = _ajaxData[n].split('').sort().join('');
@@ -2228,7 +2238,8 @@ console.log('-=======')
                 } else if(_type == 'text' || _type == 'mixing' || _type == 'mixingAny'){
                     if(Betting.playCode == '11X5'){
                         console.log(_nums);
-                        if(_subNav.indexOf('First') > -1){
+                        if(_ajaxData.type == 'before3' || _ajaxData.type == 'beforeS3' || _ajaxData.type == 'before3G' || _ajaxData.type == 'beforeS3G' || _ajaxData.type == 'before2' || _ajaxData.type == 'beforeS2' || _ajaxData.type == 'before2G' || _ajaxData.type == 'beforeS2G' || _ajaxData.type == 'anyB3'){
+                        // if(_subNav.indexOf('First') > -1){
                             //11选5 前二 前三 单式
                             console.log(_nums);
                             _ajaxData.n = _nums.replace(/\|/g, ' ').replace(/\,/g, '|').replace(/\-/g, ',').replace(/\ /g, ',');
@@ -2254,8 +2265,8 @@ console.log('-=======')
                     }
                 } else if(_type == 'taste'){
                     if(Betting.playCode == 'PK10'){
-                        if (_subNav == 'First5BSOE_PK10' || _subNav == 'Last5BSOE_PK10') {
-                            if(_subNav == 'Last5BSOE_PK10'){
+                        if (_ajaxData.type == 'sizeB5' || _ajaxData.type == 'sizeA5') {
+                            if(_ajaxData.type == 'sizeA5'){
                                 _ajaxData.six = '';
                                 _ajaxData.seven = '';
                                 _ajaxData.eight = '';
@@ -2274,7 +2285,7 @@ console.log('-=======')
                                     switch(n){
                                         case 'w':
                                         if(_this.data('w') && _this.data('w') != '@'){
-                                            if(_subNav == 'Last5BSOE_PK10'){
+                                            if(_ajaxData.type == 'sizeA5'){
                                                 // if(_this.data('w') && _this.data('w') != '@'){
                                                 //     _ajaxData.one = _this.data('w').replace(/\-/g, ',').replace(/\@/g, '').replace(/\|/g, '');
                                                 // }
@@ -2286,7 +2297,7 @@ console.log('-=======')
                                         break;
                                         case 'q':
                                         if(_this.data(n) && _this.data(n) != '@'){
-                                            if(_subNav == 'Last5BSOE_PK10'){
+                                            if(_ajaxData.type == 'sizeA5'){
                                                 _ajaxData.seven = TEMPLATE._exchangeToNum(_this.data(n));
                                             }else{
                                                 _ajaxData.two = TEMPLATE._exchangeToNum(_this.data(n));
@@ -2295,7 +2306,7 @@ console.log('-=======')
                                         break;
                                         case 'b':
                                         if(_this.data(n) && _this.data(n) != '@'){
-                                            if(_subNav == 'Last5BSOE_PK10'){
+                                            if(_ajaxData.type == 'sizeA5'){
                                                 _ajaxData.eight = TEMPLATE._exchangeToNum(_this.data(n));
                                             }else{
                                                 _ajaxData.three = TEMPLATE._exchangeToNum(_this.data(n));
@@ -2304,7 +2315,7 @@ console.log('-=======')
                                         break;
                                         case 's':
                                         if(_this.data(n) && _this.data(n) != '@'){
-                                            if(_subNav == 'Last5BSOE_PK10'){
+                                            if(_ajaxData.type == 'sizeA5'){
                                                 _ajaxData.nine = TEMPLATE._exchangeToNum(_this.data(n));
                                             }else{
                                                 _ajaxData.four = TEMPLATE._exchangeToNum(_this.data(n));
@@ -2313,7 +2324,7 @@ console.log('-=======')
                                         break;
                                         case 'g':
                                         if(_this.data(n) && _this.data(n) != '@'){
-                                            if(_subNav == 'Last5BSOE_PK10'){
+                                            if(_ajaxData.type == 'sizeA5'){
                                                 _ajaxData.ten = TEMPLATE._exchangeToNum(_this.data(n));
                                             }else{
                                                 _ajaxData.five = TEMPLATE._exchangeToNum(_this.data(n));
